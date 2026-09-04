@@ -33,7 +33,7 @@ Fontes: [Rede de Frio — Ministério da Saúde](https://www.gov.br/saude/pt-br/
 
 ## 3. Backlog inicial
 
-O backlog priorizado, estimado e com critérios de aceitação está em [backlog.md](backlog.md). Na publicação, seus itens serão criados no GitHub Projects e o link público será registrado aqui e no README.
+O backlog priorizado, estimado e com critérios de aceitação está em [backlog.md](backlog.md). Quando o GitHub Project for criado, seus itens serão publicados no quadro e o link público será registrado aqui e no README.
 
 ## 4. Entidades principais
 
@@ -97,4 +97,3 @@ Todos são desenvolvedores e devem criar commits, abrir PR, revisar código e ap
 - **Integração declarada:** mesmo produto e monorepo para DIM0547 e DIM0510.
 - **Contribuição distinguível:** artefatos técnicos são avaliados em Web II; processo, métricas e retrospectivas são avaliados em Processos de Software.
 - **Vídeos da Sprint 0:** dois vídeos de aproximadamente cinco minutos, com roteiros específicos por disciplina e participação dos quatro integrantes.
-

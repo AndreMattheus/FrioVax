@@ -23,6 +23,8 @@ jobs:
           cache-dependency-path: api/pom.xml
       - name: Build e testes
         run: mvn --batch-mode -f api/pom.xml verify
+      - name: Verificar artefato executável do Quarkus
+        run: test -f api/target/quarkus-app/quarkus-run.jar
 
   go:
     name: Go / Telemetria

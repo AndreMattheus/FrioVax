@@ -10,9 +10,9 @@ Plataforma para gestão de câmaras de conservação, lotes de imunobiológicos 
 | Integrante | Matrícula | GitHub | Papel principal |
 |---|---:|---|---|
 | Arthur Feijo de Medeiros | 20240012792 | A confirmar | Qualidade e DevOps |
-| Bianca Maciel Medeiros | 20230044970 | A confirmar | Product Owner e domínio |
+| Bianca Maciel Medeiros | 20230044970 | [`@biancammedeiros`](https://github.com/biancammedeiros) | Product Owner e domínio |
 | Leonardo Nadson Oliveira de Medeiros | 20240028925 | [`@leonardonadson`](https://github.com/leonardonadson) | Scrum Master e processo |
-| Matheus Andre Souza Cirilo | 20240030941 | A confirmar | Arquitetura e serviço Go |
+| Matheus Andre Souza Cirilo | 20240030941 | [`@AndreMattheus`](https://github.com/AndreMattheus) | Arquitetura e serviço Go |
 
 Todos atuam como desenvolvedores. Os papéis indicam responsabilidades de coordenação e não propriedade exclusiva de código.
 
@@ -32,7 +32,7 @@ Este repositório contém o produto comum de:
 - [Roteiro do vídeo de Web II](docs/roteiro-video-web2.md)
 - [Roteiro do vídeo de Processos](docs/roteiro-video-processos.md)
 - [Registro de uso de IA](docs/uso-de-ia.md)
-- **GitHub Project:** adicionar o link após a criação do repositório público
+- **GitHub Project:** adicionar o link após a criação do quadro
 - **Vídeos:** adicionar os links não listados do YouTube após as gravações
 
 ## Estrutura exigida em Web II

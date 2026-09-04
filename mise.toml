@@ -24,6 +24,11 @@ run = [
   "test -z \"$(gofmt -l services/telemetry)\"",
   "go -C services/telemetry vet ./...",
 ]
+run_windows = [
+  "mvn --batch-mode -f api/pom.xml -DskipTests verify",
+  'powershell -NoProfile -Command "$files = @(gofmt -l services/telemetry); if ($files.Count -gt 0) { $files; exit 1 }"',
+  "go -C services/telemetry vet ./...",
+]
 
 [tasks.up]
 description = "Sobe os serviços locais"
@@ -37,4 +42,11 @@ run = [
   "go -C services/telemetry vet ./...",
   "go -C services/telemetry test ./...",
   "go -C services/telemetry build -o bin/telemetry ./cmd/server",
+]
+run_windows = [
+  "mvn --batch-mode -f api/pom.xml verify",
+  'powershell -NoProfile -Command "$files = @(gofmt -l services/telemetry); if ($files.Count -gt 0) { $files; exit 1 }"',
+  "go -C services/telemetry vet ./...",
+  "go -C services/telemetry test ./...",
+  "go -C services/telemetry build -o bin/telemetry.exe ./cmd/server",
 ]

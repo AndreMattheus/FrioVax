@@ -1,3 +1,3 @@
-module github.com/leonardonadson/friovax/services/telemetry
+module github.com/AndreMattheus/FrioVax/services/telemetry
 
 go 1.27
