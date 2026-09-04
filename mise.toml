@@ -1,0 +1,40 @@
+[tools]
+go = "1.27"
+java = "temurin-25"
+maven = "3.9.16"
+
+[tasks.build]
+description = "Compila o serviço Java e o microsserviço Go"
+run = [
+  "mvn --batch-mode -f api/pom.xml -DskipTests package",
+  "go -C services/telemetry build -o bin/telemetry ./cmd/server",
+]
+
+[tasks.test]
+description = "Executa os testes dos dois stacks"
+run = [
+  "mvn --batch-mode -f api/pom.xml test",
+  "go -C services/telemetry test ./...",
+]
+
+[tasks.lint]
+description = "Verifica a formatação e a compilação"
+run = [
+  "mvn --batch-mode -f api/pom.xml -DskipTests verify",
+  "test -z \"$(gofmt -l services/telemetry)\"",
+  "go -C services/telemetry vet ./...",
+]
+
+[tasks.up]
+description = "Sobe os serviços locais"
+run = "docker compose up --build"
+
+[tasks.ci]
+description = "Reproduz localmente o pipeline da Sprint 0"
+run = [
+  "mvn --batch-mode -f api/pom.xml verify",
+  "test -z \"$(gofmt -l services/telemetry)\"",
+  "go -C services/telemetry vet ./...",
+  "go -C services/telemetry test ./...",
+  "go -C services/telemetry build -o bin/telemetry ./cmd/server",
+]

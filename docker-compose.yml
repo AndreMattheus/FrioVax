@@ -1,0 +1,27 @@
+name: friovax
+
+services:
+  api:
+    build:
+      context: ./api
+    environment:
+      QUARKUS_HTTP_HOST: 0.0.0.0
+      TELEMETRY_BASE_URL: http://telemetry:8081
+    ports:
+      - "8080:8080"
+    depends_on:
+      telemetry:
+        condition: service_healthy
+
+  telemetry:
+    build:
+      context: ./services/telemetry
+    environment:
+      PORT: "8081"
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8081/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 10

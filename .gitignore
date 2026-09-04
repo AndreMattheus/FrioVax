@@ -1,0 +1,21 @@
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# Java / Maven
+api/target/
+*.log
+
+# Go
+services/telemetry/bin/
+services/telemetry/coverage.out
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# mise
+.mise.local.toml
+

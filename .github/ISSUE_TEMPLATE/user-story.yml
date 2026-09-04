@@ -1,0 +1,36 @@
+name: História de usuário
+description: Registrar uma entrega de valor do backlog
+title: "[US] "
+labels: ["historia"]
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: História
+      description: Use “Como ..., quero ... para ...”.
+      placeholder: Como profissional da rede de frio, quero...
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Critérios de aceitação
+      placeholder: "- [ ] Dado ... quando ... então ..."
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Prioridade
+      options: [P1, P2, P3]
+    validations:
+      required: true
+  - type: input
+    id: estimate
+    attributes:
+      label: Estimativa
+      description: Pontos na escala 1, 2, 3, 5, 8, 13.
+      placeholder: "5"
+    validations:
+      required: true
+
