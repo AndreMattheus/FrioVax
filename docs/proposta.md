@@ -33,7 +33,7 @@ Fontes: [Rede de Frio — Ministério da Saúde](https://www.gov.br/saude/pt-br/
 
 ## 3. Backlog inicial
 
-O backlog priorizado, estimado e com critérios de aceitação está em [backlog.md](backlog.md). Quando o GitHub Project for criado, seus itens serão publicados no quadro e o link público será registrado aqui e no README.
+O backlog priorizado, estimado e com critérios de aceitação está em [backlog.md](backlog.md) e foi publicado como as [issues US01 a US10](https://github.com/AndreMattheus/FrioVax/issues), vinculadas ao [FrioVax Project](https://github.com/users/AndreMattheus/projects/1). O quadro público organiza as histórias por estado, prioridade, estimativa e sprint.
 
 ## 4. Entidades principais
 

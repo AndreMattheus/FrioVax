@@ -32,7 +32,8 @@ Este repositório contém o produto comum de:
 - [Roteiro do vídeo de Web II](docs/roteiro-video-web2.md)
 - [Roteiro do vídeo de Processos](docs/roteiro-video-processos.md)
 - [Registro de uso de IA](docs/uso-de-ia.md)
-- **GitHub Project:** adicionar o link após a criação do quadro
+- **GitHub Project:** [FrioVax Project — Board Principal](https://github.com/users/AndreMattheus/projects/1)
+- **Issues do backlog:** [histórias US01 a US10](https://github.com/AndreMattheus/FrioVax/issues)
 - **Vídeos:** adicionar os links não listados do YouTube após as gravações
 
 ## Estrutura exigida em Web II

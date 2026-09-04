@@ -16,6 +16,7 @@ Legenda: `[x]` concluído e verificado; `[ ]` ainda precisa ser concluído. As m
   - [x] Criar o repositório remoto.
   - [ ] Adicionar os quatro integrantes como colaboradores.
   - [x] Confirmar que o repositório pode ser acessado sem autenticação.
+  - [x] Confirmar que a branch `main` está protegida.
 
 - [ ] **[Ambas] Finalizar o `README.md`.**
   - [x] Nome do grupo e do produto.
@@ -28,7 +29,7 @@ Legenda: `[x]` concluído e verificado; `[ ]` ainda precisa ser concluído. As m
   - [x] Informar o usuário GitHub de Bianca.
   - [x] Informar o usuário GitHub de Leonardo.
   - [x] Informar o usuário GitHub de Matheus.
-  - [ ] Adicionar o link do GitHub Project.
+  - [x] Adicionar o link do GitHub Project.
   - [ ] Adicionar os links dos dois vídeos.
 
 - [ ] **[Ambas] Finalizar `docs/proposta.md` com no máximo 5 páginas.**
@@ -41,24 +42,25 @@ Legenda: `[x]` concluído e verificado; `[ ]` ainda precisa ser concluído. As m
   - [x] Escolha de Java 25 com Quarkus e justificativa em relação a Kotlin/Ktor.
   - [x] Divisão de responsabilidades entre Java e Go.
   - [x] Equipe, matrículas, papéis, Coorte B e integração entre disciplinas.
-  - [ ] Inserir o link definitivo do GitHub Project.
+  - [x] Inserir o link definitivo do GitHub Project.
   - [ ] Equipe revisar o texto e confirmar que todos conseguem explicá-lo.
   - [x] Conferir a paginação final em PDF ou impressão para garantir o limite de 5 páginas.
 
-- [ ] **[Ambas] Criar e configurar o GitHub Project.**
-  - [ ] Criar as colunas `Backlog`, `Sprint Backlog`, `Em progresso`, `Em revisão` e `Pronto`.
-  - [ ] Configurar os limites: Sprint Backlog 8, Em progresso 4 e Em revisão 2.
-  - [ ] Criar campos de prioridade, pontos, sprint, responsável e ID.
-  - [ ] Tornar o quadro acessível e adicionar seu link ao README e à proposta.
+- [x] **[Ambas] Criar e configurar o GitHub Project.**
+  - [x] Criar as colunas `Backlog`, `Sprint Backlog`, `Em progresso`, `Em revisão` e `Pronto`.
+  - [x] Configurar os limites: Sprint Backlog 8, Em progresso 4 e Em revisão 2.
+  - [x] Criar campos de prioridade, pontos, sprint, responsável e ID.
+  - [x] Tornar o quadro acessível e adicionar seu link ao README e à proposta.
 
 - [ ] **[Ambas] Publicar o backlog inicial no GitHub Project.**
   - [x] Dez histórias de usuário preparadas em `docs/backlog.md`.
   - [x] Todas as histórias priorizadas como P1 ou P2.
   - [x] Todas as histórias estimadas em pontos.
   - [x] Critérios de aceitação escritos para as histórias.
-  - [ ] Criar pelo menos cinco histórias como itens do GitHub Project.
-  - [ ] Conferir que pelo menos três possuem estimativa e que todas possuem prioridade.
-  - [ ] Colocar as histórias da Sprint 1 no `Sprint Backlog` e as demais no `Backlog`.
+  - [x] Criar as dez histórias como issues vinculadas ao GitHub Project.
+  - [x] Conferir que todas possuem prioridade e estimativa.
+  - [x] Associar as histórias aos milestones das Sprints 1 a 4.
+  - [x] Colocar as histórias da Sprint 1 no `Sprint Backlog` e as demais no `Backlog`.
 
 - [ ] **[Processos] Configurar papéis e acordo de trabalho.**
   - [x] Product Owner, Scrum Master e responsabilidades técnicas propostos.
@@ -67,7 +69,7 @@ Legenda: `[x]` concluído e verificado; `[ ]` ainda precisa ser concluído. As m
   - [x] Definição de Pronto documentada.
   - [x] Ferramentas, branches, PRs e limites de WIP documentados.
   - [ ] Equipe confirmar os papéis e o anel de revisão.
-  - [ ] Exibir os limites de WIP também no GitHub Project.
+  - [x] Exibir os limites de WIP também no GitHub Project.
 
 - [x] **[Web II] Criar a estrutura mínima do monorepo.**
   - [x] Diretórios `api/`, `services/`, `protos/` e `docs/`.
@@ -82,13 +84,13 @@ Legenda: `[x]` concluído e verificado; `[ ]` ainda precisa ser concluído. As m
   - [x] `mise run test` passa para os dois stacks.
   - [x] `mise run ci` passa localmente.
 
-- [ ] **[Web II] Deixar o CI verde no GitHub.**
+- [x] **[Web II] Deixar o CI verde no GitHub.**
   - [x] Workflow configurado para `push` e `pull_request`.
   - [x] Jobs separados para Java/Quarkus e Go.
   - [x] Publicar o código e observar a execução dos dois jobs.
-  - [ ] Corrigir qualquer diferença entre o ambiente local e o GitHub Actions.
+  - [x] Corrigir qualquer diferença entre o ambiente local e o GitHub Actions.
   - [x] Confirmar os dois jobs verdes na branch `main` para o commit inicial.
-  - [ ] Confirmar novamente os dois jobs verdes após publicar as correções técnicas.
+  - [x] Confirmar novamente os dois jobs verdes após publicar as correções técnicas.
 
 - [ ] **[Processos] Criar evidências de atividade no repositório.**
   - [ ] Criar as tarefas da Sprint 0 como issues e colocá-las no quadro.
@@ -131,12 +133,10 @@ Legenda: `[x]` concluído e verificado; `[ ]` ainda precisa ser concluído. As m
 
 1. Usuário GitHub de Arthur.
 2. Acesso dos quatro integrantes ao repositório.
-3. GitHub Project com histórias, campos, colunas e WIP.
-4. Issues, commits, PRs e revisões reais dos integrantes.
-5. Publicação das correções técnicas e nova confirmação do CI verde em `main`.
-6. Confirmação dos papéis propostos pela equipe.
-7. Gravação e publicação dos dois vídeos.
-8. Inclusão dos links definitivos no README e na proposta.
-9. Teste final das instruções em clone limpo.
+3. Tarefas operacionais da Sprint 0, distribuição do trabalho, commits, PRs e revisões reais dos quatro integrantes.
+4. Confirmação dos papéis propostos pela equipe.
+5. Gravação e publicação dos dois vídeos.
+6. Inclusão dos links definitivos dos vídeos no README.
+7. Teste final das instruções em clone limpo.
 
-Enquanto essas nove pendências não forem resolvidas, a Sprint 0 ainda não está pronta para entrega, embora os documentos e o esqueleto técnico já estejam preparados localmente.
+Enquanto essas sete pendências não forem resolvidas, a Sprint 0 ainda não está pronta para entrega, embora o GitHub Project, as histórias, a proteção da `main`, o CI e o esqueleto técnico já estejam preparados.

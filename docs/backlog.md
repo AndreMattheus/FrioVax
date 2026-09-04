@@ -80,9 +80,10 @@ Os itens estão escritos como resultados para o usuário, priorizados e estimado
 
 ## Configuração do GitHub Projects
 
+Quadro publicado: [FrioVax Project — Board Principal](https://github.com/users/AndreMattheus/projects/1). As dez histórias estão disponíveis nas [issues do repositório](https://github.com/AndreMattheus/FrioVax/issues).
+
 Colunas: **Backlog · Sprint Backlog · Em progresso · Em revisão · Pronto**.
 
 Campos: Prioridade (P1/P2/P3), Pontos (1/2/3/5/8/13), Sprint, Responsável e ID da história.
 
-WIP: Backlog sem limite; Sprint Backlog 8; Em progresso 4; Em revisão 2; Pronto sem limite. Na Sprint 1, US01, US02 e US03 entram em Sprint Backlog; as demais permanecem priorizadas no Backlog.
-
+WIP: Backlog sem limite; Sprint Backlog 8; Em progresso 4; Em revisão 2; Pronto sem limite.

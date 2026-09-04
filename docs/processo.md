@@ -26,6 +26,8 @@ Os papéis de coordenação podem ser reavaliados na retrospectiva; não confere
 
 ## Fluxo Kanban e WIP
 
+O fluxo é acompanhado no [FrioVax Project — Board Principal](https://github.com/users/AndreMattheus/projects/1).
+
 | Coluna | Entrada | Saída | WIP |
 |---|---|---|---:|
 | Backlog | história registrada | priorizada e refinada | sem limite |
@@ -58,7 +60,7 @@ Branches são curtas e partem de `main`: `feat/<issue>-descricao`, `fix/<issue>-
 ## Ferramentas e evidências
 
 - GitHub: código, issues, PRs, revisões e decisões.
-- GitHub Projects: prioridade, estimativa, responsável, sprint e fluxo.
+- [GitHub Project](https://github.com/users/AndreMattheus/projects/1): prioridade, estimativa, responsável, sprint e fluxo.
 - GitHub Actions: CI em push e pull request.
 - mise e Docker Compose: ambiente reproduzível.
 - Canal online da equipe: comunicação síncrona e avisos.
@@ -71,4 +73,3 @@ Cada integrante deve, por sprint, contribuir em semanas distintas, autorar ao me
 Estimativas usam planning poker e pontos 1, 2, 3, 5, 8 e 13. História de 13 pontos deve ser dividida antes de entrar na sprint. A equipe acompanhará throughput, lead time, cycle time e WIP a partir do quadro, sem transformar pontos em horas.
 
 Práticas XP iniciais: integração contínua, revisão, refatoração, testes automatizados e pair programming quando a tarefa envolver risco ou conhecimento concentrado. Pair programming registra `Co-authored-by`.
-
