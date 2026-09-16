@@ -9,7 +9,7 @@ Plataforma para gestão de câmaras de conservação, lotes de imunobiológicos 
 
 | Integrante | Matrícula | GitHub | Papel principal |
 |---|---:|---|---|
-| Arthur Feijo de Medeiros | 20240012792 | A confirmar | Qualidade e DevOps |
+| Arthur Feijo de Medeiros             | 20240012792 | [`@arthurFeijo`](https://github.com/arthurFeijo)          | Qualidade e DevOps       |
 | Bianca Maciel Medeiros | 20230044970 | [`@biancammedeiros`](https://github.com/biancammedeiros) | Product Owner e domínio |
 | Leonardo Nadson Oliveira de Medeiros | 20240028925 | [`@leonardonadson`](https://github.com/leonardonadson) | Scrum Master e processo |
 | Matheus Andre Souza Cirilo | 20240030941 | [`@AndreMattheus`](https://github.com/AndreMattheus) | Arquitetura e serviço Go |
