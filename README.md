@@ -29,6 +29,8 @@ Este repositório contém o produto comum de:
 - [Backlog inicial](docs/backlog.md)
 - [Acordo de processo](docs/processo.md)
 - [Checklist da Sprint 0](docs/checklist-sprint-0.md)
+- [Contrato da API — Câmaras e Lotes](docs/contrato-api.md)
+- [ADR 0001 — Arquitetura em camadas](docs/adr/0001-arquitetura-em-camadas.md)
 - [Roteiro do vídeo de Web II](docs/roteiro-video-web2.md)
 - [Roteiro do vídeo de Processos](docs/roteiro-video-processos.md)
 - [Registro de uso de IA](docs/uso-de-ia.md)
