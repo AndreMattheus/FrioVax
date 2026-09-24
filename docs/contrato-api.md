@@ -6,23 +6,23 @@ Itens marcados com **⚠️ Pendente** dependem de validação externa e não de
 
 ## 1. Decisões
 
-| # | Assunto | Decisão |
-|---|---|---|
-| D1 | Entidades | `Camara` e `Lote`. Uma câmara contém vários lotes; cada lote pertence a exatamente uma câmara. |
-| D2 | Unidade da câmara | Representada pelo campo texto obrigatório `unidade` na câmara. A entidade Unidade prevista na [proposta](proposta.md#4-entidades-principais) fica **adiada**; não haverá um terceiro CRUD nesta sprint. |
-| D3 | Identificadores | `id` é o identificador técnico (inteiro gerado pelo banco) usado nas rotas. `codigo` da câmara e `codigo` do lote são identificadores de negócio únicos, normalizados (ver [§2.3](#23-normalização)). |
-| D4 | Unidade de contagem | `capacidade` da câmara e `quantidade` do lote são contadas em **doses**, sempre inteiros positivos. |
-| D5 | Estado da câmara | `estado` (operacional) é independente de `ativo` (cadastro). Valores manuais: `OPERACIONAL` e `MANUTENCAO`. Detecção térmica não é antecipada (ver [§3.1](#31-estado-da-câmara)). |
-| D6 | Ocupação | `ocupacao` = soma de `quantidade` dos lotes **ativos** da câmara. Inativar um lote libera capacidade. |
-| D7 | Alteração de câmara | Rejeitada com `409` se reduzir `capacidade` abaixo da `ocupacao`. Inativação de câmara com lotes ativos também retorna `409`. |
-| D8 | Alteração de lote | Editáveis: `imunobiologico`, `fabricante`, `validade`, `quantidade` e `camaraId` (troca de câmara permitida). Capacidade é revalidada quando `quantidade` ou `camaraId` mudam. `codigo` é imutável. |
-| D9 | Validade | Data de referência: dia corrente no fuso `America/Fortaleza`. Validade futura significa `validade > hoje`. A regra vale na criação e quando `validade` é alterada; um lote que venceu depois do cadastro continua editável se a `validade` enviada for igual à armazenada. |
-| D10 | Filtro de validade | Intervalo **inclusivo** `validadeDe`/`validadeAte`. Com apenas um limite, o intervalo fica aberto do outro lado. `validadeDe > validadeAte` retorna `400`. |
-| D11 | Inativos | Ficam fora das listagens por padrão. `ativo=false` lista só inativos; `ativo=true` (padrão) lista só ativos. `GET /{id}` retorna o registro mesmo inativo. Códigos de registros inativos continuam reservados. |
-| D12 | Remoção × inativação | `DELETE` faz **remoção lógica** (`ativo=false`), preserva o registro e responde `204`. Repetir `DELETE` num registro já inativo também responde `204`. **⚠️ Pendente:** confirmar com o professor se a remoção lógica atende à rubrica. |
-| D13 | Paginação | `page` começa em `0` (padrão `0`); `size` padrão `20`, mínimo `1`, máximo `100`. Ordenação fixa por `id ASC`. Valores fora do intervalo retornam `400`. |
-| D14 | Idioma | Rotas, campos, filtros e mensagens em português, sem acentos nos identificadores (`camaraId`, `imunobiologico`). |
-| D15 | Erros | Formato Problem Details ([RFC 9457](https://www.rfc-editor.org/rfc/rfc9457)) com `Content-Type: application/problem+json`. |
+| # | Assunto | Decisão                                                                                                                                                                                                                                                                                                 |
+|---|---|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| D1 | Entidades | `Camara` e `Lote`. Uma câmara contém vários lotes; cada lote pertence a exatamente uma câmara.                                                                                                                                                                                                          |
+| D2 | Unidade da câmara | Representada pelo campo texto obrigatório `unidade` na câmara. A entidade Unidade prevista na [proposta](proposta.md#4-entidades-principais) fica **adiada**; não haverá um terceiro CRUD nesta sprint.                                                                                                 |
+| D3 | Identificadores | `id` é o identificador técnico (inteiro gerado pelo banco) usado nas rotas. `codigo` da câmara e `codigo` do lote são identificadores de negócio únicos, normalizados (ver [§2.3](#23-normalização)).                                                                                                   |
+| D4 | Unidade de contagem | `capacidade` da câmara e `quantidade` do lote são contadas em **doses**, sempre inteiros positivos.                                                                                                                                                                                                     |
+| D5 | Estado da câmara | estado (operacional) é independente de ativo (cadastro). Valores manuais: OPERACIONAL, MANUTENCAO e DESATIVADA. Detecção térmica não é antecipada (ver [§3.1](#31-estado-da-câmara)).                                                                                                                   |
+| D6 | Ocupação | `ocupacao` = soma de `quantidade` dos lotes **ativos** da câmara. Inativar um lote libera capacidade.                                                                                                                                                                                                   |
+| D7 | Alteração de câmara | Rejeitada com `409` se reduzir `capacidade` abaixo da `ocupacao`. Inativação de câmara com lotes ativos também retorna `409`.                                                                                                                                                                           |
+| D8 | Alteração de lote | Editáveis: `imunobiologico`, ``fabricante, `validade` e `camaraId` (troca de câmara permitida). Capacidade é revalidada quando `camaraId` muda. `codigo` é imutável. `quantidade` não é editável por PUT — toda redução passa pela ação de baixa (ver §3.4), para garantir que ela sempre tenha um motivo registrado. |
+| D9 | Validade | Data de referência: dia corrente no fuso `America/Fortaleza`. Validade futura significa `validade > hoje`. A regra vale na criação e quando `validade` é alterada; um lote que venceu depois do cadastro continua editável se a `validade` enviada for igual à armazenada.                              |
+| D10 | Filtro de validade | Intervalo **inclusivo** `validadeDe`/`validadeAte`. Com apenas um limite, o intervalo fica aberto do outro lado. `validadeDe > validadeAte` retorna `400`.                                                                                                                                              |
+| D11 | Inativos | Ficam fora das listagens por padrão. `ativo=false` lista só inativos; `ativo=true` (padrão) lista só ativos. `GET /{id}` retorna o registro mesmo inativo. Códigos de registros inativos continuam reservados.                                                                                          |
+| D12 | Remoção × inativação | `DELETE` faz **remoção lógica** (`ativo=false`), preserva o registro e responde `204`. Repetir `DELETE` num registro já inativo também responde `204`. **⚠️ Pendente:** confirmar com o professor se a remoção lógica atende à rubrica.                                                                 |
+| D13 | Paginação | `page` começa em `0` (padrão `0`); `size` padrão `20`, mínimo `1`, máximo `100`. Ordenação fixa por `id ASC`. Valores fora do intervalo retornam `400`.                                                                                                                                                 |
+| D14 | Idioma | Rotas, campos, filtros e mensagens em português, sem acentos nos identificadores (`camaraId`, `imunobiologico`).                                                                                                                                                                                        |
+| D15 | Erros | Formato Problem Details ([RFC 9457](https://www.rfc-editor.org/rfc/rfc9457)) com `Content-Type: application/problem+json`.                                                                                                                                                                              |
 
 ## 2. Recursos
 
@@ -30,20 +30,20 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 
 ### 2.1 Câmara
 
-| Campo | Tipo | Entrada | Regras |
-|---|---|---|---|
-| `id` | integer (int64) | — | Somente leitura. |
+| Campo | Tipo | Entrada | Regras                                                                                                     |
+|---|---|---|------------------------------------------------------------------------------------------------------------|
+| `id` | integer (int64) | — | Somente leitura.                                                                                           |
 | `codigo` | string | Obrigatório na criação; imutável | 3 a 20 caracteres; `A-Z`, `0-9` e `-` após normalização; único entre todas as câmaras, inclusive inativas. |
-| `nome` | string | Obrigatório | 1 a 100 caracteres após `trim`. |
-| `unidade` | string | Obrigatório | 1 a 100 caracteres após `trim`. |
-| `capacidade` | integer (int32) | Obrigatório | `> 0`, em doses; não pode ficar abaixo de `ocupacao`. |
-| `temperaturaMinima` | number (decimal, 1 casa) | Obrigatório | Em °C; `temperaturaMinima < temperaturaMaxima`. |
-| `temperaturaMaxima` | number (decimal, 1 casa) | Obrigatório | Em °C. |
-| `estado` | string (enum) | Obrigatório | `OPERACIONAL` ou `MANUTENCAO`. |
-| `ocupacao` | integer (int32) | — | Somente leitura; soma dos lotes ativos. |
-| `ativo` | boolean | — | Somente leitura; alterado apenas por `DELETE`. |
-| `criadoEm` | string (date-time) | — | Somente leitura. |
-| `atualizadoEm` | string (date-time) | — | Somente leitura. |
+| `nome` | string | Obrigatório | 1 a 100 caracteres após `trim`.                                                                            |
+| `unidade` | string | Obrigatório | 1 a 100 caracteres após `trim`.                                                                            |
+| `capacidade` | integer (int32) | Obrigatório | `> 0`, em doses; não pode ficar abaixo de `ocupacao`.                                                      |
+| `temperaturaMinima` | number (decimal, 1 casa) | Obrigatório | Em °C; `temperaturaMinima < temperaturaMaxima`.                                                            |
+| `temperaturaMaxima` | number (decimal, 1 casa) | Obrigatório | Em °C.                                                                                                     |
+| `estado` | string (enum) | Obrigatório | `OPERACIONAL`,`MANUTENCAO` ou `DESATIVADA`.                                                                |
+| `ocupacao` | integer (int32) | — | Somente leitura; soma dos lotes ativos.                                                                    |
+| `ativo` | boolean | — | Somente leitura; alterado apenas por `DELETE`.                                                             |
+| `criadoEm` | string (date-time) | — | Somente leitura.                                                                                           |
+| `atualizadoEm` | string (date-time) | — | Somente leitura.                                                                                           |
 
 ### 2.2 Lote
 
@@ -57,6 +57,7 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 | `quantidade` | integer (int32) | Obrigatório | `> 0`, em doses. |
 | `camaraId` | integer (int64) | Obrigatório | Câmara existente, ativa e `OPERACIONAL` (ver [§3.2](#32-alocação-de-lotes)). |
 | `ativo` | boolean | — | Somente leitura; alterado apenas por `DELETE`. |
+| `estado` | string (enum) | — | Somente leitura. `DISPONIVEL` por padrão; `ESGOTADO` quando `quantidade` chega a `0` (automático); `DESCARTADO` via ação dedicada (ver §3.4). |
 | `criadoEm` | string (date-time) | — | Somente leitura. |
 | `atualizadoEm` | string (date-time) | — | Somente leitura. |
 
@@ -73,9 +74,11 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 | Estado | Significado | Aceita novos lotes? |
 |---|---|---|
 | `OPERACIONAL` | Câmara em uso normal | Sim |
-| `MANUTENCAO` | Retirada de uso por decisão manual | Não |
+| `MANUTENCAO` | Retirada de uso temporária por decisão manual | Não |
+| `DESATIVADA` | Retirada de uso definitiva por decisão manual | Não |
 
-- Transições manuais permitidas via `PUT`: `OPERACIONAL ↔ MANUTENCAO`.
+- Transições manuais permitidas via PUT: `OPERACIONAL` ↔ `MANUTENCAO` ↔ `DESATIVADA`.
+- Colocar em `MANUTENCAO` ou `DESATIVADA` uma câmara com lotes ativos alocados retorna 409 — os lotes precisam ser movidos para outra câmara antes da transição, pelo mesmo motivo já aplicado à inativação (D7).
 - Colocar em `MANUTENCAO` uma câmara com lotes ativos é permitido; os lotes permanecem alocados.
 - Estados ligados à excursão térmica (por exemplo `EM_ALERTA`) serão definidos na Sprint 2 (US05) e só poderão ser atribuídos pelo sistema.
 - Uma câmara inativa não pode ser alterada (`PUT` → `409`).
@@ -95,6 +98,15 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 - Reativação não faz parte desta sprint.
 - Registros inativos não podem ser alterados (`PUT` → `409`).
 
+### 3.4 Estado do lote
+| Estado | Significado |
+|---|---|
+| `DISPONIVEL` | Lote com `quantidade &gt; 0` |
+| `ESGOTADO` | Transição automática quando `quantidade` chega a `0` após uso |
+| `DESCARTADO` | Transição manual, via `POST /api/lotes/{id}/descarte`, para lotes retirados de circulação antes de esgotar (ex.: violação de temperatura, dano) |
+
+Um lote `DESCARTADO` não aceita mais uso (`POST /api/lotes/{id}/uso` → `409`).
+
 ## 4. Rotas
 
 | Operação | Câmara | Lote | Sucesso |
@@ -109,20 +121,45 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 
 ### 4.1 Filtros
 
-| Recurso | Parâmetro | Tipo | Comparação |
-|---|---|---|---|
-| Câmaras | `unidade` | string | Igualdade, sem diferenciar maiúsculas/minúsculas |
-| Câmaras | `estado` | enum | Igualdade (`OPERACIONAL`, `MANUTENCAO`) |
+| Recurso | Parâmetro | Tipo | Comparação                                                    |
+|---|---|---|---------------------------------------------------------------|
+| Câmaras | `unidade` | string | Igualdade, sem diferenciar maiúsculas/minúsculas              |
+| Câmaras | `estado` | enum | Igualdade (`OPERACIONAL`, `MANUTENCAO`,  `DESATIVADA`)                     |
 | Lotes | `imunobiologico` | string | Busca parcial (contém), sem diferenciar maiúsculas/minúsculas |
-| Lotes | `validadeDe` | date | `validade >= validadeDe` |
-| Lotes | `validadeAte` | date | `validade <= validadeAte` |
-| Lotes | `camaraId` | int64 | Igualdade |
-| Ambos | `ativo` | boolean | Igualdade; padrão `true` |
-| Ambos | `page`, `size` | integer | Ver D13 |
+| Lotes | `validadeDe` | date | `validade >= validadeDe`                                      |
+| Lotes | `validadeAte` | date | `validade <= validadeAte`                                     |
+| Lotes | `camaraId` | int64 | Igualdade                                                     |
+| Lotes | `estado` | enum | Igualdade (`DISPONIVEL`, `ESGOTADO`, `DESCARTADO`) |
+| Ambos | `ativo` | boolean | Igualdade; padrão `true`                                      |
+| Ambos | `page`, `size` | integer | Ver D13                                                       |
 
 Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é erro: a página volta vazia.
 
-### 4.2 Página
+
+### 4.2 Baixa e descarte de lote
+
+**Baixa parcial** — `POST /api/lotes/{id}/baixas`, corpo:
+
+{
+"quantidade": <integer>,
+"motivo": "ADMINISTRADA" | "PERDA"
+}
+
+- `quantidade` deve ser `> 0` e `<= quantidade` atual do lote, senão `422`.
+- `motivo` é obrigatório: `ADMINISTRADA` (aplicada em alguém) ou `PERDA` (quebra, contaminação, descarte de uma ou mais unidades sem aplicação).
+- Reduz `quantidade` do lote pelo valor informado.
+- Se o resultado for `0`, o servidor muda `estado` do lote para `ESGOTADO` na mesma transação.
+- Lote `DESCARTADO` ou inativo (`ativo = false`) → `409`.
+- Sucesso: `200` com o lote atualizado.
+
+**Descarte total** — `POST /api/lotes/{id}/descarte`, sem corpo.
+
+- Muda `estado` do lote para `DESCARTADO`, independente de quanto ainda resta em `quantidade`.
+- Idempotente: chamar de novo num lote já `DESCARTADO` retorna `200` sem alterar nada.
+- Lote inativo (`ativo = false`) → `409`.
+- Sucesso: `200` com o lote atualizado.
+
+### 4.3 Página
 
 `totalElements` e `totalPages` contam apenas registros que atendem aos filtros. Uma página além da última retorna `200` com `items` vazio.
 
