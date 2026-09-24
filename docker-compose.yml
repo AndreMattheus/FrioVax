@@ -23,9 +23,14 @@ services:
     environment:
       QUARKUS_HTTP_HOST: 0.0.0.0
       TELEMETRY_BASE_URL: http://telemetry:8081
+      DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-friovax}
+      DB_USER: ${DB_USER:-friovax}
+      DB_PASSWORD: ${DB_PASSWORD:-friovax}
     ports:
       - "8080:8080"
     depends_on:
+      db:
+        condition: service_healthy
       telemetry:
         condition: service_healthy
 
