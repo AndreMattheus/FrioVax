@@ -79,7 +79,6 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 
 - Transições manuais permitidas via PUT: `OPERACIONAL` ↔ `MANUTENCAO` ↔ `DESATIVADA`.
 - Colocar em `MANUTENCAO` ou `DESATIVADA` uma câmara com lotes ativos alocados retorna 409 — os lotes precisam ser movidos para outra câmara antes da transição, pelo mesmo motivo já aplicado à inativação (D7).
-- Colocar em `MANUTENCAO` uma câmara com lotes ativos é permitido; os lotes permanecem alocados.
 - Estados ligados à excursão térmica (por exemplo `EM_ALERTA`) serão definidos na Sprint 2 (US05) e só poderão ser atribuídos pelo sistema.
 - Uma câmara inativa não pode ser alterada (`PUT` → `409`).
 
@@ -105,7 +104,7 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 | `ESGOTADO` | Transição automática quando `quantidade` chega a `0` após uso |
 | `DESCARTADO` | Transição manual, via `POST /api/lotes/{id}/descarte`, para lotes retirados de circulação antes de esgotar (ex.: violação de temperatura, dano) |
 
-Um lote `DESCARTADO` não aceita mais uso (`POST /api/lotes/{id}/uso` → `409`).
+Um lote `DESCARTADO` não aceita mais uso (`POST /api/lotes/{id}/baixas` → `409`).
 
 ## 4. Rotas
 
