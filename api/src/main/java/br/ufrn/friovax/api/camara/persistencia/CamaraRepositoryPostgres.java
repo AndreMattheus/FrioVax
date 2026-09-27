@@ -35,7 +35,8 @@ public class CamaraRepositoryPostgres implements CamaraRepository, PanacheReposi
                 getEntityManager().flush();
             }
         } catch (PersistenceException e) {
-            if (e.getCause() instanceof ConstraintViolationException) {
+            if (e instanceof ConstraintViolationException
+                    || e.getCause() instanceof ConstraintViolationException) {
                 throw new CodigoDuplicado("câmara", camara.getCodigo());
             }
             throw e;
