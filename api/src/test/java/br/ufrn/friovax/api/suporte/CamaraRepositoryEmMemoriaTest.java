@@ -49,6 +49,26 @@ class CamaraRepositoryEmMemoriaTest {
     }
 
     @Test
+    void deveRejeitarAlteracaoDeIdInexistente() {
+        var inexistente = Camara.reconstituir(999, "CAM-999", "Câmara 999", "UBS Centro", 10,
+                new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL,
+                true, AGORA, AGORA);
+
+        assertThrows(IllegalStateException.class, () -> repositorio.salvar(inexistente));
+    }
+
+    @Test
+    void deveBuscarParaAlteracaoEVerificarCodigo() {
+        var camara = salvar("CAM-01", "UBS Centro", EstadoCamara.OPERACIONAL);
+
+        assertEquals(camara.getCodigo(), repositorio.buscarPorIdParaAlteracao(camara.getId())
+                .orElseThrow().getCodigo());
+        assertTrue(repositorio.buscarPorIdParaAlteracao(999).isEmpty());
+        assertTrue(repositorio.existePorCodigo("CAM-01"));
+        assertFalse(repositorio.existePorCodigo("CAM-02"));
+    }
+
+    @Test
     void naoDevePersistirAlteracoesSemSalvar() {
         salvar("CAM-01", "UBS Centro", EstadoCamara.OPERACIONAL);
         var carregada = repositorio.buscarPorId(1).orElseThrow();

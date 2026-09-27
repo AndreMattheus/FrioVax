@@ -25,6 +25,9 @@ public class CamaraRepositoryPostgres implements CamaraRepository, PanacheReposi
     @Override
     public Camara salvar(Camara camara) {
         var entity = CamaraMapper.paraEntidade(camara);
+        if (entity.id != null && findByIdOptional(entity.id).isEmpty()) {
+            throw new IllegalStateException("Câmara " + entity.id + " não está gravada");
+        }
         try {
             if (entity.id == null) {
                 persist(entity);
@@ -35,9 +38,13 @@ public class CamaraRepositoryPostgres implements CamaraRepository, PanacheReposi
                 getEntityManager().flush();
             }
         } catch (PersistenceException e) {
-            if (e instanceof ConstraintViolationException
-                    || e.getCause() instanceof ConstraintViolationException) {
-                throw new CodigoDuplicado("câmara", camara.getCodigo());
+            Throwable causa = e;
+            while (causa != null) {
+                if (causa instanceof ConstraintViolationException cve
+                        && "uk_camaras_codigo".equals(cve.getConstraintName())) {
+                    throw new CodigoDuplicado("câmara", camara.getCodigo());
+                }
+                causa = causa.getCause();
             }
             throw e;
         }
@@ -51,10 +58,8 @@ public class CamaraRepositoryPostgres implements CamaraRepository, PanacheReposi
 
     @Override
     public Optional<Camara> buscarPorIdParaAlteracao(long id) {
-        var entity = find("id", id)
-            .withLock(LockModeType.PESSIMISTIC_WRITE)
-            .firstResult();
-        return Optional.ofNullable(entity).map(CamaraMapper::paraDominio);
+        return findByIdOptional(id, LockModeType.PESSIMISTIC_WRITE)
+                .map(CamaraMapper::paraDominio);
     }
 
     @Override

@@ -17,16 +17,38 @@ import java.time.OffsetDateTime;
 @Entity
 @Table(name = "camaras")
 public class CamaraEntity extends PanacheEntityBase {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
-    @Column(nullable = false, unique = true) public String codigo;
-    @Column(nullable = false) public String nome;
-    @Column(nullable = false) public String unidade;
-    @Column(nullable = false) public int capacidade;
-    @Column(name = "temperatura_minima", nullable = false) public BigDecimal temperaturaMinima;
-    @Column(name = "temperatura_maxima", nullable = false) public BigDecimal temperaturaMaxima;
-    @Enumerated(EnumType.STRING) @Column(nullable = false) public EstadoCamara estado;
-    @Column(nullable = false) public boolean ativo;
-    @Column(name = "criado_em", nullable = false) public OffsetDateTime criadoEm;
-    @Column(name = "atualizado_em", nullable = false) public OffsetDateTime atualizadoEm;
+
+    @Column(nullable = false, unique = true)
+    public String codigo;
+
+    @Column(nullable = false)
+    public String nome;
+
+    @Column(nullable = false)
+    public String unidade;
+
+    @Column(nullable = false)
+    public int capacidade;
+
+    @Column(name = "temperatura_minima", nullable = false)
+    public BigDecimal temperaturaMinima;
+
+    @Column(name = "temperatura_maxima", nullable = false)
+    public BigDecimal temperaturaMaxima;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    public EstadoCamara estado;
+
+    @Column(nullable = false)
+    public boolean ativo;
+
+    @Column(name = "criado_em", nullable = false)
+    public OffsetDateTime criadoEm;
+
+    @Column(name = "atualizado_em", nullable = false)
+    public OffsetDateTime atualizadoEm;
 }

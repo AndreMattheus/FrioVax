@@ -8,6 +8,7 @@ import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.TestTransaction;
 import jakarta.inject.Inject;
+import jakarta.persistence.PersistenceException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -59,6 +60,40 @@ class CamaraRepositoryPostgresTest {
 
     @Test
     @TestTransaction
+    void naoDeveTratarOutraConstraintComoCodigoDuplicado() {
+        var salva = repositorio.salvar(novaCamara("C-INVALIDA", "Inválida", "Unidade A", 10,
+                "2.0", "8.0"));
+        var invalida = Camara.reconstituir(salva.getId(), salva.getCodigo(), salva.getNome(), salva.getUnidade(), 0,
+                new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL,
+                true, AGORA, AGORA);
+
+        assertThrows(PersistenceException.class, () -> repositorio.salvar(invalida));
+    }
+
+    @Test
+    @TestTransaction
+    void deveRejeitarAlteracaoDeIdInexistente() {
+        var inexistente = Camara.reconstituir(Long.MAX_VALUE, "C-AUSENTE", "Ausente", "Unidade A", 10,
+                new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL,
+                true, AGORA, AGORA);
+
+        assertThrows(IllegalStateException.class, () -> repositorio.salvar(inexistente));
+    }
+
+    @Test
+    @TestTransaction
+    void deveBuscarComLockEVerificarCodigo() {
+        var camara = repositorio.salvar(novaCamara("C-LOCK", "Câmara", "Unidade X", 10, "2.0", "8.0"));
+
+        assertEquals(camara.getCodigo(), repositorio.buscarPorIdParaAlteracao(camara.getId())
+                .orElseThrow().getCodigo());
+        assertTrue(repositorio.buscarPorIdParaAlteracao(Long.MAX_VALUE).isEmpty());
+        assertTrue(repositorio.existePorCodigo("C-LOCK"));
+        assertFalse(repositorio.existePorCodigo("C-OUTRO"));
+    }
+
+    @Test
+    @TestTransaction
     void deveAtualizarEInativarCamaraPersistida() {
         var camara = repositorio.salvar(novaCamara("C-UPDATE", "Original", "Unidade A", 10, "2.0", "8.0"));
 
@@ -88,7 +123,7 @@ class CamaraRepositoryPostgresTest {
                 "2.0", "8.0"));
         }
 
-        var filtro = new CamaraFiltro("Unidade X", null, true);
+        var filtro = new CamaraFiltro("unidade x", null, true);
         var pagina = repositorio.listar(filtro, new Paginacao(0, 2));
 
         assertEquals(2, pagina.itens().size());
