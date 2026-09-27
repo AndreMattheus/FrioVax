@@ -80,6 +80,19 @@ curl http://localhost:8081/health
 | `mise run ci` | Reproduz o pipeline localmente |
 | `mise run up` | Sobe os serviços com Docker Compose |
 
+### Banco de dados
+
+O Compose sobe um PostgreSQL 17 com volume nomeado `db-data` e healthcheck; a API só inicia depois que o banco está pronto e executa as migrações Flyway de `api/src/main/resources/db/migration` na inicialização. O Hibernate não cria nem altera o esquema.
+
+| Variável | Padrão local | Uso |
+|---|---|---|
+| `DB_NAME` | `friovax` | Nome do banco |
+| `DB_USER` | `friovax` | Usuário |
+| `DB_PASSWORD` | `friovax` | Senha (somente desenvolvimento) |
+| `DB_PORT` | `5432` | Porta publicada no host |
+
+Para mudar os padrões, copie `.env.example` para `.env`. Os dados persistem entre `docker compose down` e `up`; para apagá-los use `docker compose down -v`. Em `mise run test` e `quarkus dev`, o Quarkus Dev Services sobe um PostgreSQL temporário automaticamente (requer Docker).
+
 ## Licença
 
 [MIT](LICENSE).
