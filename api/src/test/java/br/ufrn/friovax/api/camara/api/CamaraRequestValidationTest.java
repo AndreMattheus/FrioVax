@@ -1,5 +1,6 @@
 package br.ufrn.friovax.api.camara.api;
 
+import br.ufrn.friovax.api.camara.dominio.EstadoCamara;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -18,9 +19,9 @@ class CamaraRequestValidationTest {
     @Test
     void aceitaRequestValido() {
         CamaraRequest request = new CamaraRequest(
-                "CAM-01", "Câmara fria principal", "UBS Centro",
-                5000, new BigDecimal("2.0"), new BigDecimal("8.0"),
-                EstadoCamara.OPERACIONAL
+            "CAM-01", "Câmara fria principal", "UBS Centro",
+            5000, new BigDecimal("2.0"), new BigDecimal("8.0"),
+            EstadoCamara.OPERACIONAL
         );
 
         Set<ConstraintViolation<CamaraRequest>> violacoes = validator.validate(request);
@@ -31,9 +32,9 @@ class CamaraRequestValidationTest {
     @Test
     void rejeitaCapacidadeNegativa() {
         CamaraRequest request = new CamaraRequest(
-                "CAM-01", "Câmara fria principal", "UBS Centro",
-                -10, new BigDecimal("2.0"), new BigDecimal("8.0"),
-                EstadoCamara.OPERACIONAL
+            "CAM-01", "Câmara fria principal", "UBS Centro",
+            -10, new BigDecimal("2.0"), new BigDecimal("8.0"),
+            EstadoCamara.OPERACIONAL
         );
 
         assertFalse(validator.validate(request).isEmpty());
@@ -42,9 +43,9 @@ class CamaraRequestValidationTest {
     @Test
     void rejeitaTemperaturaMinimaMaiorOuIgualQueMaxima() {
         CamaraRequest request = new CamaraRequest(
-                "CAM-01", "Câmara fria principal", "UBS Centro",
-                5000, new BigDecimal("10.0"), new BigDecimal("2.0"),
-                EstadoCamara.OPERACIONAL
+            "CAM-01", "Câmara fria principal", "UBS Centro",
+            5000, new BigDecimal("10.0"), new BigDecimal("2.0"),
+            EstadoCamara.OPERACIONAL
         );
 
         Set<ConstraintViolation<CamaraRequest>> violacoes = validator.validate(request);
@@ -55,9 +56,9 @@ class CamaraRequestValidationTest {
     @Test
     void rejeitaCodigoEmBranco() {
         CamaraRequest request = new CamaraRequest(
-                "  ", "Câmara fria principal", "UBS Centro",
-                5000, new BigDecimal("2.0"), new BigDecimal("8.0"),
-                EstadoCamara.OPERACIONAL
+            "  ", "Câmara fria principal", "UBS Centro",
+            5000, new BigDecimal("2.0"), new BigDecimal("8.0"),
+            EstadoCamara.OPERACIONAL
         );
 
         assertFalse(validator.validate(request).isEmpty());

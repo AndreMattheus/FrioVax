@@ -1,6 +1,7 @@
 package br.ufrn.friovax.api.compartilhado.api;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Test;
 
@@ -30,5 +31,15 @@ class ErroGenericoExceptionMapperTest {
 
         assertEquals(500, resposta.getStatus());
         assertFalse(problema.detail().contains("detalhe interno sensível"));
+    }
+
+    @Test
+    void webApplicationExceptionPreservaOStatusOriginal() {
+        ErroGenericoExceptionMapper mapper = new ErroGenericoExceptionMapper();
+        NotFoundException excecao = new NotFoundException("rota não existe");
+
+        Response resposta = mapper.toResponse(excecao);
+
+        assertEquals(404, resposta.getStatus());
     }
 }

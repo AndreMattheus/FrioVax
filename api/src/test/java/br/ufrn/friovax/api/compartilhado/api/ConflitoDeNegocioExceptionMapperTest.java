@@ -1,7 +1,8 @@
 package br.ufrn.friovax.api.compartilhado.api;
 
-import br.ufrn.friovax.api.compartilhado.dominio.ConflitoDeNegocioException;
-import br.ufrn.friovax.api.compartilhado.dominio.TipoConflito;
+import br.ufrn.friovax.api.compartilhado.dominio.CapacidadeExcedida;
+import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
+import br.ufrn.friovax.api.compartilhado.dominio.EstadoIncompativel;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +14,7 @@ class ConflitoDeNegocioExceptionMapperTest {
 
     @Test
     void codigoDuplicadoUsaOTypeCorreto() {
-        var excecao = new ConflitoDeNegocioException(
-                TipoConflito.CODIGO_DUPLICADO, "Já existe uma câmara com o código CAM-01");
+        var excecao = new CodigoDuplicado("uma câmara", "CAM-01");
 
         Response resposta = mapper.toResponse(excecao);
         ProblemDetails problema = (ProblemDetails) resposta.getEntity();
@@ -25,8 +25,7 @@ class ConflitoDeNegocioExceptionMapperTest {
 
     @Test
     void capacidadeExcedidaUsaOTypeCorreto() {
-        var excecao = new ConflitoDeNegocioException(
-                TipoConflito.CAPACIDADE_EXCEDIDA, "Capacidade da câmara excedida");
+        var excecao = new CapacidadeExcedida("Capacidade da câmara excedida");
 
         Response resposta = mapper.toResponse(excecao);
         ProblemDetails problema = (ProblemDetails) resposta.getEntity();
@@ -37,8 +36,7 @@ class ConflitoDeNegocioExceptionMapperTest {
 
     @Test
     void estadoIncompativelUsaOTypeCorreto() {
-        var excecao = new ConflitoDeNegocioException(
-                TipoConflito.ESTADO_INCOMPATIVEL, "Câmara em manutenção não aceita novos lotes");
+        var excecao = new EstadoIncompativel("Câmara em manutenção não aceita novos lotes");
 
         Response resposta = mapper.toResponse(excecao);
         ProblemDetails problema = (ProblemDetails) resposta.getEntity();
