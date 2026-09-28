@@ -22,6 +22,12 @@ public interface LoteRepository {
 
     Optional<Lote> buscarPorId(long id);
 
+    /**
+     * Busca o lote bloqueando-o até o fim da transação, para que baixas, descarte e alterações concorrentes não
+     * sobrescrevam a quantidade ou o estado uns dos outros.
+     */
+    Optional<Lote> buscarPorIdParaAlteracao(long id);
+
     /** Considera lotes ativos e inativos; o código deve estar normalizado. */
     boolean existePorCodigo(String codigo);
 

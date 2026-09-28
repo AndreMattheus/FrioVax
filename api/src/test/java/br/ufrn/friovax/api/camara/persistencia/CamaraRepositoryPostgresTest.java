@@ -130,4 +130,19 @@ class CamaraRepositoryPostgresTest {
         assertEquals(3, pagina.totalElementos());
         assertTrue(pagina.itens().stream().allMatch(camara -> camara.getUnidade().equals("Unidade X")));
     }
+
+    @Test
+    @TestTransaction
+    void deveDevolverPaginaVaziaQuandoODeslocamentoNaoCabeEmInt() {
+        for (int i = 1; i <= 6; i++) {
+            repositorio.salvar(novaCamara("C-LONGE-" + i, "Câmara " + i, "Unidade Longe", 10, "2.0", "8.0"));
+        }
+        var filtro = new CamaraFiltro("Unidade Longe", null, true);
+
+        // 42_949_673 * 100 estoura int e daria deslocamento 4; 21_474_837 * 100 daria deslocamento negativo.
+        var estouraParaPositivo = repositorio.listar(filtro, new Paginacao(42_949_673, 100));
+        assertTrue(estouraParaPositivo.itens().isEmpty());
+        assertEquals(6, estouraParaPositivo.totalElementos());
+        assertTrue(repositorio.listar(filtro, new Paginacao(21_474_837, 100)).itens().isEmpty());
+    }
 }
