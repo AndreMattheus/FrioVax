@@ -45,6 +45,11 @@ public class LoteRepositoryEmMemoria implements LoteRepository {
     }
 
     @Override
+    public Optional<Lote> buscarPorIdParaAlteracao(long id) {
+        return buscarPorId(id);
+    }
+
+    @Override
     public synchronized boolean existePorCodigo(String codigo) {
         return lotes.values().stream().anyMatch(lote -> lote.getCodigo().equals(codigo));
     }

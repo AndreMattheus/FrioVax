@@ -9,6 +9,7 @@ import br.ufrn.friovax.api.lote.dominio.LoteRepository;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceException;
 
 import java.util.Collection;
@@ -57,6 +58,12 @@ public class LoteRepositoryPostgres implements LoteRepository, PanacheRepository
     @Override
     public Optional<Lote> buscarPorId(long id) {
         return findByIdOptional(id).map(LoteMapper::paraDominio);
+    }
+
+    @Override
+    public Optional<Lote> buscarPorIdParaAlteracao(long id) {
+        return findByIdOptional(id, LockModeType.PESSIMISTIC_WRITE)
+                .map(LoteMapper::paraDominio);
     }
 
     @Override

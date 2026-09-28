@@ -12,6 +12,7 @@ import br.ufrn.friovax.api.lote.dominio.MotivoBaixa;
 import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
+import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceException;
 import org.junit.jupiter.api.Test;
 
@@ -120,6 +121,18 @@ class LoteRepositoryPostgresTest {
                 AGORA, AGORA);
 
         assertThrows(PersistenceException.class, () -> repositorio.salvar(esgotadoComDoses));
+    }
+
+    @Test
+    @TestTransaction
+    void deveBuscarComBloqueioParaAlteracao() {
+        var salvo = salvar("L-LOCK", "Febre amarela", HOJE.plusMonths(6), 10, camara("C-LOCK"));
+        limparContexto();
+
+        assertEquals("L-LOCK", repositorio.buscarPorIdParaAlteracao(salvo.getId()).orElseThrow().getCodigo());
+        assertEquals(LockModeType.PESSIMISTIC_WRITE,
+                repositorio.getEntityManager().getLockMode(repositorio.findById(salvo.getId())));
+        assertTrue(repositorio.buscarPorIdParaAlteracao(Long.MAX_VALUE).isEmpty());
     }
 
     @Test
