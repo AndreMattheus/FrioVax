@@ -91,12 +91,15 @@ public class LoteRepositoryPostgres implements LoteRepository, PanacheRepository
             params.put("estado", filtro.estado());
         }
 
-        var query = find(condicoes.toString(), Sort.by("id"), params)
-            .page(paginacao.pagina(), paginacao.tamanho());
+        var query = find(condicoes.toString(), Sort.by("id"), params);
 
-        List<Lote> itens = query.list().stream()
-            .map(LoteMapper::paraDominio)
-            .toList();
+        // O Panache calcula o deslocamento em int (pagina * tamanho): acima disso estouraria e voltaria outra
+        // página ou um deslocamento negativo. Não há registros tão longe, então a página é vazia.
+        List<Lote> itens = paginacao.deslocamento() > Integer.MAX_VALUE
+            ? List.of()
+            : query.page(paginacao.pagina(), paginacao.tamanho()).list().stream()
+                .map(LoteMapper::paraDominio)
+                .toList();
 
         return Pagina.de(itens, paginacao, query.count());
     }

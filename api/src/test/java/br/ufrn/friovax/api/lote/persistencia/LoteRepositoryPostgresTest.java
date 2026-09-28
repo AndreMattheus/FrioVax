@@ -193,6 +193,22 @@ class LoteRepositoryPostgresTest {
 
     @Test
     @TestTransaction
+    void deveDevolverPaginaVaziaQuandoODeslocamentoNaoCabeEmInt() {
+        var camaraId = camara("C-PAGINA-LONGE");
+        for (int i = 1; i <= 6; i++) {
+            salvar("L" + i, "Febre amarela", HOJE.plusMonths(6), 10, camaraId);
+        }
+        var filtro = new LoteFiltro(null, null, null, camaraId, null, true);
+
+        // 42_949_673 * 100 estoura int e daria deslocamento 4; 21_474_837 * 100 daria deslocamento negativo.
+        var estouraParaPositivo = repositorio.listar(filtro, new Paginacao(42_949_673, 100));
+        assertEquals(List.of(), estouraParaPositivo.itens());
+        assertEquals(6, estouraParaPositivo.totalElementos());
+        assertEquals(List.of(), repositorio.listar(filtro, new Paginacao(21_474_837, 100)).itens());
+    }
+
+    @Test
+    @TestTransaction
     void deveSomarApenasLotesAtivosNaOcupacao() {
         var primeira = camara("C-OCUPA-1");
         var segunda = camara("C-OCUPA-2");
