@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -188,6 +189,44 @@ class LoteRepositoryPostgresTest {
         assertEquals(List.of("L3"), repositorio.listar(filtro, new Paginacao(1, 2)).itens().stream()
                 .map(Lote::getCodigo).toList());
         assertEquals(List.of("L4"), codigos(new LoteFiltro(null, null, null, camaraId, null, false)));
+    }
+
+    @Test
+    @TestTransaction
+    void deveSomarApenasLotesAtivosNaOcupacao() {
+        var primeira = camara("C-OCUPA-1");
+        var segunda = camara("C-OCUPA-2");
+        var vazia = camara("C-OCUPA-3");
+        salvar("L1", "Febre amarela", HOJE.plusMonths(6), 1200, primeira);
+        var segundo = salvar("L2", "Hepatite B", HOJE.plusMonths(6), 300, primeira);
+        salvar("L3", "Hepatite B", HOJE.plusMonths(6), 50, segunda);
+        inativar(salvar("L4", "Hepatite B", HOJE.plusMonths(6), 999, primeira));
+
+        assertEquals(1500, repositorio.ocupacaoDaCamara(primeira));
+        assertEquals(1200, repositorio.ocupacaoDaCamaraExcluindoLote(primeira, segundo.getId()));
+        assertEquals(0, repositorio.ocupacaoDaCamara(vazia));
+        assertEquals(Map.of(primeira, 1500L, segunda, 50L, vazia, 0L),
+                repositorio.ocupacaoPorCamara(List.of(primeira, segunda, vazia)));
+        assertEquals(Map.of(), repositorio.ocupacaoPorCamara(List.of()));
+    }
+
+    @Test
+    @TestTransaction
+    void deveLiberarOcupacaoAoInativarOuTrocarDeCamara() {
+        var origem = camara("C-TROCA-1");
+        var destino = camara("C-TROCA-2");
+        var lote = salvar("L1", "Febre amarela", HOJE.plusMonths(6), 1200, origem);
+
+        lote.atualizar("Febre amarela", "Fabricante", lote.getValidade(), destino, HOJE, AGORA);
+        repositorio.salvar(lote);
+        assertEquals(0, repositorio.ocupacaoDaCamara(origem));
+        assertEquals(1200, repositorio.ocupacaoDaCamara(destino));
+        assertFalse(repositorio.existeLoteAtivoNaCamara(origem));
+        assertTrue(repositorio.existeLoteAtivoNaCamara(destino));
+
+        inativar(lote);
+        assertEquals(0, repositorio.ocupacaoDaCamara(destino));
+        assertFalse(repositorio.existeLoteAtivoNaCamara(destino));
     }
 
     private List<String> codigos(LoteFiltro filtro) {
