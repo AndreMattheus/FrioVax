@@ -54,11 +54,17 @@ class LoteRepositoryPostgresTest {
         repositorio.salvar(lote);
     }
 
+    /** Descarta o contexto de persistência para que a próxima busca leia do banco, e não do cache da sessão. */
+    private void limparContexto() {
+        repositorio.getEntityManager().clear();
+    }
+
     @Test
     @TestTransaction
     void deveSalvarEBuscarPorId() {
         var camaraId = camara("C-LOTE");
         var salvo = salvar("fx2027a", "Febre amarela", LocalDate.of(2027, 3, 31), 1200, camaraId);
+        limparContexto();
 
         var encontrado = repositorio.buscarPorId(salvo.getId()).orElseThrow();
         assertEquals("FX2027A", encontrado.getCodigo());
@@ -107,6 +113,17 @@ class LoteRepositoryPostgresTest {
 
     @Test
     @TestTransaction
+    void naoDeveAceitarLoteEsgotadoComDoses() {
+        var salvo = salvar("L-CHEIO", "Febre amarela", HOJE.plusMonths(6), 10, camara("C-CHEIO"));
+        var esgotadoComDoses = Lote.reconstituir(salvo.getId(), salvo.getCodigo(), salvo.getImunobiologico(),
+                salvo.getFabricante(), salvo.getValidade(), 10, salvo.getCamaraId(), EstadoLote.ESGOTADO, true,
+                AGORA, AGORA);
+
+        assertThrows(PersistenceException.class, () -> repositorio.salvar(esgotadoComDoses));
+    }
+
+    @Test
+    @TestTransaction
     void deveRejeitarAlteracaoDeIdInexistente() {
         var inexistente = Lote.reconstituir(Long.MAX_VALUE, "L-AUSENTE", "Febre amarela", "Fabricante",
                 HOJE.plusMonths(6), 10, camara("C-AUSENTE"), EstadoLote.DISPONIVEL, true, AGORA, AGORA);
@@ -123,6 +140,7 @@ class LoteRepositoryPostgresTest {
 
         lote.atualizar("Hepatite B", "Outro fabricante", HOJE.plusMonths(9), destino, HOJE, AGORA.plusHours(1));
         repositorio.salvar(lote);
+        limparContexto();
         var atualizado = repositorio.buscarPorId(lote.getId()).orElseThrow();
         assertEquals("Hepatite B", atualizado.getImunobiologico());
         assertEquals("Outro fabricante", atualizado.getFabricante());
@@ -131,11 +149,13 @@ class LoteRepositoryPostgresTest {
 
         atualizado.darBaixa(100, MotivoBaixa.ADMINISTRADA, AGORA.plusHours(2));
         repositorio.salvar(atualizado);
+        limparContexto();
         var esgotado = repositorio.buscarPorId(lote.getId()).orElseThrow();
         assertEquals(0, esgotado.getQuantidade());
         assertEquals(EstadoLote.ESGOTADO, esgotado.getEstado());
 
         inativar(esgotado);
+        limparContexto();
         assertFalse(repositorio.buscarPorId(lote.getId()).orElseThrow().isAtivo());
     }
 

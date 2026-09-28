@@ -138,7 +138,7 @@ public class LoteRepositoryPostgres implements LoteRepository, PanacheRepository
 
     @Override
     public boolean existeLoteAtivoNaCamara(long camaraId) {
-        return count("camaraId = ?1 and ativo = true", camaraId) > 0;
+        return find("camaraId = ?1 and ativo = true", camaraId).firstResultOptional().isPresent();
     }
 
     /** Escapa os curingas do LIKE para que a busca seja um "contém" literal, como no contrato. */

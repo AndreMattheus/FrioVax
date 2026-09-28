@@ -12,7 +12,8 @@ CREATE TABLE lotes (
     criado_em TIMESTAMPTZ NOT NULL,
     atualizado_em TIMESTAMPTZ NOT NULL,
     -- A baixa total zera a quantidade (ESGOTADO); só o lote disponível precisa ter doses.
-    CONSTRAINT chk_lotes_disponivel_com_doses CHECK (estado <> 'DISPONIVEL' OR quantidade > 0)
+    CONSTRAINT chk_lotes_disponivel_com_doses CHECK (estado <> 'DISPONIVEL' OR quantidade > 0),
+    CONSTRAINT chk_lotes_esgotado_sem_doses CHECK (estado <> 'ESGOTADO' OR quantidade = 0)
 );
 
 CREATE INDEX idx_lotes_camara_id ON lotes (camara_id);
