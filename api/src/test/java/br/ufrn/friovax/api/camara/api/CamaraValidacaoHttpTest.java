@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.equalTo;
 @QuarkusTest
 class CamaraValidacaoHttpTest {
 
-    private static Map<String, Object> corpoValido() {
+    private static Map<String, Object> bodyValido() {
         return new HashMap<>(Map.of(
                 "codigo", "CAM-01",
                 "nome", "Câmara 1",
@@ -29,13 +29,13 @@ class CamaraValidacaoHttpTest {
     }
 
     @Test
-    void corpoInvalidoRetorna422ComProblemDetails() {
-        var corpo = corpoValido();
-        corpo.put("capacidade", -10);
+    void bodyInvalidoRetorna422ComProblemDetails() {
+        var body = bodyValido();
+        body.put("capacidade", -10);
 
         given()
             .contentType("application/json")
-            .body(corpo)
+            .body(body)
         .when()
             .post("/testes/camaras")
         .then()
@@ -61,18 +61,18 @@ class CamaraValidacaoHttpTest {
             .body("type", equalTo("/problemas/requisicao-invalida"))
             .body("status", equalTo(400))
             .body("title", equalTo("Requisição inválida"))
-            .body("detail", equalTo("O corpo da requisição não é um JSON válido."))
+            .body("detail", equalTo("O body da requisição não é um JSON válido."))
             .body("instance", equalTo("/testes/camaras"));
     }
 
     @Test
     void enumInvalidoNoJsonRetorna400ComProblemDetails() {
-        var corpo = corpoValido();
-        corpo.put("estado", "ISSO_NAO_EXISTE");
+        var body = bodyValido();
+        body.put("estado", "ISSO_NAO_EXISTE");
 
         given()
             .contentType("application/json")
-            .body(corpo)
+            .body(body)
         .when()
             .post("/testes/camaras")
         .then()
@@ -86,12 +86,12 @@ class CamaraValidacaoHttpTest {
     @ParameterizedTest
     @ValueSource(strings = {"10.5", "10.0"})
     void capacidadeDecimalRetorna400SemConversaoParaInteiro(String capacidade) {
-        var corpo = corpoValido();
-        corpo.put("capacidade", new BigDecimal(capacidade));
+        var body = bodyValido();
+        body.put("capacidade", new BigDecimal(capacidade));
 
         given()
             .contentType("application/json")
-            .body(corpo)
+            .body(body)
         .when()
             .post("/testes/camaras")
         .then()
@@ -105,12 +105,12 @@ class CamaraValidacaoHttpTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2})
     void estadoNumericoRetorna400SemConversaoParaEnum(int estado) {
-        var corpo = corpoValido();
-        corpo.put("estado", estado);
+        var body = bodyValido();
+        body.put("estado", estado);
 
         given()
             .contentType("application/json")
-            .body(corpo)
+            .body(body)
         .when()
             .post("/testes/camaras")
         .then()
@@ -125,13 +125,13 @@ class CamaraValidacaoHttpTest {
     @CsvSource({"-1000.0, 8.0, temperaturaMinima", "2.0, 1000.0, temperaturaMaxima",
             "2.05, 8.0, temperaturaMinima", "2.0, 8.05, temperaturaMaxima"})
     void temperaturaInvalidaNoDominioRetorna422(String minima, String maxima, String campo) {
-        var corpo = corpoValido();
-        corpo.put("temperaturaMinima", new BigDecimal(minima));
-        corpo.put("temperaturaMaxima", new BigDecimal(maxima));
+        var body = bodyValido();
+        body.put("temperaturaMinima", new BigDecimal(minima));
+        body.put("temperaturaMaxima", new BigDecimal(maxima));
 
         given()
             .contentType("application/json")
-            .body(corpo)
+            .body(body)
         .when()
             .post("/testes/camaras")
         .then()
@@ -145,19 +145,19 @@ class CamaraValidacaoHttpTest {
 
     @Test
     void aceitaTextosNoLimiteAposTrimETemperaturasNosLimites() {
-        var corpo = corpoValido();
+        var body = bodyValido();
         var texto = "x".repeat(100);
-        corpo.put("codigo", " cam-01 ");
-        corpo.put("nome", " " + texto + " ");
-        corpo.put("unidade", " " + texto + " ");
-        corpo.put("temperaturaMinima", new BigDecimal("-999.90"));
-        corpo.put("temperaturaMaxima", new BigDecimal("999.90"));
-        corpo.put("id", 999);
-        corpo.put("campoDesconhecido", "ignorado");
+        body.put("codigo", " cam-01 ");
+        body.put("nome", " " + texto + " ");
+        body.put("unidade", " " + texto + " ");
+        body.put("temperaturaMinima", new BigDecimal("-999.90"));
+        body.put("temperaturaMaxima", new BigDecimal("999.90"));
+        body.put("id", 999);
+        body.put("campoDesconhecido", "ignorado");
 
         given()
             .contentType("application/json")
-            .body(corpo)
+            .body(body)
         .when()
             .post("/testes/camaras")
         .then()
@@ -170,12 +170,12 @@ class CamaraValidacaoHttpTest {
     @ParameterizedTest
     @ValueSource(strings = {"nome", "unidade"})
     void textoAcimaDoLimiteAposTrimRetorna422(String campo) {
-        var corpo = corpoValido();
-        corpo.put(campo, " " + "x".repeat(101) + " ");
+        var body = bodyValido();
+        body.put(campo, " " + "x".repeat(101) + " ");
 
         given()
             .contentType("application/json")
-            .body(corpo)
+            .body(body)
         .when()
             .post("/testes/camaras")
         .then()

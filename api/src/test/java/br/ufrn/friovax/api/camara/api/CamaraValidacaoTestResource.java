@@ -22,9 +22,9 @@ public class CamaraValidacaoTestResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response criar(@NotNull(message = "deve ser informado") @Valid CamaraRequest corpo) {
-        var camara = Camara.nova(corpo.codigo(), corpo.nome(), corpo.unidade(), corpo.capacidade(),
-                corpo.temperaturaMinima(), corpo.temperaturaMaxima(), corpo.estado(),
+    public Response criar(@NotNull(message = "deve ser informado") @Valid CamaraRequest body) {
+        var camara = Camara.nova(body.codigo(), body.nome(), body.unidade(), body.capacidade(),
+                body.temperaturaMinima(), body.temperaturaMaxima(), body.estado(),
                 OffsetDateTime.parse("2026-09-29T09:00:00-03:00"));
 
         return Response.ok(Map.of("codigo", camara.getCodigo(), "nome", camara.getNome(),

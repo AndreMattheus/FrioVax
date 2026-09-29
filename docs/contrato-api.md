@@ -65,16 +65,16 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 
 - Todos os textos recebem `trim`; texto vazio após `trim` é tratado como ausente.
 - `codigo` (câmara e lote) é convertido para maiúsculas antes de validar e comparar. `cam-01` e `CAM-01` são o mesmo código.
-- Campos desconhecidos no JSON são ignorados; campos somente leitura enviados no corpo são ignorados.
+- Campos desconhecidos no JSON são ignorados; campos somente leitura enviados no body são ignorados.
 
 ### 2.4 Tipos e validação do cadastro de câmara
 
-- `capacidade` deve ser um inteiro representável em `int32`. Um número enviado com notação decimal no JSON, como `10.5` ou `10.0`, retorna `400`.Um inteiro válido, mas menor ou igual a zero, retorna `422`.
+- `capacidade` deve ser um inteiro representável em `int32`. Um número enviado com notação decimal no JSON, como `10.5` ou `10.0`, retorna `400`. Um inteiro válido, mas menor ou igual a zero, retorna `422`.
 - As temperaturas aceitam decimais e desconsideram zeros à direita ao validar a precisão: `2`, `2.0` e `2.00` são equivalentes; `2.05` retorna `422`, sem arredondamento.
 - `estado` deve usar um dos nomes previstos no enum. Nome desconhecido, como `"INVALIDO"`, ou enum enviado como número, como `0`, retorna `400`. Campo ausente ou `null` retorna `422`.
-- Corpo ausente ou `null`, campos obrigatórios ausentes ou em branco e violações das regras de entrada retornam `422`. JSON com sintaxe inválida retorna `400`.
+- Body ausente ou `null`, campos obrigatórios ausentes ou em branco e violações das regras de entrada retornam `422`. Quando falta o body inteiro, a lista `erros` identifica o campo `body`. JSON com sintaxe inválida retorna `400`.
 - O tamanho de `nome` e `unidade` é verificado depois do `trim`, conforme §2.1. Espaços nas extremidades não contam para o limite.
-- Falhas de validação e duplicidade não podem criar registros. Os mapeadores de erros existentes serão reutilizados. O domínio continua responsável por suas regras.
+- Falhas de validação e duplicidade não podem criar registros. As rotas devem reutilizar os mapeadores de erros existentes. O domínio continua responsável por suas regras.
 
 ## 3. Regras de negócio
 
@@ -147,7 +147,7 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 
 ### 4.2 Baixa e descarte de lote
 
-**Baixa parcial** — `POST /api/lotes/{id}/baixas`, corpo:
+**Baixa parcial** — `POST /api/lotes/{id}/baixas`, body:
 
 {
 "quantidade": <integer>,
@@ -161,7 +161,7 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 - Lote `DESCARTADO` ou inativo (`ativo = false`) → `409`.
 - Sucesso: `200` com o lote atualizado.
 
-**Descarte total** — `POST /api/lotes/{id}/descarte`, sem corpo.
+**Descarte total** — `POST /api/lotes/{id}/descarte`, sem body.
 
 - Muda `estado` do lote para `DESCARTADO`, independente de quanto ainda resta em `quantidade`.
 - Idempotente: chamar de novo num lote já `DESCARTADO` retorna `200` sem alterar nada.
@@ -184,17 +184,17 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 
 | Status | Quando                                                                                                                                                                                                                                                                 | `type` |
 |---|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---|
-| `400` | JSON malformado; falha de desserialização do corpo; parâmetro de consulta com tipo inválido; `page`/`size` fora do intervalo; `validadeDe > validadeAte`                                                                                                               | `/problemas/requisicao-invalida` |
-| `404` | Recurso da rota inexistente; `camaraId` do corpo inexistente                                                                                                                                                                                                           | `/problemas/recurso-nao-encontrado` |
+| `400` | JSON malformado; falha de desserialização do body; parâmetro de consulta com tipo inválido; `page`/`size` fora do intervalo; `validadeDe > validadeAte`                                                                                                               | `/problemas/requisicao-invalida` |
+| `404` | Recurso da rota inexistente; `camaraId` do body inexistente                                                                                                                                                                                                           | `/problemas/recurso-nao-encontrado` |
 | `409` | Código duplicado                                                                                                                                                                                                                                                       | `/problemas/codigo-duplicado` |
 | `409` | Capacidade excedida ou redução abaixo da ocupação                                                                                                                                                                                                                      | `/problemas/capacidade-excedida` |
 | `409` | Operação incompatível com o estado atual (registro inativo, câmara em manutenção, câmara com lotes ativos)                                                                                                                                                             | `/problemas/estado-incompativel` |
-| `422` | Corpo ou campo obrigatório ausente; campo em branco; formato ou regra de entrada violada após desserialização (inclusive validade não futura, temperatura fora do intervalo, precisão térmica excessiva e `temperaturaMinima >= temperaturaMaxima`) | `/problemas/validacao` |
+| `422` | Body ou campo obrigatório ausente; campo em branco; formato ou regra de entrada violada após desserialização (inclusive validade não futura, temperatura fora do intervalo, precisão térmica excessiva e `temperaturaMinima >= temperaturaMaxima`) | `/problemas/validacao` |
 | `500` | Falha interna inesperada, com mensagem genérica e detalhes técnicos apenas no log do servidor                                                                                                                                                                          | `/problemas/erro-interno` |
 
 Todo Problem Details contém `type`, `title`, `status`, `detail` e `instance`. O campo `instance` identifica o caminho da requisição com `/` inicial, por exemplo `/api/camaras`. Erros `422` incluem `erros`, uma lista de `{ "campo": string, "mensagem": string }`.
 
-Problem Details padroniza a resposta HTTP. As regras de negócio e suas exceções permanecem no domínio, conforme o [ADR 0002](0002-dominio-independente-e-aplicacao-por-interfaces.md).
+Problem Details padroniza a resposta HTTP. As regras de negócio e suas exceções permanecem no domínio, conforme o [ADR 0002](adr/0002-dominio-independente-e-aplicacao-por-interfaces.md).
 
 ## 6. Exemplos
 

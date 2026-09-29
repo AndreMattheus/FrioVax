@@ -21,7 +21,7 @@ public class MismatchedInputExceptionMapper implements ExceptionMapper<Mismatche
 
         String detalhe = campo != null
                 ? "O campo '" + campo + "' contém um valor incompatível com o tipo esperado."
-                : "O corpo da requisição contém um valor incompatível com o tipo esperado.";
+                : "O body da requisição contém um valor incompatível com o tipo esperado.";
 
         ProblemDetails problema = new ProblemDetails(
                 "/problemas/requisicao-invalida",

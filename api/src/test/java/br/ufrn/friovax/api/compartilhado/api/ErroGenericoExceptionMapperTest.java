@@ -16,7 +16,7 @@ class ErroGenericoExceptionMapperTest {
     void jsonMalformadoRetorna400() {
         ErroGenericoExceptionMapper mapper = new ErroGenericoExceptionMapper();
         JsonParseException causaJson = new JsonParseException(null, "json quebrado de propósito");
-        Exception excecaoEnvolvida = new RuntimeException("erro ao ler corpo", causaJson);
+        Exception excecaoEnvolvida = new RuntimeException("erro ao ler body", causaJson);
 
         Response resposta = mapper.toResponse(excecaoEnvolvida);
 
@@ -38,7 +38,7 @@ class ErroGenericoExceptionMapperTest {
         assertEquals(400, problema.status());
         assertEquals("/problemas/requisicao-invalida", problema.type());
         assertEquals("Requisição inválida", problema.title());
-        assertEquals("O corpo da requisição não é um JSON válido.", problema.detail());
+        assertEquals("O body da requisição não é um JSON válido.", problema.detail());
     }
 
     @Test

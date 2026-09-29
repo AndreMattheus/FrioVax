@@ -21,7 +21,7 @@ public class ErroGenericoExceptionMapper implements ExceptionMapper<Exception> {
             int status = wae.getResponse().getStatus();
             if (status == 400) {
                 String detalhe = ehJsonMalformado(exception)
-                    ? "O corpo da requisição não é um JSON válido."
+                    ? "O body da requisição não é um JSON válido."
                     : "A requisição contém dados inválidos.";
                 return construir(status, "/problemas/requisicao-invalida", "Requisição inválida", detalhe);
             }
@@ -30,7 +30,7 @@ public class ErroGenericoExceptionMapper implements ExceptionMapper<Exception> {
 
         if (ehJsonMalformado(exception)) {
             return construir(400, "/problemas/requisicao-invalida", "Requisição inválida",
-                "O corpo da requisição não é um JSON válido.");
+                "O body da requisição não é um JSON válido.");
         }
 
         Log.error("Erro não tratado na API", exception);
