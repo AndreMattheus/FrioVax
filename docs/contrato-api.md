@@ -1,6 +1,6 @@
 # Contrato da API — Câmaras e Lotes
 
-Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). Os caminhos descritos aqui ainda não existem no código. A organização interna do serviço está em [ADR 0001](adr/0001-arquitetura-em-camadas.md).
+Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). As rotas são implementadas gradualmente. A organização interna do serviço está em [ADR 0001](adr/0001-arquitetura-em-camadas.md).
 
 Itens marcados com **⚠️ Pendente** dependem de validação externa e não devem ser tratados como aceitos.
 
