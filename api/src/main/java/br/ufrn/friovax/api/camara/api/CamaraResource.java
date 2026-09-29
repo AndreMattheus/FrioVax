@@ -3,10 +3,12 @@ package br.ufrn.friovax.api.camara.api;
 import br.ufrn.friovax.api.camara.aplicacao.CadastrarCamaraDTO;
 import br.ufrn.friovax.api.camara.aplicacao.CamaraService;
 import br.ufrn.friovax.api.camara.aplicacao.ConsultarCamara;
+import br.ufrn.friovax.api.camara.aplicacao.InativarCamara;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -24,11 +26,13 @@ public class CamaraResource {
 
     private final CamaraService service;
     private final ConsultarCamara consultarCamara;
+    private final InativarCamara inativarCamara;
 
     @Inject
-    public CamaraResource(CamaraService service, ConsultarCamara consultarCamara) {
+    public CamaraResource(CamaraService service, ConsultarCamara consultarCamara, InativarCamara inativarCamara) {
         this.service = service;
         this.consultarCamara = consultarCamara;
+        this.inativarCamara = inativarCamara;
     }
 
     @POST
@@ -50,5 +54,12 @@ public class CamaraResource {
     @Path("/{id}")
     public CamaraResponse consultar(@PathParam("id") long id) {
         return CamaraResponse.de(consultarCamara.consultar(id));
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response inativar(@PathParam("id") long id) {
+        inativarCamara.inativar(id);
+        return Response.noContent().build();
     }
 }
