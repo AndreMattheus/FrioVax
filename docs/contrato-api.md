@@ -1,6 +1,6 @@
 # Contrato da API — Câmaras e Lotes
 
-Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). Os caminhos descritos aqui ainda não existem no código. A organização interna do serviço está em [ADR 0001](adr/0001-arquitetura-em-camadas.md).
+Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). A organização interna do serviço está no [ADR 0002](adr/0002-dominio-independente-e-aplicacao-por-interfaces.md), que substitui a proposta do [ADR 0001](adr/0001-arquitetura-em-camadas.md).
 
 Itens marcados com **⚠️ Pendente** dependem de validação externa e não devem ser tratados como aceitos.
 
@@ -30,20 +30,20 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 
 ### 2.1 Câmara
 
-| Campo | Tipo | Entrada | Regras                                                                                                     |
-|---|---|---|------------------------------------------------------------------------------------------------------------|
-| `id` | integer (int64) | — | Somente leitura.                                                                                           |
+| Campo | Tipo | Entrada | Regras                                                                               |
+|---|---|---|--------------------------------------------------------------------------------------|
+| `id` | integer (int64) | — | Somente leitura.                                                                     |
 | `codigo` | string | Obrigatório na criação; imutável | 3 a 20 caracteres; `A-Z`, `0-9` e `-` após normalização; único entre todas as câmaras, inclusive inativas. |
-| `nome` | string | Obrigatório | 1 a 100 caracteres após `trim`.                                                                            |
-| `unidade` | string | Obrigatório | 1 a 100 caracteres após `trim`.                                                                            |
-| `capacidade` | integer (int32) | Obrigatório | `> 0`, em doses; não pode ficar abaixo de `ocupacao`.                                                      |
-| `temperaturaMinima` | number (decimal, 1 casa) | Obrigatório | Em °C; `temperaturaMinima < temperaturaMaxima`.                                                            |
-| `temperaturaMaxima` | number (decimal, 1 casa) | Obrigatório | Em °C.                                                                                                     |
-| `estado` | string (enum) | Obrigatório | `OPERACIONAL`,`MANUTENCAO` ou `DESATIVADA`.                                                                |
-| `ocupacao` | integer (int32) | — | Somente leitura; soma dos lotes ativos.                                                                    |
-| `ativo` | boolean | — | Somente leitura; alterado apenas por `DELETE`.                                                             |
-| `criadoEm` | string (date-time) | — | Somente leitura.                                                                                           |
-| `atualizadoEm` | string (date-time) | — | Somente leitura.                                                                                           |
+| `nome` | string | Obrigatório | 1 a 100 caracteres após `trim`.                                                      |
+| `unidade` | string | Obrigatório | 1 a 100 caracteres após `trim`.                                                      |
+| `capacidade` | integer (int32) | Obrigatório | `> 0`, em doses; não pode ficar abaixo de `ocupacao`.                                |
+| `temperaturaMinima` | number (decimal, 1 casa) | Obrigatório | Em °C; de `-999.9` a `999.9`; `temperaturaMinima < temperaturaMaxima`. |
+| `temperaturaMaxima` | number (decimal, 1 casa) | Obrigatório | Em °C; de `-999.9` a `999.9`. |
+| `estado` | string (enum) | Obrigatório | `OPERACIONAL`,`MANUTENCAO` ou `DESATIVADA`.                                          |
+| `ocupacao` | integer (int32) | — | Somente leitura; soma dos lotes ativos.                                              |
+| `ativo` | boolean | — | Somente leitura; alterado apenas por `DELETE`.                                       |
+| `criadoEm` | string (date-time) | — | Somente leitura.                                                                     |
+| `atualizadoEm` | string (date-time) | — | Somente leitura.                                                                     |
 
 ### 2.2 Lote
 
@@ -67,6 +67,14 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 - `codigo` (câmara e lote) é convertido para maiúsculas antes de validar e comparar. `cam-01` e `CAM-01` são o mesmo código.
 - Campos desconhecidos no JSON são ignorados; campos somente leitura enviados no corpo são ignorados.
 
+### 2.4 Tipos e validação do cadastro de câmara
+
+- `capacidade` deve ser um inteiro representável em `int32`. Um número com parte decimal no JSON, como `10.5`, não será truncado para `10` e retorna `400`. Um inteiro válido, mas menor ou igual a zero, retorna `422`.
+- `estado` deve usar um dos nomes previstos no enum. Nome desconhecido, como `"INVALIDO"`, ou enum enviado como número, como `0`, retorna `400`. Campo ausente ou `null` retorna `422`.
+- Corpo ausente ou `null`, campos obrigatórios ausentes ou em branco e violações das regras de entrada retornam `422`. JSON com sintaxe inválida retorna `400`.
+- O tamanho de `nome` e `unidade` é verificado depois do `trim`, conforme §2.1. Espaços nas extremidades não contam para o limite.
+- Falhas de validação e duplicidade não podem criar registros. Os mapeadores de erros existentes serão reutilizados. O domínio continua responsável por suas regras.
+
 ## 3. Regras de negócio
 
 ### 3.1 Estado da câmara
@@ -77,6 +85,7 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 | `MANUTENCAO` | Retirada de uso temporária por decisão manual | Não |
 | `DESATIVADA` | Retirada de uso definitiva por decisão manual | Não |
 
+- O cadastro aceita qualquer um desses três estados e cria a câmara com `ativo=true` e `ocupacao=0`.
 - Transições manuais permitidas via PUT: `OPERACIONAL` ↔ `MANUTENCAO` ↔ `DESATIVADA`.
 - Colocar em `MANUTENCAO` ou `DESATIVADA` uma câmara com lotes ativos alocados retorna 409 — os lotes precisam ser movidos para outra câmara antes da transição, pelo mesmo motivo já aplicado à inativação (D7).
 - Estados ligados à excursão térmica (por exemplo `EM_ALERTA`) serão definidos na Sprint 2 (US05) e só poderão ser atribuídos pelo sistema.
@@ -172,16 +181,19 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 
 ## 5. Erros
 
-| Status | Quando | `type` |
-|---|---|---|
-| `400` | JSON malformado; parâmetro de consulta com tipo inválido; `page`/`size` fora do intervalo; `validadeDe > validadeAte` | `/problemas/requisicao-invalida` |
-| `404` | Recurso da rota inexistente; `camaraId` do corpo inexistente | `/problemas/recurso-nao-encontrado` |
-| `409` | Código duplicado | `/problemas/codigo-duplicado` |
-| `409` | Capacidade excedida ou redução abaixo da ocupação | `/problemas/capacidade-excedida` |
-| `409` | Operação incompatível com o estado atual (registro inativo, câmara em manutenção, câmara com lotes ativos) | `/problemas/estado-incompativel` |
-| `422` | Campo ausente, fora do formato ou regra de entrada violada (inclusive validade não futura e `temperaturaMinima >= temperaturaMaxima`) | `/problemas/validacao` |
+| Status | Quando                                                                                                                                                                                                                                                                 | `type` |
+|---|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---|
+| `400` | JSON malformado; falha de desserialização do corpo; parâmetro de consulta com tipo inválido; `page`/`size` fora do intervalo; `validadeDe > validadeAte`                                                                                                               | `/problemas/requisicao-invalida` |
+| `404` | Recurso da rota inexistente; `camaraId` do corpo inexistente                                                                                                                                                                                                           | `/problemas/recurso-nao-encontrado` |
+| `409` | Código duplicado                                                                                                                                                                                                                                                       | `/problemas/codigo-duplicado` |
+| `409` | Capacidade excedida ou redução abaixo da ocupação                                                                                                                                                                                                                      | `/problemas/capacidade-excedida` |
+| `409` | Operação incompatível com o estado atual (registro inativo, câmara em manutenção, câmara com lotes ativos)                                                                                                                                                             | `/problemas/estado-incompativel` |
+| `422` | Corpo ou campo obrigatório ausente; campo em branco; formato ou regra de entrada violada após desserialização (inclusive validade não futura, temperatura fora do intervalo, precisão térmica excessiva e `temperaturaMinima >= temperaturaMaxima`) | `/problemas/validacao` |
+| `500` | Falha interna inesperada, com mensagem genérica e detalhes técnicos apenas no log do servidor                                                                                                                                                                          | `/problemas/erro-interno` |
 
-Todo Problem Details contém `type`, `title`, `status`, `detail` e `instance`. Erros `422` incluem `erros`, uma lista de `{ "campo": string, "mensagem": string }`.
+Todo Problem Details contém `type`, `title`, `status`, `detail` e `instance`. O campo `instance` identifica o caminho da requisição com `/` inicial, por exemplo `/api/camaras`. Erros `422` incluem `erros`, uma lista de `{ "campo": string, "mensagem": string }`.
+
+Problem Details padroniza a resposta HTTP. As regras de negócio e suas exceções permanecem no domínio, conforme o [ADR 0002](0002-dominio-independente-e-aplicacao-por-interfaces.md).
 
 ## 6. Exemplos
 
