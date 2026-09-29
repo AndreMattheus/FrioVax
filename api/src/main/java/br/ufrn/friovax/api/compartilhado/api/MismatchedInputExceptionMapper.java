@@ -28,7 +28,7 @@ public class MismatchedInputExceptionMapper implements ExceptionMapper<Mismatche
                 "Requisição inválida",
                 400,
                 detalhe,
-                uriInfo != null ? uriInfo.getPath() : null
+                uriInfo != null ? uriInfo.getRequestUri().getRawPath() : null
         );
 
         return Response.status(400)

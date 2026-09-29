@@ -37,7 +37,7 @@ public class ConflitoDeNegocioExceptionMapper implements ExceptionMapper<Conflit
 
         ProblemDetails problema = new ProblemDetails(
             tipoUri, titulo, 409, exception.getMessage(),
-            uriInfo != null ? uriInfo.getPath() : null
+            uriInfo != null ? uriInfo.getRequestUri().getRawPath() : null
         );
 
         return Response.status(409)

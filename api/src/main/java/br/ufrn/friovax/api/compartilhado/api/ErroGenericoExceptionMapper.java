@@ -19,6 +19,12 @@ public class ErroGenericoExceptionMapper implements ExceptionMapper<Exception> {
     public Response toResponse(Exception exception) {
         if (exception instanceof WebApplicationException wae) {
             int status = wae.getResponse().getStatus();
+            if (status == 400) {
+                String detalhe = ehJsonMalformado(exception)
+                    ? "O corpo da requisição não é um JSON válido."
+                    : "A requisição contém dados inválidos.";
+                return construir(status, "/problemas/requisicao-invalida", "Requisição inválida", detalhe);
+            }
             return construir(status, tipoParaStatus(status), tituloParaStatus(status), exception.getMessage());
         }
 
@@ -60,7 +66,7 @@ public class ErroGenericoExceptionMapper implements ExceptionMapper<Exception> {
     private Response construir(int status, String tipo, String titulo, String detalhe) {
         ProblemDetails problema = new ProblemDetails(
             tipo, titulo, status, detalhe,
-            uriInfo != null ? uriInfo.getPath() : null
+            uriInfo != null ? uriInfo.getRequestUri().getRawPath() : null
         );
         return Response.status(status)
             .type("application/problem+json")

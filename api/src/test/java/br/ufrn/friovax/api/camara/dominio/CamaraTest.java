@@ -5,6 +5,7 @@ import br.ufrn.friovax.api.compartilhado.dominio.EstadoIncompativel;
 import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
@@ -64,6 +65,28 @@ class CamaraTest {
                 "x".repeat(101), 10, BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.OPERACIONAL, AGORA)).campo());
     }
 
+    @Test
+    void deveAceitarNomeEUnidadeComCemCaracteresDepoisDoTrim() {
+        var texto = "x".repeat(100);
+        var camara = Camara.nova("CAM-01", " " + texto + " ", " " + texto + " ", 10,
+                BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.OPERACIONAL, AGORA);
+
+        assertEquals(texto, camara.getNome());
+        assertEquals(texto, camara.getUnidade());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"nome", "unidade"})
+    void deveRejeitarTextoQueContinuaLongoDepoisDoTrim(String campo) {
+        var texto = " " + "x".repeat(101) + " ";
+        var erro = assertThrows(ValidacaoDeNegocio.class, () -> Camara.nova("CAM-01",
+                campo.equals("nome") ? texto : "Nome", campo.equals("unidade") ? texto : "UBS", 10,
+                BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.OPERACIONAL, AGORA));
+
+        assertEquals(campo, erro.campo());
+        assertEquals("deve ter no máximo 100 caracteres", erro.getMessage());
+    }
+
     @ParameterizedTest
     @ValueSource(ints = {0, -1})
     void deveRejeitarCapacidadeNaoPositiva(int capacidade) {
@@ -80,12 +103,48 @@ class CamaraTest {
         assertEquals("temperaturaMinima", erro.campo());
     }
 
-    @Test
-    void deveRejeitarTemperaturaComMaisDeUmaCasaDecimal() {
+    @ParameterizedTest
+    @CsvSource({"2.05, 8.0, temperaturaMinima", "2.0, 8.05, temperaturaMaxima"})
+    void deveRejeitarTemperaturaComMaisDeUmaCasaDecimal(String minima, String maxima, String campo) {
         var erro = assertThrows(ValidacaoDeNegocio.class, () -> Camara.nova("CAM-01", "Nome", "UBS", 10,
-                new BigDecimal("2.05"), BigDecimal.TEN, EstadoCamara.OPERACIONAL, AGORA));
+                new BigDecimal(minima), new BigDecimal(maxima), EstadoCamara.OPERACIONAL, AGORA));
 
-        assertEquals("temperaturaMinima", erro.campo());
+        assertEquals(campo, erro.campo());
+        assertEquals("deve ter no máximo 1 casa decimal", erro.getMessage());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "-1000.0, 8.0, temperaturaMinima",
+            "1000.0, 1001.0, temperaturaMinima",
+            "-999.9, -1000.0, temperaturaMaxima",
+            "2.0, 1000.0, temperaturaMaxima"
+    })
+    void deveRejeitarTemperaturaForaDoIntervalo(String minima, String maxima, String campo) {
+        var erro = assertThrows(ValidacaoDeNegocio.class, () -> Camara.nova("CAM-01", "Nome", "UBS", 10,
+                new BigDecimal(minima), new BigDecimal(maxima), EstadoCamara.OPERACIONAL, AGORA));
+
+        assertEquals(campo, erro.campo());
+        assertEquals("deve estar entre -999.9 e 999.9", erro.getMessage());
+    }
+
+    @Test
+    void deveAceitarLimitesInclusivosDeTemperatura() {
+        var camara = Camara.nova("CAM-01", "Nome", "UBS", 10,
+                new BigDecimal("-999.9"), new BigDecimal("999.9"), EstadoCamara.OPERACIONAL, AGORA);
+
+        assertEquals(new BigDecimal("-999.9"), camara.getTemperaturaMinima());
+        assertEquals(new BigDecimal("999.9"), camara.getTemperaturaMaxima());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"2", "2.0", "2.00"})
+    void deveNormalizarTemperaturaSemContarZerosADireita(String minima) {
+        var camara = Camara.nova("CAM-01", "Nome", "UBS", 10,
+                new BigDecimal(minima), BigDecimal.TEN, EstadoCamara.OPERACIONAL, AGORA);
+
+        assertEquals(new BigDecimal("2.0"), camara.getTemperaturaMinima());
+        assertEquals(new BigDecimal("10.0"), camara.getTemperaturaMaxima());
     }
 
     @Test

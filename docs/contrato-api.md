@@ -69,7 +69,8 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 
 ### 2.4 Tipos e validação do cadastro de câmara
 
-- `capacidade` deve ser um inteiro representável em `int32`. Um número com parte decimal no JSON, como `10.5`, não será truncado para `10` e retorna `400`. Um inteiro válido, mas menor ou igual a zero, retorna `422`.
+- `capacidade` deve ser um inteiro representável em `int32`. Um número enviado com notação decimal no JSON, como `10.5` ou `10.0`, retorna `400`.Um inteiro válido, mas menor ou igual a zero, retorna `422`.
+- As temperaturas aceitam decimais e desconsideram zeros à direita ao validar a precisão: `2`, `2.0` e `2.00` são equivalentes; `2.05` retorna `422`, sem arredondamento.
 - `estado` deve usar um dos nomes previstos no enum. Nome desconhecido, como `"INVALIDO"`, ou enum enviado como número, como `0`, retorna `400`. Campo ausente ou `null` retorna `422`.
 - Corpo ausente ou `null`, campos obrigatórios ausentes ou em branco e violações das regras de entrada retornam `422`. JSON com sintaxe inválida retorna `400`.
 - O tamanho de `nome` e `unidade` é verificado depois do `trim`, conforme §2.1. Espaços nas extremidades não contam para o limite.

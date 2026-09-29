@@ -22,7 +22,7 @@ public class ValidacaoDeNegocioExceptionMapper implements ExceptionMapper<Valida
             "Dados inválidos",
             422,
             exception.getMessage(),
-            uriInfo != null ? uriInfo.getPath() : null,
+            uriInfo != null ? uriInfo.getRequestUri().getRawPath() : null,
             List.of(new ProblemDetails.CampoErro(exception.campo(), exception.getMessage()))
         );
 
