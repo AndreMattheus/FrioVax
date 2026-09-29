@@ -19,7 +19,7 @@ Manter a organização por funcionalidade (`camara`, `lote`) e usar as camadas `
 br.ufrn.friovax.api
 ├── camara
 │   ├── api             # Resource, DTOs HTTP de entrada e saída, validação de entrada
-│   ├── aplicacao       # Service, comandos e resultados dos casos de uso
+│   ├── aplicacao       # Service, DTOs de entrada e resultados dos casos de uso
 │   ├── dominio         # Camara, EstadoCamara, regras e interface CamaraRepository
 │   └── persistencia    # CamaraEntity, CamaraMapper, CamaraRepositoryPostgres
 ├── lote
@@ -49,7 +49,7 @@ api ──► aplicacao ──► dominio ◄── persistencia
 
 - A aplicação conhece `CamaraRepository`, definido no domínio. O Quarkus injeta `CamaraRepositoryPostgres` na execução. Testes unitários fornecem `CamaraRepositoryEmMemoria` pelo construtor.
 - A camada `api` também pode usar os enums de domínio nos DTOs. Os `ExceptionMapper`s de `compartilhado.api` conhecem as exceções do domínio para convertê-las em respostas HTTP.
-- Comandos e resultados dos casos de uso ficam em `aplicacao` e não possuem dependências HTTP ou JPA. A API faz a conversão entre esses tipos e seus próprios DTOs.
+- DTOs de entrada e resultados dos casos de uso ficam em `aplicacao` e não possuem dependências HTTP ou JPA. A API faz a conversão entre esses tipos e seus próprios DTOs.
 - Tipos de domínio podem depender de `compartilhado.dominio`, mantendo a mesma independência de framework.
 - Uma funcionalidade acessa os casos de uso de outra pela camada `aplicacao`, preservando a fronteira definida no ADR anterior.
 
