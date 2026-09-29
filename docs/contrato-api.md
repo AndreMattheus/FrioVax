@@ -67,7 +67,7 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 - `codigo` (câmara e lote) é convertido para maiúsculas antes de validar e comparar. `cam-01` e `CAM-01` são o mesmo código.
 - Campos desconhecidos no JSON são ignorados; campos somente leitura enviados no body são ignorados.
 
-### 2.4 Tipos e validação do cadastro de câmara
+### 2.4 Tipos e validação de entrada
 
 - `capacidade` deve ser um inteiro representável em `int32`. Um número enviado com notação decimal no JSON, como `10.5` ou `10.0`, retorna `400`. Um inteiro válido, mas menor ou igual a zero, retorna `422`.
 - As temperaturas aceitam decimais e desconsideram zeros à direita ao validar a precisão: `2`, `2.0` e `2.00` são equivalentes; `2.05` retorna `422`, sem arredondamento.
@@ -367,6 +367,40 @@ Content-Type: application/problem+json
   "status": 409,
   "detail": "A câmara CAM-01 comporta 5000 doses e já possui 4500; não é possível alocar mais 1200.",
   "instance": "/api/lotes"
+}
+```
+
+### 6.7 JSON malformado
+
+Uma requisição com sintaxe JSON inválida, por exemplo `{"codigo":`, retorna:
+
+```http
+HTTP/1.1 400 Bad Request
+Content-Type: application/problem+json
+
+{
+  "type": "/problemas/requisicao-invalida",
+  "title": "Requisição inválida",
+  "status": 400,
+  "detail": "O body da requisição não é um JSON válido.",
+  "instance": "/api/camaras"
+}
+```
+
+### 6.8 Código duplicado
+
+Repetir a criação com um código já cadastrado, inclusive com diferenças de maiúsculas ou espaços nas extremidades, retorna:
+
+```http
+HTTP/1.1 409 Conflict
+Content-Type: application/problem+json
+
+{
+  "type": "/problemas/codigo-duplicado",
+  "title": "Código duplicado",
+  "status": 409,
+  "detail": "Já existe câmara com o código CAM-01.",
+  "instance": "/api/camaras"
 }
 ```
 

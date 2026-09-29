@@ -35,7 +35,7 @@ description = "Sobe os serviços locais"
 run = "docker compose up --build"
 
 [tasks.ci]
-description = "Reproduz localmente o pipeline da Sprint 0"
+description = "Reproduz localmente o pipeline de CI"
 run = [
   "mvn --batch-mode -f api/pom.xml verify",
   "test -z \"$(gofmt -l services/telemetry)\"",
