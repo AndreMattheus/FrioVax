@@ -103,6 +103,7 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 ### 3.3 Inativação
 
 - `DELETE /api/camaras/{id}` com lotes ativos → `409`. Os lotes precisam ser inativados ou movidos antes.
+- A inativação da câmara bloqueia a mesma linha usada na alocação (§3.2): um `DELETE` concorrente com a criação ou movimentação de um lote espera a outra transação terminar e, se o lote foi gravado, responde `409`.
 - `DELETE /api/lotes/{id}` libera a quantidade na ocupação da câmara.
 - Reativação não faz parte desta sprint.
 - Registros inativos não podem ser alterados (`PUT` → `409`).
