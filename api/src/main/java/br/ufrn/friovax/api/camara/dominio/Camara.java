@@ -18,6 +18,8 @@ public class Camara {
 
     private static final Pattern FORMATO_CODIGO = Pattern.compile("[A-Z0-9-]{3,20}");
     private static final int TAMANHO_MAXIMO_TEXTO = 100;
+    private static final BigDecimal LIMITE_INFERIOR_TEMPERATURA = new BigDecimal("-999.9");
+    private static final BigDecimal LIMITE_SUPERIOR_TEMPERATURA = new BigDecimal("999.9");
 
     private Long id;
     private final String codigo;
@@ -156,6 +158,10 @@ public class Camara {
     private static BigDecimal temperatura(String campo, BigDecimal valor) {
         if (valor == null) {
             throw new ValidacaoDeNegocio(campo, "deve ser informada");
+        }
+        if (valor.compareTo(LIMITE_INFERIOR_TEMPERATURA) < 0
+                || valor.compareTo(LIMITE_SUPERIOR_TEMPERATURA) > 0) {
+            throw new ValidacaoDeNegocio(campo, "deve estar entre -999.9 e 999.9");
         }
         var normalizada = valor.stripTrailingZeros();
         if (normalizada.scale() > 1) {

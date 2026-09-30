@@ -1,8 +1,10 @@
 # ADR 0001 — Arquitetura em camadas do serviço Java
 
-- **Status:** Proposto
+- **Status:** Substituído pelo [ADR 0002 — Domínio independente e aplicação por interfaces](0002-dominio-independente-e-aplicacao-por-interfaces.md)
 - **Data:** 23/09/2026
 - **Issue:** [#12](https://github.com/AndreMattheus/FrioVax/issues/12)
+
+Este documento contém a proposta original. O ADR 0002 registra a separação entre domínio e JPA já adotada no código. As decisões abaixo sobre JPA no domínio e dependência direta da aplicação para a infraestrutura foram substituídas.
 
 ## Contexto
 

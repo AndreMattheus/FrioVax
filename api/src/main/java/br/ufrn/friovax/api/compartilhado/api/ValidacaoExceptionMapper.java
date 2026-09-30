@@ -47,6 +47,6 @@ public class ValidacaoExceptionMapper implements ExceptionMapper<ConstraintViola
 
     private String caminhoAtual() {
         // uriInfo pode vir nulo em teste unitário puro (sem subir o Quarkus)
-        return uriInfo != null ? uriInfo.getPath() : null;
+        return uriInfo != null ? uriInfo.getRequestUri().getRawPath() : null;
     }
 }

@@ -4,34 +4,31 @@ import br.ufrn.friovax.api.camara.dominio.EstadoCamara;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
 @TemperaturaValida
 public record CamaraRequest(
 
-    @NotBlank
+    @NotBlank(message = "deve ser informado")
     String codigo,
 
-    @NotBlank
-    @Size(max = 100)
+    @NotBlank(message = "deve ser informado")
     String nome,
 
-    @NotBlank
-    @Size(max = 100)
+    @NotBlank(message = "deve ser informada")
     String unidade,
 
-    @NotNull
-    @Positive
+    @NotNull(message = "deve ser informada")
+    @Positive(message = "deve ser maior que zero")
     Integer capacidade,
 
-    @NotNull
+    @NotNull(message = "deve ser informada")
     BigDecimal temperaturaMinima,
 
-    @NotNull
+    @NotNull(message = "deve ser informada")
     BigDecimal temperaturaMaxima,
 
-    @NotNull
+    @NotNull(message = "deve ser informado")
     EstadoCamara estado
 ) {}

@@ -20,7 +20,7 @@ public class RecursoNaoEncontradoExceptionMapper implements ExceptionMapper<Recu
             "Recurso não encontrado",
             404,
             exception.getMessage(),
-            uriInfo != null ? uriInfo.getPath() : null
+            uriInfo != null ? uriInfo.getRequestUri().getRawPath() : null
         );
 
         return Response.status(404)
