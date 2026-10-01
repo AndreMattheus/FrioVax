@@ -266,6 +266,7 @@ Content-Type: application/json
   "validade": "2027-03-31",
   "quantidade": 1200,
   "camaraId": 1,
+  "estado": "DISPONIVEL",
   "ativo": true,
   "criadoEm": "2026-09-23T14:10:00-03:00",
   "atualizadoEm": "2026-09-23T14:10:00-03:00"
@@ -299,6 +300,7 @@ Content-Type: application/json
   "validade": "2027-03-31",
   "quantidade": 1000,
   "camaraId": 2,
+  "estado": "DISPONIVEL",
   "ativo": true,
   "criadoEm": "2026-09-23T14:10:00-03:00",
   "atualizadoEm": "2026-09-23T15:30:00-03:00"
@@ -325,6 +327,7 @@ Content-Type: application/json
       "validade": "2027-03-31",
       "quantidade": 1000,
       "camaraId": 2,
+      "estado": "DISPONIVEL",
       "ativo": true,
       "criadoEm": "2026-09-23T14:10:00-03:00",
       "atualizadoEm": "2026-09-23T15:30:00-03:00"
