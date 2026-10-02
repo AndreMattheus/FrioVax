@@ -26,7 +26,8 @@ class ConsultarCamaraTest {
     private final LoteRepositoryEmMemoria lotes = new LoteRepositoryEmMemoria();
     private final ConsultarCamara casoDeUso = new ConsultarCamara(repositorio, lotes);
     private final CamaraResource resource = new CamaraResource(new CamaraService(repositorio, Clock.systemUTC()), casoDeUso,
-            new InativarCamara(repositorio, lotes, Clock.systemUTC()));
+        new AtualizarCamara(repositorio, lotes, Clock.systemUTC()),
+        new InativarCamara(repositorio, lotes, Clock.systemUTC()));
 
     @Test
     void deveConsultarCamaraComTodosOsCamposDoContrato() {
