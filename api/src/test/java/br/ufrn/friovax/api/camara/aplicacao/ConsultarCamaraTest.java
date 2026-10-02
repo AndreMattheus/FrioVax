@@ -69,6 +69,44 @@ class ConsultarCamaraTest {
     }
 
     @Test
+    void deveListarComFiltrosMetadadosEOcupacao() {
+        var camara = repositorio.salvar(Camara.nova("CAM-LISTA", "Principal", "UBS Centro", 5000,
+                new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL, AGORA));
+        repositorio.salvar(Camara.nova("CAM-OUTRA", "Outra", "UBS Norte", 5000,
+                new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL, AGORA));
+        lotes.salvar(Lote.novo("L-LISTA", "Vacina", "Fabricante", LocalDate.of(2027, 1, 1),
+                25, camara.getId(), AGORA.toLocalDate(), AGORA));
+        var pagina = resource.listar("  ubs centro  ", "OPERACIONAL", null, null, "1");
+        assertEquals(1, pagina.totalElements());
+        assertEquals(1, pagina.totalPages());
+        assertEquals(0, pagina.page());
+        assertEquals(1, pagina.size());
+        assertEquals(camara.getId(), pagina.items().getFirst().id());
+        assertEquals(25, pagina.items().getFirst().ocupacao());
+        var vazia = resource.listar("UBS Centro", "OPERACIONAL", null, "1", "1");
+        assertEquals(0, vazia.items().size());
+        assertEquals(1, vazia.totalElements());
+        assertEquals(1, vazia.totalPages());
+        var padrao = resource.listar(null, null, null, null, null);
+        assertEquals(20, padrao.size());
+        assertEquals(2, padrao.totalElements());
+    }
+
+    @Test
+    void deveRejeitarParametrosInvalidosDaListagem() {
+        assertThrows(jakarta.ws.rs.BadRequestException.class,
+                () -> resource.listar(null, "INVALIDO", null, null, null));
+        assertThrows(jakarta.ws.rs.BadRequestException.class,
+                () -> resource.listar(null, null, "sim", null, null));
+        assertThrows(jakarta.ws.rs.BadRequestException.class,
+                () -> resource.listar(null, null, null, "-1", null));
+        assertThrows(jakarta.ws.rs.BadRequestException.class,
+                () -> resource.listar(null, null, null, null, "101"));
+        assertThrows(jakarta.ws.rs.BadRequestException.class,
+                () -> resource.listar(null, null, null, "abc", null));
+    }
+
+    @Test
     void deveIndicarCamaraInexistente() {
         assertThrows(RecursoNaoEncontrado.class, () -> casoDeUso.consultar(42));
     }
