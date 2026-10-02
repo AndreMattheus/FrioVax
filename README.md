@@ -99,6 +99,22 @@ mise exec -- mvn --batch-mode -f api/pom.xml -Dtest=CamaraServiceTest test
 
 Os relatórios Java ficam em `api/target/surefire-reports`. Antes de concluir uma alteração, execute `mise run ci`: ele verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Os testes HTTP executam transações no servidor; os dados criados por eles precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP.
 
+O teste `ArquiteturaTest` usa ArchUnit para verificar os pacotes reais de domínio
+(`camara.dominio`, `lote.dominio` e `compartilhado.dominio`) e as fronteiras do
+ADR 0002. Ele roda automaticamente em `mvn test`, `mvn verify` e `mise run ci`,
+sem precisar iniciar Quarkus ou Docker quando executado isoladamente:
+
+```bash
+mise exec -- mvn --batch-mode -f api/pom.xml -Dtest=ArquiteturaTest test
+```
+
+O domínio só pode depender de tipos Java e de domínio; JDBC também é proibido.
+As regras verificam o sentido das dependências entre camadas, impedem acesso da
+API a repositórios e mantêm HTTP e JPA fora da aplicação, preservando CDI e
+transações permitidos pelo ADR. A persistência também não pode conhecer HTTP.
+ArchUnit analisa bytecode: uma importação não utilizada não gera dependência;
+para validar uma violação, use o tipo importado em um campo, assinatura ou anotação.
+
 ### Uso da API pelo Postman
 
 O endereço local da API é `http://localhost:8080`. O [contrato da API](docs/contrato-api.md) define as rotas previstas, os campos e as respostas esperadas.
