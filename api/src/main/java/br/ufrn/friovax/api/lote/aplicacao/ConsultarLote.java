@@ -1,7 +1,10 @@
 package br.ufrn.friovax.api.lote.aplicacao;
 
+import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
+import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
 import br.ufrn.friovax.api.lote.dominio.Lote;
+import br.ufrn.friovax.api.lote.dominio.LoteFiltro;
 import br.ufrn.friovax.api.lote.dominio.LoteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,6 +17,11 @@ public class ConsultarLote {
     @Inject
     public ConsultarLote(LoteRepository lotes) {
         this.lotes = lotes;
+    }
+
+    @Transactional
+    public Pagina<Lote> listar(LoteFiltro filtro, Paginacao paginacao) {
+        return lotes.listar(filtro, paginacao);
     }
 
     @Transactional

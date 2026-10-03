@@ -4,7 +4,7 @@ Plataforma para gestão de câmaras de conservação, lotes de imunobiológicos 
 
 ## Equipe
 
-**Nome do grupo:** FrioVax  
+**Nome do grupo:** FrioVax
 **Coorte:** B — apresentações online
 
 | Integrante | Matrícula | GitHub | Papel principal |

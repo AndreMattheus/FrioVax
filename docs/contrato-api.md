@@ -310,7 +310,7 @@ Content-Type: application/json
 ### 6.4 Listar lotes com filtros
 
 ```http
-GET /api/lotes?imunobiologico=febre&validadeAte=2027-12-31&page=0&size=20
+GET /api/lotes?imunobiologico=febre&camaraId=2&validadeDe=2027-01-01&validadeAte=2027-12-31&page=0&size=20
 ```
 
 ```http
