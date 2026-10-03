@@ -2,15 +2,19 @@ package br.ufrn.friovax.api.lote.api;
 
 import br.ufrn.friovax.api.compartilhado.api.PaginaResponse;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
+import br.ufrn.friovax.api.lote.aplicacao.CadastrarLote;
 import br.ufrn.friovax.api.lote.aplicacao.ConsultarLote;
 import br.ufrn.friovax.api.lote.aplicacao.InativarLote;
 import br.ufrn.friovax.api.lote.dominio.EstadoLote;
 import br.ufrn.friovax.api.lote.dominio.LoteFiltro;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -31,13 +35,23 @@ public class LoteResource {
     @Context
     UriInfo uriInfo;
 
+    private final CadastrarLote cadastrarLote;
     private final ConsultarLote consultarLote;
     private final InativarLote inativarLote;
 
     @Inject
-    public LoteResource(ConsultarLote consultarLote, InativarLote inativarLote) {
+    public LoteResource(CadastrarLote cadastrarLote, ConsultarLote consultarLote, InativarLote inativarLote) {
+        this.cadastrarLote = cadastrarLote;
         this.consultarLote = consultarLote;
         this.inativarLote = inativarLote;
+    }
+
+    @POST
+    public Response cadastrar(@NotNull(message = "deve ser informado") @Valid LoteRequest body) {
+        var lote = cadastrarLote.cadastrar(body.codigo(), body.imunobiologico(), body.fabricante(), body.validade(),
+                body.quantidade(), body.camaraId());
+        var location = uriInfo.getAbsolutePathBuilder().path(Long.toString(lote.getId())).build();
+        return Response.created(location).entity(LoteResponse.de(lote)).build();
     }
 
     @GET
