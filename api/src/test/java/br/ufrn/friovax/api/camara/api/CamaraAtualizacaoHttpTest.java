@@ -23,7 +23,9 @@ import java.util.concurrent.TimeUnit;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @QuarkusTest
 class CamaraAtualizacaoHttpTest {
@@ -44,14 +46,14 @@ class CamaraAtualizacaoHttpTest {
         String codigo = given().when().get(ROTA, id).then().extract().path("codigo");
         try {
             given().contentType("application/json")
-                    .body(corpo("Câmara reformada", 2000, "MANUTENCAO", "\"codigo\": \"OUTRO-CODIGO\","))
-                    .when().put(ROTA, id).then()
-                    .statusCode(200)
-                    .body("id", equalTo((int) id),
-                            "codigo", equalTo(codigo),
-                            "nome", equalTo("Câmara reformada"),
-                            "capacidade", equalTo(2000),
-                            "estado", equalTo("MANUTENCAO"));
+                .body(corpo("Câmara reformada", 2000, "MANUTENCAO", "\"codigo\": \"OUTRO-CODIGO\","))
+                .when().put(ROTA, id).then()
+                .statusCode(200)
+                .body("id", equalTo((int) id),
+                    "codigo", equalTo(codigo),
+                    "nome", equalTo("Câmara reformada"),
+                    "capacidade", equalTo(2000),
+                    "estado", equalTo("MANUTENCAO"));
         } finally {
             apagarCamara(id);
         }
@@ -62,14 +64,14 @@ class CamaraAtualizacaoHttpTest {
         long id = criarCamara();
         try {
             given().contentType("application/json")
-                    .body(corpo("Outro nome", 0, "OPERACIONAL", ""))
-                    .when().put(ROTA, id).then()
-                    .statusCode(422)
-                    .contentType("application/problem+json")
-                    .body("type", equalTo("/problemas/validacao"));
+                .body(corpo("Outro nome", 0, "OPERACIONAL", ""))
+                .when().put(ROTA, id).then()
+                .statusCode(422)
+                .contentType("application/problem+json")
+                .body("type", equalTo("/problemas/validacao"));
 
             given().when().get(ROTA, id).then()
-                    .body("nome", equalTo("Câmara de teste"), "capacidade", equalTo(5000));
+                .body("nome", equalTo("Câmara de teste"), "capacidade", equalTo(5000));
         } finally {
             apagarCamara(id);
         }
@@ -82,12 +84,12 @@ class CamaraAtualizacaoHttpTest {
             criarLote(id);
 
             given().contentType("application/json")
-                    .body(corpo("Câmara de teste", 50, "OPERACIONAL", ""))
-                    .when().put(ROTA, id).then()
-                    .statusCode(409)
-                    .contentType("application/problem+json")
-                    .body("type", equalTo("/problemas/capacidade-excedida"),
-                            "instance", equalTo("/api/camaras/" + id));
+                .body(corpo("Câmara de teste", 50, "OPERACIONAL", ""))
+                .when().put(ROTA, id).then()
+                .statusCode(409)
+                .contentType("application/problem+json")
+                .body("type", equalTo("/problemas/capacidade-excedida"),
+                    "instance", equalTo("/api/camaras/" + id));
 
             given().when().get(ROTA, id).then().body("capacidade", equalTo(5000));
         } finally {
@@ -98,37 +100,44 @@ class CamaraAtualizacaoHttpTest {
     @Test
     void retorna404ParaIdInexistente() {
         given().contentType("application/json")
-                .body(corpo("Câmara", 100, "OPERACIONAL", ""))
-                .when().put(ROTA, Long.MAX_VALUE).then()
-                .statusCode(404)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/recurso-nao-encontrado"));
+            .body(corpo("Câmara", 100, "OPERACIONAL", ""))
+            .when().put(ROTA, Long.MAX_VALUE).then()
+            .statusCode(404)
+            .contentType("application/problem+json")
+            .body("type", equalTo("/problemas/recurso-nao-encontrado"));
     }
 
     @Test
-    void aguardaAlocacaoConcorrenteERecusaReducaoDeCapacidade() throws Exception {
+    void putAguardaBloqueioDaAlocacaoConcorrenteERecusaReducaoDeCapacidade() throws Exception {
         long id = criarCamara();
         var camaraBloqueada = new CountDownLatch(1);
+        var liberarAlocacao = new CountDownLatch(1);
         try {
-            // Simula uma alocação em andamento: bloqueia a câmara, como o cadastro de lotes faz (§3.2), e só grava o
-            // lote de 100 doses depois que o PUT já foi disparado. Sem o bloqueio, o PUT leria ocupação 0 e
-            // aceitaria capacidade 50, deixando a câmara com mais doses do que comporta.
-            var alocacao = CompletableFuture.runAsync(() -> QuarkusTransaction.requiringNew().run(() -> {
+           var alocacao = CompletableFuture.runAsync(() -> QuarkusTransaction.requiringNew().run(() -> {
                 camaras.buscarPorIdParaAlteracao(id).orElseThrow();
                 camaraBloqueada.countDown();
-                esperar(500);
+                aguardar(liberarAlocacao);
                 criarLoteNaTransacaoAtual(id);
             }));
-            assertTrue(camaraBloqueada.await(10, TimeUnit.SECONDS));
+            assertTrue(camaraBloqueada.await(10, TimeUnit.SECONDS), "a alocação não bloqueou a câmara");
 
-            int status = given().contentType("application/json")
-                    .body(corpo("Câmara de teste", 50, "OPERACIONAL", ""))
-                    .when().put(ROTA, id).then().extract().statusCode();
+            var put = CompletableFuture.supplyAsync(() -> given().contentType("application/json")
+                .body(corpo("Câmara de teste", 50, "OPERACIONAL", ""))
+                .when().put(ROTA, id).then().extract().statusCode());
+
+            try {
+                aguardarSessaoEsperandoBloqueioNaTabelaCamaras();
+                assertFalse(put.isDone(), "o PUT terminou sem esperar o bloqueio da câmara");
+            } finally {
+                liberarAlocacao.countDown();
+            }
 
             alocacao.get(10, TimeUnit.SECONDS);
-            assertEquals(409, status);
+
+            assertEquals(409, put.get(10, TimeUnit.SECONDS));
             given().when().get(ROTA, id).then().body("capacidade", equalTo(5000), "ocupacao", equalTo(100));
         } finally {
+            liberarAlocacao.countDown();
             apagarCamara(id);
         }
     }
@@ -151,7 +160,7 @@ class CamaraAtualizacaoHttpTest {
         return QuarkusTransaction.requiringNew().call(() -> {
             var codigo = "U-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
             return camaras.salvar(Camara.nova(codigo, "Câmara de teste", "UBS Centro", 5000,
-                    new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL, agora())).getId();
+                new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL, agora())).getId();
         });
     }
 
@@ -161,28 +170,54 @@ class CamaraAtualizacaoHttpTest {
 
     private void criarLoteNaTransacaoAtual(long camaraId) {
         lotes.salvar(Lote.novo("L-" + UUID.randomUUID().toString().substring(0, 8), "Vacina A", "Fabricante",
-                LocalDate.now().plusYears(1), 100, camaraId, LocalDate.now(), agora()));
+            LocalDate.now().plusYears(1), 100, camaraId, LocalDate.now(), agora()));
     }
 
     private static OffsetDateTime agora() {
         return OffsetDateTime.now(ZoneOffset.ofHours(-3));
     }
 
-    private static void esperar(long milissegundos) {
+    private static void aguardar(CountDownLatch sinal) {
         try {
-            Thread.sleep(milissegundos);
+            if (!sinal.await(10, TimeUnit.SECONDS)) {
+                throw new IllegalStateException("o teste não liberou a alocação a tempo");
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new IllegalStateException(e);
         }
     }
 
+    /**
+     * Consulta o pg_stat_activity até encontrar uma sessão parada esperando bloqueio (wait_event_type = 'Lock') numa
+     * consulta à tabela camaras. A pausa entre consultas é só o intervalo de verificação: o teste avança assim que o
+     * banco confirma a espera, e falha se isso não acontecer em 10 segundos.
+     */
+    private void aguardarSessaoEsperandoBloqueioNaTabelaCamaras() throws InterruptedException {
+        long limite = System.nanoTime() + TimeUnit.SECONDS.toNanos(10);
+        while (System.nanoTime() < limite) {
+            long sessoesEsperando = QuarkusTransaction.requiringNew().call(() -> ((Number) entityManager
+                .createNativeQuery("""
+                            select count(*) from pg_stat_activity
+                            where datname = current_database()
+                              and wait_event_type = 'Lock'
+                              and query ilike '%camaras%'
+                            """)
+                .getSingleResult()).longValue());
+            if (sessoesEsperando > 0) {
+                return;
+            }
+            Thread.sleep(20);
+        }
+        fail("o PUT não ficou esperando o bloqueio da câmara");
+    }
+
     private void apagarCamara(long id) {
         QuarkusTransaction.requiringNew().run(() -> {
             entityManager.createNativeQuery("delete from lotes where camara_id = :id")
-                    .setParameter("id", id).executeUpdate();
+                .setParameter("id", id).executeUpdate();
             entityManager.createNativeQuery("delete from camaras where id = :id")
-                    .setParameter("id", id).executeUpdate();
+                .setParameter("id", id).executeUpdate();
         });
     }
 }
