@@ -3,6 +3,7 @@ package br.ufrn.friovax.api.lote.api;
 import br.ufrn.friovax.api.compartilhado.api.PaginaResponse;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 import br.ufrn.friovax.api.lote.aplicacao.CadastrarLote;
+import br.ufrn.friovax.api.lote.aplicacao.AtualizarLote;
 import br.ufrn.friovax.api.lote.aplicacao.ConsultarLote;
 import br.ufrn.friovax.api.lote.aplicacao.InativarLote;
 import br.ufrn.friovax.api.lote.dominio.EstadoLote;
@@ -15,6 +16,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -38,12 +40,15 @@ public class LoteResource {
     private final CadastrarLote cadastrarLote;
     private final ConsultarLote consultarLote;
     private final InativarLote inativarLote;
+    private final AtualizarLote atualizarLote;
 
     @Inject
-    public LoteResource(CadastrarLote cadastrarLote, ConsultarLote consultarLote, InativarLote inativarLote) {
+    public LoteResource(CadastrarLote cadastrarLote, ConsultarLote consultarLote, InativarLote inativarLote,
+                        AtualizarLote atualizarLote) {
         this.cadastrarLote = cadastrarLote;
         this.consultarLote = consultarLote;
         this.inativarLote = inativarLote;
+        this.atualizarLote = atualizarLote;
     }
 
     @POST
@@ -96,6 +101,14 @@ public class LoteResource {
     @Path("/{id}")
     public LoteResponse consultar(@PathParam("id") long id) {
         return LoteResponse.de(consultarLote.consultar(id));
+    }
+
+    @PUT
+    @Path("/{id}")
+    public LoteResponse atualizar(@PathParam("id") long id,
+                                  @NotNull(message = "deve ser informado") @Valid AtualizarLoteRequest body) {
+        return LoteResponse.de(atualizarLote.atualizar(id, body.imunobiologico(), body.fabricante(),
+                body.validade(), body.quantidade(), body.camaraId()));
     }
 
     @DELETE
