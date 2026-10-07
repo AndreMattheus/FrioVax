@@ -15,7 +15,7 @@ Itens marcados com **⚠️ Pendente** dependem de validação externa e não de
 | D5 | Estado da câmara | estado (operacional) é independente de ativo (cadastro). Valores manuais: OPERACIONAL, MANUTENCAO e DESATIVADA. Detecção térmica não é antecipada (ver [§3.1](#31-estado-da-câmara)).                                                                                                                   |
 | D6 | Ocupação | `ocupacao` = soma de `quantidade` dos lotes **ativos** da câmara. Inativar um lote libera capacidade.                                                                                                                                                                                                   |
 | D7 | Alteração de câmara | Rejeitada com `409` se reduzir `capacidade` abaixo da `ocupacao`. Inativação de câmara com lotes ativos também retorna `409`.                                                                                                                                                                           |
-| D8 | Alteração de lote | Editáveis: `imunobiologico`, ``fabricante, `validade` e `camaraId` (troca de câmara permitida). Capacidade é revalidada quando `camaraId` muda. `codigo` é imutável. `quantidade` não é editável por PUT — toda redução passa pela ação de baixa (ver §3.4), para garantir que ela sempre tenha um motivo registrado. |
+| D8 | Alteração de lote | Editáveis: `imunobiologico`, `fabricante`, `validade`, `quantidade` e `camaraId` (troca de câmara permitida). A quantidade pode aumentar, com revalidação da capacidade, mas não diminuir por PUT: toda redução passa pela baixa com motivo (ver §3.4). `codigo` é imutável. |
 | D9 | Validade | Data de referência: dia corrente no fuso `America/Fortaleza`. Validade futura significa `validade > hoje`. A regra vale na criação e quando `validade` é alterada; um lote que venceu depois do cadastro continua editável se a `validade` enviada for igual à armazenada.                              |
 | D10 | Filtro de validade | Intervalo **inclusivo** `validadeDe`/`validadeAte`. Com apenas um limite, o intervalo fica aberto do outro lado. `validadeDe > validadeAte` retorna `400`.                                                                                                                                              |
 | D11 | Inativos | Ficam fora das listagens por padrão. `ativo=false` lista só inativos; `ativo=true` (padrão) lista só ativos. `GET /{id}` retorna o registro mesmo inativo. Códigos de registros inativos continuam reservados.                                                                                          |
@@ -54,7 +54,7 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 | `imunobiologico` | string | Obrigatório | 1 a 100 caracteres após `trim`. |
 | `fabricante` | string | Obrigatório | 1 a 100 caracteres após `trim`. |
 | `validade` | string (date) | Obrigatório | `> hoje` em `America/Fortaleza` (ver D9). |
-| `quantidade` | integer (int32) | Obrigatório | `> 0`, em doses. |
+| `quantidade` | integer (int32) | Obrigatório | `> 0` na criação, em doses. No PUT, pode aumentar ou permanecer igual; zero só para um lote já `ESGOTADO`. |
 | `camaraId` | integer (int64) | Obrigatório | Câmara existente, ativa e `OPERACIONAL` (ver [§3.2](#32-alocação-de-lotes)). |
 | `ativo` | boolean | — | Somente leitura; alterado apenas por `DELETE`. |
 | `estado` | string (enum) | — | Somente leitura. `DISPONIVEL` por padrão; `ESGOTADO` quando `quantidade` chega a `0` (automático); `DESCARTADO` via ação dedicada (ver §3.4). |
@@ -96,7 +96,8 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 
 - Um lote só pode ser criado ou movido para uma câmara **ativa** e **`OPERACIONAL`**; caso contrário, `409`.
 - `camaraId` inexistente → `404`.
-- Condição de capacidade: `ocupacao_atual_da_câmara_destino - quantidade_anterior_se_mesma_câmara + quantidade_nova <= capacidade`. Violação → `409`.
+- Condição de capacidade: `ocupacao_atual_da_câmara_destino - quantidade_anterior_se_mesma_câmara + quantidade_nova <= capacidade`. Vale tanto para aumento da quantidade quanto para troca de câmara. Violação → `409`.
+- O PUT não reduz a quantidade (`422`); um lote `ESGOTADO` pode manter quantidade zero ao editar outros campos, mas não receber novas doses (`409`).
 - Na troca de câmara, a quantidade sai da origem e entra no destino; só o destino precisa ser revalidado.
 - A verificação e a gravação ocorrem na mesma transação, com bloqueio da linha da câmara de destino (`SELECT ... FOR UPDATE`), para que alocações concorrentes não ultrapassem a capacidade e não haja persistência parcial.
 

@@ -74,10 +74,10 @@ public class Lote {
     }
 
     /**
-     * Substitui os campos editáveis (D8). A validade só precisa ser futura quando muda (D9). A capacidade da nova
-     * câmara é verificada pelo caso de uso antes da chamada.
+     * Substitui os campos editáveis (D8). Reduções de quantidade exigem baixa com motivo. A validade só precisa ser
+     * futura quando muda (D9). A capacidade da câmara de destino é verificada pelo caso de uso antes da chamada.
      */
-    public void atualizar(String imunobiologico, String fabricante, LocalDate validade, long camaraId,
+    public void atualizar(String imunobiologico, String fabricante, LocalDate validade, int quantidade, long camaraId,
                           LocalDate hoje, OffsetDateTime agora) {
         exigirAtivo("alterado");
         var nomeImunobiologico = Textos.obrigatorio("imunobiologico", imunobiologico, TAMANHO_MAXIMO_TEXTO);
@@ -85,9 +85,16 @@ public class Lote {
         if (!Objects.equals(validade, this.validade)) {
             exigirValidadeFutura(validade, hoje);
         }
+        if (quantidade < this.quantidade) {
+            throw new ValidacaoDeNegocio("quantidade", "não pode ser reduzida por PUT; registre uma baixa");
+        }
+        if (quantidade > this.quantidade && estado != EstadoLote.DISPONIVEL) {
+            throw new EstadoIncompativel("O lote " + codigo + " está " + estado + " e não aceita novas doses.");
+        }
         this.imunobiologico = nomeImunobiologico;
         this.fabricante = nomeFabricante;
         this.validade = validade;
+        this.quantidade = quantidade;
         this.camaraId = camaraId;
         this.atualizadoEm = Objects.requireNonNull(agora, "agora");
     }
