@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasKey;
 
 @QuarkusTest
@@ -20,6 +22,24 @@ class DocumentacaoApiHttpTest {
                         "paths", hasKey("/api/camaras"),
                         "paths", hasKey("/api/lotes"),
                         "components.responses", hasKey("DadosInvalidos"));
+    }
+
+    @Test
+    void descreveCamposEnumeracoesEDatasDosEsquemas() {
+        given().accept("application/json").when().get("/q/openapi").then()
+                .statusCode(200)
+                .body("components.schemas.LoteRequest.required",
+                        hasItems("codigo", "imunobiologico", "fabricante", "validade", "quantidade", "camaraId"),
+                        "components.schemas.LoteRequest.properties.validade.description",
+                        containsString("America/Fortaleza"),
+                        "components.schemas.LocalDate.format", equalTo("date"),
+                        "components.schemas.OffsetDateTime.format", equalTo("date-time"),
+                        "components.schemas.EstadoCamara.enum", hasItems("OPERACIONAL", "MANUTENCAO", "DESATIVADA"),
+                        "components.schemas.EstadoLote.enum", hasItems("DISPONIVEL", "ESGOTADO", "DESCARTADO"),
+                        "components.schemas.CamaraResponse.properties.ocupacao.description",
+                        containsString("lotes ativos"),
+                        "components.schemas.ProblemDetails.properties", hasKey("erros"),
+                        "components.schemas.ProblemDetails.properties.erros.type", hasItem("null"));
     }
 
     @Test
