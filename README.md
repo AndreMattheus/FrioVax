@@ -78,6 +78,14 @@ curl http://localhost:8080/api/status
 curl http://localhost:8081/health
 ```
 
+Com a API no ar, a documentação das rotas fica disponível em:
+
+| Recurso | Endereço |
+|---|---|
+| Swagger UI | <http://localhost:8080/q/swagger-ui> |
+| Especificação OpenAPI (YAML) | <http://localhost:8080/q/openapi> |
+| Especificação OpenAPI (JSON) | <http://localhost:8080/q/openapi?format=json> |
+
 | Comando | Resultado |
 |---|---|
 | `mise run build` | Compila Java e Go |
@@ -115,9 +123,17 @@ transações permitidos pelo ADR. A persistência também não pode conhecer HTT
 ArchUnit analisa bytecode: uma importação não utilizada não gera dependência;
 para validar uma violação, use o tipo importado em um campo, assinatura ou anotação.
 
+### Documentação OpenAPI e Swagger UI
+
+A especificação OpenAPI 3.1 é gerada a partir do código pelo SmallRye OpenAPI. As anotações ficam nas classes da camada `api`: rotas em `*Resource`, campos em `*Request` e `*Response`, e metadados e respostas de erro reutilizadas em `compartilhado/api/DocumentacaoApi`. A especificação cobre os campos e suas regras, as enumerações, o formato das datas, os filtros, a paginação, o vínculo entre lote e câmara e as respostas de sucesso e de erro em Problem Details. Também explica a inativação, as restrições de capacidade e o significado de cada filtro.
+
+O Swagger UI é publicado também no jar empacotado (`quarkus.swagger-ui.always-include=true`). Por isso, os endereços acima funcionam em `mise run up`, no Compose, e em `quarkus dev`. Em **Try it out**, a interface envia as requisições para a própria API local.
+
+Ao alterar uma rota, um campo ou uma regra do contrato, atualize as anotações correspondentes. `DocumentacaoApiHttpTest` verifica se a especificação continua publicada e se as rotas, os filtros e as respostas principais estão documentados.
+
 ### Uso da API pelo Postman
 
-O endereço local da API é `http://localhost:8080`. O [contrato da API](docs/contrato-api.md) define as rotas previstas, os campos e as respostas esperadas.
+O endereço local da API é `http://localhost:8080`. O [contrato da API](docs/contrato-api.md) define as rotas previstas, os campos e as respostas esperadas. O Postman também pode importar a especificação de `http://localhost:8080/q/openapi` para gerar a coleção de requisições.
 
 1. Com os serviços iniciados por `mise run up`, crie uma requisição no Postman e escolha o método e a URL. Por exemplo, `POST http://localhost:8080/api/camaras`.
 2. Em **Body → raw → JSON**, copie o JSON de um [exemplo do contrato](docs/contrato-api.md#6-exemplos). Confira o cabeçalho `Content-Type: application/json`.
