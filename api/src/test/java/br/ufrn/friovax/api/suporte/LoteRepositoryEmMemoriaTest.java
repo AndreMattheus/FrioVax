@@ -60,7 +60,7 @@ class LoteRepositoryEmMemoriaTest {
     void deveLiberarOcupacaoAoInativarOuTrocarDeCamara() {
         var lote = salvar("L1", "Febre amarela", HOJE.plusMonths(6), 1200, 1);
 
-        lote.atualizar("Febre amarela", "Fabricante", lote.getValidade(), 2, HOJE, AGORA);
+        lote.atualizar("Febre amarela", "Fabricante", lote.getValidade(), 1200, 2, HOJE, AGORA);
         repositorio.salvar(lote);
         assertEquals(0, repositorio.ocupacaoDaCamara(1));
         assertEquals(1200, repositorio.ocupacaoDaCamara(2));

@@ -151,7 +151,7 @@ class LoteRepositoryPostgresTest {
         var destino = camara("C-DESTINO");
         var lote = salvar("L1", "Febre amarela", HOJE.plusMonths(6), 100, origem);
 
-        lote.atualizar("Hepatite B", "Outro fabricante", HOJE.plusMonths(9), destino, HOJE, AGORA.plusHours(1));
+        lote.atualizar("Hepatite B", "Outro fabricante", HOJE.plusMonths(9), 100, destino, HOJE, AGORA.plusHours(1));
         repositorio.salvar(lote);
         limparContexto();
         var atualizado = repositorio.buscarPorId(lote.getId()).orElseThrow();
@@ -266,7 +266,7 @@ class LoteRepositoryPostgresTest {
         var destino = camara("C-TROCA-2");
         var lote = salvar("L1", "Febre amarela", HOJE.plusMonths(6), 1200, origem);
 
-        lote.atualizar("Febre amarela", "Fabricante", lote.getValidade(), destino, HOJE, AGORA);
+        lote.atualizar("Febre amarela", "Fabricante", lote.getValidade(), 1200, destino, HOJE, AGORA);
         repositorio.salvar(lote);
         assertEquals(0, repositorio.ocupacaoDaCamara(origem));
         assertEquals(1200, repositorio.ocupacaoDaCamara(destino));

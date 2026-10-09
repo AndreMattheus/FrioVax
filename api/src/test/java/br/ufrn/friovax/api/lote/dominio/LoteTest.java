@@ -71,7 +71,7 @@ class LoteTest {
     void deveAtualizarCamposEditaveisETrocarDeCamara() {
         var lote = lote(1200);
 
-        lote.atualizar("Febre amarela", "Outro fabricante", LocalDate.of(2027, 6, 30), 2L, HOJE, DEPOIS);
+        lote.atualizar("Febre amarela", "Outro fabricante", LocalDate.of(2027, 6, 30), 1200, 2L, HOJE, DEPOIS);
 
         assertEquals("Outro fabricante", lote.getFabricante());
         assertEquals(2L, lote.getCamaraId());
@@ -84,21 +84,48 @@ class LoteTest {
         var lote = lote(1200);
         var depoisDoVencimento = LocalDate.of(2027, 4, 1);
 
-        lote.atualizar("Febre amarela", "Bio-Manguinhos", LocalDate.of(2027, 3, 31), 1L, depoisDoVencimento, DEPOIS);
+        lote.atualizar("Febre amarela", "Bio-Manguinhos", LocalDate.of(2027, 3, 31), 1200, 1L, depoisDoVencimento, DEPOIS);
 
         assertThrows(ValidacaoDeNegocio.class, () -> lote.atualizar("Febre amarela", "Bio-Manguinhos",
-                LocalDate.of(2027, 4, 1), 1L, depoisDoVencimento, DEPOIS));
+                LocalDate.of(2027, 4, 1), 1200, 1L, depoisDoVencimento, DEPOIS));
     }
 
     @Test
     void deveManterDadosQuandoAtualizacaoEhRejeitada() {
         var lote = lote(1200);
 
-        assertThrows(ValidacaoDeNegocio.class, () -> lote.atualizar("Outra vacina", "", HOJE.plusDays(10), 2L,
+        assertThrows(ValidacaoDeNegocio.class, () -> lote.atualizar("Outra vacina", "", HOJE.plusDays(10), 1200, 2L,
                 HOJE, DEPOIS));
 
         assertEquals("Febre amarela", lote.getImunobiologico());
         assertEquals(1L, lote.getCamaraId());
+    }
+
+    @Test
+    void devePermitirAumentoMasExigirBaixaParaReducao() {
+        var lote = lote(10);
+
+        lote.atualizar("Febre amarela", "Bio-Manguinhos", lote.getValidade(), 20, 1L, HOJE, DEPOIS);
+
+        assertEquals(20, lote.getQuantidade());
+        assertEquals("quantidade", assertThrows(ValidacaoDeNegocio.class, () -> lote.atualizar(
+                "Outra vacina", "Outro fabricante", lote.getValidade(), 19, 2L, HOJE, DEPOIS)).campo());
+        assertEquals(20, lote.getQuantidade());
+        assertEquals("Febre amarela", lote.getImunobiologico());
+        assertEquals(1L, lote.getCamaraId());
+    }
+
+    @Test
+    void loteEsgotadoPodeSerEditadoSemReceberNovasDoses() {
+        var lote = lote(10);
+        lote.darBaixa(10, MotivoBaixa.ADMINISTRADA, DEPOIS);
+
+        lote.atualizar("Outra vacina", "Bio-Manguinhos", lote.getValidade(), 0, 2L, HOJE, DEPOIS);
+
+        assertEquals(0, lote.getQuantidade());
+        assertEquals(2L, lote.getCamaraId());
+        assertThrows(EstadoIncompativel.class, () -> lote.atualizar("Outra vacina", "Bio-Manguinhos",
+                lote.getValidade(), 1, 2L, HOJE, DEPOIS));
     }
 
     @Test
@@ -151,7 +178,7 @@ class LoteTest {
 
         assertFalse(lote.isAtivo());
         assertEquals(DEPOIS, lote.getAtualizadoEm());
-        assertThrows(EstadoIncompativel.class, () -> lote.atualizar("Vacina", "Fabricante", HOJE.plusDays(1), 1L,
+        assertThrows(EstadoIncompativel.class, () -> lote.atualizar("Vacina", "Fabricante", HOJE.plusDays(1), 10, 1L,
                 HOJE, DEPOIS));
         assertThrows(EstadoIncompativel.class, () -> lote.darBaixa(1, MotivoBaixa.PERDA, DEPOIS));
         assertThrows(EstadoIncompativel.class, () -> lote.descartar(DEPOIS));
