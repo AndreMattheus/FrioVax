@@ -62,6 +62,26 @@ class DocumentacaoApiHttpTest {
     }
 
     @Test
+    void documentaRotasDeLotesComFiltrosEVinculoComCamara() {
+        given().accept("application/json").when().get("/q/openapi").then()
+                .statusCode(200)
+                .body("paths.'/api/lotes'.post.responses", hasKey("201"),
+                        "paths.'/api/lotes'.post.responses.'404'.description", containsString("camaraId"),
+                        "paths.'/api/lotes'.post.responses.'409'.description",
+                        containsString("/problemas/capacidade-excedida"),
+                        "paths.'/api/lotes'.get.parameters.find { it.name == 'validadeDe' }.schema.format",
+                        equalTo("date"),
+                        "paths.'/api/lotes'.get.parameters.find { it.name == 'camaraId' }.schema.format",
+                        equalTo("int64"),
+                        "paths.'/api/lotes'.get.parameters.find { it.name == 'estado' }.schema.'$ref'",
+                        equalTo("#/components/schemas/EstadoLote"),
+                        "paths.'/api/lotes'.get.responses.'400'.description", containsString("validadeAte"),
+                        "paths.'/api/lotes/{id}'.put.description", containsString("baixa com motivo"),
+                        "paths.'/api/lotes/{id}'.delete.responses", hasKey("204"),
+                        "paths.'/api/status'.get.tags", hasItem("Status"));
+    }
+
+    @Test
     void publicaSwaggerUi() {
         given().when().get("/q/swagger-ui/").then()
                 .statusCode(200)
