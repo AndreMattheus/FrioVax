@@ -43,6 +43,25 @@ class DocumentacaoApiHttpTest {
     }
 
     @Test
+    void documentaRotasDeCamarasComRespostasDeSucessoEErro() {
+        given().accept("application/json").when().get("/q/openapi").then()
+                .statusCode(200)
+                .body("paths.'/api/camaras'.post.responses", hasKey("201"),
+                        "paths.'/api/camaras'.post.responses.'201'.headers", hasKey("Location"),
+                        "paths.'/api/camaras'.post.responses.'409'.description",
+                        containsString("/problemas/codigo-duplicado"),
+                        "paths.'/api/camaras'.post.responses.'422'.'$ref'",
+                        equalTo("#/components/responses/DadosInvalidos"),
+                        "paths.'/api/camaras'.get.parameters.name",
+                        hasItems("unidade", "estado", "ativo", "page", "size"),
+                        "paths.'/api/camaras'.get.parameters.find { it.name == 'size' }.schema.maximum", equalTo(100),
+                        "paths.'/api/camaras/{id}'.put.responses.'409'.description",
+                        containsString("/problemas/capacidade-excedida"),
+                        "paths.'/api/camaras/{id}'.delete.responses", hasKey("204"),
+                        "paths.'/api/camaras/{id}'.delete.description", containsString("ativo=false"));
+    }
+
+    @Test
     void publicaSwaggerUi() {
         given().when().get("/q/swagger-ui/").then()
                 .statusCode(200)
