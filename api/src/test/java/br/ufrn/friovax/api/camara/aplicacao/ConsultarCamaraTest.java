@@ -2,6 +2,8 @@ package br.ufrn.friovax.api.camara.aplicacao;
 
 import br.ufrn.friovax.api.camara.api.CamaraResource;
 import br.ufrn.friovax.api.camara.dominio.Camara;
+import br.ufrn.friovax.api.camara.dominio.CamaraFiltro;
+import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 import br.ufrn.friovax.api.camara.dominio.EstadoCamara;
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
 import br.ufrn.friovax.api.lote.dominio.Lote;
@@ -14,10 +16,12 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ConsultarCamaraTest {
     private static final OffsetDateTime AGORA = OffsetDateTime.of(2026, 9, 29, 12, 0, 0, 0, ZoneOffset.ofHours(-3));
@@ -110,5 +114,80 @@ class ConsultarCamaraTest {
     @Test
     void deveIndicarCamaraInexistente() {
         assertThrows(RecursoNaoEncontrado.class, () -> casoDeUso.consultar(42));
+    }
+
+    @Test
+    void deveCombinarFiltrosNoCasoDeUsoAntesDePaginarECalcularOcupacao() {
+        var primeira = salvarCamara("CAM-Z", "UBS Centro", EstadoCamara.OPERACIONAL);
+        var segunda = salvarCamara("CAM-A", "UBS Centro", EstadoCamara.OPERACIONAL);
+        var terceira = salvarCamara("CAM-M", "UBS Centro", EstadoCamara.OPERACIONAL);
+        salvarCamara("CAM-UNIDADE", "UBS Norte", EstadoCamara.OPERACIONAL);
+        salvarCamara("CAM-ESTADO", "UBS Centro", EstadoCamara.MANUTENCAO);
+        var inativa = salvarCamara("CAM-INATIVA", "UBS Centro", EstadoCamara.OPERACIONAL);
+        inativa.inativar(false, AGORA.plusHours(1));
+        repositorio.salvar(inativa);
+        salvarLote("L1", primeira, 80);
+        salvarLote("L2", segunda, 20);
+        var loteInativo = salvarLote("L3", segunda, 100);
+        loteInativo.inativar(AGORA.plusHours(1));
+        lotes.salvar(loteInativo);
+        var filtro = new CamaraFiltro("  ubs centro  ", EstadoCamara.OPERACIONAL, true);
+
+        var pagina = casoDeUso.listar(filtro, new Paginacao(1, 1));
+
+        assertEquals(List.of(segunda.getId()), pagina.itens().stream().map(r -> r.camara().getId()).toList());
+        assertEquals(20, pagina.itens().getFirst().ocupacao());
+        assertEquals(1, pagina.pagina());
+        assertEquals(1, pagina.tamanho());
+        assertEquals(3, pagina.totalElementos());
+        assertEquals(3, pagina.totalPaginas());
+        var todas = casoDeUso.listar(filtro, Paginacao.padrao());
+        assertEquals(List.of(primeira.getId(), segunda.getId(), terceira.getId()),
+                todas.itens().stream().map(r -> r.camara().getId()).toList());
+        assertEquals(List.of(80L, 20L, 0L), todas.itens().stream().map(ConsultarCamara.Resultado::ocupacao).toList());
+        var distante = casoDeUso.listar(filtro, new Paginacao(3, 1));
+        assertTrue(distante.itens().isEmpty());
+        assertEquals(3, distante.pagina());
+        assertEquals(1, distante.tamanho());
+        assertEquals(3, distante.totalElementos());
+        assertEquals(3, distante.totalPaginas());
+    }
+
+    @Test
+    void deveConsultarDiretamenteInativosEListarPorSituacao() {
+        var ativa = salvarCamara("CAM-ATIVA", "UBS", EstadoCamara.OPERACIONAL);
+        var inativa = salvarCamara("CAM-INATIVA", "UBS", EstadoCamara.OPERACIONAL);
+        inativa.inativar(false, AGORA.plusHours(1));
+        repositorio.salvar(inativa);
+
+        var consultada = casoDeUso.consultar(inativa.getId());
+        assertFalse(consultada.camara().isAtivo());
+        assertEquals(inativa.getId(), consultada.camara().getId());
+        assertEquals(AGORA.plusHours(1), consultada.camara().getAtualizadoEm());
+        assertEquals(0, consultada.ocupacao());
+        var padrao = casoDeUso.listar(CamaraFiltro.ativas(), Paginacao.padrao());
+        assertEquals(List.of(ativa.getId()), padrao.itens().stream().map(r -> r.camara().getId()).toList());
+        assertEquals(0, padrao.pagina());
+        assertEquals(20, padrao.tamanho());
+        assertEquals(1, padrao.totalElementos());
+        assertEquals(1, padrao.totalPaginas());
+        var inativas = casoDeUso.listar(new CamaraFiltro(null, null, false), Paginacao.padrao());
+        assertEquals(List.of(inativa.getId()), inativas.itens().stream().map(r -> r.camara().getId()).toList());
+        var vazia = casoDeUso.listar(new CamaraFiltro("Inexistente", null, true), Paginacao.padrao());
+        assertTrue(vazia.itens().isEmpty());
+        assertEquals(0, vazia.pagina());
+        assertEquals(20, vazia.tamanho());
+        assertEquals(0, vazia.totalElementos());
+        assertEquals(0, vazia.totalPaginas());
+    }
+
+    private Camara salvarCamara(String codigo, String unidade, EstadoCamara estado) {
+        return repositorio.salvar(Camara.nova(codigo, "Câmara", unidade, 5000,
+                new BigDecimal("2.0"), new BigDecimal("8.0"), estado, AGORA));
+    }
+
+    private Lote salvarLote(String codigo, Camara camara, int quantidade) {
+        return lotes.salvar(Lote.novo(codigo, "Vacina", "Fabricante", LocalDate.of(2027, 1, 1),
+                quantidade, camara.getId(), AGORA.toLocalDate(), AGORA));
     }
 }

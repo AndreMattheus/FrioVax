@@ -7,9 +7,12 @@ import br.ufrn.friovax.api.compartilhado.dominio.EstadoIncompativel;
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
 import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
 import br.ufrn.friovax.api.lote.dominio.Lote;
+import br.ufrn.friovax.api.lote.dominio.MotivoBaixa;
 import br.ufrn.friovax.api.suporte.CamaraRepositoryEmMemoria;
 import br.ufrn.friovax.api.suporte.LoteRepositoryEmMemoria;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 import java.math.BigDecimal;
 import java.time.Clock;
@@ -67,7 +70,7 @@ class AtualizarCamaraTest {
         assertThrows(CapacidadeExcedida.class,
                 () -> casoDeUso.atualizar(camara.getId(), dados(299, EstadoCamara.OPERACIONAL)));
 
-        assertSemAlteracao(camara.getId());
+        assertSemAlteracao(camara);
     }
 
     @Test
@@ -78,7 +81,7 @@ class AtualizarCamaraTest {
         assertThrows(EstadoIncompativel.class,
                 () -> casoDeUso.atualizar(camara.getId(), dados(1000, EstadoCamara.MANUTENCAO)));
 
-        assertSemAlteracao(camara.getId());
+        assertSemAlteracao(camara);
     }
 
     @Test
@@ -89,6 +92,7 @@ class AtualizarCamaraTest {
 
         assertThrows(EstadoIncompativel.class,
                 () -> casoDeUso.atualizar(camara.getId(), dados(1000, EstadoCamara.OPERACIONAL)));
+        assertSemAlteracao(camara);
     }
 
     @Test
@@ -99,7 +103,7 @@ class AtualizarCamaraTest {
                 new AtualizarCamaraDTO("Outro nome", "UBS Centro", 1000,
                         new BigDecimal("8.0"), new BigDecimal("2.0"), EstadoCamara.OPERACIONAL)));
 
-        assertSemAlteracao(camara.getId());
+        assertSemAlteracao(camara);
     }
 
     @Test
@@ -107,12 +111,34 @@ class AtualizarCamaraTest {
         assertThrows(RecursoNaoEncontrado.class, () -> casoDeUso.atualizar(42, dados(1000, EstadoCamara.OPERACIONAL)));
     }
 
-    private void assertSemAlteracao(long id) {
-        var gravada = camaras.buscarPorId(id).orElseThrow();
-        assertEquals("Câmara", gravada.getNome());
-        assertEquals(1000, gravada.getCapacidade());
-        assertEquals(EstadoCamara.OPERACIONAL, gravada.getEstado());
-        assertEquals(CRIACAO, gravada.getAtualizadoEm());
+    @ParameterizedTest
+    @EnumSource(value = EstadoCamara.class, names = {"MANUTENCAO", "DESATIVADA"})
+    void deveRejeitarMudancaDeEstadoComLoteAtivoEsgotado(EstadoCamara estado) {
+        var camara = novaCamara("CAM-ESGOTADO");
+        var lote = lotes.salvar(novoLote("L-ESGOTADO", camara, 30));
+        lote.darBaixa(30, MotivoBaixa.ADMINISTRADA, CRIACAO.plusHours(1));
+        lotes.salvar(lote);
+        assertEquals(0, lotes.ocupacaoDaCamara(camara.getId()));
+
+        assertThrows(EstadoIncompativel.class, () -> casoDeUso.atualizar(camara.getId(), dados(500, estado)));
+
+        assertSemAlteracao(camara);
+        assertEquals(0, lotes.ocupacaoDaCamara(camara.getId()));
+    }
+
+    private void assertSemAlteracao(Camara anterior) {
+        var gravada = camaras.buscarPorId(anterior.getId()).orElseThrow();
+        assertEquals(anterior.getId(), gravada.getId());
+        assertEquals(anterior.getCodigo(), gravada.getCodigo());
+        assertEquals(anterior.getNome(), gravada.getNome());
+        assertEquals(anterior.getUnidade(), gravada.getUnidade());
+        assertEquals(anterior.getCapacidade(), gravada.getCapacidade());
+        assertEquals(anterior.getTemperaturaMinima(), gravada.getTemperaturaMinima());
+        assertEquals(anterior.getTemperaturaMaxima(), gravada.getTemperaturaMaxima());
+        assertEquals(anterior.getEstado(), gravada.getEstado());
+        assertEquals(anterior.isAtivo(), gravada.isAtivo());
+        assertEquals(anterior.getCriadoEm(), gravada.getCriadoEm());
+        assertEquals(anterior.getAtualizadoEm(), gravada.getAtualizadoEm());
     }
 
     private static AtualizarCamaraDTO dados(int capacidade, EstadoCamara estado) {
