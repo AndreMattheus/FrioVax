@@ -103,4 +103,33 @@ class LoteRepositoryEmMemoriaTest {
     private List<String> codigos(LoteFiltro filtro) {
         return repositorio.listar(filtro, Paginacao.padrao()).itens().stream().map(Lote::getCodigo).toList();
     }
+
+    @Test
+    void naoDevePersistirAlteracoesSemSalvar() {
+        var original = salvar("L1", "Vacina", HOJE.plusMonths(6), 30, 1);
+        var consultado = repositorio.buscarPorIdParaAlteracao(original.getId()).orElseThrow();
+
+        consultado.atualizar("Outra vacina", "Outro fabricante", HOJE.plusMonths(7), 40, 2,
+                HOJE, AGORA.plusHours(1));
+
+        var salvo = repositorio.buscarPorId(original.getId()).orElseThrow();
+        assertEquals(original.getId(), salvo.getId());
+        assertEquals("L1", salvo.getCodigo());
+        assertEquals("Vacina", salvo.getImunobiologico());
+        assertEquals("Fabricante", salvo.getFabricante());
+        assertEquals(original.getValidade(), salvo.getValidade());
+        assertEquals(30, salvo.getQuantidade());
+        assertEquals(1, salvo.getCamaraId());
+        assertEquals(original.getEstado(), salvo.getEstado());
+        assertTrue(salvo.isAtivo());
+        assertEquals(AGORA, salvo.getCriadoEm());
+        assertEquals(AGORA, salvo.getAtualizadoEm());
+        assertEquals(30, repositorio.ocupacaoDaCamara(1));
+        assertEquals(0, repositorio.ocupacaoDaCamara(2));
+
+        repositorio.salvar(consultado);
+        assertEquals("Outra vacina", repositorio.buscarPorId(original.getId()).orElseThrow().getImunobiologico());
+        assertEquals(0, repositorio.ocupacaoDaCamara(1));
+        assertEquals(40, repositorio.ocupacaoDaCamara(2));
+    }
 }

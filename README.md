@@ -56,7 +56,7 @@ A API Java concentra os casos de uso, as regras de negócio e a persistência em
 
 ## Como rodar
 
-Pré-requisitos: [mise](https://mise.jdx.dev/) e Docker Desktop em execução. Execute os comandos a partir da raiz do repositório; as versões de Java, Maven e Go estão definidas em `mise.toml`.
+Pré-requisitos: [mise](https://mise.jdx.dev/) e Docker Desktop em execução. Os testes unitários abaixo dispensam Docker e PostgreSQL. Execute os comandos a partir da raiz do repositório; as versões de Java, Maven e Go estão definidas em `mise.toml`.
 
 ```bash
 mise trust
@@ -82,11 +82,39 @@ curl http://localhost:8081/health
 |---|---|
 | `mise run build` | Compila Java e Go |
 | `mise run test` | Executa os testes dos dois stacks |
+| `mise run test-unit` | Executa testes Java de domínio, aplicação e suporte sem banco |
 | `mise run lint` | Verifica Maven, `gofmt` e `go vet` |
 | `mise run ci` | Reproduz o pipeline localmente |
 | `mise run up` | Sobe os serviços com Docker Compose |
 
 ### Testes
+
+#### Regras e casos de uso sem banco
+
+Na raiz do repositório, prepare as ferramentas e execute a suíte:
+
+```bash
+mise trust
+mise install java maven
+mise run test-unit
+```
+
+`mise trust` autoriza as configurações locais do mise; revise `mise.toml` antes de confiar nele. A instalação e o primeiro build podem precisar de internet para baixar ferramentas e dependências. Não é necessário iniciar Docker, PostgreSQL, Compose ou a API.
+
+O comando seleciona as classes terminadas em `Test` nos pacotes `dominio`, `aplicacao` e `suporte`. Os testes instanciam os objetos diretamente, sem iniciar Quarkus. Repositórios em memória substituem a persistência nos casos de uso; datas explícitas e `Clock.fixed` tornam os resultados independentes do dia da execução, incluindo a referência de validade em `America/Fortaleza`.
+
+Para reproduzir a seleção pelo Maven ou investigar apenas uma classe:
+
+```bash
+mise exec -- mvn --batch-mode -f api/pom.xml "-Dtest=**/dominio/*Test,**/aplicacao/*Test,**/suporte/*Test" test
+mise exec -- mvn --batch-mode -f api/pom.xml "-Dtest=AtualizarLoteTest" test
+```
+
+Mantenha as aspas no argumento `-Dtest`, inclusive no PowerShell. No resultado, confira `BUILD SUCCESS`, uma quantidade de testes maior que zero e `Failures: 0, Errors: 0, Skipped: 0`. Os relatórios de cada classe ficam em `api/target/surefire-reports`, em arquivos `.txt` e `TEST-*.xml`.
+
+Essa seleção não inclui testes HTTP, de persistência ou de arquitetura. Os mesmos testes unitários continuam sendo executados pelo fluxo completo do Maven e pelo CI.
+
+#### Suíte completa e integração
 
 `mise run test` executa os testes Java e Go. Os testes unitários de domínio e aplicação usam objetos Java, repositórios em memória e relógio fixo quando necessário. Os testes de integração com `@QuarkusTest` iniciam a aplicação e um PostgreSQL temporário pelo Dev Services; os testes HTTP usam REST Assured para verificar as respostas e os dados persistidos. É necessário manter o Docker em execução, sem precisar subir o Compose antes.
 
@@ -98,6 +126,8 @@ mise exec -- mvn --batch-mode -f api/pom.xml -Dtest=CamaraServiceTest test
 ```
 
 Os relatórios Java ficam em `api/target/surefire-reports`. Antes de concluir uma alteração, execute `mise run ci`: ele verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Os testes HTTP executam transações no servidor; os dados criados por eles precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP.
+
+#### Arquitetura
 
 O teste `ArquiteturaTest` usa ArchUnit para verificar os pacotes reais de domínio
 (`camara.dominio`, `lote.dominio` e `compartilhado.dominio`) e as fronteiras do

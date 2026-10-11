@@ -6,12 +6,14 @@ import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -49,6 +51,7 @@ class CamaraTest {
     }
 
     @ParameterizedTest
+    @NullSource
     @ValueSource(strings = {"", "  ", "AB", "CAM_01", "CAMARA-COM-MAIS-DE-20"})
     void deveRejeitarCodigoInvalido(String codigo) {
         var erro = assertThrows(ValidacaoDeNegocio.class, () -> Camara.nova(codigo, "Nome", "UBS", 10,
@@ -65,14 +68,89 @@ class CamaraTest {
                 "x".repeat(101), 10, BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.OPERACIONAL, AGORA)).campo());
     }
 
+    @ParameterizedTest
+    @CsvSource(value = {"nome,NULL", "nome,''", "nome,'   '",
+            "unidade,NULL", "unidade,''", "unidade,'   '"}, nullValues = "NULL")
+    void deveExigirTextosObrigatoriosNaCriacaoENaAtualizacao(String campo, String valor) {
+        var nome = campo.equals("nome") ? valor : "Outro nome";
+        var unidade = campo.equals("unidade") ? valor : "Outra unidade";
+        assertEquals(campo, assertThrows(ValidacaoDeNegocio.class, () -> Camara.nova("CAM-02", nome,
+                unidade, 100, BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.MANUTENCAO, AGORA)).campo());
+
+        var camara = camara(5000);
+        camara.atribuirId(7);
+        assertEquals(campo, assertThrows(ValidacaoDeNegocio.class, () -> camara.atualizar(nome,
+                unidade, 100, BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.MANUTENCAO,
+                0, false, DEPOIS)).campo());
+        assertCamaraOriginal(camara);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {3, 20})
+    void deveAceitarLimitesDoCodigoDepoisDaNormalizacao(int tamanho) {
+        var camara = Camara.nova(" " + "a".repeat(tamanho) + " ", "Nome", "UBS", 1,
+                BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.OPERACIONAL, AGORA);
+
+        assertEquals("A".repeat(tamanho), camara.getCodigo());
+        assertEquals(1, camara.getCapacidade());
+    }
+
     @Test
-    void deveAceitarNomeEUnidadeComCemCaracteresDepoisDoTrim() {
-        var texto = "x".repeat(100);
+    void deveRejeitarCodigoAcimaDoLimiteDepoisDoTrim() {
+        assertEquals("codigo", assertThrows(ValidacaoDeNegocio.class, () -> Camara.nova(
+                " " + "A".repeat(21) + " ", "Nome", "UBS", 10,
+                BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.OPERACIONAL, AGORA)).campo());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"temperaturaMinima", "temperaturaMaxima", "estado"})
+    void deveExigirTemperaturasEEstadoNaCriacaoENaAtualizacao(String campo) {
+        var minima = campo.equals("temperaturaMinima") ? null : BigDecimal.ONE;
+        var maxima = campo.equals("temperaturaMaxima") ? null : BigDecimal.TEN;
+        var estado = campo.equals("estado") ? null : EstadoCamara.MANUTENCAO;
+        assertEquals(campo, assertThrows(ValidacaoDeNegocio.class, () -> Camara.nova("CAM-02",
+                "Nome", "UBS", 100, minima, maxima, estado, AGORA)).campo());
+
+        var camara = camara(5000);
+        camara.atribuirId(7);
+        assertEquals(campo, assertThrows(ValidacaoDeNegocio.class, () -> camara.atualizar(
+                "Outro nome", "Outra unidade", 100, minima, maxima, estado, 0, false, DEPOIS)).campo());
+        assertCamaraOriginal(camara);
+    }
+
+    private static void assertCamaraOriginal(Camara camara) {
+        assertCamaraOriginal(camara, true, AGORA);
+    }
+
+    private static void assertCamaraOriginal(Camara camara, boolean ativo, OffsetDateTime atualizadoEm) {
+        assertAll(
+                () -> assertEquals(7L, camara.getId()),
+                () -> assertEquals("CAM-01", camara.getCodigo()),
+                () -> assertEquals("Câmara principal", camara.getNome()),
+                () -> assertEquals("UBS Centro", camara.getUnidade()),
+                () -> assertEquals(5000, camara.getCapacidade()),
+                () -> assertEquals(new BigDecimal("2.0"), camara.getTemperaturaMinima()),
+                () -> assertEquals(new BigDecimal("8.0"), camara.getTemperaturaMaxima()),
+                () -> assertEquals(EstadoCamara.OPERACIONAL, camara.getEstado()),
+                () -> assertEquals(ativo, camara.isAtivo()),
+                () -> assertEquals(AGORA, camara.getCriadoEm()),
+                () -> assertEquals(atualizadoEm, camara.getAtualizadoEm()));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 100})
+    void deveAceitarLimitesDeNomeEUnidadeDepoisDoTrim(int tamanho) {
+        var texto = "x".repeat(tamanho);
         var camara = Camara.nova("CAM-01", " " + texto + " ", " " + texto + " ", 10,
                 BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.OPERACIONAL, AGORA);
 
         assertEquals(texto, camara.getNome());
         assertEquals(texto, camara.getUnidade());
+        camara.atualizar(" " + texto + " ", " " + texto + " ", 20, BigDecimal.ONE,
+                BigDecimal.TEN, EstadoCamara.OPERACIONAL, 0, false, DEPOIS);
+        assertEquals(texto, camara.getNome());
+        assertEquals(texto, camara.getUnidade());
+        assertEquals(DEPOIS, camara.getAtualizadoEm());
     }
 
     @ParameterizedTest
@@ -85,6 +163,30 @@ class CamaraTest {
 
         assertEquals(campo, erro.campo());
         assertEquals("deve ter no máximo 100 caracteres", erro.getMessage());
+
+        var camara = camara(5000);
+        camara.atribuirId(7);
+        assertEquals(campo, assertThrows(ValidacaoDeNegocio.class, () -> camara.atualizar(
+                campo.equals("nome") ? texto : "Outro nome", campo.equals("unidade") ? texto : "Outra unidade",
+                100, BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.MANUTENCAO, 0, false, DEPOIS)).campo());
+        assertCamaraOriginal(camara);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, 1, 10, capacidade", "-1, 1, 10, capacidade",
+            "100, 8, 8, temperaturaMinima", "100, 9, 8, temperaturaMinima",
+            "100, 2.05, 8, temperaturaMinima", "100, 2, 8.05, temperaturaMaxima",
+            "100, -1000, 8, temperaturaMinima", "100, 2, 1000, temperaturaMaxima"})
+    void devePreservarDadosAoRejeitarCapacidadeOuFaixaTermica(int capacidade, String minima,
+                                                            String maxima, String campo) {
+        var camara = camara(5000);
+        camara.atribuirId(7);
+
+        assertEquals(campo, assertThrows(ValidacaoDeNegocio.class, () -> camara.atualizar(
+                "Outro nome", "Outra unidade", capacidade, new BigDecimal(minima), new BigDecimal(maxima),
+                EstadoCamara.MANUTENCAO, 0, false, DEPOIS)).campo());
+
+        assertCamaraOriginal(camara);
     }
 
     @ParameterizedTest
@@ -160,41 +262,49 @@ class CamaraTest {
     @Test
     void deveRejeitarCapacidadeAbaixoDaOcupacaoSemAlterarACamara() {
         var camara = camara(5000);
+        camara.atribuirId(7);
 
-        assertThrows(CapacidadeExcedida.class, () -> atualizar(camara, 4499, EstadoCamara.OPERACIONAL, 4500, true));
+        assertThrows(CapacidadeExcedida.class, () -> camara.atualizar("Outro nome", "Outra unidade", 4499,
+                BigDecimal.ONE, BigDecimal.TEN, EstadoCamara.OPERACIONAL, 4500, true, DEPOIS));
 
-        assertEquals(5000, camara.getCapacidade());
-        assertEquals(AGORA, camara.getAtualizadoEm());
+        assertCamaraOriginal(camara);
     }
 
     @Test
     void deveManterDadosQuandoAtualizacaoTemCampoInvalido() {
         var camara = camara(5000);
+        camara.atribuirId(7);
 
         assertThrows(ValidacaoDeNegocio.class, () -> camara.atualizar("Outro nome", "", 100, BigDecimal.ONE,
                 BigDecimal.TEN, EstadoCamara.OPERACIONAL, 0, false, DEPOIS));
 
-        assertEquals("Câmara principal", camara.getNome());
+        assertCamaraOriginal(camara);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"MANUTENCAO", "DESATIVADA"})
     void deveImpedirSairDeOperacionalComLotesAtivos(EstadoCamara estado) {
         var camara = camara(5000);
+        camara.atribuirId(7);
 
-        assertThrows(EstadoIncompativel.class, () -> atualizar(camara, 5000, estado, 100, true));
-        assertEquals(EstadoCamara.OPERACIONAL, camara.getEstado());
+        assertThrows(EstadoIncompativel.class, () -> camara.atualizar("Outro nome", "Outra unidade", 6000,
+                BigDecimal.ONE, BigDecimal.TEN, estado, 100, true, DEPOIS));
+        assertCamaraOriginal(camara);
     }
 
-    @Test
-    void devePermitirMudarEstadoSemLotesAtivos() {
-        var camara = camara(5000);
+    @ParameterizedTest
+    @CsvSource({"OPERACIONAL, MANUTENCAO", "OPERACIONAL, DESATIVADA",
+            "MANUTENCAO, OPERACIONAL", "MANUTENCAO, DESATIVADA",
+            "DESATIVADA, OPERACIONAL", "DESATIVADA, MANUTENCAO"})
+    void devePermitirMudarEstadoSemLotesAtivos(EstadoCamara origem, EstadoCamara destino) {
+        var camara = Camara.nova("CAM-01", "Nome", "UBS", 5000,
+                BigDecimal.ONE, BigDecimal.TEN, origem, AGORA);
 
-        atualizar(camara, 5000, EstadoCamara.MANUTENCAO, 0, false);
-        assertEquals(EstadoCamara.MANUTENCAO, camara.getEstado());
+        atualizar(camara, 5000, destino, 0, false);
 
-        atualizar(camara, 5000, EstadoCamara.OPERACIONAL, 0, false);
-        assertEquals(EstadoCamara.OPERACIONAL, camara.getEstado());
+        assertEquals(destino, camara.getEstado());
+        assertTrue(camara.isAtivo());
+        assertEquals(DEPOIS, camara.getAtualizadoEm());
     }
 
     @Test
@@ -211,17 +321,20 @@ class CamaraTest {
     @Test
     void deveImpedirInativarCamaraComLotesAtivos() {
         var camara = camara(5000);
+        camara.atribuirId(7);
 
         assertThrows(EstadoIncompativel.class, () -> camara.inativar(true, DEPOIS));
-        assertTrue(camara.isAtivo());
+        assertCamaraOriginal(camara);
     }
 
     @Test
     void deveImpedirAlterarCamaraInativa() {
         var camara = camara(5000);
+        camara.atribuirId(7);
         camara.inativar(false, DEPOIS);
 
         assertThrows(EstadoIncompativel.class, () -> atualizar(camara, 6000, EstadoCamara.OPERACIONAL, 0, false));
+        assertCamaraOriginal(camara, false, DEPOIS);
     }
 
     @Test

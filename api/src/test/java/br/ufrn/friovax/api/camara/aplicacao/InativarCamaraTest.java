@@ -7,6 +7,7 @@ import br.ufrn.friovax.api.compartilhado.dominio.EstadoIncompativel;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
 import br.ufrn.friovax.api.lote.dominio.Lote;
+import br.ufrn.friovax.api.lote.dominio.MotivoBaixa;
 import br.ufrn.friovax.api.suporte.CamaraRepositoryEmMemoria;
 import br.ufrn.friovax.api.suporte.LoteRepositoryEmMemoria;
 import org.junit.jupiter.api.Test;
@@ -63,9 +64,7 @@ class InativarCamaraTest {
 
         assertThrows(EstadoIncompativel.class, () -> casoDeUso.inativar(camara.getId()));
 
-        var gravada = camaras.buscarPorId(camara.getId()).orElseThrow();
-        assertTrue(gravada.isAtivo());
-        assertEquals(CRIACAO, gravada.getAtualizadoEm());
+        assertSemAlteracao(camara);
     }
 
     @Test
@@ -103,6 +102,36 @@ class InativarCamaraTest {
     private Camara novaCamara(String codigo) {
         return camaras.salvar(Camara.nova(codigo, "Câmara", "UBS Centro", 1000,
                 new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL, CRIACAO));
+    }
+
+    @Test
+    void deveRejeitarInativacaoComLoteAtivoMesmoSemOcupacao() {
+        var camara = novaCamara("CAM-ESGOTADO");
+        var lote = lotes.salvar(novoLote("L-ESGOTADO", camara));
+        lote.darBaixa(100, MotivoBaixa.ADMINISTRADA, CRIACAO.plusHours(1));
+        lotes.salvar(lote);
+        assertEquals(0, lotes.ocupacaoDaCamara(camara.getId()));
+
+        assertThrows(EstadoIncompativel.class, () -> casoDeUso.inativar(camara.getId()));
+
+        assertSemAlteracao(camara);
+        assertTrue(lotes.buscarPorId(lote.getId()).orElseThrow().isAtivo());
+        assertEquals(0, lotes.ocupacaoDaCamara(camara.getId()));
+    }
+
+    private void assertSemAlteracao(Camara anterior) {
+        var gravada = camaras.buscarPorId(anterior.getId()).orElseThrow();
+        assertEquals(anterior.getId(), gravada.getId());
+        assertEquals(anterior.getCodigo(), gravada.getCodigo());
+        assertEquals(anterior.getNome(), gravada.getNome());
+        assertEquals(anterior.getUnidade(), gravada.getUnidade());
+        assertEquals(anterior.getCapacidade(), gravada.getCapacidade());
+        assertEquals(anterior.getTemperaturaMinima(), gravada.getTemperaturaMinima());
+        assertEquals(anterior.getTemperaturaMaxima(), gravada.getTemperaturaMaxima());
+        assertEquals(anterior.getEstado(), gravada.getEstado());
+        assertEquals(anterior.isAtivo(), gravada.isAtivo());
+        assertEquals(anterior.getCriadoEm(), gravada.getCriadoEm());
+        assertEquals(anterior.getAtualizadoEm(), gravada.getAtualizadoEm());
     }
 
     private static Lote novoLote(String codigo, Camara camara) {

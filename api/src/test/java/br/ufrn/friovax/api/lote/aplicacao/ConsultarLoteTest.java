@@ -132,4 +132,63 @@ class ConsultarLoteTest {
         assertEquals(0, pagina.pagina());
         assertEquals(20, pagina.tamanho());
     }
+
+    @Test
+    void deveAplicarCadaFiltroAntesDeContarEOrdenarPorId() {
+        var de = LocalDate.of(2027, 1, 1);
+        var ate = LocalDate.of(2027, 6, 30);
+        var primeiro = salvarFiltravel("L-Z", "Febre amarela", de, 7);
+        var segundo = salvarFiltravel("L-A", "Vacina FEBRE tifoide", de.plusDays(1), 7);
+        var terceiro = salvarFiltravel("L-M", "Febre amarela", ate, 7);
+        salvarFiltravel("L-TEXTO", "Hepatite", de, 7);
+        salvarFiltravel("L-ANTES", "Febre amarela", de.minusDays(1), 7);
+        salvarFiltravel("L-DEPOIS", "Febre amarela", ate.plusDays(1), 7);
+        salvarFiltravel("L-CAMARA", "Febre amarela", de, 8);
+        var descartado = salvarFiltravel("L-ESTADO", "Febre amarela", de, 7);
+        descartado.descartar(AGORA.plusHours(1));
+        lotes.salvar(descartado);
+        var inativo = salvarFiltravel("L-INATIVO", "Febre amarela", de, 7);
+        inativo.inativar(AGORA.plusHours(1));
+        lotes.salvar(inativo);
+        var filtro = new LoteFiltro("  FEBRE  ", de, ate, 7L, EstadoLote.DISPONIVEL, true);
+
+        var pagina = casoDeUso.listar(filtro, new Paginacao(1, 1));
+
+        assertEquals(List.of(segundo.getId()), pagina.itens().stream().map(Lote::getId).toList());
+        assertEquals(1, pagina.pagina());
+        assertEquals(1, pagina.tamanho());
+        assertEquals(3, pagina.totalElementos());
+        assertEquals(3, pagina.totalPaginas());
+        assertEquals(List.of(primeiro.getId(), segundo.getId(), terceiro.getId()),
+                casoDeUso.listar(filtro, Paginacao.padrao()).itens().stream().map(Lote::getId).toList());
+        var distante = casoDeUso.listar(filtro, new Paginacao(3, 1));
+        assertTrue(distante.itens().isEmpty());
+        assertEquals(3, distante.pagina());
+        assertEquals(1, distante.tamanho());
+        assertEquals(3, distante.totalElementos());
+        assertEquals(3, distante.totalPaginas());
+    }
+
+    @Test
+    void deveFiltrarValidadeComUmUnicoLimiteInclusivo() {
+        var limite = LocalDate.of(2027, 3, 31);
+        var antes = salvarFiltravel("L-ANTES", "Vacina", limite.minusDays(1), 7);
+        var igual = salvarFiltravel("L-IGUAL", "Vacina", limite, 7);
+        var depois = salvarFiltravel("L-DEPOIS", "Vacina", limite.plusDays(1), 7);
+
+        var desde = casoDeUso.listar(new LoteFiltro(null, limite, null, null, null, true), Paginacao.padrao());
+        var ate = casoDeUso.listar(new LoteFiltro(null, null, limite, null, null, true), Paginacao.padrao());
+
+        assertEquals(List.of(igual.getId(), depois.getId()), desde.itens().stream().map(Lote::getId).toList());
+        assertEquals(List.of(antes.getId(), igual.getId()), ate.itens().stream().map(Lote::getId).toList());
+        assertEquals(2, desde.totalElementos());
+        assertEquals(1, desde.totalPaginas());
+        assertEquals(2, ate.totalElementos());
+        assertEquals(1, ate.totalPaginas());
+    }
+
+    private Lote salvarFiltravel(String codigo, String imunobiologico, LocalDate validade, long camaraId) {
+        return lotes.salvar(Lote.novo(codigo, imunobiologico, "Fabricante", validade,
+                10, camaraId, AGORA.toLocalDate(), AGORA));
+    }
 }

@@ -17,6 +17,10 @@ run = [
   "go -C services/telemetry test ./...",
 ]
 
+[tasks.test-unit]
+description = "Executa testes Java de domínio, aplicação e suporte sem banco"
+run = 'mvn --batch-mode -f api/pom.xml "-Dtest=**/dominio/*Test,**/aplicacao/*Test,**/suporte/*Test" test'
+
 [tasks.lint]
 description = "Verifica a formatação e a compilação"
 run = [
