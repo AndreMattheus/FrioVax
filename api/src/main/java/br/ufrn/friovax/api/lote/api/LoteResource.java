@@ -7,7 +7,9 @@ import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 import br.ufrn.friovax.api.lote.aplicacao.CadastrarLote;
 import br.ufrn.friovax.api.lote.aplicacao.AtualizarLote;
 import br.ufrn.friovax.api.lote.aplicacao.ConsultarLote;
+import br.ufrn.friovax.api.lote.aplicacao.DescartarLote;
 import br.ufrn.friovax.api.lote.aplicacao.InativarLote;
+import br.ufrn.friovax.api.lote.aplicacao.RegistrarBaixaLote;
 import br.ufrn.friovax.api.lote.dominio.EstadoLote;
 import br.ufrn.friovax.api.lote.dominio.LoteFiltro;
 import jakarta.inject.Inject;
@@ -53,14 +55,19 @@ public class LoteResource {
     private final ConsultarLote consultarLote;
     private final InativarLote inativarLote;
     private final AtualizarLote atualizarLote;
+    private final RegistrarBaixaLote registrarBaixa;
+    private final DescartarLote descartarLote;
 
     @Inject
     public LoteResource(CadastrarLote cadastrarLote, ConsultarLote consultarLote, InativarLote inativarLote,
-                        AtualizarLote atualizarLote) {
+                        AtualizarLote atualizarLote, RegistrarBaixaLote registrarBaixa,
+                        DescartarLote descartarLote) {
         this.cadastrarLote = cadastrarLote;
         this.consultarLote = consultarLote;
         this.inativarLote = inativarLote;
         this.atualizarLote = atualizarLote;
+        this.registrarBaixa = registrarBaixa;
+        this.descartarLote = descartarLote;
     }
 
     @POST
@@ -85,7 +92,7 @@ public class LoteResource {
     @APIResponse(responseCode = "422", ref = DocumentacaoApi.DADOS_INVALIDOS)
     public Response cadastrar(@NotNull(message = "deve ser informado") @Valid LoteRequest body) {
         var lote = cadastrarLote.cadastrar(body.codigo(), body.imunobiologico(), body.fabricante(), body.validade(),
-                body.quantidade(), body.camaraId());
+            body.quantidade(), body.camaraId());
         var location = uriInfo.getAbsolutePathBuilder().path(Long.toString(lote.getId())).build();
         return Response.created(location).entity(LoteResponse.de(lote)).build();
     }
@@ -100,30 +107,30 @@ public class LoteResource {
         description = "Parâmetro com tipo inválido ou vazio, `page`/`size` fora do intervalo ou `validadeDe` "
             + "posterior a `validadeAte`.")
     public PaginaResponse<LoteResponse> listar(
-            @Parameter(description = "Trecho do nome do imunobiológico, sem diferenciar maiúsculas de minúsculas.",
-                example = "febre")
-            @QueryParam("imunobiologico") String imunobiologico,
-            @Parameter(description = "Validade mínima, inclusiva (`validade >= validadeDe`).",
-                schema = @Schema(type = SchemaType.STRING, format = "date"), example = "2027-01-01")
-            @QueryParam("validadeDe") String validadeDe,
-            @Parameter(description = "Validade máxima, inclusiva (`validade <= validadeAte`).",
-                schema = @Schema(type = SchemaType.STRING, format = "date"), example = "2027-12-31")
-            @QueryParam("validadeAte") String validadeAte,
-            @Parameter(description = "Câmara do lote. Uma câmara inexistente não é erro: a página volta vazia.",
-                schema = @Schema(type = SchemaType.INTEGER, format = "int64"))
-            @QueryParam("camaraId") String camaraId,
-            @Parameter(description = "Estado do lote. Vazio equivale a ausente.",
-                schema = @Schema(implementation = EstadoLote.class))
-            @QueryParam("estado") String estado,
-            @Parameter(description = "`true` lista só lotes ativos; `false`, só inativos.",
-                schema = @Schema(type = SchemaType.BOOLEAN, defaultValue = "true"))
-            @QueryParam("ativo") String ativo,
-            @Parameter(description = "Número da página, a partir de 0.",
-                schema = @Schema(type = SchemaType.INTEGER, format = "int32", minimum = "0", defaultValue = "0"))
-            @QueryParam("page") String page,
-            @Parameter(description = "Itens por página.", schema = @Schema(type = SchemaType.INTEGER,
-                format = "int32", minimum = "1", maximum = "100", defaultValue = "20"))
-            @QueryParam("size") String size) {
+        @Parameter(description = "Trecho do nome do imunobiológico, sem diferenciar maiúsculas de minúsculas.",
+            example = "febre")
+        @QueryParam("imunobiologico") String imunobiologico,
+        @Parameter(description = "Validade mínima, inclusiva (`validade >= validadeDe`).",
+            schema = @Schema(type = SchemaType.STRING, format = "date"), example = "2027-01-01")
+        @QueryParam("validadeDe") String validadeDe,
+        @Parameter(description = "Validade máxima, inclusiva (`validade <= validadeAte`).",
+            schema = @Schema(type = SchemaType.STRING, format = "date"), example = "2027-12-31")
+        @QueryParam("validadeAte") String validadeAte,
+        @Parameter(description = "Câmara do lote. Uma câmara inexistente não é erro: a página volta vazia.",
+            schema = @Schema(type = SchemaType.INTEGER, format = "int64"))
+        @QueryParam("camaraId") String camaraId,
+        @Parameter(description = "Estado do lote. Vazio equivale a ausente.",
+            schema = @Schema(implementation = EstadoLote.class))
+        @QueryParam("estado") String estado,
+        @Parameter(description = "`true` lista só lotes ativos; `false`, só inativos.",
+            schema = @Schema(type = SchemaType.BOOLEAN, defaultValue = "true"))
+        @QueryParam("ativo") String ativo,
+        @Parameter(description = "Número da página, a partir de 0.",
+            schema = @Schema(type = SchemaType.INTEGER, format = "int32", minimum = "0", defaultValue = "0"))
+        @QueryParam("page") String page,
+        @Parameter(description = "Itens por página.", schema = @Schema(type = SchemaType.INTEGER,
+            format = "int32", minimum = "1", maximum = "100", defaultValue = "20"))
+        @QueryParam("size") String size) {
         LoteFiltro filtro;
         Paginacao paginacao;
         try {
@@ -140,13 +147,13 @@ public class LoteResource {
                 throw new IllegalArgumentException("ativo deve ser true ou false");
             }
             filtro = new LoteFiltro(imunobiologico,
-                    validadeDe == null ? null : LocalDate.parse(validadeDe),
-                    validadeAte == null ? null : LocalDate.parse(validadeAte),
-                    camaraId == null ? null : Long.parseLong(camaraId),
-                    estado == null || estado.trim().isEmpty() ? null : EstadoLote.valueOf(estado.trim()),
-                    Boolean.parseBoolean(ativo));
+                validadeDe == null ? null : LocalDate.parse(validadeDe),
+                validadeAte == null ? null : LocalDate.parse(validadeAte),
+                camaraId == null ? null : Long.parseLong(camaraId),
+                estado == null || estado.trim().isEmpty() ? null : EstadoLote.valueOf(estado.trim()),
+                Boolean.parseBoolean(ativo));
             paginacao = new Paginacao(page == null ? Paginacao.PAGINA_PADRAO : Integer.parseInt(page),
-                    size == null ? Paginacao.TAMANHO_PADRAO : Integer.parseInt(size));
+                size == null ? Paginacao.TAMANHO_PADRAO : Integer.parseInt(size));
         } catch (IllegalArgumentException | DateTimeParseException e) {
             throw new BadRequestException("Parâmetros de consulta inválidos.", e);
         }
@@ -187,7 +194,47 @@ public class LoteResource {
                                   @PathParam("id") long id,
                                   @NotNull(message = "deve ser informado") @Valid AtualizarLoteRequest body) {
         return LoteResponse.de(atualizarLote.atualizar(id, body.imunobiologico(), body.fabricante(),
-                body.validade(), body.quantidade(), body.camaraId()));
+            body.validade(), body.quantidade(), body.camaraId()));
+    }
+
+    @POST
+    @Path("/{id}/baixas")
+    @Operation(summary = "Registrar baixa de lote",
+        description = "Retira doses do lote, por aplicação (`ADMINISTRADA`) ou perda (`PERDA`). A `quantidade` "
+            + "diminui e, ao chegar a zero, o lote passa a `ESGOTADO`. A ocupação da câmara diminui na mesma "
+            + "medida. O lote é bloqueado durante a operação, então baixas simultâneas são aplicadas uma depois da "
+            + "outra. Nesta versão o motivo é obrigatório, mas não é armazenado.")
+    @APIResponse(responseCode = "200", description = "Baixa registrada; retorna o lote atualizado.")
+    @APIResponse(responseCode = "400", ref = DocumentacaoApi.REQUISICAO_INVALIDA,
+        description = "JSON malformado ou `motivo` fora de `ADMINISTRADA` e `PERDA`.")
+    @APIResponse(responseCode = "404", ref = DocumentacaoApi.NAO_ENCONTRADO)
+    @APIResponse(responseCode = "409", description = "Lote inativo ou `DESCARTADO` "
+        + "(`/problemas/estado-incompativel`).",
+        content = @Content(mediaType = DocumentacaoApi.PROBLEM_JSON,
+            schema = @Schema(implementation = ProblemDetails.class)))
+    @APIResponse(responseCode = "422", ref = DocumentacaoApi.DADOS_INVALIDOS,
+        description = "Campo ausente ou `quantidade` fora do intervalo de 1 até a quantidade atual do lote.")
+    public LoteResponse registrarBaixa(@Parameter(description = "Identificador técnico do lote.", example = "10")
+                                       @PathParam("id") long id,
+                                       @NotNull(message = "deve ser informado") @Valid BaixaLoteRequest body) {
+        return LoteResponse.de(registrarBaixa.registrar(id, body.quantidade(), body.motivo()));
+    }
+
+    @POST
+    @Path("/{id}/descarte")
+    @Consumes(MediaType.WILDCARD) // sem corpo: aceita a requisição com ou sem Content-Type
+    @Operation(summary = "Descartar lote",
+        description = "Retira o lote inteiro de uso, independentemente da quantidade restante: o lote passa a "
+            + "`DESCARTADO` e não aceita mais baixas. A quantidade é mantida, e o lote continua ativo e ocupando a "
+            + "câmara até ser inativado (`DELETE`). Repetir o descarte responde 200 sem alterar o lote.")
+    @APIResponse(responseCode = "200", description = "Lote descartado, ou já descartado.")
+    @APIResponse(responseCode = "404", ref = DocumentacaoApi.NAO_ENCONTRADO)
+    @APIResponse(responseCode = "409", description = "Lote inativo (`/problemas/estado-incompativel`).",
+        content = @Content(mediaType = DocumentacaoApi.PROBLEM_JSON,
+            schema = @Schema(implementation = ProblemDetails.class)))
+    public LoteResponse descartar(@Parameter(description = "Identificador técnico do lote.", example = "10")
+                                  @PathParam("id") long id) {
+        return LoteResponse.de(descartarLote.descartar(id));
     }
 
     @DELETE
