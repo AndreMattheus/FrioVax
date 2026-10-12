@@ -2,6 +2,8 @@
 
 Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). A organização interna do serviço está no [ADR 0002](adr/0002-dominio-independente-e-aplicacao-por-interfaces.md), que substitui a proposta do [ADR 0001](adr/0001-arquitetura-em-camadas.md).
 
+A especificação OpenAPI gerada a partir do código fica em `/q/openapi`, e o Swagger UI em `/q/swagger-ui` (endereços no [README](../README.md#documentação-openapi-e-swagger-ui)). Este documento continua sendo a referência das decisões; a especificação descreve as rotas já implementadas.
+
 Itens marcados com **⚠️ Pendente** dependem de validação externa e não devem ser tratados como aceitos.
 
 ## 1. Decisões
