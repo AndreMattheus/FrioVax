@@ -25,6 +25,21 @@ class LoteRepositoryEmMemoriaTest {
 
     private final LoteRepositoryEmMemoria repositorio = new LoteRepositoryEmMemoria();
 
+    @Test
+    void limparRemoveRegistrosEOcupacaoEReiniciaIds() {
+        salvar("L1", "Vacina", HOJE.plusMonths(6), 100, 1);
+        salvar("L2", "Vacina", HOJE.plusMonths(6), 50, 1);
+
+        repositorio.limpar();
+
+        assertTrue(repositorio.buscarPorId(1).isEmpty());
+        assertTrue(repositorio.buscarPorId(2).isEmpty());
+        assertFalse(repositorio.existePorCodigo("L1"));
+        assertEquals(0, repositorio.ocupacaoDaCamara(1));
+        assertFalse(repositorio.existeLoteAtivoNaCamara(1));
+        assertEquals(1L, salvar("L1", "Vacina", HOJE.plusMonths(6), 100, 1).getId());
+    }
+
     private Lote salvar(String codigo, String imunobiologico, LocalDate validade, int quantidade, long camaraId) {
         return repositorio.salvar(Lote.novo(codigo, imunobiologico, "Fabricante", validade, quantidade, camaraId,
                 HOJE, AGORA));

@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @QuarkusTest
-class CamaraAtualizacaoHttpTest {
+class CamaraAtualizacaoPostgresTest {
     private static final String ROTA = "/api/camaras/{id}";
 
     @Inject
@@ -39,73 +39,6 @@ class CamaraAtualizacaoHttpTest {
 
     @Inject
     EntityManager entityManager;
-
-    @Test
-    void retorna200ComCamposAtualizadosEPreservaIdECodigo() {
-        long id = criarCamara();
-        String codigo = given().when().get(ROTA, id).then().extract().path("codigo");
-        try {
-            given().contentType("application/json")
-                .body(corpo("Câmara reformada", 2000, "MANUTENCAO", "\"codigo\": \"OUTRO-CODIGO\","))
-                .when().put(ROTA, id).then()
-                .statusCode(200)
-                .body("id", equalTo((int) id),
-                    "codigo", equalTo(codigo),
-                    "nome", equalTo("Câmara reformada"),
-                    "capacidade", equalTo(2000),
-                    "estado", equalTo("MANUTENCAO"));
-        } finally {
-            apagarCamara(id);
-        }
-    }
-
-    @Test
-    void retorna422ParaCorpoInvalidoSemAlterarNada() {
-        long id = criarCamara();
-        try {
-            given().contentType("application/json")
-                .body(corpo("Outro nome", 0, "OPERACIONAL", ""))
-                .when().put(ROTA, id).then()
-                .statusCode(422)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/validacao"));
-
-            given().when().get(ROTA, id).then()
-                .body("nome", equalTo("Câmara de teste"), "capacidade", equalTo(5000));
-        } finally {
-            apagarCamara(id);
-        }
-    }
-
-    @Test
-    void retorna409AoReduzirCapacidadeAbaixoDaOcupacao() {
-        long id = criarCamara();
-        try {
-            criarLote(id);
-
-            given().contentType("application/json")
-                .body(corpo("Câmara de teste", 50, "OPERACIONAL", ""))
-                .when().put(ROTA, id).then()
-                .statusCode(409)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/capacidade-excedida"),
-                    "instance", equalTo("/api/camaras/" + id));
-
-            given().when().get(ROTA, id).then().body("capacidade", equalTo(5000));
-        } finally {
-            apagarCamara(id);
-        }
-    }
-
-    @Test
-    void retorna404ParaIdInexistente() {
-        given().contentType("application/json")
-            .body(corpo("Câmara", 100, "OPERACIONAL", ""))
-            .when().put(ROTA, Long.MAX_VALUE).then()
-            .statusCode(404)
-            .contentType("application/problem+json")
-            .body("type", equalTo("/problemas/recurso-nao-encontrado"));
-    }
 
     @Test
     void putAguardaBloqueioDaAlocacaoConcorrenteERecusaReducaoDeCapacidade() throws Exception {
@@ -162,10 +95,6 @@ class CamaraAtualizacaoHttpTest {
             return camaras.salvar(Camara.nova(codigo, "Câmara de teste", "UBS Centro", 5000,
                 new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL, agora())).getId();
         });
-    }
-
-    private void criarLote(long camaraId) {
-        QuarkusTransaction.requiringNew().run(() -> criarLoteNaTransacaoAtual(camaraId));
     }
 
     private void criarLoteNaTransacaoAtual(long camaraId) {

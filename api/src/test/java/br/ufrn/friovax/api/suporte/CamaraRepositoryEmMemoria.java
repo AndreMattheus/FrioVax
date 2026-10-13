@@ -21,6 +21,11 @@ public class CamaraRepositoryEmMemoria implements CamaraRepository {
     private final Map<Long, Camara> camaras = new TreeMap<>();
     private final AtomicLong sequencia = new AtomicLong();
 
+    public synchronized void limpar() {
+        camaras.clear();
+        sequencia.set(0);
+    }
+
     @Override
     public synchronized Camara salvar(Camara camara) {
         if (camara.getId() == null) {
