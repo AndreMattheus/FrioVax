@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
-class LoteInativacaoHttpTest {
+class LoteInativacaoPostgresTest {
     @Inject CamaraRepository camaras;
     @Inject LoteRepository lotes;
     @Inject EntityManager entityManager;
@@ -77,14 +77,6 @@ class LoteInativacaoHttpTest {
                         .setParameter("id", camaraId).executeUpdate();
             });
         }
-    }
-
-    @Test
-    void inexistenteRetorna404ComProblemDetails() {
-        given().delete("/api/lotes/{id}", Long.MAX_VALUE).then().statusCode(404)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/recurso-nao-encontrado"), "status", equalTo(404),
-                        "instance", equalTo("/api/lotes/" + Long.MAX_VALUE));
     }
 
     private Lote criarLote(long camaraId, int quantidade) {

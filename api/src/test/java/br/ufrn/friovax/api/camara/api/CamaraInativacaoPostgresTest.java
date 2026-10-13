@@ -21,13 +21,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
-class CamaraInativacaoHttpTest {
+class CamaraInativacaoPostgresTest {
     private static final String ROTA = "/api/camaras/{id}";
 
     @Inject
@@ -38,67 +37,6 @@ class CamaraInativacaoHttpTest {
 
     @Inject
     EntityManager entityManager;
-
-    @Test
-    void retorna204SemCorpoEPreservaORegistro() {
-        long id = criarCamara();
-        try {
-            given().when().delete(ROTA, id).then()
-                    .statusCode(204)
-                    .body(blankOrNullString());
-
-            given().when().get(ROTA, id).then()
-                    .statusCode(200)
-                    .body("id", equalTo((int) id), "ativo", equalTo(false));
-        } finally {
-            apagarCamara(id);
-        }
-    }
-
-    @Test
-    void repetirDeleteNumaCamaraInativaTambemRetorna204() {
-        long id = criarCamara();
-        try {
-            given().when().delete(ROTA, id).then().statusCode(204);
-            String atualizadoEm = given().when().get(ROTA, id).then().extract().path("atualizadoEm");
-
-            given().when().delete(ROTA, id).then()
-                    .statusCode(204)
-                    .body(blankOrNullString());
-
-            given().when().get(ROTA, id).then()
-                    .body("ativo", equalTo(false), "atualizadoEm", equalTo(atualizadoEm));
-        } finally {
-            apagarCamara(id);
-        }
-    }
-
-    @Test
-    void retorna409ParaCamaraComLotesAtivos() {
-        long id = criarCamara();
-        try {
-            criarLote(id);
-
-            given().when().delete(ROTA, id).then()
-                    .statusCode(409)
-                    .contentType("application/problem+json")
-                    .body("type", equalTo("/problemas/estado-incompativel"),
-                            "instance", equalTo("/api/camaras/" + id));
-
-            given().when().get(ROTA, id).then().body("ativo", equalTo(true));
-        } finally {
-            apagarCamara(id);
-        }
-    }
-
-    @Test
-    void retorna404ParaIdInexistente() {
-        given().when().delete(ROTA, Long.MAX_VALUE).then()
-                .statusCode(404)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/recurso-nao-encontrado"),
-                        "instance", equalTo("/api/camaras/" + Long.MAX_VALUE));
-    }
 
     @Test
     void aguardaAlocacaoConcorrenteERecusaAInativacao() throws Exception {
@@ -131,10 +69,6 @@ class CamaraInativacaoHttpTest {
             return camaras.salvar(Camara.nova(codigo, "Câmara de teste", "UBS Centro", 5000,
                     new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL, agora())).getId();
         });
-    }
-
-    private void criarLote(long camaraId) {
-        QuarkusTransaction.requiringNew().run(() -> criarLoteNaTransacaoAtual(camaraId));
     }
 
     private void criarLoteNaTransacaoAtual(long camaraId) {

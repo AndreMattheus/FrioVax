@@ -30,9 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @QuarkusTest
-class LoteBaixaDescarteHttpTest {
+class LoteBaixaDescartePostgresTest {
     private static final String BAIXAS = "/api/lotes/{id}/baixas";
-    private static final String DESCARTE = "/api/lotes/{id}/descarte";
 
     @Inject CamaraRepository camaras;
     @Inject LoteRepository lotes;
@@ -56,66 +55,6 @@ class LoteBaixaDescarteHttpTest {
             entityManager.createNativeQuery("delete from camaras where id = :id")
                     .setParameter("id", camaraId).executeUpdate();
         });
-    }
-
-    // ----- baixa -----
-
-    @Test
-    void baixaParcialRetorna200EReduzOcupacao() {
-        long loteId = criarLote(100);
-
-        baixa(loteId, 30, "ADMINISTRADA").then().statusCode(200)
-                .body("id", equalTo((int) loteId), "quantidade", equalTo(70), "estado", equalTo("DISPONIVEL"));
-
-        given().get("/api/camaras/{id}", camaraId).then().statusCode(200).body("ocupacao", equalTo(70));
-    }
-
-    @Test
-    void baixaDoRestanteEsgotaOLote() {
-        long loteId = criarLote(40);
-
-        baixa(loteId, 40, "PERDA").then().statusCode(200)
-                .body("quantidade", equalTo(0), "estado", equalTo("ESGOTADO"));
-    }
-
-    @Test
-    void quantidadeAcimaDoDisponivelRetorna422SemAlterar() {
-        long loteId = criarLote(40);
-
-        baixa(loteId, 41, "PERDA").then().statusCode(422)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/validacao"), "erros[0].campo", equalTo("quantidade"));
-
-        given().get("/api/lotes/{id}", loteId).then().body("quantidade", equalTo(40));
-    }
-
-    @Test
-    void motivoAusenteRetorna422() {
-        long loteId = criarLote(40);
-
-        given().contentType("application/json").body("{ \"quantidade\": 10 }")
-                .when().post(BAIXAS, loteId).then().statusCode(422)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/validacao"));
-    }
-
-    @Test
-    void baixaEmLoteDescartadoRetorna409() {
-        long loteId = criarLote(40);
-        given().post(DESCARTE, loteId).then().statusCode(200);
-
-        baixa(loteId, 10, "PERDA").then().statusCode(409)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/estado-incompativel"));
-
-        given().get("/api/lotes/{id}", loteId).then().body("quantidade", equalTo(40));
-    }
-
-    @Test
-    void baixaEmLoteInexistenteRetorna404() {
-        baixa(Long.MAX_VALUE, 10, "PERDA").then().statusCode(404)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/recurso-nao-encontrado"));
     }
 
     @Test
@@ -155,50 +94,6 @@ class LoteBaixaDescarteHttpTest {
             liberar.countDown();
         }
     }
-
-    // ----- descarte -----
-
-    @Test
-    void descarteRetorna200MantendoQuantidadeEOcupacao() {
-        long loteId = criarLote(100);
-
-        given().post(DESCARTE, loteId).then().statusCode(200)
-                .body("estado", equalTo("DESCARTADO"), "quantidade", equalTo(100), "ativo", equalTo(true));
-
-        // O lote descartado ocupa a câmara até ser inativado (D6).
-        given().get("/api/camaras/{id}", camaraId).then().body("ocupacao", equalTo(100));
-    }
-
-    @Test
-    void repetirODescarteRetorna200SemAlterar() {
-        long loteId = criarLote(100);
-        given().post(DESCARTE, loteId).then().statusCode(200);
-        // Lê pelo GET (valor gravado no banco) para comparar sempre no mesmo formato e precisão.
-        String primeiraAtualizacao = given().get("/api/lotes/{id}", loteId).then().extract().path("atualizadoEm");
-
-        given().post(DESCARTE, loteId).then().statusCode(200).body("estado", equalTo("DESCARTADO"));
-
-        given().get("/api/lotes/{id}", loteId).then().body("atualizadoEm", equalTo(primeiraAtualizacao));
-    }
-
-    @Test
-    void descarteEmLoteInativoRetorna409() {
-        long loteId = criarLote(100);
-        given().delete("/api/lotes/{id}", loteId).then().statusCode(204);
-
-        given().post(DESCARTE, loteId).then().statusCode(409)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/estado-incompativel"));
-    }
-
-    @Test
-    void descarteEmLoteInexistenteRetorna404() {
-        given().post(DESCARTE, Long.MAX_VALUE).then().statusCode(404)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/recurso-nao-encontrado"));
-    }
-
-    // ----- apoio -----
 
     private io.restassured.response.Response baixa(long loteId, int quantidade, String motivo) {
         return given().contentType("application/json")
