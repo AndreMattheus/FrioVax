@@ -56,7 +56,7 @@ A API Java concentra os casos de uso, as regras de negócio e a persistência em
 
 ## Como rodar
 
-Pré-requisitos: [mise](https://mise.jdx.dev/) e Docker Desktop em execução. Os testes unitários abaixo dispensam Docker e PostgreSQL. Execute os comandos a partir da raiz do repositório; as versões de Java, Maven e Go estão definidas em `mise.toml`.
+Pré-requisitos: [mise](https://mise.jdx.dev/) e Docker Desktop em execução. Os testes unitários e HTTP em memória abaixo dispensam Docker e PostgreSQL. Execute os comandos a partir da raiz do repositório; as versões de Java, Maven e Go estão definidas em `mise.toml`.
 
 ```bash
 mise trust
@@ -91,6 +91,7 @@ Com a API no ar, a documentação das rotas fica disponível em:
 | `mise run build` | Compila Java e Go |
 | `mise run test` | Executa os testes dos dois stacks |
 | `mise run test-unit` | Executa testes Java de domínio, aplicação e suporte sem banco |
+| `mise run test-http` | Executa testes HTTP de câmaras, lotes e documentação em memória, sem banco |
 | `mise run lint` | Verifica Maven, `gofmt` e `go vet` |
 | `mise run ci` | Reproduz o pipeline localmente |
 | `mise run up` | Sobe os serviços com Docker Compose |
@@ -122,9 +123,39 @@ Mantenha as aspas no argumento `-Dtest`, inclusive no PowerShell. No resultado, 
 
 Essa seleção não inclui testes HTTP, de persistência ou de arquitetura. Os mesmos testes unitários continuam sendo executados pelo fluxo completo do Maven e pelo CI.
 
+#### Contrato HTTP com repositórios em memória
+
+Na raiz do repositório, prepare Java e Maven e execute:
+
+```bash
+mise trust
+mise install java maven
+mise run test-http
+```
+
+Não é necessário iniciar Docker, PostgreSQL, Compose ou a API manualmente. O comando seleciona as classes terminadas em `HttpMemoriaTest`. O Quarkus inicia a aplicação numa porta de teste livre, e o REST Assured envia requisições HTTP reais às rotas. Resources, casos de uso, validações e serialização JSON continuam sendo os da aplicação.
+
+O `HttpEmMemoriaProfile` fornece repositórios em memória e um `Clock.fixed` em `America/Fortaleza`; também desativa datasource/JDBC, Hibernate ORM, Flyway e Dev Services. O `HttpEmMemoriaSupport` limpa os registros e reinicia os IDs antes de cada cenário que usa esses repositórios. Essas substituições ficam limitadas aos testes que selecionam o perfil.
+
+Para reproduzir a seleção pelo Maven ou executar apenas uma classe:
+
+```bash
+mise exec -- mvn --batch-mode -f api/pom.xml "-Dtest=*HttpMemoriaTest" test
+mise exec -- mvn --batch-mode -f api/pom.xml "-Dtest=LoteBaixaDescarteHttpMemoriaTest" test
+```
+
+Ao adicionar um teste HTTP sem banco, use o sufixo `HttpMemoriaTest` e selecione `HttpEmMemoriaProfile` para incluí-lo neste comando.
+
+| Seleção | O que executa | Precisa de Docker? |
+|---|---|---|
+| `mise run test-unit` | Domínio, aplicação e suporte, sem iniciar Quarkus | Não |
+| `mise run test-http` | Rotas HTTP reais com persistência em memória | Não |
+| `mise run test` | Todos os testes Java e Go, incluindo integração PostgreSQL | Sim |
+| `mise run ci` | Validação Java completa, formatação, análise estática, testes e build Go | Sim |
+
 #### Suíte completa e integração
 
-`mise run test` executa os testes Java e Go. Os testes unitários de domínio e aplicação usam objetos Java, repositórios em memória e relógio fixo quando necessário. Os testes de integração com `@QuarkusTest` iniciam a aplicação e um PostgreSQL temporário pelo Dev Services; os testes HTTP usam REST Assured para verificar as respostas e os dados persistidos. É necessário manter o Docker em execução, sem precisar subir o Compose antes.
+`mise run test` executa todos os testes Java e Go. A suíte Java inclui testes unitários, HTTP em memória, arquitetura e integração com PostgreSQL. `@QuarkusTest` inicia a aplicação; o uso do banco depende do perfil. Os testes com a configuração PostgreSQL iniciam um banco temporário pelo Dev Services e verificam persistência, consultas SQL, constraints e cenários de concorrência. É necessário manter o Docker em execução para a suíte completa, sem precisar subir o Compose antes.
 
 Para executar apenas a suíte Java ou uma classe específica:
 
@@ -133,7 +164,7 @@ mise exec -- mvn --batch-mode -f api/pom.xml verify
 mise exec -- mvn --batch-mode -f api/pom.xml -Dtest=CamaraServiceTest test
 ```
 
-Os relatórios Java ficam em `api/target/surefire-reports`. Antes de concluir uma alteração, execute `mise run ci`: ele verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Os testes HTTP executam transações no servidor; os dados criados por eles precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP.
+Os relatórios Java ficam em `api/target/surefire-reports`. Antes de concluir uma alteração, execute `mise run ci`: ele verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Nos testes HTTP com PostgreSQL, as transações ocorrem no servidor; os dados criados precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP. A aprovação das seleções sem banco não substitui a validação do CI completo.
 
 #### Arquitetura
 
@@ -159,7 +190,7 @@ A especificação OpenAPI 3.1 é gerada a partir do código pelo SmallRye OpenAP
 
 O Swagger UI é publicado também no jar empacotado (`quarkus.swagger-ui.always-include=true`). Por isso, os endereços acima funcionam em `mise run up`, no Compose, e em `quarkus dev`. Em **Try it out**, a interface envia as requisições para a própria API local.
 
-Ao alterar uma rota, um campo ou uma regra do contrato, atualize as anotações correspondentes. `DocumentacaoApiHttpTest` verifica se a especificação continua publicada e se as rotas, os filtros e as respostas principais estão documentados.
+Ao alterar uma rota, um campo ou uma regra do contrato, atualize as anotações correspondentes. `DocumentacaoApiHttpMemoriaTest`, incluído em `mise run test-http`, verifica se a especificação continua publicada e se as rotas, os filtros e as respostas principais estão documentados.
 
 ### Uso da API pelo Postman
 
