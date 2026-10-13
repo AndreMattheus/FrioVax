@@ -1,6 +1,8 @@
 package br.ufrn.friovax.api.compartilhado.api;
 
+import br.ufrn.friovax.api.suporte.HttpEmMemoriaProfile;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -11,7 +13,8 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasKey;
 
 @QuarkusTest
-class DocumentacaoApiHttpTest {
+@TestProfile(HttpEmMemoriaProfile.class)
+class DocumentacaoApiHttpMemoriaTest {
 
     @Test
     void publicaEspecificacaoOpenApiEmJson() {
