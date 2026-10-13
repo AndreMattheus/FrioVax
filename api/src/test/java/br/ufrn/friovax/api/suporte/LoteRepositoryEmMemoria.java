@@ -25,6 +25,11 @@ public class LoteRepositoryEmMemoria implements LoteRepository {
     private final Map<Long, Lote> lotes = new TreeMap<>();
     private final AtomicLong sequencia = new AtomicLong();
 
+    public synchronized void limpar() {
+        lotes.clear();
+        sequencia.set(0);
+    }
+
     @Override
     public synchronized Lote salvar(Lote lote) {
         if (lote.getId() == null) {

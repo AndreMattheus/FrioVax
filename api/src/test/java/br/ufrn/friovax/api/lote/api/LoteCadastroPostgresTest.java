@@ -32,14 +32,12 @@ import java.util.concurrent.TimeUnit;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
-class LoteCadastroHttpTest {
+class LoteCadastroPostgresTest {
     private static final String ROTA = "/api/lotes";
 
     @Inject CamaraRepository camaras;
@@ -85,21 +83,6 @@ class LoteCadastroHttpTest {
     }
 
     @Test
-    void aceitaOcupacaoIgualACapacidadeERecusaExcedenteSemGravar() {
-        long camaraId = novaCamara(1000, EstadoCamara.OPERACIONAL);
-        cadastrar(bodyValido(camaraId, 600)).then().statusCode(201);
-        cadastrar(bodyValido(camaraId, 400)).then().statusCode(201);
-
-        var excedente = bodyValido(camaraId, 1);
-        verificarProblema(cadastrar(excedente), 409, "capacidade-excedida");
-
-        QuarkusTransaction.requiringNew().run(() -> {
-            assertFalse(lotes.existePorCodigo((String) excedente.get("codigo")));
-            assertEquals(1000, lotes.ocupacaoDaCamara(camaraId));
-        });
-    }
-
-    @Test
     void protegeACapacidadeComDuasSolicitacoesSimultaneas() throws Exception {
         long camaraId = novaCamara(1000, EstadoCamara.OPERACIONAL);
         var prontas = new CountDownLatch(2);
@@ -124,75 +107,6 @@ class LoteCadastroHttpTest {
             verificarProblema(resposta1.statusCode() == 409 ? resposta1 : resposta2, 409, "capacidade-excedida");
         }
         QuarkusTransaction.requiringNew().run(() -> assertEquals(600, lotes.ocupacaoDaCamara(camaraId)));
-    }
-
-    @Test
-    void recusaCamaraForaDeOperacao() {
-        long camaraId = novaCamara(1000, EstadoCamara.MANUTENCAO);
-
-        verificarProblema(cadastrar(bodyValido(camaraId, 10)), 409, "estado-incompativel");
-    }
-
-    @Test
-    void recusaCamaraInativa() {
-        long camaraId = novaCamara(1000, EstadoCamara.OPERACIONAL);
-        given().delete("/api/camaras/{id}", camaraId).then().statusCode(204);
-
-        verificarProblema(cadastrar(bodyValido(camaraId, 10)), 409, "estado-incompativel");
-    }
-
-    @Test
-    void camaraInexistenteRetorna404() {
-        verificarProblema(cadastrar(bodyValido(Long.MAX_VALUE, 10)), 404, "recurso-nao-encontrado");
-    }
-
-    @Test
-    void codigoRepetidoRetorna409() {
-        long camaraId = novaCamara(1000, EstadoCamara.OPERACIONAL);
-        var body = bodyValido(camaraId, 10);
-        cadastrar(body).then().statusCode(201);
-
-        verificarProblema(cadastrar(body), 409, "codigo-duplicado");
-    }
-
-    @Test
-    void validadeNaoFuturaRetorna422() {
-        long camaraId = novaCamara(1000, EstadoCamara.OPERACIONAL);
-        var body = bodyValido(camaraId, 10);
-        body.put("validade", LocalDate.now(ZoneId.of("America/Fortaleza")).toString());
-
-        verificarProblema(cadastrar(body), 422, "validacao").body("erros.campo", hasItem("validade"));
-    }
-
-    @Test
-    void camposObrigatoriosERegrasDeEntradaRetornam422() {
-        long camaraId = novaCamara(1000, EstadoCamara.OPERACIONAL);
-        for (var campo : List.of("codigo", "imunobiologico", "fabricante", "validade", "quantidade", "camaraId")) {
-            var body = bodyValido(camaraId, 10);
-            body.remove(campo);
-            verificarProblema(cadastrar(body), 422, "validacao").body("erros.campo", hasItem(campo));
-        }
-        verificarProblema(cadastrar(bodyValido(camaraId, 0)), 422, "validacao")
-                .body("erros.campo", hasItem("quantidade"));
-        var codigoInvalido = bodyValido(camaraId, 10);
-        codigoInvalido.put("codigo", "LOTE#1");
-        verificarProblema(cadastrar(codigoInvalido), 422, "validacao").body("erros.campo", hasItem("codigo"));
-        QuarkusTransaction.requiringNew().run(() -> assertEquals(0, lotes.ocupacaoDaCamara(camaraId)));
-    }
-
-    @Test
-    void bodyAusenteRetorna422() {
-        verificarProblema(given().contentType("application/json").post(ROTA), 422, "validacao")
-                .body("erros.campo", hasItem("body"));
-    }
-
-    @Test
-    void quantidadeDecimalRetorna400() {
-        long camaraId = novaCamara(1000, EstadoCamara.OPERACIONAL);
-        var body = bodyValido(camaraId, 10);
-        body.put("quantidade", 10.5);
-
-        verificarProblema(cadastrar(body), 400, "requisicao-invalida");
     }
 
     private long novaCamara(int capacidade, EstadoCamara estado) {

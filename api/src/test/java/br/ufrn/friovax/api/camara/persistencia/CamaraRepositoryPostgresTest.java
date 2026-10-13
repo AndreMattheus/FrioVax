@@ -100,17 +100,24 @@ class CamaraRepositoryPostgresTest {
         camara.atualizar("Atualizada", "Unidade B", 20, new BigDecimal("1.0"),
             new BigDecimal("7.0"), EstadoCamara.MANUTENCAO, 0, false, AGORA.plusHours(1));
         repositorio.salvar(camara);
+        repositorio.getEntityManager().clear();
 
         var atualizada = repositorio.buscarPorId(camara.getId()).orElseThrow();
         assertEquals("Atualizada", atualizada.getNome());
         assertEquals("Unidade B", atualizada.getUnidade());
         assertEquals(20, atualizada.getCapacidade());
         assertEquals(EstadoCamara.MANUTENCAO, atualizada.getEstado());
+        assertEquals(AGORA.toInstant(), atualizada.getCriadoEm().toInstant());
+        assertEquals(AGORA.plusHours(1).toInstant(), atualizada.getAtualizadoEm().toInstant());
 
         atualizada.inativar(false, AGORA.plusHours(2));
         repositorio.salvar(atualizada);
+        repositorio.getEntityManager().clear();
 
-        assertFalse(repositorio.buscarPorId(camara.getId()).orElseThrow().isAtivo());
+        var inativa = repositorio.buscarPorId(camara.getId()).orElseThrow();
+        assertFalse(inativa.isAtivo());
+        assertEquals(AGORA.toInstant(), inativa.getCriadoEm().toInstant());
+        assertEquals(AGORA.plusHours(2).toInstant(), inativa.getAtualizadoEm().toInstant());
         assertEquals(1, repositorio.listar(new CamaraFiltro("Unidade B", EstadoCamara.MANUTENCAO, false),
             Paginacao.padrao()).totalElementos());
     }

@@ -22,6 +22,19 @@ class CamaraRepositoryEmMemoriaTest {
 
     private final CamaraRepositoryEmMemoria repositorio = new CamaraRepositoryEmMemoria();
 
+    @Test
+    void limparRemoveRegistrosELiberaCodigosEReiniciaIds() {
+        salvar("CAM-01", "UBS Centro", EstadoCamara.OPERACIONAL);
+        salvar("CAM-02", "UBS Centro", EstadoCamara.OPERACIONAL);
+
+        repositorio.limpar();
+
+        assertTrue(repositorio.buscarPorId(1).isEmpty());
+        assertTrue(repositorio.buscarPorId(2).isEmpty());
+        assertFalse(repositorio.existePorCodigo("CAM-01"));
+        assertEquals(1L, salvar("CAM-01", "UBS Centro", EstadoCamara.OPERACIONAL).getId());
+    }
+
     private Camara salvar(String codigo, String unidade, EstadoCamara estado) {
         return repositorio.salvar(Camara.nova(codigo, "Câmara " + codigo, unidade, 1000,
                 new BigDecimal("2.0"), new BigDecimal("8.0"), estado, AGORA));

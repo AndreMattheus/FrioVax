@@ -1,33 +1,26 @@
 package br.ufrn.friovax.api.camara.api;
 
+import br.ufrn.friovax.api.suporte.HttpEmMemoriaProfile;
+import br.ufrn.friovax.api.suporte.HttpEmMemoriaSupport;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
-import jakarta.inject.Inject;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.net.URI;
-import java.sql.SQLException;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.config.HttpClientConfig.httpClientConfig;
@@ -40,15 +33,12 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
-class CamaraResourceTest {
+@TestProfile(HttpEmMemoriaProfile.class)
+class CamaraCadastroHttpMemoriaTest extends HttpEmMemoriaSupport {
 
     private static final String ROTA = "/api/camaras";
-
-    @Inject
-    DataSource dataSource;
 
     private final String codigo = "HTTP-" + UUID.randomUUID().toString()
             .replace("-", "").substring(0, 15).toUpperCase(Locale.ROOT);
@@ -73,6 +63,7 @@ class CamaraResourceTest {
                         .setParam("http.socket.timeout", 10000)))
                 .contentType("application/json")
                 .body(body)
+                .queryParam("origem", "teste")
                 .post(ROTA);
     }
 
@@ -87,7 +78,7 @@ class CamaraResourceTest {
                 .body("instance", equalTo(ROTA));
     }
 
-    private void verificarValidacao(Response resposta, String campo) throws SQLException {
+    private void verificarValidacao(Response resposta, String campo) {
         verificarProblema(resposta, 422, "validacao")
                 .body("title", equalTo("Dados inválidos"))
                 .body("erros.campo", hasItem(campo))
@@ -95,66 +86,27 @@ class CamaraResourceTest {
         assertEquals(0, contarRegistros());
     }
 
-    private long contarRegistros() throws SQLException {
-        try (var conexao = dataSource.getConnection();
-             var consulta = conexao.prepareStatement("SELECT count(*) FROM camaras WHERE codigo = ? OR unidade = ?")) {
-            consulta.setString(1, codigo);
-            consulta.setString(2, unidade);
-            try (var resultado = consulta.executeQuery()) {
-                assertTrue(resultado.next());
-                return resultado.getLong(1);
-            }
-        }
+    private long contarRegistros() {
+        return Stream.of(true, false).mapToLong(ativo ->
+                given().queryParam("ativo", ativo).get(ROTA).then().statusCode(200)
+                        .extract().jsonPath().getLong("totalElements")).sum();
     }
 
-    @AfterEach
-    void limparRegistrosDoTeste() throws SQLException {
-        // As requisições HTTP confirmam suas próprias transações; a limpeza usa apenas os dados deste teste.
-        try (var conexao = dataSource.getConnection();
-             var exclusao = conexao.prepareStatement("DELETE FROM camaras WHERE codigo = ? OR unidade = ?")) {
-            exclusao.setString(1, codigo);
-            exclusao.setString(2, unidade);
-            exclusao.executeUpdate();
-        }
-    }
-
-    private void verificarPersistencia(Response resposta) throws SQLException {
-        var json = resposta.jsonPath();
-        try (var conexao = dataSource.getConnection();
-             var consulta = conexao.prepareStatement("SELECT * FROM camaras WHERE id = ? AND codigo = ?")) {
-            consulta.setLong(1, json.getLong("id"));
-            consulta.setString(2, codigo);
-            try (var registro = consulta.executeQuery()) {
-                assertTrue(registro.next());
-                assertEquals(json.getString("nome"), registro.getString("nome"));
-                assertEquals(json.getString("unidade"), registro.getString("unidade"));
-                assertEquals(json.getInt("capacidade"), registro.getInt("capacidade"));
-                assertEquals(0, new BigDecimal(json.getString("temperaturaMinima"))
-                        .compareTo(registro.getBigDecimal("temperatura_minima")));
-                assertEquals(0, new BigDecimal(json.getString("temperaturaMaxima"))
-                        .compareTo(registro.getBigDecimal("temperatura_maxima")));
-                assertEquals(json.getString("estado"), registro.getString("estado"));
-                assertTrue(registro.getBoolean("ativo"));
-                var criadoEm = registro.getObject("criado_em", OffsetDateTime.class);
-                assertEquals(criadoEm, registro.getObject("atualizado_em", OffsetDateTime.class));
-                // O PostgreSQL armazena esses instantes com precisão de microssegundos.
-                assertTrue(Duration.between(criadoEm.toInstant(),
-                        OffsetDateTime.parse(json.getString("criadoEm")).toInstant()).abs().toNanos() <= 1000);
-                assertFalse(registro.next());
-            }
-        }
+    private void verificarRepresentacaoSalva(Response resposta) {
+        var consulta = given().get(resposta.header("Location")).then()
+                .statusCode(200).contentType("application/json").extract().response();
+        assertEquals(resposta.jsonPath().getMap(""), consulta.jsonPath().getMap(""));
         assertEquals(1, contarRegistros());
     }
 
     @Test
-    void deveCadastrarCom201LocationRepresentacaoCompletaEPersistencia() throws SQLException {
+    void deveCadastrarCom201LocationRepresentacaoCompletaEConsulta() {
         var body = bodyValido();
         body.put("codigo", " " + codigo.toLowerCase(Locale.ROOT) + " ");
         body.put("nome", " Câmara principal ");
         body.put("unidade", " " + unidade + " ");
         body.put("temperaturaMinima", new BigDecimal("2.00"));
         body.put("temperaturaMaxima", 8);
-        var inicio = Instant.now();
 
         var resposta = given().contentType("application/json").queryParam("origem", "teste")
                 .body(body).post(ROTA);
@@ -180,14 +132,13 @@ class CamaraResourceTest {
         var criadoEm = OffsetDateTime.parse(json.getString("criadoEm"));
         assertEquals(criadoEm, OffsetDateTime.parse(json.getString("atualizadoEm")));
         assertEquals(ZoneOffset.ofHours(-3), criadoEm.getOffset());
-        assertFalse(criadoEm.toInstant().isBefore(inicio));
-        assertFalse(criadoEm.toInstant().isAfter(Instant.now()));
-        verificarPersistencia(resposta);
+        assertEquals(OffsetDateTime.now(HttpEmMemoriaProfile.RELOGIO), criadoEm);
+        verificarRepresentacaoSalva(resposta);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"OPERACIONAL", "MANUTENCAO", "DESATIVADA"})
-    void deveAceitarTodosOsEstadosComCadastroAtivo(String estado) throws SQLException {
+    void deveAceitarTodosOsEstadosComCadastroAtivo(String estado) {
         var body = bodyValido();
         body.put("estado", estado);
 
@@ -195,11 +146,11 @@ class CamaraResourceTest {
 
         resposta.then().statusCode(201).body("estado", equalTo(estado))
                 .body("ativo", equalTo(true)).body("ocupacao", equalTo(0));
-        verificarPersistencia(resposta);
+        verificarRepresentacaoSalva(resposta);
     }
 
     @Test
-    void deveIgnorarCamposDesconhecidosESomenteLeitura() throws SQLException {
+    void deveIgnorarCamposDesconhecidosESomenteLeitura() {
         var body = bodyValido();
         body.put("id", -1);
         body.put("ocupacao", 999);
@@ -215,11 +166,11 @@ class CamaraResourceTest {
                 .body("criadoEm", not(equalTo("2000-01-01T00:00:00Z")))
                 .body("atualizadoEm", equalTo(resposta.jsonPath().getString("criadoEm")));
         assertFalse(resposta.jsonPath().getMap("").containsKey("campoDesconhecido"));
-        verificarPersistencia(resposta);
+        verificarRepresentacaoSalva(resposta);
     }
 
     @Test
-    void deveAceitarLimitesDeTextoTemperaturaECapacidade() throws SQLException {
+    void deveAceitarLimitesDeTextoTemperaturaECapacidade() {
         var body = bodyValido();
         var texto = "x".repeat(100);
         body.put("nome", " " + texto + " ");
@@ -233,12 +184,12 @@ class CamaraResourceTest {
         resposta.then().statusCode(201).body("nome", equalTo(texto)).body("unidade", equalTo(texto))
                 .body("capacidade", equalTo(Integer.MAX_VALUE))
                 .body("temperaturaMinima", equalTo(-999.9f)).body("temperaturaMaxima", equalTo(999.9f));
-        verificarPersistencia(resposta);
+        verificarRepresentacaoSalva(resposta);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"codigo", "nome", "unidade", "capacidade", "temperaturaMinima", "temperaturaMaxima", "estado"})
-    void deveRejeitarCampoObrigatorioAusente(String campo) throws SQLException {
+    void deveRejeitarCampoObrigatorioAusente(String campo) {
         var body = bodyValido();
         body.remove(campo);
 
@@ -247,7 +198,7 @@ class CamaraResourceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"codigo", "nome", "unidade", "capacidade", "temperaturaMinima", "temperaturaMaxima", "estado"})
-    void deveRejeitarCampoObrigatorioNulo(String campo) throws SQLException {
+    void deveRejeitarCampoObrigatorioNulo(String campo) {
         var body = bodyValido();
         body.put(campo, null);
 
@@ -256,7 +207,7 @@ class CamaraResourceTest {
 
     @ParameterizedTest
     @CsvSource({"codigo, ''", "codigo, '   '", "nome, ''", "nome, '   '", "unidade, ''", "unidade, '   '"})
-    void deveRejeitarTextoObrigatorioEmBranco(String campo, String valor) throws SQLException {
+    void deveRejeitarTextoObrigatorioEmBranco(String campo, String valor) {
         var body = bodyValido();
         body.put(campo, valor);
 
@@ -265,7 +216,7 @@ class CamaraResourceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"AB", "CAM_01", "CAMARA-COM-MAIS-DE-VINTE"})
-    void deveRejeitarCodigoForaDoFormato(String valor) throws SQLException {
+    void deveRejeitarCodigoForaDoFormato(String valor) {
         var body = bodyValido();
         body.put("codigo", valor);
 
@@ -274,7 +225,7 @@ class CamaraResourceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"nome", "unidade"})
-    void deveRejeitarTextoLongoDepoisDoTrim(String campo) throws SQLException {
+    void deveRejeitarTextoLongoDepoisDoTrim(String campo) {
         var body = bodyValido();
         body.put(campo, " " + "x".repeat(101) + " ");
 
@@ -283,7 +234,7 @@ class CamaraResourceTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, -1})
-    void deveRejeitarCapacidadeNaoPositiva(int capacidade) throws SQLException {
+    void deveRejeitarCapacidadeNaoPositiva(int capacidade) {
         var body = bodyValido();
         body.put("capacidade", capacidade);
 
@@ -299,7 +250,7 @@ class CamaraResourceTest {
             "-1000.0, 8.0, temperaturaMinima",
             "2.0, 1000.0, temperaturaMaxima"
     })
-    void deveRejeitarFaixaTermicaInvalida(String minima, String maxima, String campo) throws SQLException {
+    void deveRejeitarFaixaTermicaInvalida(String minima, String maxima, String campo) {
         var body = bodyValido();
         body.put("temperaturaMinima", new BigDecimal(minima));
         body.put("temperaturaMaxima", new BigDecimal(maxima));
@@ -309,7 +260,7 @@ class CamaraResourceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"10.5", "10.0"})
-    void deveRejeitarCapacidadeDecimalCom400(String capacidade) throws SQLException {
+    void deveRejeitarCapacidadeDecimalCom400(String capacidade) {
         var body = bodyValido();
         body.put("capacidade", new BigDecimal(capacidade));
 
@@ -319,7 +270,7 @@ class CamaraResourceTest {
 
     @ParameterizedTest
     @ValueSource(longs = {2147483648L, -2147483649L})
-    void deveRejeitarCapacidadeForaDoInt32(long capacidade) throws SQLException {
+    void deveRejeitarCapacidadeForaDoInt32(long capacidade) {
         var body = bodyValido();
         body.put("capacidade", capacidade);
 
@@ -329,7 +280,7 @@ class CamaraResourceTest {
 
     @ParameterizedTest
     @CsvSource({"estado, INVALIDO", "capacidade, texto", "temperaturaMinima, texto"})
-    void deveRejeitarValorIncompativelComOTipo(String campo, String valor) throws SQLException {
+    void deveRejeitarValorIncompativelComOTipo(String campo, String valor) {
         var body = bodyValido();
         body.put(campo, valor);
 
@@ -340,7 +291,7 @@ class CamaraResourceTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2})
-    void deveRejeitarEstadoNumerico(int estado) throws SQLException {
+    void deveRejeitarEstadoNumerico(int estado) {
         var body = bodyValido();
         body.put("estado", estado);
 
@@ -349,7 +300,7 @@ class CamaraResourceTest {
     }
 
     @Test
-    void deveRejeitarJsonMalformado() throws SQLException {
+    void deveRejeitarJsonMalformado() {
         verificarProblema(cadastrar("{ isso não é json"), 400, "requisicao-invalida")
                 .body("detail", equalTo("O body da requisição não é um JSON válido."));
         assertEquals(0, contarRegistros());
@@ -357,24 +308,19 @@ class CamaraResourceTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", "null"})
-    void deveRejeitarBodyAusenteOuNulo(String body) throws SQLException {
+    void deveRejeitarBodyAusenteOuNulo(String body) {
         verificarValidacao(cadastrar(body), "body");
     }
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
-    void deveRejeitarCodigoDuplicadoInclusiveDeCamaraInativa(boolean ativo) throws SQLException {
+    void deveRejeitarCodigoDuplicadoInclusiveDeCamaraInativa(boolean ativo) {
         var body = bodyValido();
         var criada = cadastrar(body);
         criada.then().statusCode(201);
         long id = criada.jsonPath().getLong("id");
         if (!ativo) {
-            try (var conexao = dataSource.getConnection();
-                 var alteracao = conexao.prepareStatement("UPDATE camaras SET ativo = false WHERE id = ? AND codigo = ?")) {
-                alteracao.setLong(1, id);
-                alteracao.setString(2, codigo);
-                assertEquals(1, alteracao.executeUpdate());
-            }
+            given().delete(ROTA + "/{id}", id).then().statusCode(204);
         }
         body.put("codigo", " " + codigo.toLowerCase(Locale.ROOT) + " ");
         body.put("nome", "Tentativa duplicada");
@@ -384,42 +330,8 @@ class CamaraResourceTest {
                 .body("detail", equalTo("Já existe câmara com o código " + codigo + "."));
 
         assertEquals(1, contarRegistros());
-        try (var conexao = dataSource.getConnection();
-             var consulta = conexao.prepareStatement("SELECT nome, ativo FROM camaras WHERE id = ?")) {
-            consulta.setLong(1, id);
-            try (var registro = consulta.executeQuery()) {
-                assertTrue(registro.next());
-                assertEquals("Câmara principal", registro.getString("nome"));
-                assertEquals(ativo, registro.getBoolean("ativo"));
-            }
-        }
+        given().get(ROTA + "/{id}", id).then().statusCode(200)
+                .body("nome", equalTo("Câmara principal"), "ativo", equalTo(ativo));
     }
 
-    @Test
-    void devePermitirSomenteUmCadastroConcorrenteDoMesmoCodigo() throws Exception {
-        var body = bodyValido();
-        var prontas = new CountDownLatch(2);
-        var inicio = new CountDownLatch(1);
-        Callable<Response> requisicao = () -> {
-            prontas.countDown();
-            assertTrue(inicio.await(10, TimeUnit.SECONDS));
-            return cadastrar(body);
-        };
-
-        try (var executor = Executors.newFixedThreadPool(2)) {
-            var primeira = executor.submit(requisicao);
-            var segunda = executor.submit(requisicao);
-            assertTrue(prontas.await(10, TimeUnit.SECONDS));
-            inicio.countDown();
-            var resposta1 = primeira.get(30, TimeUnit.SECONDS);
-            var resposta2 = segunda.get(30, TimeUnit.SECONDS);
-
-            assertEquals(List.of(201, 409), List.of(resposta1.statusCode(), resposta2.statusCode())
-                    .stream().sorted().toList());
-            var sucesso = resposta1.statusCode() == 201 ? resposta1 : resposta2;
-            var conflito = resposta1.statusCode() == 409 ? resposta1 : resposta2;
-            verificarProblema(conflito, 409, "codigo-duplicado");
-            verificarPersistencia(sucesso);
-        }
-    }
 }

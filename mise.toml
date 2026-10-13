@@ -21,6 +21,10 @@ run = [
 description = "Executa testes Java de domínio, aplicação e suporte sem banco"
 run = 'mvn --batch-mode -f api/pom.xml "-Dtest=**/dominio/*Test,**/aplicacao/*Test,**/suporte/*Test" test'
 
+[tasks.test-http]
+description = "Executa testes HTTP de câmaras, lotes e documentação com repositórios em memória"
+run = 'mvn --batch-mode -f api/pom.xml "-Dtest=*HttpMemoriaTest" test'
+
 [tasks.lint]
 description = "Verifica a formatação e a compilação"
 run = [
