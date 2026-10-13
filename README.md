@@ -164,6 +164,17 @@ mise exec -- mvn --batch-mode -f api/pom.xml verify
 mise exec -- mvn --batch-mode -f api/pom.xml -Dtest=CamaraServiceTest test
 ```
 
+Os testes com PostgreSQL real ficam agrupados assim:
+
+| Classe | O que prova |
+| --- | --- |
+| `MigracoesFlywayTest` | Um esquema vazio recebe todas as migrações e restrições; uma nova execução do Flyway não reaplica nada nem apaga dados. |
+| `CamaraRepositoryPostgresTest` e `LoteRepositoryPostgresTest` | CRUD, chave estrangeira, unicidade, filtros, paginação SQL, metadados (`criadoEm`/`atualizadoEm`) e inativação. |
+| `integracao.RollbackTransacionalTest` | Uma rejeição desfaz a transação inteira, inclusive gravações já enviadas ao banco antes dela. |
+| `integracao.AlocacaoConcorrenteTest` | Alocações e movimentações simultâneas não excedem a capacidade; redução de capacidade e inativação da câmara concorrentes com alocações e movimentações entre câmaras de origem e destino. |
+
+O banco é sempre descartável: o Dev Services sobe um container com porta aleatória e o perfil dos testes com PostgreSQL não define URL. A mesma configuração vale localmente e no CI, que só precisa de Docker.
+
 Os relatórios Java ficam em `api/target/surefire-reports`. Antes de concluir uma alteração, execute `mise run ci`: ele verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Nos testes HTTP com PostgreSQL, as transações ocorrem no servidor; os dados criados precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP. A aprovação das seleções sem banco não substitui a validação do CI completo.
 
 #### Arquitetura
