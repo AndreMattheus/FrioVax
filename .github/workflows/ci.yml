@@ -21,10 +21,21 @@ jobs:
           java-version: "25"
           cache: maven
           cache-dependency-path: api/pom.xml
-      - name: Build e testes
+      - name: Verificar Docker para o PostgreSQL temporário
+        run: docker info
+      - name: Build e suíte completa (unitários, rotas, arquitetura e integração)
         run: mvn --batch-mode -f api/pom.xml verify
       - name: Verificar artefato executável do Quarkus
         run: test -f api/target/quarkus-app/quarkus-run.jar
+      - name: Publicar relatórios de testes Java
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-test-reports
+          path: |
+            api/target/surefire-reports/
+            api/target/failsafe-reports/
+          if-no-files-found: warn
 
   go:
     name: Go / Telemetria

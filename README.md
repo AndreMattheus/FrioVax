@@ -125,7 +125,11 @@ mise exec -- mvn --batch-mode -f api/pom.xml verify
 mise exec -- mvn --batch-mode -f api/pom.xml -Dtest=CamaraServiceTest test
 ```
 
-Os relatórios Java ficam em `api/target/surefire-reports`. Antes de concluir uma alteração, execute `mise run ci`: ele verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Os testes HTTP executam transações no servidor; os dados criados por eles precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP.
+`mise run test`, `mise run ci` e o workflow executam Maven até `verify`, sem filtros de classe ou de grupo. O Surefire executa `Test*`, `*Test` e `*Tests` na fase `test`, incluindo os testes atuais de rotas, arquitetura, migrações e persistência. O Failsafe executa `IT*`, `*IT` e `*ITCase` na fase `integration-test` e verifica o resultado em `verify`; atualmente não há classes com esses nomes. Assim, novas classes de integração também entram no fluxo completo.
+
+Os relatórios Java ficam em `api/target/surefire-reports` e `api/target/failsafe-reports` (quando houver testes Failsafe). O Actions publica esses relatórios no artefato `java-test-reports`, inclusive em caso de falha. O PostgreSQL temporário usa porta dinâmica e credenciais fornecidas pelo Dev Services, sem secrets, URL fixa ou Compose. Use o ambiente de teste sem sobrescrever `QUARKUS_DATASOURCE_*` com configurações de um banco externo.
+
+Antes de concluir uma alteração, execute `mise run ci`: ele verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Os testes HTTP executam transações no servidor; os dados criados por eles precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP. Para comprovar o CI, confira os jobs Java / Quarkus e Go / Telemetria no PR e, após a integração, no commit da branch principal.
 
 #### Arquitetura
 
