@@ -159,6 +159,8 @@ class LoteRepositoryPostgresTest {
         assertEquals("Outro fabricante", atualizado.getFabricante());
         assertEquals(HOJE.plusMonths(9), atualizado.getValidade());
         assertEquals(destino, atualizado.getCamaraId());
+        assertEquals(AGORA.toInstant(), atualizado.getCriadoEm().toInstant());
+        assertEquals(AGORA.plusHours(1).toInstant(), atualizado.getAtualizadoEm().toInstant());
 
         atualizado.darBaixa(100, MotivoBaixa.ADMINISTRADA, AGORA.plusHours(2));
         repositorio.salvar(atualizado);
@@ -167,9 +169,27 @@ class LoteRepositoryPostgresTest {
         assertEquals(0, esgotado.getQuantidade());
         assertEquals(EstadoLote.ESGOTADO, esgotado.getEstado());
 
+        assertEquals(AGORA.plusHours(2).toInstant(), esgotado.getAtualizadoEm().toInstant());
+
         inativar(esgotado);
         limparContexto();
-        assertFalse(repositorio.buscarPorId(lote.getId()).orElseThrow().isAtivo());
+        var inativo = repositorio.buscarPorId(lote.getId()).orElseThrow();
+        assertFalse(inativo.isAtivo());
+        assertEquals(AGORA.toInstant(), inativo.getCriadoEm().toInstant());
+    }
+
+    @Test
+    @TestTransaction
+    void naoDeveApagarCamaraReferenciadaPorLote() {
+        var camaraId = camara("C-FK");
+        salvar("L-FK", "Febre amarela", HOJE.plusMonths(6), 10, camaraId);
+
+        var exclusao = repositorio.getEntityManager()
+                .createNativeQuery("delete from camaras where id = :id")
+                .setParameter("id", camaraId);
+
+        var erro = assertThrows(PersistenceException.class, exclusao::executeUpdate);
+        assertTrue(mensagens(erro).contains("fk_lotes_camara"), () -> mensagens(erro));
     }
 
     @Test
@@ -276,6 +296,14 @@ class LoteRepositoryPostgresTest {
         inativar(lote);
         assertEquals(0, repositorio.ocupacaoDaCamara(destino));
         assertFalse(repositorio.existeLoteAtivoNaCamara(destino));
+    }
+
+    private static String mensagens(Throwable erro) {
+        var texto = new StringBuilder();
+        for (var causa = erro; causa != null; causa = causa.getCause()) {
+            texto.append(causa.getMessage()).append('\n');
+        }
+        return texto.toString();
     }
 
     private List<String> codigos(LoteFiltro filtro) {
