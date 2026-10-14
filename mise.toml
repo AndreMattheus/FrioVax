@@ -11,9 +11,9 @@ run = [
 ]
 
 [tasks.test]
-description = "Executa os testes dos dois stacks"
+description = "Executa a suíte completa Java (test e integration-test) e Go"
 run = [
-  "mvn --batch-mode -f api/pom.xml test",
+  "mvn --batch-mode -f api/pom.xml verify",
   "go -C services/telemetry test ./...",
 ]
 
