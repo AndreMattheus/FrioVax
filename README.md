@@ -29,15 +29,18 @@ Este repositório contém o produto comum de:
 - [Backlog inicial](docs/backlog.md)
 - [Acordo de processo](docs/processo.md)
 - [Checklist da Sprint 0](docs/checklist-sprint-0.md)
+- [Checklist da Sprint 1](docs/checklist-sprint-1.md)
 - [Contrato da API — Câmaras e Lotes](docs/contrato-api.md)
 - [ADR 0001 — Arquitetura em camadas](docs/adr/0001-arquitetura-em-camadas.md)
 - [ADR 0002 — Domínio independente e aplicação por interfaces](docs/adr/0002-dominio-independente-e-aplicacao-por-interfaces.md) — substitui o ADR 0001
 - [Roteiro do vídeo de Web II](docs/roteiro-video-web2.md)
 - [Roteiro do vídeo de Processos](docs/roteiro-video-processos.md)
+- [Roteiro do vídeo da Sprint 1 de Web II](docs/roteiro-video-sprint-1-web2.md)
+- [Roteiro do vídeo da Sprint 1 de Processos](docs/roteiro-video-sprint-1-processos.md)
 - [Registro de uso de IA](docs/uso-de-ia.md)
 - **GitHub Project:** [FrioVax Project — Board Principal](https://github.com/users/AndreMattheus/projects/1)
 - **Issues do backlog:** [histórias US01 a US10](https://github.com/AndreMattheus/FrioVax/issues)
-- **Vídeos:** adicionar os links não listados do YouTube após as gravações
+- **Vídeos da Sprint 1:** adicionar os links após as gravações
 
 ## Estrutura do projeto
 
