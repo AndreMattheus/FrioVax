@@ -2,7 +2,7 @@
 
 ## Cadência e cerimônias
 
-A cadência segue o cronograma das disciplinas: Sprints 1 e 2 com três semanas, Sprint 3 com quatro semanas e bloco final com três semanas. O planejamento ocorre no primeiro dia útil do bloco; revisão e retrospectiva acontecem até 48 horas antes da entrega.
+A cadência segue o [cronograma atualizado das disciplinas](https://github.com/fmarquesfilho/processos-2026-2/blob/main/docs/CRONOGRAMA.md): a Sprint 1 termina em 16/10/2026, e a Sprint 2 é a entrega final do semestre. O planejamento ocorre no primeiro dia útil do bloco; revisão e retrospectiva acontecem antes da entrega.
 
 | Cerimônia | Frequência | Duração | Resultado esperado |
 |---|---|---:|---|
