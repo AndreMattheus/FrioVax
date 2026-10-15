@@ -1,10 +1,10 @@
 # Métricas de fluxo da Sprint 1
 
-**Consulta:** 15/10/2026, 17h48 (horário de Fortaleza). **Período observado:** 22/09 a 15/10/2026. Fontes: [FrioVax Project](https://github.com/users/AndreMattheus/projects/1), histórico das issues e PRs vinculados.
+**Consulta:** 15/10/2026, 17h48 (horário de Fortaleza). **Período observado:** 22/09 a 14/10/2026 para os cartões técnicos concluídos; fotografia do WIP em 15/10. Fontes: [FrioVax Project](https://github.com/users/AndreMattheus/projects/1), histórico das issues e PRs vinculados.
 
 ## Método e recorte
 
-O recorte contém os **24 cartões técnicos `[S1-]` concluídos** até a consulta. A [issue #61](https://github.com/AndreMattheus/FrioVax/issues/61) está em `Em Progresso` e fica fora das médias até ser concluída. As histórias US01–US03 foram excluídas da contagem para não duplicar as tarefas técnicas que as implementaram.
+O recorte contém os **24 cartões técnicos `[S1-]` concluídos**. A [issue #61](https://github.com/AndreMattheus/FrioVax/issues/61), dedicada à documentação e aos vídeos, fica fora destas métricas técnicas independentemente de quando for concluída. As histórias US01–US03 também foram excluídas da contagem para não duplicar as tarefas técnicas que as implementaram.
 
 - **Chegada:** evento `AddedToProjectV2` do cartão no Project.
 - **Início:** primeira entrada observada em `Em Progresso` (7 cartões). Quando esse evento não aparece no histórico retornado pela API, usa-se a abertura do PR integrado vinculado como **aproximação** (17 cartões), indicada por `PR` na tabela. Trabalho anterior à abertura do PR não entra nessa aproximação.
@@ -14,7 +14,7 @@ O recorte contém os **24 cartões técnicos `[S1-]` concluídos** até a consul
 
 ## Resultados
 
-| Métrica | Resultado até 15/10 |
+| Métrica | Resultado técnico até 14/10 |
 |---|---:|
 | Cartões técnicos concluídos | 24 |
 | Lead time médio / mediano | 11,68 / 10,19 dias |
@@ -27,7 +27,7 @@ O recorte contém os **24 cartões técnicos `[S1-]` concluídos** até a consul
 | 21–27/09 | 4 |
 | 28/09–04/10 | 11 |
 | 05–11/10 | 3 |
-| 12–16/10, parcial até 15/10 | 6 |
+| 12–16/10, cartões técnicos concluídos até 14/10 | 6 |
 
 ## Dados por cartão
 
@@ -62,8 +62,8 @@ Na coluna Início, `quadro` significa transição observada para `Em Progresso`;
 
 ## WIP e limite do histórico
 
-Às **17h48 de 15/10**, entre as 28 issues da milestone Sprint 1, o Project mostrava **1 em `Em Progresso`** ([#61](https://github.com/AndreMattheus/FrioVax/issues/61)), **0 em `Em Revisão`** e **27 em `Pronto`**. O **WIP observado nesse instante é 1**, abaixo dos limites 4 e 2 do [acordo de processo](processo.md#fluxo-kanban-e-wip). As três histórias US01–US03 estão entre os 27 cartões em `Pronto`, mas não entram no throughput técnico acima.
+Às **17h48 de 15/10**, os **24 cartões técnicos concluídos estavam em `Pronto`**; o **WIP técnico observado era 0**. No quadro completo da milestone, havia **1 em `Em Progresso`** ([#61](https://github.com/AndreMattheus/FrioVax/issues/61)), **0 em `Em Revisão`** e **27 em `Pronto`**. O WIP total do quadro era 1, abaixo dos limites 4 e 2 do [acordo de processo](processo.md#fluxo-kanban-e-wip). As três histórias US01–US03 estão entre os 27 cartões em `Pronto`, mas não entram no throughput técnico acima.
 
 O histórico de mudanças de status retornado pela API do GitHub não contém todas as entradas intermediárias de vários cartões: em alguns casos há uma saída de `Em Revisão` sem a entrada correspondente. Por isso, não é possível reconstruir com segurança o WIP de cada dia nem afirmar que os limites foram respeitados durante **toda** a sprint. Os [relatos da retrospectiva](retrospectiva-01.md#análise-das-causas-relatadas) registram que a equipe não acompanhou continuamente esses limites e identificam a espera por revisão como gargalo. A rotina acordada para a Sprint 2 trata esse problema.
 
-A semana de 12–16/10 e a issue #61 devem ser atualizadas quando a sprint for encerrada; os números acima descrevem somente o estado consultado.
+O recorte técnico se encerra com os cartões concluídos até 14/10. A conclusão da #61 e a publicação dos vídeos não alteram os números técnicos desta apuração.
