@@ -67,4 +67,3 @@ Na coluna Início, `quadro` significa transição observada para `Em Progresso`;
 O histórico de mudanças de status retornado pela API do GitHub não contém todas as entradas intermediárias de vários cartões: em alguns casos há uma saída de `Em Revisão` sem a entrada correspondente. Por isso, não é possível reconstruir com segurança o WIP de cada dia nem afirmar que os limites foram respeitados durante **toda** a sprint. Os [relatos da retrospectiva](retrospectiva-01.md#análise-das-causas-relatadas) registram que a equipe não acompanhou continuamente esses limites e identificam a espera por revisão como gargalo. A rotina acordada para a Sprint 2 trata esse problema.
 
 A semana de 12–16/10 e a issue #61 devem ser atualizadas quando a sprint for encerrada; os números acima descrevem somente o estado consultado.
-
