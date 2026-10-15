@@ -30,7 +30,8 @@ Este repositório contém o produto comum de:
 - [Acordo de processo](docs/processo.md)
 - [Checklist da Sprint 0](docs/checklist-sprint-0.md)
 - [Checklist da Sprint 1](docs/checklist-sprint-1.md)
-- [Retrospectiva da Sprint 1 — preparação para a reunião](docs/retrospectiva-01.md)
+- [Retrospectiva da Sprint 1 — reunião de 15/10](docs/retrospectiva-01.md)
+- [Métricas de fluxo da Sprint 1](docs/metricas-sprint-1.md)
 - [Contrato da API — Câmaras e Lotes](docs/contrato-api.md)
 - [ADR 0001 — Arquitetura em camadas](docs/adr/0001-arquitetura-em-camadas.md)
 - [ADR 0002 — Domínio independente e aplicação por interfaces](docs/adr/0002-dominio-independente-e-aplicacao-por-interfaces.md) — substitui o ADR 0001

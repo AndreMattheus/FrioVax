@@ -10,4 +10,4 @@
 | 3:30–4:30 | Arthur | Mostrar a prática XP de revisão cruzada nos [PRs #40](https://github.com/AndreMattheus/FrioVax/pull/40) e [#41](https://github.com/AndreMattheus/FrioVax/pull/41), com pedido de mudanças, correção, aprovação e CI. |
 | 4:30–5:00 | Leonardo | Abrir a [retrospectiva](retrospectiva-01.md): principal fato, causa discutida e ações com responsável e prazo. |
 
-Antes de gravar, concluir a reunião e substituir os trechos ainda abertos da retrospectiva por decisões reais da equipe. Publicar o vídeo e adicionar seu link ao README.
+Antes de gravar, acrescentar à retrospectiva as métricas após o fechamento da sprint. Publicar o vídeo e adicionar seu link ao README.

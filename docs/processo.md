@@ -10,9 +10,11 @@ A cadência segue o [cronograma atualizado das disciplinas](https://github.com/f
 | Sincronização | 2 vezes por semana, online | 15 min | progresso, próximo passo e impedimentos |
 | Refinamento | semanal | 30 min | histórias pequenas, aceites e estimativas revisados |
 | Review | fim da sprint | 30 min | incremento demonstrado contra os critérios |
-| Retrospectiva | após a review | 30 min | fatos, causas e até 2 ações com responsável/prazo |
+| Retrospectiva | após a review | 30 min | fatos, causas e até 3 ações com responsável/prazo |
 
 Discussões rápidas ocorrem no canal da equipe. Decisões permanentes são registradas em issue, PR ou ADR; mensagem de chat não é fonte definitiva.
+
+Na Sprint 2, cada sincronização começa pela fila de PRs aguardando revisão e pelo WIP de `Em revisão`. A equipe identifica quem fará as revisões pendentes antes de discutir novos cartões. Essa rotina foi acordada na [retrospectiva da Sprint 1](retrospectiva-01.md#acordos-para-a-sprint-2).
 
 ## Papéis
 
@@ -54,6 +56,8 @@ Um item só chega a **Pronto** quando:
 ## Revisão e branches
 
 Revisão primária em anel: Bianca revisa Arthur; Arthur revisa Leonardo; Leonardo revisa Matheus; Matheus revisa Bianca. Outro integrante pode assumir para evitar espera, mas ninguém aprova o próprio PR.
+
+O revisor primário usa a Definição de Pronto como roteiro. Na sincronização, a equipe confirma quem fará cada revisão pendente; outro integrante pode assumir para evitar espera.
 
 Branches são curtas e partem de `main`: `feat/<issue>-descricao`, `fix/<issue>-descricao` ou `docs/<issue>-descricao`. Merge preferencial por squash após uma aprovação e CI verde. Mudança arquitetural relevante exige ADR.
 
