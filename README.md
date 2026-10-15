@@ -33,6 +33,7 @@ Este repositório contém o produto comum de:
 - [Retrospectiva da Sprint 1 — reunião de 15/10](docs/retrospectiva-01.md)
 - [Métricas de fluxo da Sprint 1](docs/metricas-sprint-1.md)
 - [Contrato da API — Câmaras e Lotes](docs/contrato-api.md)
+- [Roteiro de validação da Sprint 1](docs/validacao-sprint-1.md)
 - [ADR 0001 — Arquitetura em camadas](docs/adr/0001-arquitetura-em-camadas.md)
 - [ADR 0002 — Domínio independente e aplicação por interfaces](docs/adr/0002-dominio-independente-e-aplicacao-por-interfaces.md) — substitui o ADR 0001
 - [Roteiro do vídeo de Web II](docs/roteiro-video-web2.md)
@@ -61,20 +62,28 @@ A API Java concentra os casos de uso, as regras de negócio e a persistência em
 
 ## Como rodar
 
-Pré-requisitos: [mise](https://mise.jdx.dev/) e Docker Desktop em execução. Os testes unitários e HTTP em memória abaixo dispensam Docker e PostgreSQL. Execute os comandos a partir da raiz do repositório; as versões de Java, Maven e Go estão definidas em `mise.toml`.
+Pré-requisitos: Git, [mise](https://mise.jdx.dev/) e Docker Desktop (ou Docker Engine com Compose) em execução. Os testes unitários e HTTP em memória abaixo dispensam Docker e PostgreSQL. Execute os comandos a partir da raiz do repositório; as versões de Java 25, Maven 3.9.16 e Go 1.27 estão definidas em `mise.toml`. A primeira instalação precisa de internet para baixar as ferramentas, dependências Maven, módulos Go e imagens Docker.
+
+Em um clone novo:
 
 ```bash
+git clone https://github.com/AndreMattheus/FrioVax.git
+cd FrioVax
 mise trust
 mise install
 mise run build
 mise run test
 ```
 
+`mise trust` confia nas tarefas definidas neste repositório; revise `mise.toml` antes de executá-lo. `mise run test` usa um PostgreSQL temporário iniciado pelo Quarkus Dev Services e precisa de Docker, mas não do Compose. Para verificar também formatação, análise estática e build Go, execute `mise run ci`.
+
 Para subir a API, o serviço Go e o banco:
 
 ```bash
 mise run up
 ```
+
+Esse comando mantém o Compose no terminal. Aguarde os serviços ficarem prontos; para encerrar, use `Ctrl+C` e `docker compose down`. O volume do banco permanece para a próxima subida. O [roteiro de validação](docs/validacao-sprint-1.md) exercita a API e confere os dados após reiniciar o serviço.
 
 Em outro terminal, confira as rotas de saúde:
 
@@ -99,7 +108,7 @@ Com a API no ar, a documentação das rotas fica disponível em:
 | `mise run test-http` | Executa testes HTTP de câmaras, lotes e documentação em memória, sem banco |
 | `mise run lint` | Verifica Maven, `gofmt` e `go vet` |
 | `mise run ci` | Reproduz o pipeline localmente |
-| `mise run up` | Sobe os serviços com Docker Compose |
+| `mise run up` | Sobe os serviços com Docker Compose e acompanha os logs |
 
 ### Testes
 
@@ -229,9 +238,19 @@ O Compose sobe um PostgreSQL 17 com volume nomeado `db-data` e healthcheck; a AP
 | `DB_NAME` | `friovax` | Nome do banco |
 | `DB_USER` | `friovax` | Usuário |
 | `DB_PASSWORD` | `friovax` | Senha (somente desenvolvimento) |
-| `DB_PORT` | `5432` | Porta publicada no host |
+| `DB_PORT` | `5432` | Porta do PostgreSQL publicada no host |
 
-Para mudar os padrões, copie `.env.example` para `.env`. Os dados persistem entre `docker compose down` e `up`; para apagá-los use `docker compose down -v`. Em `mise run test` e `quarkus dev`, o Quarkus Dev Services sobe um PostgreSQL temporário automaticamente (requer Docker).
+O Compose define `DB_URL=jdbc:postgresql://db:5432/<DB_NAME>` para a API e repassa `DB_USER` e `DB_PASSWORD`. Fora do Compose, o perfil de produção usa `DB_URL`, `DB_USER` e `DB_PASSWORD` para conectar ao banco. `TELEMETRY_BASE_URL` aponta para `http://telemetry:8081` no Compose (padrão local: `http://localhost:8081`); `QUARKUS_HTTP_HOST=0.0.0.0` permite acesso à API pelo host. As portas HTTP publicadas são `8080` para a API e `8081` para a telemetria.
+
+Para mudar os padrões do Compose, copie `.env.example` para `.env` e edite os valores. Se alterar as credenciais de um volume já criado, o PostgreSQL manterá as credenciais originais; use um banco novo ou ajuste-as no banco. Os dados persistem entre `docker compose down` e `up`; `docker compose down -v` **apaga** o volume e seus dados. Em `mise run test` e `quarkus dev`, o Quarkus Dev Services sobe um PostgreSQL temporário automaticamente (requer Docker).
+
+As migrações versionadas ficam em `api/src/main/resources/db/migration` e são aplicadas pelo Flyway na inicialização da API. O Hibernate está configurado com `schema-management.strategy=none`, portanto não cria tabelas. Para ver as migrações aplicadas no banco do Compose:
+
+```bash
+docker compose exec db psql -U friovax -d friovax -c 'SELECT installed_rank, version, description, success FROM flyway_schema_history ORDER BY installed_rank;'
+```
+
+Se personalizou `DB_USER` ou `DB_NAME`, ajuste o comando. Migrações já aplicadas não devem ser alteradas; novas mudanças de esquema exigem um novo arquivo versionado.
 
 Para conferir os dados do ambiente local usando os valores padrão do Compose:
 

@@ -286,7 +286,7 @@ Content-Type: application/json
   "imunobiologico": "Febre amarela",
   "fabricante": "Bio-Manguinhos",
   "validade": "2027-03-31",
-  "quantidade": 1000,
+  "quantidade": 1200,
   "camaraId": 2
 }
 ```
@@ -301,7 +301,7 @@ Content-Type: application/json
   "imunobiologico": "Febre amarela",
   "fabricante": "Bio-Manguinhos",
   "validade": "2027-03-31",
-  "quantidade": 1000,
+  "quantidade": 1200,
   "camaraId": 2,
   "estado": "DISPONIVEL",
   "ativo": true,
@@ -328,7 +328,7 @@ Content-Type: application/json
       "imunobiologico": "Febre amarela",
       "fabricante": "Bio-Manguinhos",
       "validade": "2027-03-31",
-      "quantidade": 1000,
+      "quantidade": 1200,
       "camaraId": 2,
       "estado": "DISPONIVEL",
       "ativo": true,
