@@ -7,6 +7,8 @@ Checklist integrado de **DIM0547 — Desenvolvimento de Sistemas Web II** e **DI
 **Coorte:** B — apresentações online.
 **Situação verificada em:** 04/09/2026.
 
+**Registro histórico:** a Sprint 0 foi entregue. As caixas abaixo mostram somente o estado do planejamento em 04/09; itens desmarcados não representam pendências atuais nem uma reavaliação da entrega.
+
 Legenda: `[x]` concluído e verificado; `[ ]` ainda precisa ser concluído. As marcações **Web II**, **Processos** e **Ambas** indicam de onde vem a exigência.
 
 ## Checklist integrado
@@ -129,7 +131,7 @@ Legenda: `[x]` concluído e verificado; `[ ]` ainda precisa ser concluído. As m
   - [ ] Confirmar que todos os integrantes entendem o que foi entregue e conseguem responder perguntas.
   - [ ] Garantir que o último commit válido esteja em `main` antes de 11/09/2026 às 23:59.
 
-## Pendências bloqueadoras atuais
+## Pendências identificadas em 04/09 (histórico)
 
 1. Usuário GitHub de Arthur.
 2. Acesso dos quatro integrantes ao repositório.
@@ -139,4 +141,4 @@ Legenda: `[x]` concluído e verificado; `[ ]` ainda precisa ser concluído. As m
 6. Inclusão dos links definitivos dos vídeos no README.
 7. Teste final das instruções em clone limpo.
 
-Enquanto essas sete pendências não forem resolvidas, a Sprint 0 ainda não está pronta para entrega, embora o GitHub Project, as histórias, a proteção da `main`, o CI e o esqueleto técnico já estejam preparados.
+Em 04/09, essas sete verificações ainda eram necessárias para a entrega. Esta lista não foi atualizada após a Sprint 0 entregue; para o estado atual, consulte o [checklist da Sprint 1](checklist-sprint-1.md).
