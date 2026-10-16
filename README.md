@@ -42,7 +42,7 @@ Este repositório contém o produto comum de:
 - [Registro de uso de IA](docs/uso-de-ia.md)
 - **GitHub Project:** [FrioVax Project — Board Principal](https://github.com/users/AndreMattheus/projects/1)
 - **Issues do backlog:** [histórias US01 a US10](https://github.com/AndreMattheus/FrioVax/issues)
-- **Vídeos da Sprint 1:** adicionar os links após as gravações
+- **Vídeos da Sprint 1:** https://www.youtube.com/watch?v=Jerz6RtwuYE
 
 ## Estrutura do projeto
 

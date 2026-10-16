@@ -25,13 +25,13 @@ Checklist de **DIM0547 — Desenvolvimento de Sistemas Web II** e **DIM0510 — 
 - [x] **Prática XP com rastro verificável:** revisão de código e integração contínua. O [PR #40](https://github.com/AndreMattheus/FrioVax/pull/40) teve pedido de mudanças, correções, aprovação e integração; o [PR #41](https://github.com/AndreMattheus/FrioVax/pull/41) também. O [CI de `main`](https://github.com/AndreMattheus/FrioVax/actions/runs/38645086085) passou. Os efeitos e custos dessas práticas estão descritos na [retrospectiva](retrospectiva-01.md#práticas-xp-efeito-observado).
 - [x] **Métricas de fluxo dos cartões técnicos:** lead time, cycle time, throughput semanal e WIP registrados na [retrospectiva](retrospectiva-01.md#medição-e-acompanhamento) e detalhados [por cartão, com fontes e aproximações](metricas-sprint-1.md). A #61, dedicada à documentação e aos vídeos, foi excluída do recorte técnico.
 - [x] **Retrospectiva com a equipe:** realizada em 15/10 às 10h, com os quatro integrantes presentes. A [causa, a análise, três ações verificáveis e as métricas dos cartões técnicos](retrospectiva-01.md) estão registradas; a rotina de sincronização foi atualizada no [acordo de processo](processo.md).
-- [ ] **Vídeo de Processos:** gravar cerca de cinco minutos com os quatro integrantes; mostrar incremento, quadro e histórico, WIP, métricas, prática XP, retrospectiva e ações. Publicar e adicionar o link ao README. [Roteiro do vídeo único](roteiro-video-sprint-1.md).
+- [x] **Vídeo de Processos:** gravar cerca de cinco minutos com os quatro integrantes; mostrar incremento, quadro e histórico, WIP, métricas, prática XP, retrospectiva e ações. Publicar e adicionar o link ao README. [Roteiro do vídeo único](roteiro-video-sprint-1.md).
 
 ## Fechamento integrado
 
 - [x] Concluir a [issue #34](https://github.com/AndreMattheus/FrioVax/issues/34): documentação, demonstração de casos de sucesso/erro, teste em clone novo do código e atualização de `docs/uso-de-ia.md`; evidências no [PR #64](https://github.com/AndreMattheus/FrioVax/pull/64) e na [validação](validacao-sprint-1.md).
 - [x] Garantir PRs integrados de cada integrante e revisões cruzadas: exemplos de [Bianca](https://github.com/AndreMattheus/FrioVax/pull/57), [Arthur](https://github.com/AndreMattheus/FrioVax/pull/60), [Leonardo](https://github.com/AndreMattheus/FrioVax/pull/64) e [Matheus](https://github.com/AndreMattheus/FrioVax/pull/58), todos integrados; revisar também a distribuição por semana na avaliação individual.
-- [ ] Integrar a retrospectiva e as métricas em `main` pelo [PR #62](https://github.com/AndreMattheus/FrioVax/pull/62) e verificar CI verde após o merge. Essa integração não depende da publicação dos vídeos.
-- [ ] Concluir a [história de entregáveis #61](https://github.com/AndreMattheus/FrioVax/issues/61), com data alvo de 15/10 no Product Backlog.
+- [x] Integrar a retrospectiva e as métricas em `main` pelo [PR #62](https://github.com/AndreMattheus/FrioVax/pull/62) e verificar CI verde após o merge. Essa integração não depende da publicação dos vídeos.
+- [x] Concluir a [história de entregáveis #61](https://github.com/AndreMattheus/FrioVax/issues/61), com data alvo de 15/10 no Product Backlog.
 
 As pendências acima são da Sprint 1. Nenhuma deve ser interpretada como pendência da Sprint 0.
