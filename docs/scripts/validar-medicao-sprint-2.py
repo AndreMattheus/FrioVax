@@ -132,6 +132,12 @@ def validar():
         periodo(r["inicio"], r["fim"])
         fonte(r["fonte"])
     cortes = sorted((PASTA / "exportacoes").glob("*/manifesto.json"))
+    for arquivo in sorted(PASTA.rglob("*")):
+        if arquivo.suffix in {".csv", ".json"}:
+            conteudo = arquivo.read_text(encoding="utf-8")
+            exigir(not re.search(r"(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|"
+                                 r"(?i:authorization\s*[:=]\s*(?:bearer|basic)\s+\S+))", conteudo),
+                   f"Possível credencial em {arquivo.relative_to(ROOT)}; revisar sem publicar o valor")
     for caminho in cortes:
         manifesto = json.loads(caminho.read_text(encoding="utf-8"))
         exigir(manifesto["resultado"] == "completo", "Corte incompleto")
@@ -144,7 +150,7 @@ def validar():
             exigir(consulta["paginas"] >= 1, "Consulta sem páginas")
             periodo(consulta["inicio"], consulta["fim"])
     exigir(not list((PASTA / "exportacoes").glob(".incompleto-*")), "Há corte incompleto; investigar fora dos cortes publicados")
-    print(f"Validação OK: {sum(map(len, tabelas.values()))} registros CSV; {len(cortes)} cortes com hashes íntegros")
+    print(f"Validação OK: {sum(map(len, tabelas.values()))} registros CSV; {len(cortes)} corte(s) com hashes íntegros")
     print("Fontes vazias/intervalos invertidos são rejeitados; lacunas e registros em curso continuam explícitos.")
 
 

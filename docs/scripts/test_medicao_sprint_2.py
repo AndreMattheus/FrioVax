@@ -99,6 +99,17 @@ class TestMedicao(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "Hash divergente"), redirect_stdout(io.StringIO()):
                     validacao.validar()
 
+    def test_padrao_de_credencial_impede_publicar_evidencia(self):
+        with tempfile.TemporaryDirectory() as pasta:
+            root = Path(pasta).resolve()
+            with patch.object(validacao, "ROOT", root), patch.object(validacao, "PASTA", root):
+                for nome, cabecalho in validacao.CABECALHOS.items():
+                    (root / f"{nome}.csv").write_text(cabecalho + "\n")
+                # Token deliberadamente sintético, somente no diretório temporário do teste.
+                (root / "exportacao.json").write_text(json.dumps({"valor": "github_pat_" + "x" * 30}))
+                with self.assertRaisesRegex(ValueError, "Possível credencial"):
+                    validacao.validar()
+
 
 if __name__ == "__main__":
     unittest.main()

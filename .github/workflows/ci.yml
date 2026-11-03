@@ -8,6 +8,21 @@ permissions:
   contents: read
 
 jobs:
+  medicao:
+    name: Evidências / Sprint 2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Configurar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Testar contrato de coleta e validação
+        run: python3 -m unittest discover -s docs/scripts -p 'test_medicao_sprint_2.py' -v
+      - name: Validar registros e integridade dos cortes preservados
+        run: python3 docs/scripts/validar-medicao-sprint-2.py
+
   java:
     name: Java / Quarkus
     runs-on: ubuntu-latest
