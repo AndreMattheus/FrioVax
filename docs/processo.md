@@ -86,4 +86,6 @@ Cada integrante deve, por sprint, contribuir em semanas distintas, autorar ao me
 
 Estimativas usam planning poker e pontos 1, 2, 3, 5, 8 e 13. História de 13 pontos deve ser dividida antes de entrar na sprint. A equipe acompanhará throughput, lead time, cycle time e WIP a partir do quadro, sem transformar pontos em horas.
 
+Na Sprint 2, o [plano de medição](medicao-sprint-2.md) define os registros de trabalho, automação, espera, bloqueio, revisão, implantação e incidentes. Os autores da amostra #69, #70 e #80 registram os intervalos desde o início, com timestamps completos e fontes nas [evidências](evidencias/sprint-2/README.md). Datas planejadas não substituem datas reais; resultados finais são apurados nas issues #90 e #91.
+
 Práticas XP iniciais: integração contínua, revisão, refatoração, testes automatizados e pair programming quando a tarefa envolver risco ou conhecimento concentrado. Pair programming registra `Co-authored-by`.

@@ -8,6 +8,29 @@ permissions:
   contents: read
 
 jobs:
+  medicao:
+    name: Evidências / Sprint 2 (${{ matrix.os }})
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Reproduzir conversão de quebras de linha no Windows
+        if: runner.os == 'Windows'
+        run: git config --global core.autocrlf true
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Configurar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Testar contrato de coleta e validação
+        env:
+          PYTHONUTF8: "0"
+        run: python -m unittest discover -s docs/scripts -p 'test_medicao_sprint_2.py' -v
+      - name: Validar registros e integridade dos cortes preservados
+        run: python docs/scripts/validar-medicao-sprint-2.py
+
   java:
     name: Java / Quarkus
     runs-on: ubuntu-latest
