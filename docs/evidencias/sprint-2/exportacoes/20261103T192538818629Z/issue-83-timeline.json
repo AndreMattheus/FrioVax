@@ -1,0 +1,28 @@
+[
+  {
+    "__typename": "AddedToProjectV2Event",
+    "id": "ATPVTE_lADOUOpn_88AAAABZiT0Jc8AAAAH8Pu6WA",
+    "createdAt": "2026-10-24T02:57:00Z",
+    "actor": {
+      "login": "github-project-automation"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABZiT0Jc8AAAAH8PvACA",
+    "createdAt": "2026-10-24T02:57:02Z",
+    "actor": {
+      "login": "github-project-automation"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "",
+    "status": "Backlog",
+    "wasAutomated": false
+  }
+]

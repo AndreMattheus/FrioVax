@@ -1,0 +1,4009 @@
+[
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHUA",
+    "createdAt": "2026-10-24T02:56:32Z",
+    "updatedAt": "2026-11-03T19:20:42Z",
+    "content": {
+      "number": 66,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/66",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Em Progresso",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-24",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-10-25",
+          "field": {
+            "name": "Target date"
+          }
+        },
+        {
+          "date": "2026-11-03",
+          "field": {
+            "name": "Start date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHdU",
+    "createdAt": "2026-10-24T02:56:55Z",
+    "updatedAt": "2026-11-03T19:19:05Z",
+    "content": {
+      "number": 80,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/80",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Sprint Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-23",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-10-31",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg5gvoA",
+    "createdAt": "2026-09-04T21:49:50Z",
+    "updatedAt": "2026-11-03T19:13:00Z",
+    "content": {
+      "number": 9,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/9",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Sprint Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {},
+        {
+          "name": "L",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {
+          "date": "2026-10-23",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-04",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg5gsU0",
+    "createdAt": "2026-09-04T21:43:24Z",
+    "updatedAt": "2026-11-03T19:12:55Z",
+    "content": {
+      "number": 4,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/4",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Sprint Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {},
+        {
+          "name": "L",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {
+          "date": "2026-10-23",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-13",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg5gs-0",
+    "createdAt": "2026-09-04T21:44:38Z",
+    "updatedAt": "2026-11-03T19:12:57Z",
+    "content": {
+      "number": 5,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/5",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Sprint Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {},
+        {
+          "name": "L",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {
+          "date": "2026-10-27",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-18",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg5guCI",
+    "createdAt": "2026-09-04T21:46:22Z",
+    "updatedAt": "2026-11-03T19:12:58Z",
+    "content": {
+      "number": 6,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/6",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Sprint Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {},
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {
+          "date": "2026-11-06",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-12",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhAznKM",
+    "createdAt": "2026-10-14T20:14:16Z",
+    "updatedAt": "2026-10-16T23:03:21Z",
+    "content": {
+      "number": 61,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/61",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-15",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8I-V8",
+    "createdAt": "2026-09-22T13:37:19Z",
+    "updatedAt": "2026-10-14T22:04:52Z",
+    "content": {
+      "number": 34,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/34",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8I5m0",
+    "createdAt": "2026-09-22T13:29:55Z",
+    "updatedAt": "2026-10-14T12:38:10Z",
+    "content": {
+      "number": 32,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/32",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8I4zI",
+    "createdAt": "2026-09-22T13:28:50Z",
+    "updatedAt": "2026-10-13T22:19:03Z",
+    "content": {
+      "number": 31,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/31",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8I8ko",
+    "createdAt": "2026-09-22T13:34:44Z",
+    "updatedAt": "2026-10-12T18:49:22Z",
+    "content": {
+      "number": 33,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/33",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg_rtG8",
+    "createdAt": "2026-10-09T14:55:37Z",
+    "updatedAt": "2026-10-12T19:59:38Z",
+    "content": {
+      "number": 54,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/54",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8IwjM",
+    "createdAt": "2026-09-22T13:16:08Z",
+    "updatedAt": "2026-10-11T01:01:35Z",
+    "content": {
+      "number": 29,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/29",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg5gqZg",
+    "createdAt": "2026-09-04T21:39:08Z",
+    "updatedAt": "2026-10-24T02:58:21Z",
+    "content": {
+      "number": 1,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/1",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg5grIw",
+    "createdAt": "2026-09-04T21:40:55Z",
+    "updatedAt": "2026-10-24T02:58:23Z",
+    "content": {
+      "number": 2,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/2",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8Imms",
+    "createdAt": "2026-09-22T13:01:25Z",
+    "updatedAt": "2026-10-09T17:18:04Z",
+    "content": {
+      "number": 24,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/24",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8I4C4",
+    "createdAt": "2026-09-22T13:27:44Z",
+    "updatedAt": "2026-10-13T22:14:54Z",
+    "content": {
+      "number": 30,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/30",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg5grtk",
+    "createdAt": "2026-09-04T21:42:03Z",
+    "updatedAt": "2026-10-24T02:58:24Z",
+    "content": {
+      "number": 3,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/3",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8IlQ8",
+    "createdAt": "2026-09-22T12:59:25Z",
+    "updatedAt": "2026-10-02T16:58:48Z",
+    "content": {
+      "number": 23,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/23",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8IrCM",
+    "createdAt": "2026-09-22T13:07:37Z",
+    "updatedAt": "2026-10-02T17:34:46Z",
+    "content": {
+      "number": 26,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/26",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8InHc",
+    "createdAt": "2026-09-22T13:02:09Z",
+    "updatedAt": "2026-10-02T17:41:14Z",
+    "content": {
+      "number": 25,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/25",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8Hx0E",
+    "createdAt": "2026-09-22T11:40:09Z",
+    "updatedAt": "2026-10-07T02:47:01Z",
+    "content": {
+      "number": 20,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/20",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8IjuA",
+    "createdAt": "2026-09-22T12:57:20Z",
+    "updatedAt": "2026-10-04T02:40:02Z",
+    "content": {
+      "number": 22,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/22",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8Irps",
+    "createdAt": "2026-09-22T13:08:34Z",
+    "updatedAt": "2026-10-03T13:44:28Z",
+    "content": {
+      "number": 27,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/27",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8Iv80",
+    "createdAt": "2026-09-22T13:15:08Z",
+    "updatedAt": "2026-10-02T19:27:15Z",
+    "content": {
+      "number": 28,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/28",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8HyH8",
+    "createdAt": "2026-09-22T11:40:42Z",
+    "updatedAt": "2026-10-01T20:51:43Z",
+    "content": {
+      "number": 21,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/21",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8HxT4",
+    "createdAt": "2026-09-22T11:39:19Z",
+    "updatedAt": "2026-09-30T20:37:06Z",
+    "content": {
+      "number": 19,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/19",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8Hw3A",
+    "createdAt": "2026-09-22T11:38:32Z",
+    "updatedAt": "2026-09-30T20:27:14Z",
+    "content": {
+      "number": 18,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/18",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8Hq4o",
+    "createdAt": "2026-09-22T11:28:00Z",
+    "updatedAt": "2026-09-28T21:07:21Z",
+    "content": {
+      "number": 16,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/16",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8Hn1E",
+    "createdAt": "2026-09-22T11:22:54Z",
+    "updatedAt": "2026-09-27T17:10:39Z",
+    "content": {
+      "number": 13,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/13",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8HqeY",
+    "createdAt": "2026-09-22T11:27:22Z",
+    "updatedAt": "2026-09-27T19:30:46Z",
+    "content": {
+      "number": 15,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/15",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "date": "2026-09-26",
+          "field": {
+            "name": "Start date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8Hp0g",
+    "createdAt": "2026-09-22T11:26:26Z",
+    "updatedAt": "2026-09-26T18:02:09Z",
+    "content": {
+      "number": 14,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/14",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8HlvY",
+    "createdAt": "2026-09-22T11:19:05Z",
+    "updatedAt": "2026-09-25T01:32:38Z",
+    "content": {
+      "number": 12,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/12",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg5gukQ",
+    "createdAt": "2026-09-04T21:47:35Z",
+    "updatedAt": "2026-10-24T03:02:19Z",
+    "content": {
+      "number": 7,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/7",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P2",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {},
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {
+          "date": "2026-11-12",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-18",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg5gvKA",
+    "createdAt": "2026-09-04T21:48:56Z",
+    "updatedAt": "2026-10-24T03:02:21Z",
+    "content": {
+      "number": 8,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/8",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P2",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {},
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {
+          "date": "2026-10-26",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-18",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg5gv8w",
+    "createdAt": "2026-09-04T21:50:40Z",
+    "updatedAt": "2026-10-24T03:02:26Z",
+    "content": {
+      "number": 10,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/10",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {},
+        {
+          "name": "P2",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {},
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {
+          "date": "2026-11-03",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-15",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg7KCL0",
+    "createdAt": "2026-09-16T02:53:11Z",
+    "updatedAt": "2026-09-26T21:56:16Z",
+    "content": {
+      "number": 11,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/11",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8Hrp4",
+    "createdAt": "2026-09-22T11:29:10Z",
+    "updatedAt": "2026-10-03T16:31:42Z",
+    "content": {
+      "number": 17,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/17",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {}
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg8n3iM",
+    "createdAt": "2026-09-24T19:37:20Z",
+    "updatedAt": "2026-10-09T15:05:56Z",
+    "content": {
+      "number": 36,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/36",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg86iQ8",
+    "createdAt": "2026-09-26T13:40:26Z",
+    "updatedAt": "2026-09-26T21:56:14Z",
+    "content": {
+      "number": 37,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/37",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg87K3E",
+    "createdAt": "2026-09-26T15:23:58Z",
+    "updatedAt": "2026-09-27T17:10:39Z",
+    "content": {
+      "number": 38,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/38",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg87K8k",
+    "createdAt": "2026-09-26T15:24:14Z",
+    "updatedAt": "2026-10-02T17:19:24Z",
+    "content": {
+      "number": 39,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/39",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg87pWo",
+    "createdAt": "2026-09-26T16:34:30Z",
+    "updatedAt": "2026-09-28T18:11:54Z",
+    "content": {
+      "number": 40,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/40",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg89qJk",
+    "createdAt": "2026-09-26T22:08:42Z",
+    "updatedAt": "2026-09-27T19:30:46Z",
+    "content": {
+      "number": 41,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/41",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg9OZeA",
+    "createdAt": "2026-09-28T14:27:52Z",
+    "updatedAt": "2026-09-28T21:07:21Z",
+    "content": {
+      "number": 42,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/42",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg9hfVY",
+    "createdAt": "2026-09-29T20:25:23Z",
+    "updatedAt": "2026-10-01T02:57:21Z",
+    "content": {
+      "number": 43,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/43",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg9i06c",
+    "createdAt": "2026-09-29T22:43:59Z",
+    "updatedAt": "2026-10-01T02:57:42Z",
+    "content": {
+      "number": 44,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/44",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg9zvIE",
+    "createdAt": "2026-10-01T02:55:01Z",
+    "updatedAt": "2026-10-01T20:51:42Z",
+    "content": {
+      "number": 45,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/45",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg9_u_w",
+    "createdAt": "2026-10-01T20:55:52Z",
+    "updatedAt": "2026-10-02T16:58:47Z",
+    "content": {
+      "number": 46,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/46",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg-JInU",
+    "createdAt": "2026-10-02T13:50:09Z",
+    "updatedAt": "2026-10-07T02:47:01Z",
+    "content": {
+      "number": 47,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/47",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg-KoVs",
+    "createdAt": "2026-10-02T15:47:52Z",
+    "updatedAt": "2026-10-02T17:33:58Z",
+    "content": {
+      "number": 48,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/48",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg-LPwQ",
+    "createdAt": "2026-10-02T16:41:29Z",
+    "updatedAt": "2026-10-02T17:41:13Z",
+    "content": {
+      "number": 49,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/49",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg-MW-U",
+    "createdAt": "2026-10-02T18:27:01Z",
+    "updatedAt": "2026-10-02T19:27:15Z",
+    "content": {
+      "number": 50,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/50",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg-QaYs",
+    "createdAt": "2026-10-03T03:12:43Z",
+    "updatedAt": "2026-10-03T13:44:27Z",
+    "content": {
+      "number": 51,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/51",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg-Xv98",
+    "createdAt": "2026-10-03T22:45:01Z",
+    "updatedAt": "2026-10-04T02:40:01Z",
+    "content": {
+      "number": 52,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/52",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg_IWuA",
+    "createdAt": "2026-10-07T12:14:17Z",
+    "updatedAt": "2026-10-09T17:18:05Z",
+    "content": {
+      "number": 53,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/53",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg_zK-I",
+    "createdAt": "2026-10-10T04:44:23Z",
+    "updatedAt": "2026-10-12T18:49:22Z",
+    "content": {
+      "number": 55,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/55",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84Bifhrzg_6kqQ",
+    "createdAt": "2026-10-10T22:27:37Z",
+    "updatedAt": "2026-10-11T01:01:35Z",
+    "content": {
+      "number": 56,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/56",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhANQXI",
+    "createdAt": "2026-10-12T14:37:15Z",
+    "updatedAt": "2026-10-14T22:00:31Z",
+    "content": {
+      "number": 57,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/57",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhAhoow",
+    "createdAt": "2026-10-13T19:39:06Z",
+    "updatedAt": "2026-10-13T20:15:14Z",
+    "content": {
+      "number": 58,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/58",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhAiIx0",
+    "createdAt": "2026-10-13T20:17:47Z",
+    "updatedAt": "2026-10-13T22:19:03Z",
+    "content": {
+      "number": 59,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/59",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhAi2OA",
+    "createdAt": "2026-10-13T21:16:12Z",
+    "updatedAt": "2026-10-14T12:38:10Z",
+    "content": {
+      "number": 60,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/60",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhAzrSc",
+    "createdAt": "2026-10-14T20:19:09Z",
+    "updatedAt": "2026-10-16T22:56:12Z",
+    "content": {
+      "number": 62,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/62",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhA01CA",
+    "createdAt": "2026-10-14T21:48:00Z",
+    "updatedAt": "2026-10-14T22:04:52Z",
+    "content": {
+      "number": 64,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/64",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhA0oc8",
+    "createdAt": "2026-10-14T21:31:35Z",
+    "updatedAt": "2026-10-14T21:47:53Z",
+    "content": {
+      "number": 63,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/63",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Pronto",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHTI",
+    "createdAt": "2026-10-24T02:56:29Z",
+    "updatedAt": "2026-11-03T19:10:05Z",
+    "content": {
+      "number": 65,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/65",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Em Revisão",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-21",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-10-23",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHU8",
+    "createdAt": "2026-10-24T02:56:34Z",
+    "updatedAt": "2026-10-24T03:00:35Z",
+    "content": {
+      "number": 67,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/67",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-23",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-10-26",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHVw",
+    "createdAt": "2026-10-24T02:56:35Z",
+    "updatedAt": "2026-10-24T03:00:38Z",
+    "content": {
+      "number": 68,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/68",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-26",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-10-29",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHWI",
+    "createdAt": "2026-10-24T02:56:36Z",
+    "updatedAt": "2026-10-24T03:00:41Z",
+    "content": {
+      "number": 69,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/69",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-26",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-10-30",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHXI",
+    "createdAt": "2026-10-24T02:56:38Z",
+    "updatedAt": "2026-10-24T03:00:45Z",
+    "content": {
+      "number": 70,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/70",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "L",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-30",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-03",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHXk",
+    "createdAt": "2026-10-24T02:56:39Z",
+    "updatedAt": "2026-10-24T03:00:48Z",
+    "content": {
+      "number": 71,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/71",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "L",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-27",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-01",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHX8",
+    "createdAt": "2026-10-24T02:56:41Z",
+    "updatedAt": "2026-10-24T03:00:50Z",
+    "content": {
+      "number": 72,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/72",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-01",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-03",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHYs",
+    "createdAt": "2026-10-24T02:56:43Z",
+    "updatedAt": "2026-10-24T03:00:53Z",
+    "content": {
+      "number": 73,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/73",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-29",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-03",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHZY",
+    "createdAt": "2026-10-24T02:56:46Z",
+    "updatedAt": "2026-10-24T03:00:56Z",
+    "content": {
+      "number": 74,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/74",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "L",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-04",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-08",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHZc",
+    "createdAt": "2026-10-24T02:56:46Z",
+    "updatedAt": "2026-10-24T03:00:58Z",
+    "content": {
+      "number": 75,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/75",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "L",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-08",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-12",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHa0",
+    "createdAt": "2026-10-24T02:56:49Z",
+    "updatedAt": "2026-10-24T03:01:02Z",
+    "content": {
+      "number": 76,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/76",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-12",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-15",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHbU",
+    "createdAt": "2026-10-24T02:56:49Z",
+    "updatedAt": "2026-10-24T03:01:05Z",
+    "content": {
+      "number": 77,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/77",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-06",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-12",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHbs",
+    "createdAt": "2026-10-24T02:56:51Z",
+    "updatedAt": "2026-10-24T03:01:07Z",
+    "content": {
+      "number": 78,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/78",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P2",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-15",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-18",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHcM",
+    "createdAt": "2026-10-24T02:56:52Z",
+    "updatedAt": "2026-10-24T03:01:10Z",
+    "content": {
+      "number": 79,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/79",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P2",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-12",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-16",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHeE",
+    "createdAt": "2026-10-24T02:56:56Z",
+    "updatedAt": "2026-10-24T03:01:16Z",
+    "content": {
+      "number": 81,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/81",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-01",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-04",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHeo",
+    "createdAt": "2026-10-24T02:56:58Z",
+    "updatedAt": "2026-10-24T03:01:18Z",
+    "content": {
+      "number": 82,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/82",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-03",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-06",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHfc",
+    "createdAt": "2026-10-24T02:57:00Z",
+    "updatedAt": "2026-10-24T03:01:22Z",
+    "content": {
+      "number": 83,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/83",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-15",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-18",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHf4",
+    "createdAt": "2026-10-24T02:57:01Z",
+    "updatedAt": "2026-10-24T03:01:25Z",
+    "content": {
+      "number": 84,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/84",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-04",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-09",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHgo",
+    "createdAt": "2026-10-24T02:57:03Z",
+    "updatedAt": "2026-10-24T03:01:28Z",
+    "content": {
+      "number": 85,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/85",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-09",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-12",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHhI",
+    "createdAt": "2026-10-24T02:57:04Z",
+    "updatedAt": "2026-10-24T03:01:30Z",
+    "content": {
+      "number": 86,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/86",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-23",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-10-25",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHhs",
+    "createdAt": "2026-10-24T02:57:07Z",
+    "updatedAt": "2026-10-24T03:01:33Z",
+    "content": {
+      "number": 87,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/87",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-23",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-10-27",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHi4",
+    "createdAt": "2026-10-24T02:57:09Z",
+    "updatedAt": "2026-10-24T03:01:37Z",
+    "content": {
+      "number": 88,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/88",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-10-27",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-03",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHkA",
+    "createdAt": "2026-10-24T02:57:11Z",
+    "updatedAt": "2026-10-24T03:01:40Z",
+    "content": {
+      "number": 89,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/89",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-18",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-19",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHkw",
+    "createdAt": "2026-10-24T02:57:13Z",
+    "updatedAt": "2026-10-24T03:01:43Z",
+    "content": {
+      "number": 90,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/90",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-13",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-19",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHlc",
+    "createdAt": "2026-10-24T02:57:15Z",
+    "updatedAt": "2026-10-24T03:01:47Z",
+    "content": {
+      "number": 91,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/91",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-05",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-08",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHl4",
+    "createdAt": "2026-10-24T02:57:16Z",
+    "updatedAt": "2026-10-24T03:01:49Z",
+    "content": {
+      "number": 92,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/92",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-16",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-17",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHmc",
+    "createdAt": "2026-10-24T02:57:18Z",
+    "updatedAt": "2026-10-24T03:01:52Z",
+    "content": {
+      "number": 93,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/93",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-19",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-20",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHnM",
+    "createdAt": "2026-10-24T02:57:20Z",
+    "updatedAt": "2026-10-24T03:01:55Z",
+    "content": {
+      "number": 94,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/94",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-21",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-22",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHno",
+    "createdAt": "2026-10-24T02:57:21Z",
+    "updatedAt": "2026-10-24T03:01:58Z",
+    "content": {
+      "number": 95,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/95",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-20",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-22",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHoY",
+    "createdAt": "2026-10-24T02:57:23Z",
+    "updatedAt": "2026-10-24T03:02:00Z",
+    "content": {
+      "number": 96,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/96",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-22",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-24",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHo4",
+    "createdAt": "2026-10-24T02:57:24Z",
+    "updatedAt": "2026-10-24T03:02:03Z",
+    "content": {
+      "number": 97,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/97",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "S",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-27",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-30",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHpw",
+    "createdAt": "2026-10-24T02:57:25Z",
+    "updatedAt": "2026-10-24T03:02:06Z",
+    "content": {
+      "number": 98,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/98",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "XS",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-23",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-25",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhDJHqg",
+    "createdAt": "2026-10-24T02:57:27Z",
+    "updatedAt": "2026-10-24T03:02:09Z",
+    "content": {
+      "number": 99,
+      "url": "https://github.com/AndreMattheus/FrioVax/issues/99",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        },
+        {
+          "name": "P1",
+          "field": {
+            "name": "Priority"
+          }
+        },
+        {
+          "name": "M",
+          "field": {
+            "name": "Size"
+          }
+        },
+        {},
+        {
+          "date": "2026-11-09",
+          "field": {
+            "name": "Planned start"
+          }
+        },
+        {
+          "date": "2026-11-13",
+          "field": {
+            "name": "Target date"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  },
+  {
+    "id": "PVTI_lAHOCrfrY84BifhrzhFxgp0",
+    "createdAt": "2026-11-03T19:09:14Z",
+    "updatedAt": "2026-11-03T19:09:15Z",
+    "content": {
+      "number": 100,
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/100",
+      "repository": {
+        "nameWithOwner": "AndreMattheus/FrioVax"
+      }
+    },
+    "fieldValues": {
+      "nodes": [
+        {},
+        {},
+        {},
+        {
+          "name": "Backlog",
+          "field": {
+            "name": "Status"
+          }
+        }
+      ],
+      "pageInfo": {
+        "hasNextPage": false
+      }
+    }
+  }
+]

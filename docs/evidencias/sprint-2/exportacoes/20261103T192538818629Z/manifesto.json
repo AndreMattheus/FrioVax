@@ -1,0 +1,2194 @@
+{
+  "schema": 1,
+  "repositorio": "AndreMattheus/FrioVax",
+  "inicio": "2026-11-03T19:24:39.352963Z",
+  "fim": "2026-11-03T19:25:38.818629Z",
+  "janela_inicio": "2026-10-21T03:00:00Z",
+  "janela_fim_exclusivo": "2026-12-01T03:00:00Z",
+  "fuso": "America/Fortaleza",
+  "resultado": "completo",
+  "projecao": "metadados originais selecionados; sem corpos, emails, patches, payloads ou logs",
+  "observacao": "CSV de incidentes/monitoramento é fonte complementar; lista vazia não comprova zero falhas",
+  "consultas": [
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/deployments?environment=producao&per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:50.045938Z",
+      "fim": "2026-11-03T19:24:50.538782Z",
+      "paginas": 1,
+      "registros": 0,
+      "arquivo": "deployments.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues?state=all&labels=incidente&per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:41.606401Z",
+      "fim": "2026-11-03T19:24:42.208540Z",
+      "paginas": 1,
+      "registros": 0,
+      "arquivo": "incidentes.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=10"
+      ],
+      "inicio": "2026-11-03T19:25:33.424868Z",
+      "fim": "2026-11-03T19:25:34.253715Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-10-timeline.json",
+      "sha256": "5efbd9d98bea2b1bfec044336ec1531203786e65072321553339e500216ae463"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=4"
+      ],
+      "inicio": "2026-11-03T19:25:38.074593Z",
+      "fim": "2026-11-03T19:25:38.817927Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "issue-4-timeline.json",
+      "sha256": "05dca283c36a04629bbbb81977aefd861b9557f037aa0bc8cac87a03f29f46e2"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=5"
+      ],
+      "inicio": "2026-11-03T19:25:37.310022Z",
+      "fim": "2026-11-03T19:25:38.073409Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "issue-5-timeline.json",
+      "sha256": "3d34886dd70c86349f6ca72f7dcf244846f74bec2520f97666b1889ef6aa8a85"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=6"
+      ],
+      "inicio": "2026-11-03T19:25:36.613915Z",
+      "fim": "2026-11-03T19:25:37.309165Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "issue-6-timeline.json",
+      "sha256": "6fad172c4a531ad08577de3a20ed6a64e4806e527f7049d2154e93afd79ff700"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=65"
+      ],
+      "inicio": "2026-11-03T19:25:32.299778Z",
+      "fim": "2026-11-03T19:25:33.423749Z",
+      "paginas": 1,
+      "registros": 8,
+      "arquivo": "issue-65-timeline.json",
+      "sha256": "b72358b3324f9306fb9b7a17db8a8de86da2924b111564594ecd1f3b577db9a8"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=66"
+      ],
+      "inicio": "2026-11-03T19:25:31.651171Z",
+      "fim": "2026-11-03T19:25:32.298827Z",
+      "paginas": 1,
+      "registros": 4,
+      "arquivo": "issue-66-timeline.json",
+      "sha256": "c3b44c44e0505cfcf947dd4194dc2a373932de24d2b20031598c410165b477f2"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=67"
+      ],
+      "inicio": "2026-11-03T19:25:30.758025Z",
+      "fim": "2026-11-03T19:25:31.650134Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-67-timeline.json",
+      "sha256": "83c21fcb392f86b2b8cdd45237c73de7e83757cb80c831bd54d0d99bc546874c"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=68"
+      ],
+      "inicio": "2026-11-03T19:25:30.082109Z",
+      "fim": "2026-11-03T19:25:30.757218Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-68-timeline.json",
+      "sha256": "1f8d42eb1837682061063d372de42a94f8f316b3b83064249dc1390d2adc0658"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=69"
+      ],
+      "inicio": "2026-11-03T19:25:29.348181Z",
+      "fim": "2026-11-03T19:25:30.081613Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-69-timeline.json",
+      "sha256": "498773d11d605108b4a6227118343e40a8e0b6fff4047d0e9813d67a6f8c0e9b"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=7"
+      ],
+      "inicio": "2026-11-03T19:25:35.927327Z",
+      "fim": "2026-11-03T19:25:36.613223Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-7-timeline.json",
+      "sha256": "1bb7d8a2a01fcbd85f25dd97a5e6f896d64b3407470a453d965516564a96bd02"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=70"
+      ],
+      "inicio": "2026-11-03T19:25:28.619119Z",
+      "fim": "2026-11-03T19:25:29.347471Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-70-timeline.json",
+      "sha256": "023ebdc076e0119f08410ba1e7afeccdab5ab9682da74cff2a32e686a45cc1d0"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=71"
+      ],
+      "inicio": "2026-11-03T19:25:27.925654Z",
+      "fim": "2026-11-03T19:25:28.618378Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-71-timeline.json",
+      "sha256": "79299b5053290ca91938f1546b8f4d0124d7af4f6098ae034608534e31999c90"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=72"
+      ],
+      "inicio": "2026-11-03T19:25:27.136019Z",
+      "fim": "2026-11-03T19:25:27.924560Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-72-timeline.json",
+      "sha256": "943a2b266660d7cc78f978e49854ecc8aa67861b3beb3db3c5a0497d12cb442d"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=73"
+      ],
+      "inicio": "2026-11-03T19:25:26.391672Z",
+      "fim": "2026-11-03T19:25:27.135048Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-73-timeline.json",
+      "sha256": "00d320935889d2927005b4435364d2fb9656390e4e13f52662bfa5752f14edd2"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=74"
+      ],
+      "inicio": "2026-11-03T19:25:25.689862Z",
+      "fim": "2026-11-03T19:25:26.390640Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-74-timeline.json",
+      "sha256": "9639a4ba1e80325fb001341ba0ef8afad9838024c1062ee10d8e88c9751103fe"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=75"
+      ],
+      "inicio": "2026-11-03T19:25:24.661096Z",
+      "fim": "2026-11-03T19:25:25.689157Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-75-timeline.json",
+      "sha256": "11142710e6a9330ae7e09df3ad5447dfac10f9ca718e103a44442572a595565a"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=76"
+      ],
+      "inicio": "2026-11-03T19:25:23.690538Z",
+      "fim": "2026-11-03T19:25:24.660074Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-76-timeline.json",
+      "sha256": "ddf89cbcc586e5d6bb62189643d877b6cbcbde2f4f0d5dc2f2e57ef6d5380405"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=77"
+      ],
+      "inicio": "2026-11-03T19:25:22.877324Z",
+      "fim": "2026-11-03T19:25:23.689664Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-77-timeline.json",
+      "sha256": "7576810d38052744610f104660f8b2c86fe79b80594ab03437d2bbb54ab6050d"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=78"
+      ],
+      "inicio": "2026-11-03T19:25:22.056828Z",
+      "fim": "2026-11-03T19:25:22.876244Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-78-timeline.json",
+      "sha256": "26af2aa0cbf5ffdec5e94653b58bcb9a2d12705919c2a13e0b4512a8fe93ca97"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=79"
+      ],
+      "inicio": "2026-11-03T19:25:21.391510Z",
+      "fim": "2026-11-03T19:25:22.055900Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-79-timeline.json",
+      "sha256": "862db4ba82e0777945edd6a978e707a26bc3448d471e75f3d3517b6ac42c0460"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=8"
+      ],
+      "inicio": "2026-11-03T19:25:35.263662Z",
+      "fim": "2026-11-03T19:25:35.926476Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-8-timeline.json",
+      "sha256": "da8f7c302ea3d1721d6f42fe3dcf2eddb5707ffc85c1ec075cfdd2f0a7d467a2"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=80"
+      ],
+      "inicio": "2026-11-03T19:25:20.779848Z",
+      "fim": "2026-11-03T19:25:21.390596Z",
+      "paginas": 1,
+      "registros": 5,
+      "arquivo": "issue-80-timeline.json",
+      "sha256": "a78a0305d5a64806eb3050893a8d2b58e0b89c9f80833746d65d7dbf4cc88acc"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=81"
+      ],
+      "inicio": "2026-11-03T19:25:20.132692Z",
+      "fim": "2026-11-03T19:25:20.778950Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-81-timeline.json",
+      "sha256": "8943e0f406eae4e356581b594c62a093a9d941abe6ca35b46b09396ce3547ef6"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=82"
+      ],
+      "inicio": "2026-11-03T19:25:19.555114Z",
+      "fim": "2026-11-03T19:25:20.131740Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-82-timeline.json",
+      "sha256": "30105a210b9c70ef7357217c50cd704777cb8e11629ee961ce956ca9c5401338"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=83"
+      ],
+      "inicio": "2026-11-03T19:25:18.836208Z",
+      "fim": "2026-11-03T19:25:19.554348Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-83-timeline.json",
+      "sha256": "375eee6f63a5a0d8a0603c34e076b08c464c3978845cebfe5401022ef57065f5"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=84"
+      ],
+      "inicio": "2026-11-03T19:25:18.226557Z",
+      "fim": "2026-11-03T19:25:18.835496Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-84-timeline.json",
+      "sha256": "2d37b5a42060bde6b67974f970cadc8fb6b763dcb453a7ec22199796c192a856"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=85"
+      ],
+      "inicio": "2026-11-03T19:25:17.578150Z",
+      "fim": "2026-11-03T19:25:18.226064Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-85-timeline.json",
+      "sha256": "aa367731a1e8d8af1f0055e9e578b4ba19f5d927480b9b92ceaffbbf4398f49e"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=86"
+      ],
+      "inicio": "2026-11-03T19:25:16.930955Z",
+      "fim": "2026-11-03T19:25:17.577846Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-86-timeline.json",
+      "sha256": "1662623022fa2e266383ece49c3a12185ad4d8b77d413846888e03240a1b1875"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=87"
+      ],
+      "inicio": "2026-11-03T19:25:16.317605Z",
+      "fim": "2026-11-03T19:25:16.930216Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-87-timeline.json",
+      "sha256": "e976ca6a19041e420c1d4e0caa8c581082de3f3031fcb2898ae64fc9dc5b2084"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=88"
+      ],
+      "inicio": "2026-11-03T19:25:15.558852Z",
+      "fim": "2026-11-03T19:25:16.316742Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-88-timeline.json",
+      "sha256": "5d75088a84605bd1536a4755c5434ca6a0bb11eab47954307aef1b0cba5de766"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=89"
+      ],
+      "inicio": "2026-11-03T19:25:14.807943Z",
+      "fim": "2026-11-03T19:25:15.558108Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-89-timeline.json",
+      "sha256": "f24044e2c3e537a249fb7ed2863cb80cbb67432d93221c6d525a3f312631cc96"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=9"
+      ],
+      "inicio": "2026-11-03T19:25:34.254619Z",
+      "fim": "2026-11-03T19:25:35.262696Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "issue-9-timeline.json",
+      "sha256": "2dd902d102a58443afc2f72bbc303ceecaa3947d9589e06053d50d2ca206d84e"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=90"
+      ],
+      "inicio": "2026-11-03T19:25:14.194391Z",
+      "fim": "2026-11-03T19:25:14.807218Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-90-timeline.json",
+      "sha256": "917b63dd6d19ce0c2a2b2aa2889862532fe21c3d4514febcbd500b25080ecfe7"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=91"
+      ],
+      "inicio": "2026-11-03T19:25:13.462241Z",
+      "fim": "2026-11-03T19:25:14.193425Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-91-timeline.json",
+      "sha256": "b05db4d0db32af9288c9390441abc8af4a4e1dcb1a20a9e790158210227d651a"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=92"
+      ],
+      "inicio": "2026-11-03T19:25:12.866203Z",
+      "fim": "2026-11-03T19:25:13.461419Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-92-timeline.json",
+      "sha256": "e6683dc8f757e4edb20a892ff0d7469a54fb86d900da6e13cde5b289eea82cd1"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=93"
+      ],
+      "inicio": "2026-11-03T19:25:12.222743Z",
+      "fim": "2026-11-03T19:25:12.865643Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-93-timeline.json",
+      "sha256": "2f58c80234af6fa8a8b39a63cba8be1b86228e2121e853e0380f6c21cfc10967"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=94"
+      ],
+      "inicio": "2026-11-03T19:25:11.499001Z",
+      "fim": "2026-11-03T19:25:12.221801Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-94-timeline.json",
+      "sha256": "8e71a8067261970fe9c08d9c0b281ee061851be222083a52f78ddcbb33081947"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=95"
+      ],
+      "inicio": "2026-11-03T19:25:10.489648Z",
+      "fim": "2026-11-03T19:25:11.498105Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-95-timeline.json",
+      "sha256": "4e7dd358223ded0dbb8210e92c1888214fed8e588ab92b4a6b31142a8445cb34"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=96"
+      ],
+      "inicio": "2026-11-03T19:25:09.794413Z",
+      "fim": "2026-11-03T19:25:10.488647Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-96-timeline.json",
+      "sha256": "376d8fb027bd272980a7f129167216ae2e2814a207bb91fbc021114576f2545e"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=97"
+      ],
+      "inicio": "2026-11-03T19:25:09.172039Z",
+      "fim": "2026-11-03T19:25:09.793473Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-97-timeline.json",
+      "sha256": "a528dbdc936d02cb7076e2258039e48aaee7ee2847a4c030cc9ee5f2142ef293"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=98"
+      ],
+      "inicio": "2026-11-03T19:25:08.544107Z",
+      "fim": "2026-11-03T19:25:09.171099Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-98-timeline.json",
+      "sha256": "b86465e39b5557976c2ba15be87314aa344f542efaff94ec56acbd082b5921d3"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($number:Int!, $endCursor:String) {\n  repository(owner:\"AndreMattheus\", name:\"FrioVax\") {\n    issue(number:$number) {\n      timelineItems(first:100, after:$endCursor, itemTypes:[ADDED_TO_PROJECT_V2_EVENT,\n        PROJECT_V2_ITEM_STATUS_CHANGED_EVENT,CLOSED_EVENT,REOPENED_EVENT]) {\n        nodes {\n          __typename\n          ... on AddedToProjectV2Event {id createdAt actor{login} project{id} wasAutomated}\n          ... on ProjectV2ItemStatusChangedEvent {\n            id createdAt actor{login} project{id} previousStatus status wasAutomated\n          }\n          ... on ClosedEvent {id createdAt actor{login}}\n          ... on ReopenedEvent {id createdAt actor{login}}\n        }\n        pageInfo{hasNextPage endCursor}\n      }\n    }\n  }\n}",
+        "-F",
+        "number=99"
+      ],
+      "inicio": "2026-11-03T19:25:07.788914Z",
+      "fim": "2026-11-03T19:25:08.543593Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "issue-99-timeline.json",
+      "sha256": "57a12be97e5cc46ad9c430d5efab4b1f52e420a9331fd63079df7bae470bdfa0"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues?state=all&milestone=3&per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:40.398808Z",
+      "fim": "2026-11-03T19:24:41.605131Z",
+      "paginas": 1,
+      "registros": 42,
+      "arquivo": "issues.json",
+      "sha256": "9a2b240098c9ec51367b54c10b1269a3926feaca5afac1c15502b12436d09893"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/100/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:52.817615Z",
+      "fim": "2026-11-03T19:24:53.425949Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-100-commits.json",
+      "sha256": "5283678830246913244c8a25c0fa3490d6a701453216a6933370983b23a0951f"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/100/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:52.819058Z",
+      "fim": "2026-11-03T19:24:53.460268Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "pr-100-events.json",
+      "sha256": "830b04a3b3ddbab6954b49f2d45935ff90fa6c34332605546d3f0835bd41ae63"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/100/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:52.818868Z",
+      "fim": "2026-11-03T19:24:53.453858Z",
+      "paginas": 1,
+      "registros": 0,
+      "arquivo": "pr-100-reviews.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/36/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:06.549773Z",
+      "fim": "2026-11-03T19:25:07.176196Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-36-commits.json",
+      "sha256": "94f8104d907b96da4379c4cf8c0837624a8d9917f00d2db24bcc82baf031f96a"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/36/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:07.104428Z",
+      "fim": "2026-11-03T19:25:07.718476Z",
+      "paginas": 1,
+      "registros": 7,
+      "arquivo": "pr-36-events.json",
+      "sha256": "168228f3398ce3944bf444125d17ee78db98e0a7288f803c4bc683a67ba66d6e"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/36/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:06.736795Z",
+      "fim": "2026-11-03T19:25:07.459246Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-36-reviews.json",
+      "sha256": "845c589d2ff62c11154ac862662a95ff7c44bef5974154f391af41ca9608e6e4"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/37/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:06.091435Z",
+      "fim": "2026-11-03T19:25:06.736210Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-37-commits.json",
+      "sha256": "2a6587ffb4b9d64336e913f0378df24441a1cdae6787b6c179b81a424c142c21"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/37/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:06.446237Z",
+      "fim": "2026-11-03T19:25:07.144097Z",
+      "paginas": 1,
+      "registros": 6,
+      "arquivo": "pr-37-events.json",
+      "sha256": "69499d6c19134626b62bdd2a3339e2706f5f2fd58ac4e8fa40b7c7cbe291c3e7"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/37/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:06.396865Z",
+      "fim": "2026-11-03T19:25:07.103451Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-37-reviews.json",
+      "sha256": "5d6ce780b869f2db4b15e316ce3631abc8d53706f7d4f4fd1e0f1bc049065e37"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/38/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:05.593174Z",
+      "fim": "2026-11-03T19:25:06.395960Z",
+      "paginas": 1,
+      "registros": 6,
+      "arquivo": "pr-38-commits.json",
+      "sha256": "3184232ca6c4858639bb98a680b2cb3e0719a583f04993a8963ff6f6a3d9c147"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/38/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:05.783557Z",
+      "fim": "2026-11-03T19:25:06.549351Z",
+      "paginas": 1,
+      "registros": 6,
+      "arquivo": "pr-38-events.json",
+      "sha256": "3ae031d4bb76382295a4c7eee6e699e1551572e6db9439687239902e435e9725"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/38/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:05.593302Z",
+      "fim": "2026-11-03T19:25:06.445929Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-38-reviews.json",
+      "sha256": "0a61e5d3fe554105b1a7eeed52f882c6f8de92bb030527037b5dbc1363081c86"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/39/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:04.963751Z",
+      "fim": "2026-11-03T19:25:05.592040Z",
+      "paginas": 1,
+      "registros": 8,
+      "arquivo": "pr-39-commits.json",
+      "sha256": "09b5f42e16a07cde71c6518089126e877359538f86b5478aad6cf197500b4299"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/39/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:05.362620Z",
+      "fim": "2026-11-03T19:25:06.090461Z",
+      "paginas": 1,
+      "registros": 8,
+      "arquivo": "pr-39-events.json",
+      "sha256": "185126c61c3491165ed1ee2a7c337775cfb672b3ded3a66ab0929f0918c1330d"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/39/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:05.053500Z",
+      "fim": "2026-11-03T19:25:05.782860Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-39-reviews.json",
+      "sha256": "2fa2d167ab148dcf8599da645767ea0b0f766effafa1681e89003347120f6daf"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/40/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:04.347808Z",
+      "fim": "2026-11-03T19:25:04.955350Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-40-commits.json",
+      "sha256": "5fb38199505e3771b048bd6a03eb64b393419252d3519daa976b2e4256bdf005"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/40/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:04.956225Z",
+      "fim": "2026-11-03T19:25:05.592659Z",
+      "paginas": 1,
+      "registros": 12,
+      "arquivo": "pr-40-events.json",
+      "sha256": "2e29990b0e8bdfb249c43d31d16289e99af65753aac6c4df6a715a205c191c40"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/40/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:04.612250Z",
+      "fim": "2026-11-03T19:25:05.361775Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-40-reviews.json",
+      "sha256": "aba5ecc465304fa51e803acc4379acbb3d1701dc87be27c5f5e32324ac2e7d9d"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/41/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:03.905672Z",
+      "fim": "2026-11-03T19:25:04.611337Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "pr-41-commits.json",
+      "sha256": "5026172299707afe7de00f5e6a071039975bcf75841e95a9a653182d90caf8c7"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/41/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:04.306463Z",
+      "fim": "2026-11-03T19:25:04.963171Z",
+      "paginas": 1,
+      "registros": 9,
+      "arquivo": "pr-41-events.json",
+      "sha256": "81276ee2d69bab4b9931aae6b4ce4223e9f363f627c921869283dccacf040e35"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/41/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:04.261616Z",
+      "fim": "2026-11-03T19:25:05.053078Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-41-reviews.json",
+      "sha256": "509648f86b3fa9b990fd221e966709483561b4e4784a36346a512c93fca15716"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/42/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:03.557667Z",
+      "fim": "2026-11-03T19:25:04.260540Z",
+      "paginas": 1,
+      "registros": 8,
+      "arquivo": "pr-42-commits.json",
+      "sha256": "ad881ec2503c66d268fc9f7676315bea07fe761be6658de8c05fb48c36ef9254"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/42/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:03.677882Z",
+      "fim": "2026-11-03T19:25:04.306121Z",
+      "paginas": 1,
+      "registros": 6,
+      "arquivo": "pr-42-events.json",
+      "sha256": "e9a0fabddcb9a024b13474ffe2ff7fba7aaabe1429b1ebc3f47f5b6f7d68b578"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/42/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:03.576969Z",
+      "fim": "2026-11-03T19:25:04.347495Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-42-reviews.json",
+      "sha256": "eba15613456a82b4b27292f67ef2cd3118cd207027906515880282fa0439c735"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/43/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:02.900064Z",
+      "fim": "2026-11-03T19:25:03.576316Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "pr-43-commits.json",
+      "sha256": "fe4ae6c76045c99d90f89efa056ff7cc3227746b4c5eb43fe8cdac1bb598705d"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/43/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:03.276364Z",
+      "fim": "2026-11-03T19:25:03.904928Z",
+      "paginas": 1,
+      "registros": 5,
+      "arquivo": "pr-43-events.json",
+      "sha256": "a11222dcba0908581615fd86c61df0b0b1e40603f097aaff2526e53dac5c9c48"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/43/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:02.955628Z",
+      "fim": "2026-11-03T19:25:03.677439Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-43-reviews.json",
+      "sha256": "0ec9d176fecf71af4e70f5aafadd7615c174e4d43de8928cc75fdd9712dc0fe1"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/44/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:02.309227Z",
+      "fim": "2026-11-03T19:25:02.955244Z",
+      "paginas": 1,
+      "registros": 5,
+      "arquivo": "pr-44-commits.json",
+      "sha256": "49bcbbadae1c14b3c4af1327c196ab10179b2ee9b492835813ade317ee34331e"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/44/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:02.867250Z",
+      "fim": "2026-11-03T19:25:03.556676Z",
+      "paginas": 1,
+      "registros": 6,
+      "arquivo": "pr-44-events.json",
+      "sha256": "84d153da7caacae27c9c59053762d69525030bbe847132d9d25ee6f364fe9b36"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/44/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:02.483080Z",
+      "fim": "2026-11-03T19:25:03.275470Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-44-reviews.json",
+      "sha256": "d529a9b1e6c8cfe54d4290d9f169ff6983c008ffbef95a1a40bd0a27b88222d9"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/45/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:01.727902Z",
+      "fim": "2026-11-03T19:25:02.482477Z",
+      "paginas": 1,
+      "registros": 4,
+      "arquivo": "pr-45-commits.json",
+      "sha256": "f98de8f5f8f45f9a09d5fedd1b37ceef722c08bc36ea914405f46c9c34730693"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/45/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:02.268310Z",
+      "fim": "2026-11-03T19:25:02.899447Z",
+      "paginas": 1,
+      "registros": 11,
+      "arquivo": "pr-45-events.json",
+      "sha256": "36ac505e58feebbf30c7702a7e779f87b057923c06622da8097a62c6eea8bfb8"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/45/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:02.013198Z",
+      "fim": "2026-11-03T19:25:02.866276Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-45-reviews.json",
+      "sha256": "4222ca8129440d9020dc3c0d67b6434951066dae8d3a05d3b93800b334741631"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/46/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:01.292491Z",
+      "fim": "2026-11-03T19:25:02.009985Z",
+      "paginas": 1,
+      "registros": 4,
+      "arquivo": "pr-46-commits.json",
+      "sha256": "2f5764eea4e61f86d91775a05f1dea1d8e72f858aa90bbc1854fd1d08a7184db"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/46/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:01.580364Z",
+      "fim": "2026-11-03T19:25:02.267491Z",
+      "paginas": 1,
+      "registros": 6,
+      "arquivo": "pr-46-events.json",
+      "sha256": "1b2f25efd7b20842e6dd5c8cb0e2c8d104c49797133f8c80024fad8fa26e7447"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/46/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:01.571693Z",
+      "fim": "2026-11-03T19:25:02.308762Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-46-reviews.json",
+      "sha256": "a10f769bafb2969e695771a813c8532618d5d2ff457fdbfc37fd8323082b744b"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/47/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:00.814378Z",
+      "fim": "2026-11-03T19:25:01.570790Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-47-commits.json",
+      "sha256": "db629eaaaef62a402f625ea63643743a14775bf1124f3a8f4b60047d4b58ccd0"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/47/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:01.032946Z",
+      "fim": "2026-11-03T19:25:01.727233Z",
+      "paginas": 1,
+      "registros": 11,
+      "arquivo": "pr-47-events.json",
+      "sha256": "8fa4e29cd33f92f0ec76e4de3d0f5a7a2ad11345ca693a5f242bff4337f2bbda"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/47/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:00.838933Z",
+      "fim": "2026-11-03T19:25:01.579890Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "pr-47-reviews.json",
+      "sha256": "82b958206ad01ea752b983418b367e95689749a34b0c4e8dfa50e0b64481dd59"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/48/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:00.189906Z",
+      "fim": "2026-11-03T19:25:00.813848Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-48-commits.json",
+      "sha256": "373fba1178333f3169b3a01d2c74bbddc43248d59b9a10b173fbe269e7226a60"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/48/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:00.682124Z",
+      "fim": "2026-11-03T19:25:01.291507Z",
+      "paginas": 1,
+      "registros": 5,
+      "arquivo": "pr-48-events.json",
+      "sha256": "aa728babedcd05424bb143c410f7d0f8fb9b30c7c825a176d192209471355dc2"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/48/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:00.271606Z",
+      "fim": "2026-11-03T19:25:01.032182Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-48-reviews.json",
+      "sha256": "42d34364a6db1b0e760cd99b4b3788a2c312b8d5edaae5fed2a7e4c93c641a4d"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/49/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:59.613406Z",
+      "fim": "2026-11-03T19:25:00.189336Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-49-commits.json",
+      "sha256": "b9d0bee618fe1f61a20f25fb151c43b99f374f04c9014c376821f9849e5d1d11"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/49/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:00.178917Z",
+      "fim": "2026-11-03T19:25:00.838620Z",
+      "paginas": 1,
+      "registros": 5,
+      "arquivo": "pr-49-events.json",
+      "sha256": "7a8abb0329fa39db2f11aa9ac9c307ce07948c46f3a939c4330384063e7b0990"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/49/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:59.917927Z",
+      "fim": "2026-11-03T19:25:00.681263Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-49-reviews.json",
+      "sha256": "8e76710242150413f8ba275200897c1dff614d0c89e23e23af9858a15f7a0bb3"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/50/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:59.218860Z",
+      "fim": "2026-11-03T19:24:59.917452Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-50-commits.json",
+      "sha256": "3dcda41ae6fe3f339de6fd8bdbd4c6e1573b16e571fb4fff082daefe764d90ce"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/50/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:59.555952Z",
+      "fim": "2026-11-03T19:25:00.177963Z",
+      "paginas": 1,
+      "registros": 5,
+      "arquivo": "pr-50-events.json",
+      "sha256": "87e42b80bfa96d314fdb9b6812cb164907f88e0e4923fa729de3f861fd4c133f"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/50/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:59.419963Z",
+      "fim": "2026-11-03T19:25:00.271225Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-50-reviews.json",
+      "sha256": "4010dc992a16941398b3c4d6b094b59d1f4c7ca47c22a3f89e28eb8f1c65a03e"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/51/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:58.792971Z",
+      "fim": "2026-11-03T19:24:59.419248Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-51-commits.json",
+      "sha256": "eb7cafce549f3684ecea2ea285605e0bb15b7f43831b3491fef17e830a5089f1"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/51/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:58.898125Z",
+      "fim": "2026-11-03T19:24:59.555368Z",
+      "paginas": 1,
+      "registros": 10,
+      "arquivo": "pr-51-events.json",
+      "sha256": "7cdccfd475a09124917fda97bfc18deb47abdf43392071efb7b147444ccb1040"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/51/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:58.830447Z",
+      "fim": "2026-11-03T19:24:59.613078Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-51-reviews.json",
+      "sha256": "1b3deca62b41a0a07d8d53169d564a7f3770f4378f745bcd5725d835f6b9a77d"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/52/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:58.133557Z",
+      "fim": "2026-11-03T19:24:58.830109Z",
+      "paginas": 1,
+      "registros": 4,
+      "arquivo": "pr-52-commits.json",
+      "sha256": "3ba0e24681d8c425ccc97722f8b469f27e1cc222d1f4032bdaf858479e3bd18b"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/52/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:58.588757Z",
+      "fim": "2026-11-03T19:24:59.217973Z",
+      "paginas": 1,
+      "registros": 6,
+      "arquivo": "pr-52-events.json",
+      "sha256": "59dc61447c112419c2bb3074d8af2872a26a9f50deab94675bd1e875d1f879a1"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/52/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:58.217783Z",
+      "fim": "2026-11-03T19:24:58.897874Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-52-reviews.json",
+      "sha256": "266dcb94c65afd5e38814e08e225ce597d10fc00e22084f7f3baa236025c6ec3"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/53/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:57.540242Z",
+      "fim": "2026-11-03T19:24:58.217427Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "pr-53-commits.json",
+      "sha256": "27d734e847eb42e04006c3047d84f301a9c68e5619268520ccfc3f2e69d657b8"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/53/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:58.008392Z",
+      "fim": "2026-11-03T19:24:58.792129Z",
+      "paginas": 1,
+      "registros": 7,
+      "arquivo": "pr-53-events.json",
+      "sha256": "d61816ea43bbe6f59682ae57b2a048134b8782e9bcf326222739f665c5e290a5"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/53/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:57.850033Z",
+      "fim": "2026-11-03T19:24:58.587745Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-53-reviews.json",
+      "sha256": "41e785cafb575f427656276cab4a7df4daa3e5d0c3e1c7e24a927098318952f9"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/55/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:57.072543Z",
+      "fim": "2026-11-03T19:24:57.848889Z",
+      "paginas": 1,
+      "registros": 5,
+      "arquivo": "pr-55-commits.json",
+      "sha256": "6dbf064b2eeef8c305dce31cb6a520388b69c6710eba488aaa57c121aef0a463"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/55/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:57.374876Z",
+      "fim": "2026-11-03T19:24:58.133012Z",
+      "paginas": 1,
+      "registros": 12,
+      "arquivo": "pr-55-events.json",
+      "sha256": "934886c02981e578173f9757e031ebd2f70af00740e699ef44bda332f277d53b"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/55/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:57.240572Z",
+      "fim": "2026-11-03T19:24:58.007716Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-55-reviews.json",
+      "sha256": "1412b159d49ffed4f50c58b7ff428c7bc5c132f60cdac397d7528a29351b8dae"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/56/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:56.675899Z",
+      "fim": "2026-11-03T19:24:57.240214Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "pr-56-commits.json",
+      "sha256": "0a678720d33ff253adb5a6433ba700356735f367c7af0eaa28a8a35aa796991f"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/56/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:56.852070Z",
+      "fim": "2026-11-03T19:24:57.539549Z",
+      "paginas": 1,
+      "registros": 7,
+      "arquivo": "pr-56-events.json",
+      "sha256": "52106f9f946668f3b332f4fc658184d3126e5f4dc07bead851047dd987caf4ba"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/56/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:56.679797Z",
+      "fim": "2026-11-03T19:24:57.374400Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-56-reviews.json",
+      "sha256": "05d295da6a421bb084ca819492c62e99f42841910e6c4916578f3fa72adf42d6"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/57/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:56.028909Z",
+      "fim": "2026-11-03T19:24:56.678877Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-57-commits.json",
+      "sha256": "4068aa57699976019153e69a8b30326cafe3d3613547b5a31907a067c1b92421"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/57/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:56.372889Z",
+      "fim": "2026-11-03T19:24:57.071710Z",
+      "paginas": 1,
+      "registros": 13,
+      "arquivo": "pr-57-events.json",
+      "sha256": "ee1a30f8e351ec312ee9e6c81d2f8b8c3b8fa81abc13222cbb266e109fcaf512"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/57/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:56.157417Z",
+      "fim": "2026-11-03T19:24:56.851504Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-57-reviews.json",
+      "sha256": "d51c75dcc9889941b0453cd43a40f10e9239f75a998af3c29dd004d53aafd464"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/58/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:55.487842Z",
+      "fim": "2026-11-03T19:24:56.157033Z",
+      "paginas": 1,
+      "registros": 3,
+      "arquivo": "pr-58-commits.json",
+      "sha256": "14711fcb889c711bcd4a81ce0ea7d679d004c253f303864f3b497b344cc59854"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/58/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:56.009439Z",
+      "fim": "2026-11-03T19:24:56.674908Z",
+      "paginas": 1,
+      "registros": 9,
+      "arquivo": "pr-58-events.json",
+      "sha256": "8df55fb9d6a056e4bed13edbb94a208f2b07dcf1a0b5253f59a8fe237b8ddf4e"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/58/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:55.512961Z",
+      "fim": "2026-11-03T19:24:56.371915Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-58-reviews.json",
+      "sha256": "7fcc8accbd76f80c12704649e8201b0fc2979a2b8ee666957eb3a99718428e16"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/59/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:54.835548Z",
+      "fim": "2026-11-03T19:24:55.512660Z",
+      "paginas": 1,
+      "registros": 5,
+      "arquivo": "pr-59-commits.json",
+      "sha256": "92c2e00bd36d2da8ae87a691e76a5329a0af279289f7994fbd87e4befe3d6432"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/59/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:55.454473Z",
+      "fim": "2026-11-03T19:24:56.028227Z",
+      "paginas": 1,
+      "registros": 7,
+      "arquivo": "pr-59-events.json",
+      "sha256": "04feb5e7649b3f7e91858728996b2548500b1e4e9745f3da30029ffc99902f90"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/59/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:55.316394Z",
+      "fim": "2026-11-03T19:24:56.008630Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-59-reviews.json",
+      "sha256": "db9b3a004deea0926e4601e26d2579dd74def04ea0c01327ca94213a135d86bf"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/60/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:54.711891Z",
+      "fim": "2026-11-03T19:24:55.315681Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-60-commits.json",
+      "sha256": "d18498d0ddc5d38210f1c198dd08eb1e3d950bcbd2d8c53c8992ade61ed43d1e"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/60/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:54.810799Z",
+      "fim": "2026-11-03T19:24:55.453917Z",
+      "paginas": 1,
+      "registros": 8,
+      "arquivo": "pr-60-events.json",
+      "sha256": "db8f567ef8d7ced93df0164738e6a765bccb6bbdf6cf8db2701f7e5c9ce0238f"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/60/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:54.736232Z",
+      "fim": "2026-11-03T19:24:55.487553Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "pr-60-reviews.json",
+      "sha256": "5fabfe468cccab5e32e149d553b1a2e6afbd35c56c10df2c17aede0cacfc244c"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/62/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:54.068515Z",
+      "fim": "2026-11-03T19:24:54.735670Z",
+      "paginas": 1,
+      "registros": 11,
+      "arquivo": "pr-62-commits.json",
+      "sha256": "616a0f3e9ef91ee045cf7f44630657ee64a9bfd56fdb64e0205172c7a56c4b42"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/62/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:54.184885Z",
+      "fim": "2026-11-03T19:24:54.810379Z",
+      "paginas": 1,
+      "registros": 8,
+      "arquivo": "pr-62-events.json",
+      "sha256": "5ff1cd52af894fac84e86ea3b297c7188224e68988b87cfed3af2a9586ef78ff"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/62/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:54.106053Z",
+      "fim": "2026-11-03T19:24:54.835260Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-62-reviews.json",
+      "sha256": "40c0caf6775fa3add60302ad8ddef90c5bfb759eca6f523ed4703e607c60e6df"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/63/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:53.454316Z",
+      "fim": "2026-11-03T19:24:54.068135Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-63-commits.json",
+      "sha256": "3e0db5cb34c38a5a85bd050b449d8554d1c2479ca3483c8fac90653826c3f5f1"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/63/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:54.006334Z",
+      "fim": "2026-11-03T19:24:54.710951Z",
+      "paginas": 1,
+      "registros": 7,
+      "arquivo": "pr-63-events.json",
+      "sha256": "ca274ca0a6666243b70242277b41dde4b58bc4c27e7f4fab2ee6ef4f4d4c6116"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/63/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:53.460775Z",
+      "fim": "2026-11-03T19:24:54.005795Z",
+      "paginas": 1,
+      "registros": 0,
+      "arquivo": "pr-63-reviews.json",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/64/commits?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:52.819188Z",
+      "fim": "2026-11-03T19:24:53.430057Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-64-commits.json",
+      "sha256": "3e0db5cb34c38a5a85bd050b449d8554d1c2479ca3483c8fac90653826c3f5f1"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/issues/64/events?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:53.430792Z",
+      "fim": "2026-11-03T19:24:54.105742Z",
+      "paginas": 1,
+      "registros": 9,
+      "arquivo": "pr-64-events.json",
+      "sha256": "7e344ae37c92c309d57d357535f83348428a32e10d66570e8fda0b0463102d2b"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls/64/reviews?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:53.426865Z",
+      "fim": "2026-11-03T19:24:54.184507Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "pr-64-reviews.json",
+      "sha256": "3e6559d92e1c1bb2aab3b562e008bf6f78248c47b9291f0b73924435f13b5a98"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "graphql",
+        "-f",
+        "query=query($endCursor:String) {\n  user(login:\"AndreMattheus\") {projectV2(number:1) {\n    id\n    items(first:100, after:$endCursor) {\n      nodes {\n        id createdAt updatedAt\n        content {\n          ... on Issue {number url repository{nameWithOwner}}\n          ... on PullRequest {number url repository{nameWithOwner}}\n        }\n        fieldValues(first:100) {\n          nodes {\n            ... on ProjectV2ItemFieldDateValue {date field{... on ProjectV2Field{name}}}\n            ... on ProjectV2ItemFieldSingleSelectValue {\n              name field{... on ProjectV2SingleSelectField{name}}\n            }\n          }\n          pageInfo{hasNextPage}\n        }\n      }\n      pageInfo{hasNextPage endCursor}\n    }\n  }}\n}"
+      ],
+      "inicio": "2026-11-03T19:24:50.539317Z",
+      "fim": "2026-11-03T19:24:52.816648Z",
+      "paginas": 1,
+      "registros": 99,
+      "arquivo": "project.json",
+      "sha256": "e6922ff421daf20cfb7fd3ee6399f94cd50133c11ec305863703fe71ec858518"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/pulls?state=all&base=main&per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:39.353374Z",
+      "fim": "2026-11-03T19:24:40.397821Z",
+      "paginas": 1,
+      "registros": 30,
+      "arquivo": "pulls.json",
+      "sha256": "928e97aa1cf9a244047cc2e08c1896f9a7550c0569c78f68fbebd2ee995ebf3d"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/actions/runs/41700563504/attempts/1/jobs?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:07.176457Z",
+      "fim": "2026-11-03T19:25:07.730392Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "run-41700563504-jobs.json",
+      "sha256": "d4058de9138aeb9bb71c088f35e539bc9926d01e4f7cc3af43b0621042094dd7"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/actions/runs/41700583786/attempts/1/jobs?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:25:07.144555Z",
+      "fim": "2026-11-03T19:25:07.787494Z",
+      "paginas": 1,
+      "registros": 2,
+      "arquivo": "run-41700583786-jobs.json",
+      "sha256": "3566149e01d5ae97cb05e38a571cc8da946b11f6818cdb2bd52b8c2144f8b56d"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/actions/runs?per_page=100"
+      ],
+      "inicio": "2026-11-03T19:24:42.209366Z",
+      "fim": "2026-11-03T19:24:50.043946Z",
+      "paginas": 2,
+      "registros": 154,
+      "arquivo": "runs.json",
+      "sha256": "a131a4e8bdc234cdc06a8fc60658f10edcdd917f52b7063ab9903a74081603d2"
+    }
+  ]
+}

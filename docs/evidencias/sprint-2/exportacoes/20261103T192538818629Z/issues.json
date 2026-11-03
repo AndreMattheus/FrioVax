@@ -1,0 +1,1672 @@
+[
+  {
+    "id": 6008668197,
+    "number": 99,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/99",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:25Z",
+    "updated_at": "2026-10-24T02:58:19Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      },
+      {
+        "id": 12814926596,
+        "name": "grpc"
+      }
+    ]
+  },
+  {
+    "id": 6008668020,
+    "number": 98,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/98",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:23Z",
+    "updated_at": "2026-10-24T02:58:18Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814927009,
+        "name": "comunicacao"
+      }
+    ]
+  },
+  {
+    "id": 6008667860,
+    "number": 97,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/97",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:22Z",
+    "updated_at": "2026-10-24T02:58:17Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926962,
+        "name": "processo"
+      }
+    ]
+  },
+  {
+    "id": 6008667689,
+    "number": 96,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/96",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:20Z",
+    "updated_at": "2026-10-24T02:58:15Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814927009,
+        "name": "comunicacao"
+      }
+    ]
+  },
+  {
+    "id": 6008667475,
+    "number": 95,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/95",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:18Z",
+    "updated_at": "2026-10-24T02:58:14Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926962,
+        "name": "processo"
+      }
+    ]
+  },
+  {
+    "id": 6008667251,
+    "number": 94,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/94",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:16Z",
+    "updated_at": "2026-10-24T02:58:12Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "biancammedeiros",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926806,
+        "name": "testes"
+      }
+    ]
+  },
+  {
+    "id": 6008667070,
+    "number": 93,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/93",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:15Z",
+    "updated_at": "2026-10-24T02:58:11Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "biancammedeiros",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12067383900,
+        "name": "documentation"
+      },
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      }
+    ]
+  },
+  {
+    "id": 6008666918,
+    "number": 92,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/92",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:13Z",
+    "updated_at": "2026-10-24T02:58:10Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "biancammedeiros",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926962,
+        "name": "processo"
+      },
+      {
+        "id": 12814927200,
+        "name": "experimento"
+      }
+    ]
+  },
+  {
+    "id": 6008666745,
+    "number": 91,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/91",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:12Z",
+    "updated_at": "2026-10-24T02:58:09Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926962,
+        "name": "processo"
+      }
+    ]
+  },
+  {
+    "id": 6008666571,
+    "number": 90,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/90",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:10Z",
+    "updated_at": "2026-10-24T02:58:07Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "AndreMattheus",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926962,
+        "name": "processo"
+      }
+    ]
+  },
+  {
+    "id": 6008666375,
+    "number": 89,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/89",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:09Z",
+    "updated_at": "2026-10-24T02:58:06Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926908,
+        "name": "infra"
+      }
+    ]
+  },
+  {
+    "id": 6008666123,
+    "number": 88,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/88",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:06Z",
+    "updated_at": "2026-10-24T02:58:05Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926908,
+        "name": "infra"
+      }
+    ]
+  },
+  {
+    "id": 6008665870,
+    "number": 87,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/87",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:04Z",
+    "updated_at": "2026-10-24T02:58:04Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926908,
+        "name": "infra"
+      }
+    ]
+  },
+  {
+    "id": 6008665664,
+    "number": 86,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/86",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:02Z",
+    "updated_at": "2026-10-24T02:58:03Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "AndreMattheus",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926908,
+        "name": "infra"
+      }
+    ]
+  },
+  {
+    "id": 6008665470,
+    "number": 85,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/85",
+    "state": "open",
+    "created_at": "2026-10-24T02:57:00Z",
+    "updated_at": "2026-10-24T02:58:01Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926908,
+        "name": "infra"
+      }
+    ]
+  },
+  {
+    "id": 6008665289,
+    "number": 84,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/84",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:59Z",
+    "updated_at": "2026-10-24T02:58:00Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926908,
+        "name": "infra"
+      }
+    ]
+  },
+  {
+    "id": 6008665125,
+    "number": 83,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/83",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:57Z",
+    "updated_at": "2026-10-24T02:57:59Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926806,
+        "name": "testes"
+      }
+    ]
+  },
+  {
+    "id": 6008664951,
+    "number": 82,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/82",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:55Z",
+    "updated_at": "2026-10-24T02:57:58Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "AndreMattheus",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 6008664763,
+    "number": 81,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/81",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:54Z",
+    "updated_at": "2026-10-24T02:57:57Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926729,
+        "name": "seguranca"
+      }
+    ]
+  },
+  {
+    "id": 6008664585,
+    "number": 80,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/80",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:52Z",
+    "updated_at": "2026-10-24T02:57:55Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926729,
+        "name": "seguranca"
+      }
+    ]
+  },
+  {
+    "id": 6008664403,
+    "number": 79,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/79",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:51Z",
+    "updated_at": "2026-10-24T02:57:54Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 6008664221,
+    "number": 78,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/78",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:49Z",
+    "updated_at": "2026-10-24T02:57:52Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "biancammedeiros",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 6008664061,
+    "number": 77,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/77",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:47Z",
+    "updated_at": "2026-10-24T02:57:51Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "AndreMattheus",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 6008663882,
+    "number": 76,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/76",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:46Z",
+    "updated_at": "2026-10-24T02:57:50Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "biancammedeiros",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 6008663685,
+    "number": 75,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/75",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:44Z",
+    "updated_at": "2026-10-24T02:57:49Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "biancammedeiros",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 6008663486,
+    "number": 74,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/74",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:42Z",
+    "updated_at": "2026-10-24T02:57:47Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 6008663295,
+    "number": 73,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/73",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:40Z",
+    "updated_at": "2026-10-24T02:57:46Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926596,
+        "name": "grpc"
+      }
+    ]
+  },
+  {
+    "id": 6008663135,
+    "number": 72,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/72",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:39Z",
+    "updated_at": "2026-10-24T02:57:45Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "AndreMattheus",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926596,
+        "name": "grpc"
+      }
+    ]
+  },
+  {
+    "id": 6008662945,
+    "number": 71,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/71",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:37Z",
+    "updated_at": "2026-10-24T02:57:44Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "AndreMattheus",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926522,
+        "name": "go"
+      }
+    ]
+  },
+  {
+    "id": 6008662773,
+    "number": 70,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/70",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:35Z",
+    "updated_at": "2026-10-24T02:57:43Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "biancammedeiros",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 6008662631,
+    "number": 69,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/69",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:34Z",
+    "updated_at": "2026-10-24T02:57:41Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "biancammedeiros",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 6008662495,
+    "number": 68,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/68",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:33Z",
+    "updated_at": "2026-10-24T02:57:40Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "AndreMattheus",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926596,
+        "name": "grpc"
+      }
+    ]
+  },
+  {
+    "id": 6008662355,
+    "number": 67,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/67",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:31Z",
+    "updated_at": "2026-10-24T02:57:38Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "AndreMattheus",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926666,
+        "name": "arquitetura"
+      }
+    ]
+  },
+  {
+    "id": 6008662082,
+    "number": 66,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/66",
+    "state": "open",
+    "created_at": "2026-10-24T02:56:29Z",
+    "updated_at": "2026-10-24T02:57:37Z",
+    "closed_at": null,
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926962,
+        "name": "processo"
+      }
+    ]
+  },
+  {
+    "id": 6008661820,
+    "number": 65,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/65",
+    "state": "closed",
+    "created_at": "2026-10-24T02:56:26Z",
+    "updated_at": "2026-11-03T19:09:48Z",
+    "closed_at": "2026-11-03T19:09:48Z",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926298,
+        "name": "tipo:tarefa"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926962,
+        "name": "processo"
+      }
+    ]
+  },
+  {
+    "id": 5353414080,
+    "number": 10,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/10",
+    "state": "open",
+    "created_at": "2026-09-04T21:50:40Z",
+    "updated_at": "2026-10-24T02:58:41Z",
+    "closed_at": null,
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "AndreMattheus",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926172,
+        "name": "tipo:historia"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 5353406835,
+    "number": 9,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/9",
+    "state": "open",
+    "created_at": "2026-09-04T21:49:49Z",
+    "updated_at": "2026-10-24T02:58:39Z",
+    "closed_at": null,
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926172,
+        "name": "tipo:historia"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926729,
+        "name": "seguranca"
+      }
+    ]
+  },
+  {
+    "id": 5353399466,
+    "number": 8,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/8",
+    "state": "open",
+    "created_at": "2026-09-04T21:48:56Z",
+    "updated_at": "2026-10-24T02:58:36Z",
+    "closed_at": null,
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "biancammedeiros",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926172,
+        "name": "tipo:historia"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 5353388413,
+    "number": 7,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/7",
+    "state": "open",
+    "created_at": "2026-09-04T21:47:34Z",
+    "updated_at": "2026-10-24T02:58:33Z",
+    "closed_at": null,
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "arthurFeijo",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926172,
+        "name": "tipo:historia"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 5353377864,
+    "number": 6,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/6",
+    "state": "open",
+    "created_at": "2026-09-04T21:46:22Z",
+    "updated_at": "2026-10-24T02:58:31Z",
+    "closed_at": null,
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "AndreMattheus",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926172,
+        "name": "tipo:historia"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 5353363149,
+    "number": 5,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/5",
+    "state": "open",
+    "created_at": "2026-09-04T21:44:37Z",
+    "updated_at": "2026-10-24T02:58:28Z",
+    "closed_at": null,
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "biancammedeiros",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926172,
+        "name": "tipo:historia"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926486,
+        "name": "backend"
+      }
+    ]
+  },
+  {
+    "id": 5353352690,
+    "number": 4,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/issues/4",
+    "state": "open",
+    "created_at": "2026-09-04T21:43:23Z",
+    "updated_at": "2026-10-24T02:58:25Z",
+    "closed_at": null,
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "assignees": [
+      {
+        "login": "leonardonadson",
+        "type": "User"
+      }
+    ],
+    "labels": [
+      {
+        "id": 12814926102,
+        "name": "sprint-2"
+      },
+      {
+        "id": 12814926172,
+        "name": "tipo:historia"
+      },
+      {
+        "id": 12814926373,
+        "name": "disciplina:web2"
+      },
+      {
+        "id": 12814926439,
+        "name": "disciplina:processos"
+      },
+      {
+        "id": 12814926596,
+        "name": "grpc"
+      }
+    ]
+  }
+]

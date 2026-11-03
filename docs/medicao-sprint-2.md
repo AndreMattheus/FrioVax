@@ -65,7 +65,7 @@ Todos os intervalos são limitados à janela e ao item em análise. `U` signific
 
 | Medida | Fórmula / fonte |
 |---|---|
-| Lead time do cartão | `conclusao − chegada ao Project`. Na comparação com a Sprint 1, manter o [método e recorte técnico](metricas-sprint-1.md#metodo-e-recorte); fechamento só é aproximação se coincidir com integração/DoD, declarando divergências. |
+| Lead time do cartão | `conclusao − chegada ao Project`. Na comparação com a Sprint 1, manter o [método e recorte técnico](metricas-sprint-1.md#método-e-recorte); fechamento só é aproximação se coincidir com integração/DoD, declarando divergências. |
 | Cycle time | `conclusao − primeiro início real`. Priorizar evento do quadro; na ausência, abertura do PR integrado é aproximação identificada, como na Sprint 1. Não substituir por Planned start. |
 | Throughput | Número de tarefas técnicas concluídas por semana civil; excluir histórias agregadoras e tarefas de documentação/processo, conservando população comparável. Apresentar separadamente o total geral. |
 | Espera até primeira review | `primeira review válida − primeiro pedido válido`, por PR. Ausência de review deixa observação aberta, fora da distribuição de esperas concluídas; mostrar quantidade e idade das abertas no corte. |
