@@ -1,11 +1,13 @@
 """Testes do contrato de coleta, sem API ou dados fictícios nas evidências reais."""
 
 from contextlib import redirect_stdout
+import hashlib
 import importlib.util
 import io
 import json
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -23,6 +25,58 @@ validacao = carregar("validar-medicao-sprint-2")
 
 
 class TestMedicao(unittest.TestCase):
+    def cli_utf8(self, dados):
+        # Usa pipes reais para exercitar a decodificação do subprocesso no Windows.
+        executar = subprocess.run
+        resposta = json.dumps(dados, ensure_ascii=False).encode("utf-8")
+
+        def executar_cli(comando, **opcoes):
+            return executar([sys.executable, "-c",
+                             f"import sys; sys.stdout.buffer.write({resposta!r})"], **opcoes)
+
+        return patch.object(coleta.subprocess, "run", side_effect=executar_cli)
+
+    def test_coleta_utf8_preserva_bytes_lf_e_hash_validavel(self):
+        dados = [{"id": 1, "name": "Vacinação — João 🧊"}]
+        with tempfile.TemporaryDirectory() as pasta:
+            root = Path(pasta).resolve()
+            corte = root / "exportacoes/corte"
+            corte.mkdir(parents=True)
+            for nome, cabecalho in validacao.CABECALHOS.items():
+                (root / f"{nome}.csv").write_bytes((cabecalho + "\n").encode("utf-8"))
+            with self.cli_utf8([dados]):
+                coletor = coleta.Coletor(corte)
+                self.assertEqual(dados, coletor.rest("issues", "dados.json", lambda obj: obj))
+            conteudo = (corte / "dados.json").read_bytes()
+            self.assertEqual((json.dumps(dados, ensure_ascii=False, indent=2) + "\n").encode("utf-8"),
+                             conteudo)
+            self.assertEqual(hashlib.sha256(conteudo).hexdigest(), coletor.consultas[0]["sha256"])
+            manifesto = {"resultado": "completo", "inicio": coletor.consultas[0]["inicio"],
+                         "fim": coletor.consultas[0]["fim"], "consultas": coletor.consultas}
+            coleta.gravar_json(corte / "manifesto.json", manifesto)
+            self.assertNotIn(b"\r", (corte / "manifesto.json").read_bytes())
+            with patch.object(validacao, "ROOT", root), patch.object(validacao, "PASTA", root), \
+                    redirect_stdout(io.StringIO()):
+                validacao.validar()
+
+    def test_conferencia_paginada_utf8_preserva_lf(self):
+        # O emoji inclui um byte UTF-8 indefinido em CP1252.
+        dados = [{"id": 1, "name": "Revisão 📁"}]
+        with tempfile.TemporaryDirectory() as pasta:
+            root = Path(pasta).resolve()
+            corte = root / "exportacoes/corte"
+            corte.mkdir(parents=True)
+            coleta.gravar_json(corte / "pulls.json", dados)
+            with self.cli_utf8([dados]), patch.object(coleta, "ROOT", root), \
+                    patch.object(coleta, "EVIDENCIAS", root), redirect_stdout(io.StringIO()):
+                coleta.verificar_paginacao(corte)
+            conteudo = (root / "validacao/paginacao-corte.json").read_bytes()
+            self.assertNotIn(b"\r", conteudo)
+            registro = json.loads(conteudo)
+            self.assertTrue(registro["coincidem"])
+            self.assertEqual([1], registro["ids_originais"])
+            self.assertEqual([1], registro["ids_reconsulta"])
+
     def test_timestamps_exigem_fuso_e_ordem(self):
         for inicio, fim in [("2026-11-03", ""), ("2026-11-03T14:00:00", ""),
                             ("2026-11-03T14:00:00-03:00", "2026-11-03T13:59:00-03:00")]:

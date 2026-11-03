@@ -20,3 +20,11 @@ Substituir todos os campos do modelo; não copiá-lo como observação real. Ao 
 - `validacao/`: resultados da conferência paginada e do primeiro exercício do protocolo.
 
 Comandos, definições, fórmulas, prazos e tratamento de lacunas estão no plano. Atualizar os CSVs pelo PR da tarefa correspondente; executar `python3 docs/scripts/validar-medicao-sprint-2.py` antes de publicar. Usar instantes com fuso inclusive para esperas e bloqueios. Campos de data do Project não guardam hora.
+
+## Reprodução no Windows
+
+O coletor lê a saída do GitHub CLI explicitamente em UTF-8 e grava JSON em bytes UTF-8 com quebras LF. O SHA-256 usa os mesmos bytes gravados. O `.gitattributes` mantém LF nas evidências mesmo com `core.autocrlf=true`, preservando os hashes dos cortes existentes durante o checkout.
+
+No Windows, executar `python -m unittest discover -s docs/scripts -p 'test_medicao_sprint_2.py' -v` e `python docs/scripts/validar-medicao-sprint-2.py`. Para uma nova coleta, usar `python docs/scripts/coletar-medicao-sprint-2.py`. O CI executa os testes e valida o corte preservado em Linux e Windows, com conversão automática de quebras de linha habilitada no Windows. Os testes de UTF-8 usam subprocessos reais e dados temporários, sem consultar a API.
+
+Em um clone anterior a essa correção, se houver divergência causada por CRLF e nenhuma alteração local nas evidências, executar `git restore --source=HEAD --worktree -- docs/evidencias/sprint-2` após atualizar a branch para reaplicar os atributos e validar novamente. Não recalcular os hashes nem regravar cortes históricos para compensar a conversão.

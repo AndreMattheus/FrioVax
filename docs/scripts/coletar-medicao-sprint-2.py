@@ -67,6 +67,12 @@ def agora():
     return datetime.now(timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z")
 
 
+def gravar_json(arquivo, dados):
+    conteudo = (json.dumps(dados, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+    arquivo.write_bytes(conteudo)
+    return hashlib.sha256(conteudo).hexdigest()
+
+
 def selecionar(obj, *campos):
     return {campo: obj.get(campo) for campo in campos}
 
@@ -151,7 +157,7 @@ class Coletor:
     def consultar(self, argumentos, arquivo, projetar, chave=None, caminho=None):
         comando = ["gh", "api", "--paginate", "--slurp", *argumentos]
         inicio = agora()
-        resultado = subprocess.run(comando, capture_output=True, text=True)
+        resultado = subprocess.run(comando, capture_output=True, text=True, encoding="utf-8")
         if resultado.returncode:
             raise RuntimeError(f"gh falhou ({resultado.returncode}) na consulta de {arquivo}; corte incompleto")
         paginas = json.loads(resultado.stdout)
@@ -181,12 +187,11 @@ class Coletor:
                 if dado["fieldValues"]["pageInfo"]["hasNextPage"]:
                     raise ValueError("Campos do Project truncados; ampliar a coleta antes de usar")
         fim = agora()
-        conteudo = json.dumps(dados, ensure_ascii=False, indent=2) + "\n"
-        (self.destino / arquivo).write_text(conteudo, encoding="utf-8")
+        sha256 = gravar_json(self.destino / arquivo, dados)
         self.consultas.append({"comando": comando, "inicio": inicio, "fim": fim,
                                "paginas": len(paginas), "registros": len(dados),
                                "arquivo": arquivo,
-                               "sha256": hashlib.sha256(conteudo.encode()).hexdigest()})
+                               "sha256": sha256})
         return dados
 
     def rest(self, endpoint, arquivo, projetar, chave=None):
@@ -242,7 +247,7 @@ def coletar():
                      "projecao": "metadados originais selecionados; sem corpos, emails, patches, payloads ou logs",
                      "observacao": "CSV de incidentes/monitoramento é fonte complementar; lista vazia não comprova zero falhas",
                      "consultas": sorted(coletor.consultas, key=lambda c: c["arquivo"])}
-        (destino / "manifesto.json").write_text(json.dumps(manifesto, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        gravar_json(destino / "manifesto.json", manifesto)
         nome = datetime.fromisoformat(fim.replace("Z", "+00:00")).strftime("%Y%m%dT%H%M%S%fZ")
         destino = destino.rename(pai / nome)
         print(destino.relative_to(ROOT))
@@ -260,10 +265,10 @@ def verificar_paginacao(corte):
     comando = ["gh", "api", "--paginate", "--slurp",
                f"repos/{REPO}/pulls?state=all&base=main&per_page=1"]
     inicio = agora()
-    resultado = subprocess.run(comando, capture_output=True, text=True, check=True)
+    resultado = subprocess.run(comando, capture_output=True, text=True, encoding="utf-8", check=True)
     paginas = json.loads(resultado.stdout)
     ids = sorted(p["id"] for pagina in paginas for p in pagina)
-    originais = sorted(p["id"] for p in json.loads((corte / "pulls.json").read_text()))
+    originais = sorted(p["id"] for p in json.loads((corte / "pulls.json").read_text(encoding="utf-8")))
     registro = {"inicio": inicio, "fim": agora(), "comando": comando,
                 "corte": str(corte.relative_to(ROOT)), "paginas": len(paginas),
                 "ids_originais": originais, "ids_reconsulta": ids, "coincidem": ids == originais}
@@ -272,7 +277,7 @@ def verificar_paginacao(corte):
     arquivo = pasta / f"paginacao-{corte.name}.json"
     if arquivo.exists():
         raise ValueError("A conferência já existe; usar outro corte para preservar a evidência")
-    arquivo.write_text(json.dumps(registro, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    gravar_json(arquivo, registro)
     if ids != originais:
         raise ValueError("IDs divergentes: investigar alterações concorrentes ou paginação")
     print(f"Paginação conferida: {len(paginas)} páginas, {len(ids)} PRs, mesmos IDs do corte")
