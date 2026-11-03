@@ -14,6 +14,12 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 | 14/10/2026 | OpenAI Codex | Apoio na issue #34: conferência do README e contrato com o código da `main`, elaboração do roteiro e script de validação da Sprint 1, execução da suíte e do fluxo HTTP em clone limpo | [PR #63](https://github.com/AndreMattheus/FrioVax/pull/63) | A equipe deve revisar os textos e o script, repetir o roteiro no ambiente de apresentação e confirmar os resultados antes de integrar |
 | 15/10/2026 | OpenAI Codex | Consolidação dos relatos e acordos da retrospectiva, consulta ao histórico do Project e aos PRs para calcular métricas, atualização do checklist e resolução da integração com `main` | [Retrospectiva](retrospectiva-01.md), [métricas](metricas-sprint-1.md) e [PR #62](https://github.com/AndreMattheus/FrioVax/pull/62) | A equipe deve conferir a interpretação dos acordos, o recorte técnico e as aproximações das métricas |
 
+## Sprint 2
+
+| Data | Ferramenta | Uso registrado | Fonte e artefato relacionado | Verificação humana necessária |
+|---|---|---|---|---|
+| 03/11/2026 | OpenAI Codex | Registro da planning a partir da confirmação de Leonardo; atualização das duplas de revisão, DoD e política de bloqueios; apoio ao encerramento da tarefa de planejamento | [Issue #65](https://github.com/AndreMattheus/FrioVax/issues/65) e [acordo de processo](processo.md#planning-da-sprint-2--03112026) | Arthur deve revisar a documentação no PR; horários, presença e consenso foram confirmados por Leonardo |
+
 ## Política da equipe
 
 - IA pode apoiar pesquisa, explicação, testes, documentação e revisão.

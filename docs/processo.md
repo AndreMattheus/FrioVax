@@ -14,6 +14,14 @@ A cadência segue o [cronograma atualizado das disciplinas](https://github.com/f
 
 Discussões rápidas ocorrem no canal da equipe. Decisões permanentes são registradas em issue, PR ou ADR; mensagem de chat não é fonte definitiva.
 
+### Planning da Sprint 2 — 03/11/2026
+
+A reunião ocorreu em 03/11/2026, das 14h às 14h50 (America/Fortaleza), com Leonardo, Arthur, Matheus e Bianca presentes. Leonardo confirmou os horários, a realização, a participação de todos e o consenso com o planejamento inicial na [issue #65](https://github.com/AndreMattheus/FrioVax/issues/65). A duração real foi de 50 minutos; o acordo previa 45 minutos.
+
+Foi mantido o planejamento cadastrado em 24/10: objetivo, escopo, prioridades, estimativas, responsáveis e capacidade/compromisso da Sprint 2, sem alterações informadas. A referência é a milestone **Sprint 2 — MVP final, telemetria e entrega integrada**, com US04–US10 (#4–#10), suas 35 tarefas e prazo de 30/11/2026 às 23:59 de Fortaleza. O mapa de issues e as views do Project estão registrados na issue #65.
+
+A primeira fila permanece a do planejamento inicial: S2-01 (#65) em Sprint Backlog e os demais itens em Backlog. Essa é a fila inicial acordada, não uma descrição permanente do quadro; o avanço segue dependências e WIP 8/4/2.
+
 Na Sprint 2, cada sincronização começa pela fila de PRs aguardando revisão e pelo WIP de `Em revisão`. A equipe identifica quem fará as revisões pendentes antes de discutir novos cartões. Essa rotina foi acordada na [retrospectiva da Sprint 1](retrospectiva-01.md#acordos-para-a-sprint-2).
 
 ## Papéis
@@ -38,7 +46,7 @@ O fluxo é acompanhado no [FrioVax Project — Board Principal](https://github.c
 | Em revisão | CI verde e revisor solicitado | aprovado e integrado | 2 |
 | Pronto | Definição de Pronto atendida | permanece como evidência | sem limite |
 
-Se uma coluna atingir o limite, a equipe ajuda a concluir trabalho existente antes de iniciar outro item. Item bloqueado recebe marcador, motivo e data; continua contando no WIP.
+Se uma coluna atingir o limite, a equipe ajuda a concluir trabalho existente antes de iniciar outro item. Item bloqueado recebe a label `blocked`, com motivo e data registrados na issue; continua na coluna correspondente e contando no WIP. Ao remover o impedimento, registrar a resolução e retirar a label.
 
 ## Definição de Pronto
 
@@ -53,9 +61,11 @@ Um item só chega a **Pronto** quando:
 - comentários de revisão foram resolvidos;
 - a branch foi integrada em `main` e o cartão foi atualizado.
 
+Na Sprint 2, o PR inclui `Closes #<número>` e recebe aprovação do revisor da dupla ou de substituto identificado no PR. O Project registra Start date e Finished date reais, sem copiar Planned start ou Target date como se fossem execução. Apoio material de IA é declarado em `docs/uso-de-ia.md` no mesmo PR.
+
 ## Revisão e branches
 
-Revisão primária em anel: Bianca revisa Arthur; Arthur revisa Leonardo; Leonardo revisa Matheus; Matheus revisa Bianca. Outro integrante pode assumir para evitar espera, mas ninguém aprova o próprio PR.
+O acordo da Sprint 1 previa revisão primária em anel: Bianca revisa Arthur; Arthur revisa Leonardo; Leonardo revisa Matheus; Matheus revisa Bianca. Na Sprint 2, as duplas fixas são **Leonardo ⇄ Arthur** e **Matheus ⇄ Bianca**, com Leonardo como apoio. Outro integrante pode assumir para evitar espera, com a substituição registrada no PR, mas ninguém aprova o próprio PR.
 
 O revisor primário usa a Definição de Pronto como roteiro. Na sincronização, a equipe confirma quem fará cada revisão pendente; outro integrante pode assumir para evitar espera.
 
