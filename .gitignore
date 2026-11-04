@@ -16,6 +16,10 @@ services/telemetry/coverage.out
 .env.*
 !.env.example
 
+# Backups privados de banco (ADR 0004)
+*.dump
+*.backup
+
 # mise
 .mise.local.toml
 
