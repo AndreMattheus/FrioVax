@@ -19,7 +19,7 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 | Data | Ferramenta | Uso registrado | Fonte e artefato relacionado | Verificação humana necessária |
 |---|---|---|---|---|
 | 03/11/2026 | OpenAI Codex | Registro da planning a partir da confirmação de Leonardo; atualização das duplas de revisão, DoD e política de bloqueios; apoio ao encerramento da tarefa de planejamento | [Issue #65](https://github.com/AndreMattheus/FrioVax/issues/65) e [acordo de processo](processo.md#planning-da-sprint-2--03112026) | Arthur deve revisar a documentação no PR; horários, presença e consenso foram confirmados por Leonardo |
-| 04/11/2026 | OpenAI Codex | Consulta à documentação oficial de Render, Neon e pgJDBC; elaboração da ADR de implantação, registro de pré-requisitos e ensaio Docker descartável de migração, API sem Go, redeploy e recuperação | [Issue #87](https://github.com/AndreMattheus/FrioVax/issues/87), [ADR 0004](decisoes/0004-implantacao.md) e [validação](implantacao/validacao.md) | Arthur confere os procedimentos; @AndreMattheus confirma contas, acessos, segredos e backup; Leonardo revisa a decisão. Simulação local não comprova provisionamento nem deploy remoto. |
+| 04/11/2026 | OpenAI Codex | Consulta à documentação oficial de Render, Neon e pgJDBC; apoio à redação da ADR de implantação e à simulação local de migração, API sem Go e recuperação | [Issue #87](https://github.com/AndreMattheus/FrioVax/issues/87) e [ADR 0004](decisoes/0004-implantacao.md) | Arthur confere os procedimentos; @AndreMattheus confirma contas e segredos; Leonardo revisa a decisão. Simulação local não comprova deploy remoto. |
 
 ## Política da equipe
 

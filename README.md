@@ -25,8 +25,6 @@ Este repositório contém o produto comum de:
 
 ## Documentação
 
-- [ADR 0004 — Implantação da API: Render, Neon, migração e rollback](docs/decisoes/0004-implantacao.md)
-- [Pré-requisitos externos da implantação](docs/implantacao/pre-requisitos.md) e [ensaio local de migração/recuperação](docs/implantacao/validacao.md)
 - [Proposta integrada](docs/proposta.md)
 - [Backlog inicial](docs/backlog.md)
 - [Acordo de processo](docs/processo.md)

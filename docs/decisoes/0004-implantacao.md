@@ -28,7 +28,23 @@ O filesystem do container é efêmero: não guardar dados oficiais, backups ou u
 
 O solicitante indicou **@AndreMattheus como titular de ambas as contas** em 04/11/2026. Isso não comprova que as contas existam: criação, aceite dos termos, configuração e confirmação dos acessos cabem ao titular. Arthur configura o fluxo de implantação com os acessos concedidos; Leonardo revisa esta decisão.
 
-O [registro de pré-requisitos](../implantacao/pre-requisitos.md) é parte desta ADR. Preenchê-lo com estado real, data e referência sem segredos antes do primeiro deploy. Conta criada, segredo cadastrado e revisão humana são verificações distintas. Não declarar a #87 pronta enquanto os aceites externos e a Definição de Pronto não estiverem demonstrados.
+O registro de pré-requisitos abaixo é parte desta ADR. Atualizá-lo com estado real, data e referência sem segredos antes do primeiro deploy. Conta criada, segredo cadastrado e revisão humana são verificações distintas. Não declarar a #87 pronta enquanto os aceites externos e a Definição de Pronto não estiverem demonstrados.
+
+| Recurso | Plano | Titular indicado | Estado em 04/11/2026 |
+|---|---|---|---|
+| Render, conta/workspace e Web Service | Free, uma réplica | @AndreMattheus | Criação, região e configuração pendentes de confirmação pelo titular |
+| Neon, conta/projeto PostgreSQL | Free | @AndreMattheus | Criação, região e configuração pendentes de confirmação pelo titular |
+
+Antes de iniciar deploy, o titular deve confirmar neste registro ou no PR, sem publicar valores:
+
+- Contas criadas e acessos de operação concedidos; regiões efetivas de Render e Neon registradas.
+- Serviço Render configurado com contexto `api/`, porta 10000, uma réplica, autodeploy desligado e health check `/api/status`.
+- Neon PostgreSQL 17 com conexão direta, TLS validado e papéis/grants de migração e runtime.
+- Environment GitHub `producao` e secrets/variáveis cadastrados conforme a tabela desta ADR; migração no startup Render desabilitada.
+- Armazenamento privado, retenção e acesso ao backup definidos, com restauração conferida.
+- Risco de mutação anônima até #81 reconhecido pelo titular e revisor, com dados exclusivamente fictícios.
+
+Todos esses pré-requisitos externos permanecem **pendentes de confirmação**. A dependência #65 foi consultada em 04/11/2026 e está concluída.
 
 ### API pública e Go local
 
@@ -143,4 +159,23 @@ Migração compatível, SHA imutável e confirmação do deploy reduzem o risco 
 
 ## Validação e aceite
 
-Executar o [ensaio local](../implantacao/validacao.md) para migração externa, API sem Go, redeploy, migração inválida e recuperação. O ensaio não usa contas ou segredos reais e não comprova TLS, quotas, configuração do painel ou deploy remoto. A #88 precisa validar esses pontos no ambiente provisionado. O [registro](../implantacao/pre-requisitos.md) distingue o que foi confirmado do que permanece pendente; a revisão de @leonardonadson e a confirmação do titular não podem ser substituídas por execução de ferramenta.
+### Simulação local
+
+O procedimento para conferir esta decisão usa somente banco e containers descartáveis, sem credenciais ou connection string de produção:
+
+1. Criar PostgreSQL 17 isolado e aplicar as migrações do repositório com Flyway 12.0.0, usando a sequência de validação/migração desta ADR.
+2. Construir `api/Dockerfile` e iniciar a API apontando para esse banco, com `QUARKUS_FLYWAY_MIGRATE_AT_START=false`, sem iniciar Go e com telemetria apontando para uma porta local sem serviço. Conferir `/api/status` e `/q/health/ready` retornando `UP`.
+3. Criar uma câmara fictícia pela API, guardar seu ID/representação persistida e gerar backup com `pg_dump`.
+4. Somente numa cópia temporária das migrações, acrescentar uma migração com `CREATE TABLE ensaio_parcial(id int); SELECT 1/0;`. Executar Flyway e exigir retorno diferente de zero, tabela parcial ausente, histórico anterior preservado e registro HTTP inalterado. O erro deve interromper o procedimento antes do deploy.
+5. Na cópia temporária, substituir a migração não aplicada por uma aditiva válida. Aplicá-la, recriar o container da imagem anterior e conferir o mesmo registro e histórico novo. Não alterar migrações oficiais nem SQL já aplicado.
+6. Restaurar o backup em outro banco vazio com `pg_restore --exit-on-error`, comparar o registro e o histórico do backup, preservando o banco de origem. Remover apenas os recursos descartáveis criados pelo ensaio.
+
+**Evidência de 04/11/2026:** as cinco verificações operacionais passaram em Windows/Docker Desktop, com base `f43749b`: migração externa V1/V2, saúde/prontidão sem Go, falha transacional sem DDL parcial nem perda de registro, retorno da imagem anterior sobre esquema aditivo e restauração em outro banco com igualdade do registro/histórico. A execução usou um [script auxiliar preservado no histórico do PR](https://github.com/AndreMattheus/FrioVax/blob/6893583239ebc7589cde8c2cd0113032232f2dbb/docs/scripts/simular-implantacao.py). Os containers, volumes anônimos, rede e tag de imagem do ensaio foram removidos ao terminar.
+
+`mise run ci` passou nessa base: 472 testes Java, zero falhas/erros/ignorados, além de formatação, `go vet`, testes e build Go. As 11 verificações Python e a integridade das evidências existentes também passaram. Esse resultado é da simulação local, sem acesso a Render/Neon; não comprova TLS remoto, quotas ou configuração das contas/painéis. A #88 deve conferir esses pontos no ambiente provisionado, incluindo SHA efetivamente publicado, preservação de dados no redeploy e status final do GitHub Deployment.
+
+### Aceite e conclusão
+
+Arthur revisa o procedimento com o titular @AndreMattheus, e @leonardonadson revisa a ADR. As confirmações externas acima continuam pendentes. Para encerrar a #87, o PR deve conter `Closes #87`, CI verde no commit final, aprovação do revisor, comentários resolvidos, integração em `main` e atualização do cartão conforme [Definição de Pronto](../processo.md#definição-de-pronto). O apoio material de IA está registrado no arquivo existente `docs/uso-de-ia.md`.
+
+O Project deve receber Start date real deste trabalho (04/11/2026) e Finished date somente após a conclusão real, sem copiar datas planejadas. A tentativa de registrar o início pela sessão foi recusada por ausência do escopo de escrita `project`; nenhuma data foi alterada. Arthur deve registrar a data ou conceder o escopo necessário. Execução de ferramenta não substitui confirmação do titular ou aprovação humana.
