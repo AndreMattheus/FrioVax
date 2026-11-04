@@ -5,8 +5,22 @@ raiz="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$raiz"
 umask 077
 
+# Caminhos absolutos: `mvn -f api/pom.xml quarkus:dev` executa a aplicação em api/,
+# não na raiz. No Git Bash, `pwd -W` gera o caminho C:/... que o Java entende.
+raiz_nativa="$(pwd -W 2>/dev/null || pwd)"
+escrever_caminhos_chaves() {
+  printf "JWT_PRIVATE_KEY='%s'\n" "$raiz_nativa/.secrets/auth/privateKey.pem"
+  printf "JWT_PUBLIC_KEY='%s'\n" "$raiz_nativa/.secrets/auth/publicKey.pem"
+}
+
 if [[ -f .env.auth && -f .secrets/auth/privateKey.pem && -f .secrets/auth/publicKey.pem ]]; then
-  echo "Configuração local já existe; reutilize .env.auth e .secrets/auth. Nenhum arquivo foi substituído."
+  env_temporario="$(mktemp .env.auth.XXXXXX)"
+  trap 'rm -f "$env_temporario"' EXIT
+  grep -vE '^JWT_(PRIVATE|PUBLIC)_KEY=' .env.auth > "$env_temporario" || true
+  escrever_caminhos_chaves >> "$env_temporario"
+  mv "$env_temporario" .env.auth
+  trap - EXIT
+  echo "Configuração local já existe; caminhos das chaves atualizados em .env.auth. Chaves e senhas foram mantidas."
   exit 0
 elif [[ -e .env.auth || -e .secrets/auth ]]; then
   echo "Configuração local incompleta; confira .env.auth e .secrets/auth antes de gerar novamente." >&2
@@ -23,8 +37,7 @@ openssl pkey -in "$pasta_temporaria/privateKey.pem" -pubout \
 {
   echo '# Segredos exclusivos do ambiente local; não versionar nem compartilhar.'
   echo 'JWT_ISSUER=friovax-api'
-  echo 'JWT_PRIVATE_KEY=.secrets/auth/privateKey.pem'
-  echo 'JWT_PUBLIC_KEY=.secrets/auth/publicKey.pem'
+  escrever_caminhos_chaves
   echo 'AUTH_DEMO_ENABLED=true'
   for perfil in ADMINISTRADOR OPERADOR AUDITOR; do
     printf 'AUTH_DEMO_%s=%s\n' "$perfil" "$(openssl rand -hex 18)"

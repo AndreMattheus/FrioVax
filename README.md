@@ -112,7 +112,7 @@ Com a API no ar, a documentação das rotas fica disponível em:
 
 ### Autenticação e sessões
 
-Execute `bash docs/scripts/preparar-auth-local.sh` na raiz para gerar uma chave RSA exclusiva e três senhas aleatórias. O script exige Bash e OpenSSL (no Windows, use WSL ou Git Bash) e não sobrescreve arquivos existentes. As chaves ficam em `.secrets/auth/`; as variáveis e senhas ficam em `.env.auth`, ambos ignorados pelo Git. O Compose carrega esse arquivo e monta as chaves somente para leitura. Para executar o Quarkus diretamente, na raiz:
+Execute `bash docs/scripts/preparar-auth-local.sh` na raiz para gerar uma chave RSA exclusiva e três senhas aleatórias. O script exige Bash e OpenSSL (no Windows, use WSL ou Git Bash) e não substitui chaves nem senhas existentes. As chaves ficam em `.secrets/auth/`; as variáveis e senhas ficam em `.env.auth`, ambos ignorados pelo Git. O `.env.auth` guarda os caminhos absolutos das chaves, pois o Maven executa a aplicação em `api/`; se mover o repositório, execute o script de novo para atualizá-los. O Compose carrega esse arquivo, monta as chaves somente para leitura e usa os caminhos internos do contêiner. Para executar o Quarkus diretamente, na raiz:
 
 ```bash
 set -a
