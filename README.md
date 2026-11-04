@@ -34,8 +34,8 @@ Este repositório contém o produto comum de:
 - [Métricas de fluxo da Sprint 1](docs/metricas-sprint-1.md)
 - [Contrato da API — Câmaras e Lotes](docs/contrato-api.md)
 - [Roteiro de validação da Sprint 1](docs/validacao-sprint-1.md)
-- [ADR 0001 — Arquitetura em camadas](docs/adr/0001-arquitetura-em-camadas.md)
-- [ADR 0002 — Domínio independente e aplicação por interfaces](docs/adr/0002-dominio-independente-e-aplicacao-por-interfaces.md) — substitui o ADR 0001
+- [ADR 0001 — Arquitetura em camadas](docs/decisoes/0001-arquitetura-em-camadas.md)
+- [ADR 0002 — Domínio independente e aplicação por interfaces](docs/decisoes/0002-dominio-independente-e-aplicacao-por-interfaces.md) — substitui o ADR 0001
 - [Roteiro do vídeo de Web II](docs/roteiro-video-web2.md)
 - [Roteiro do vídeo de Processos](docs/roteiro-video-processos.md)
 - [Roteiro do vídeo único da Sprint 1 — Web II e Processos](docs/roteiro-video-sprint-1.md)
