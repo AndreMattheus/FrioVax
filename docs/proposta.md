@@ -2,11 +2,11 @@
 
 ## 1. Visão do produto
 
-> Para profissionais e gestores de salas de vacinação e centrais da rede de frio  
-> Que precisam controlar lotes e reagir a condições térmicas que podem comprometer imunobiológicos  
-> O **FrioVax** é uma plataforma backend de gestão e monitoramento da cadeia de frio  
-> Que centraliza inventário, telemetria e ocorrências térmicas rastreáveis  
-> Diferente de planilhas e conferências manuais isoladas  
+> Para profissionais e gestores de salas de vacinação e centrais da rede de frio
+> Que precisam controlar lotes e reagir a condições térmicas que podem comprometer imunobiológicos
+> O **FrioVax** é uma plataforma backend de gestão e monitoramento da cadeia de frio
+> Que centraliza inventário, telemetria e ocorrências térmicas rastreáveis
+> Diferente de planilhas e conferências manuais isoladas
 > Nosso produto processa leituras concorrentemente e mantém a decisão oficial sobre câmaras e lotes em um núcleo transacional.
 
 ### Problema e evidência
@@ -46,7 +46,7 @@ O backlog priorizado, estimado e com critérios de aceitação está em [backlog
 | Ocorrência térmica | Intervalo, evidências e tratamento da anomalia | Agrupa leituras e afeta uma câmara |
 | Usuário | Identidade e perfil de acesso | Executa operações auditáveis |
 
-As entidades e regras oficiais ficam no serviço principal. O estado transitório usado para reconhecer sequências de leitura pertence ao microsserviço Go.
+As entidades e os efeitos oficiais ficam no serviço principal. Na arquitetura proposta para a Sprint 2, Java persiste as leituras e fornece ao Go a janela necessária para reconhecer sequências. Go calcula os resultados sem manter contadores entre chamadas, conforme a [ADR 0003](decisoes/0003-servico-go-telemetria.md).
 
 ## 5. Decisão tecnológica: Java 25 com Quarkus
 
@@ -60,14 +60,16 @@ Stack: Java 25, Quarkus LTS, Maven, Go, gRPC, Protocol Buffers/Buf, PostgreSQL/N
 
 | Serviço principal Java/Quarkus | Microsserviço Go de telemetria |
 |---|---|
-| Mantém entidades e regras oficiais | Recebe lotes de leituras para análise |
-| Persiste câmaras, lotes, leituras e ocorrências | Processa I/O concorrentemente com goroutines |
-| Valida capacidade e consistência transacional | Mantém contadores e janelas transitórias por câmara |
-| Decide a transição do estado da câmara | Detecta padrões e devolve um sinal de anomalia |
-| Aplica autenticação, autorização e auditoria | Não altera lotes nem toma decisões de domínio |
+| Mantém entidades, políticas e efeitos oficiais | Recebe uma janela por câmara, com contexto persistido e candidatas novas |
+| Persiste câmaras, lotes, leituras e ocorrências | Analisa câmaras em paralelo, com uma goroutine por câmara e ordem dentro da janela |
+| Valida capacidade e consistência transacional | Calcula resultados determinísticos, sem banco nem contadores entre chamadas |
+| Revalida o snapshot e confirma ocorrência e estado térmico | Devolve classificação, sequência, sinal e evidências por candidata |
+| Aplica autenticação, autorização e auditoria | Não altera lotes nem confirma efeitos oficiais |
 | Expõe a API REST e orquestra casos de uso | Expõe contrato gRPC interno com deadline/contexto |
 
-A API chama o serviço Go via gRPC. Go devolve fatos derivados das leituras; Java decide e persiste seus efeitos. O serviço Go não é API Gateway e não autentica usuários finais.
+A API Java enviará até N−1 leituras confirmadas da política vigente como contexto, além das novas candidatas. N é o limiar de leituras inseguras consecutivas. Assim, reiniciar Go não perde a sequência. A [ADR 0003](decisoes/0003-servico-go-telemetria.md) define estados e episódios e registra os cenários esperados.
+
+A API chamará Go fora de transação, com prazo de 800 ms por RPC, e revalidará os dados antes de confirmar os efeitos no banco. O serviço Go não é API Gateway, não autentica usuários finais e não compartilha tabelas com Java. Falha na análise não confirma novas leituras e operações independentes continuam disponíveis.
 
 ## 7. Acordo de processo
 
