@@ -1,6 +1,6 @@
 # ADR 0003 — Serviço Go de telemetria e regras térmicas
 
-- **Status:** Proposto
+- **Status:** Vigente
 - **Data:** 04/11/2026
 - **Issue:** [#67](https://github.com/AndreMattheus/FrioVax/issues/67)
 - **Relaciona-se com:** [ADR 0002 — Domínio independente e aplicação por interfaces](0002-dominio-independente-e-aplicacao-por-interfaces.md)
@@ -25,6 +25,8 @@ A separação isola a execução concorrente da análise em um processo próprio
 
 O domínio Go permanece sem HTTP/gRPC; adaptadores traduzem contrato e erros. Uma goroutine é uma unidade de execução concorrente: haverá uma por câmara da chamada, coordenada por `errgroup` e `context.Context`. Câmaras diferentes podem avançar em paralelo; as leituras de uma mesma câmara são analisadas em ordem. Cancelamento e deadline devem ser observados durante o processamento, encerrando todas as goroutines da chamada. Não há goroutine residente ou contador oficial entre chamadas.
 
+Com `errgroup.WithContext`, um erro não nulo retornado por uma goroutine cancela o contexto do grupo. Por isso, erros esperados de validação de uma janela são registrados como resultado de erro daquela câmara, e a função entregue ao grupo retorna `nil`, permitindo concluir as outras câmaras. Cada goroutine escreve somente na posição de sua janela em uma coleção previamente dimensionada; os resultados são lidos após `Wait`, preservando ordem e evitando escrita concorrente na mesma posição. Cancelamento, deadline e falhas internas que comprometem a chamada inteira retornam erro ao grupo e interrompem a RPC, sem confirmar resultados parciais.
+
 No Java, a aplicação usa uma porta independente de transporte; o adaptador gRPC converte os dados e trata os códigos remotos. Domínio e aplicação não importam `io.grpc` nem tipos gerados, preservando a direção de dependências da ADR 0002.
 
 ```mermaid
@@ -36,9 +38,9 @@ sequenceDiagram
     C->>J: Leitura individual ou lote
     J->>B: Transação curta: lock, validação e snapshot
     B-->>J: Política, última leitura e contexto
-    Note over J,B: Transação encerrada; lock liberado
+    Note over J,B: Transação encerrada. Lock liberado.
     J->>G: Uma RPC com janelas por câmara e prazo
-    Note over G: Câmaras em paralelo; candidatas de cada câmara em ordem
+    Note over G: Câmaras em paralelo.<br/>Candidatas de cada câmara em ordem.
     G-->>J: Resultado por candidata
     J->>B: Nova transação curta: lock e revalidação
     Note over J,B: Persistir somente se snapshot continuar válido
@@ -70,7 +72,7 @@ Por exemplo, com N=3, Java envia as duas anteriores `[9,9]` e a nova `[10]`. Go 
 
 Go devolve classificação, sequência limitada a N, sinal e evidências para cada candidata, preservando a ordem das janelas e das candidatas recebidas. Java recompõe a posição original das entradas do lote HTTP. Não reduzir o resultado à última leitura: com faixa 2–8, N=3 e candidatas `9,9,9,4`, a terceira sinaliza o limiar e a quarta zera a sequência, sem apagar o sinal anterior.
 
-Janelas inválidas, políticas incoerentes e mistura de câmaras/versões geram erros nomeados. O domínio preserva a identidade do erro ao acrescentar contexto (`%w`/`errors.Is`). Essas validações também protegem o contrato interno, mesmo após a validação feita por Java.
+Janelas inválidas, políticas incoerentes e mistura de câmaras/versões dentro de uma janela geram erros nomeados, convertidos em resultado de erro para a câmara correspondente, sem resultados térmicos aplicáveis às suas candidatas. O domínio preserva a identidade do erro ao acrescentar contexto (`%w`/`errors.Is`). Essas validações também protegem o contrato interno, mesmo após a validação feita por Java. Uma estrutura global inválida que impeça identificar as janelas e associar seus resultados é falha da chamada inteira.
 
 ### 4. Estado térmico e ocorrência
 
@@ -85,7 +87,7 @@ O estado térmico é independente de `ativo` e do estado operacional (`OPERACION
 
 **Ocorrência aberta** é o registro persistido de uma excursão detectada que ainda não recebeu resolução explícita. Na candidata que atinge N, Java confirma leitura, ocorrência, evidências, snapshot dos lotes, estado térmico e auditoria na mesma transação. O snapshot é a fotografia da identidade e quantidade dos lotes no momento da abertura; movimentação ou inativação posterior não o modifica. Uma falha reverte todos os efeitos daquela transação. Eventos de sucesso/mudança confirmada são publicados somente após commit.
 
-Uma regra de domínio e uma constraint no banco garantem no máximo uma ocorrência aberta por câmara. Leituras adicionais não duplicam o episódio. A câmara em `EM_ALERTA` recusa novo lote, aumento de doses e movimentação para ela (`409`); retirada, baixa e descarte seguem normais. Não há descarte automático.
+Uma regra de domínio e uma constraint no banco garantem no máximo uma ocorrência aberta por câmara. Leituras adicionais não duplicam o episódio. A câmara em `EM_ALERTA` recusa novo lote, aumento de doses, movimentação para ela e baixa com motivo `ADMINISTRADA` (`409`). Enquanto houver ocorrência aberta, a baixa `ADMINISTRADA` é rejeitada sem alterar quantidade, mesmo após uma leitura segura. Retirada/movimentação para fora, baixa por `PERDA` e descarte permanecem permitidos, respeitando as demais regras existentes. Permitir retirada não representa liberação para uso dos lotes identificados no snapshot. Não há descarte automático.
 
 A resolução é explícita, por administrador autenticado, com justificativa e autoria/instante oficiais. Sob lock da câmara, exige que a última leitura aceita seja segura, posterior à abertura e da política atual. Uma segura antiga seguida de insegura não atende à condição. Resolução, auditoria e retorno a `NORMAL` são atômicos; o próximo episódio começa com sequência zerada e recebe outro ID. Preservar o histórico, sem reabrir a ocorrência resolvida. Reenvio idêntico recupera o tratamento original; conteúdo conflitante retorna `409`.
 
@@ -107,7 +109,7 @@ Na leitura individual, se outra requisição já confirmou a chave, retornar seu
 
 No lote, validar estrutura e limite de 50 antes de qualquer gravação. JSON malformado retorna `400`; violação estrutural, inclusive repetição de `(camaraId, idExterno)` no próprio payload, retorna `422`. Recuperar resultados já confirmados antes de montar as candidatas; duplicatas confirmadas não realimentam a sequência. Erro de domínio em uma câmara rejeita suas novas candidatas sem impedir grupos elegíveis das outras.
 
-Com candidatas elegíveis, fazer uma única RPC antes de qualquer nova gravação. Sem candidatas elegíveis, responder a partir dos resultados persistidos e dos erros identificados, sem chamar Go. Após sucesso, revalidar cada câmara em transação curta; snapshot alterado rejeita suas novas candidatas com `409` por item, sem segunda RPC.
+Com candidatas elegíveis, fazer uma única RPC antes de qualquer nova gravação. Sem candidatas elegíveis, responder a partir dos resultados persistidos e dos erros identificados, sem chamar Go. Uma RPC bem-sucedida pode conter resultados válidos e erros de validação por câmara: não gravar as candidatas da janela rejeitada, preservar seus resultados idempotentes anteriores e continuar com as demais câmaras. Erro de validação detectado no contrato interno é tratado como falha de integração daquele grupo, sem atribuir automaticamente a culpa ao usuário. Após sucesso, revalidar cada câmara com resultado válido em transação curta; snapshot alterado rejeita suas novas candidatas com `409` por item, sem segunda RPC.
 
 Confirmar todas as candidatas e seus efeitos de uma câmara na mesma transação, em ordem. Falha de gravação reverte esse grupo inteiro, mas não desfaz grupos de outras câmaras já confirmados. Não há atomicidade global entre câmaras. A resposta de processamento do lote é `200`, com resultado por entrada na posição original: aceita (`201` por item), repetida (`200`), rejeitada (`409` ou erro controlado), identificadores persistidos quando houver e resultados térmicos. Preservar os resultados idempotentes anteriores e identificar os grupos que falharam para permitir reenvio seguro.
 
@@ -117,13 +119,13 @@ Cada RPC tem deadline de 800 ms, configurável no adaptador, incluindo espera de
 
 Não fazer retry automático de transporte em indisponibilidade ou timeout. Propagar correlação e cancelamento. `UNAVAILABLE`/`DEADLINE_EXCEEDED` resultam em `503` com Problem Details e sem confirmar novas leituras. No lote, essa falha ocorre antes de qualquer nova gravação; resultados de chamadas anteriores continuam persistidos. Não aceitar dados em fila, retornar `202` ou calcular uma decisão oficial presumindo sucesso do Go.
 
-Resposta inválida ou erro de contrato interno é falha de integração, sem culpar o usuário nem expor stack ou credenciais; não confirmar efeitos com resultados inválidos. A API deve iniciar e manter saúde do processo e operações independentes (cadastros e consultas) mesmo sem Go. Esta ADR não define a plataforma de implantação.
+Erro de validação de janela devolvido como resultado é falha de integração restrita à câmara, conforme a seção 6. Resposta global inválida ou falha interna que impeça confiar no conjunto dos resultados compromete a chamada inteira; não confirmar novos efeitos dessa chamada. Em ambos os casos, não culpar o usuário nem expor stack ou credenciais. A API deve iniciar e manter saúde do processo e operações independentes (cadastros e consultas) mesmo sem Go. Esta ADR não define a plataforma de implantação.
 
 ## Alternativas consideradas
 
 - **Contadores residentes no Go entre chamadas:** descartados como fonte da sequência. Exigiriam recomposição após reinício e coordenação com retry, rollback e múltiplas instâncias. A janela persistida enviada por Java permite repetir a análise sem modificar estado remoto.
 - **Banco compartilhado por Java e Go:** descartado. Acoplaria a análise ao esquema e às transações da API e permitiria duas autoridades sobre os mesmos registros.
-- **Fila, streaming ou persistência própria no Go:** fora do escopo. Acrescentariam confirmação assíncrona, operação. de compensação e complexidade de implantação, sem necessidade.
+- **Fila, streaming ou persistência própria no Go:** fora do escopo. Acrescentariam confirmação assíncrona, operação de compensação e complexidade de implantação, sem necessidade.
 
 ## Consequências
 
@@ -149,6 +151,10 @@ Utilizando faixa 2–8 °C, N=3 e instantes crescentes.
 | Mesma chave, conteúdo equivalente, inclusive offset equivalente | `200`, registro original, sem RPC nem nova ocorrência. |
 | Mesma chave, outra temperatura/instante/origem | `409`, sem alteração parcial. |
 | Duas câmaras simultâneas | Uma RPC com duas janelas, análise independente em paralelo e resultados associados às candidatas corretas. |
+| Janela inválida da câmara A e janela válida da câmara B | RPC conclui com erro associado a A e resultado válido de B; a goroutine de A retorna `nil` ao grupo, não cancela B e nenhuma candidata de A é gravada. |
+| Falha interna global ou cancelamento durante a análise | Interromper as goroutines e falhar a RPC, sem confirmar novas candidatas de qualquer câmara. |
+| Câmara em `EM_ALERTA`, baixa `ADMINISTRADA`, inclusive após leitura segura | `409`, sem redução de doses; a ocorrência continua aberta até resolução explícita. |
+| Câmara em `EM_ALERTA`, baixa `PERDA` ou descarte | Operação permitida se atender às demais regras; preserva ocorrência e snapshot, sem descarte automático. |
 | Duas inseguras na versão antiga, mudar política, nova insegura | Contexto antigo não é usado; sequência 1 na nova versão. Sem ocorrência aberta, a mudança passou por `SEM_LEITURAS`. |
 | Política muda com ocorrência aberta | Mantém ocorrência, evidências originais e `EM_ALERTA`; futura resolução exige segura da versão atual. |
 | Duas requisições individuais no limiar | Revalidar snapshot; no máximo uma ocorrência aberta; repetir análise uma vez por conflito, depois `409` se persistir. |

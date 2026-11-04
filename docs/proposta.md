@@ -2,11 +2,11 @@
 
 ## 1. Visão do produto
 
-> Para profissionais e gestores de salas de vacinação e centrais da rede de frio
-> Que precisam controlar lotes e reagir a condições térmicas que podem comprometer imunobiológicos
-> O **FrioVax** é uma plataforma backend de gestão e monitoramento da cadeia de frio
-> Que centraliza inventário, telemetria e ocorrências térmicas rastreáveis
-> Diferente de planilhas e conferências manuais isoladas
+> Para profissionais e gestores de salas de vacinação e centrais da rede de frio  
+> Que precisam controlar lotes e reagir a condições térmicas que podem comprometer imunobiológicos  
+> O **FrioVax** é uma plataforma backend de gestão e monitoramento da cadeia de frio  
+> Que centraliza inventário, telemetria e ocorrências térmicas rastreáveis  
+> Diferente de planilhas e conferências manuais isoladas  
 > Nosso produto processa leituras concorrentemente e mantém a decisão oficial sobre câmaras e lotes em um núcleo transacional.
 
 ### Problema e evidência

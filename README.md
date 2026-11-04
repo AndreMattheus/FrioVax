@@ -36,7 +36,7 @@ Este repositório contém o produto comum de:
 - [Roteiro de validação da Sprint 1](docs/validacao-sprint-1.md)
 - [ADR 0001 — Arquitetura em camadas](docs/decisoes/0001-arquitetura-em-camadas.md)
 - [ADR 0002 — Domínio independente e aplicação por interfaces](docs/decisoes/0002-dominio-independente-e-aplicacao-por-interfaces.md) — substitui o ADR 0001
-- [ADR 0003 — Serviço Go de telemetria e regras térmicas](docs/decisoes/0003-servico-go-telemetria.md) — proposta para a Sprint 2, aguardando revisão de domínio
+- [ADR 0003 — Serviço Go de telemetria e regras térmicas](docs/decisoes/0003-servico-go-telemetria.md) — decisão da Sprint 2 revisada
 - [Roteiro do vídeo de Web II](docs/roteiro-video-web2.md)
 - [Roteiro do vídeo de Processos](docs/roteiro-video-processos.md)
 - [Roteiro do vídeo único da Sprint 1 — Web II e Processos](docs/roteiro-video-sprint-1.md)
@@ -60,7 +60,7 @@ Este repositório contém o produto comum de:
 
 A API Java concentra os casos de uso, as regras de negócio e a persistência em PostgreSQL. Sua organização em `api`, `aplicacao`, `dominio` e `persistencia` está descrita no ADR 0002. O serviço Go possui atualmente a rota de saúde; o processamento de telemetria e a integração por Protobuf/gRPC estão previstos para a Sprint 2.
 
-A [ADR 0003](docs/decisoes/0003-servico-go-telemetria.md) propõe que Java envie janelas de leituras para análise concorrente no Go, sem banco compartilhado nem contadores entre chamadas. Go devolverá resultados por leitura; Java revalidará os dados e confirmará ocorrências e estado térmico em transações curtas, sem manter lock durante a chamada remota. O documento explica política térmica, limiar, reenvios, prazos e falhas, com exemplos e diagrama. Essas funcionalidades ainda não estão implementadas.
+A [ADR 0003](docs/decisoes/0003-servico-go-telemetria.md) define que Java envie janelas de leituras para análise concorrente no Go, sem banco compartilhado nem contadores entre chamadas. Go devolverá resultados por leitura; Java revalidará os dados e confirmará ocorrências e estado térmico em transações curtas, sem manter lock durante a chamada remota. O documento explica política térmica, limiar, reenvios, prazos e falhas, com exemplos e diagrama. Essas funcionalidades ainda não estão implementadas.
 
 ## Como rodar
 
