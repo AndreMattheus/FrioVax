@@ -1,6 +1,6 @@
 # ADR 0004 — Implantação da API
 
-- **Status:** Proposta para revisão; implantação bloqueada pelos pré-requisitos externos abaixo.
+- **Status:** Proposta para revisão; contas confirmadas, com pré-requisitos de publicação pendentes.
 - **Data:** 04/11/2026
 - **Responsável:** @arthurFeijo (Qualidade/DevOps)
 - **Revisor:** @leonardonadson
@@ -18,7 +18,7 @@ O repositório já possui container Java, PostgreSQL 17, migrações Flyway e CI
 
 ### Topologia e planos
 
-Publicar **uma réplica** da API Java como Web Service Docker no **Render Free** e manter os dados em um projeto **Neon Free / PostgreSQL 17**. Usar regiões próximas disponíveis em ambos os planos; registrar as regiões efetivas no registro de pré-requisitos. Não habilitar cobrança ou upgrade automático para contornar limites.
+Publicar **uma réplica** da API Java como Web Service Docker no **Render Free** e manter os dados em um projeto **Neon Free / PostgreSQL 17**. Regiões confirmadas pelo titular em 05/11/2026: Render em **Virginia (US East)** e Neon em **AWS South America East 1 (São Paulo)**. Avaliar a latência dessa combinação na #88; eventual mudança de região deve ser registrada nesta decisão. Não habilitar cobrança ou upgrade automático para contornar limites.
 
 O Render constrói o commit aprovado usando `api/Dockerfile`, com contexto Docker `api/` (root directory `api`, Dockerfile `./Dockerfile`). O SHA completo identifica a versão; registrar também o ID do deploy e, quando disponível, o digest da imagem. A réplica escuta em `0.0.0.0`, com `QUARKUS_HTTP_HOST=0.0.0.0` e `QUARKUS_HTTP_PORT=10000`; configurar a porta correspondente no serviço. O tráfego externo usa HTTPS com TLS terminado pelo Render; banco e API não compartilham disco.
 
@@ -26,25 +26,25 @@ O filesystem do container é efêmero: não guardar dados oficiais, backups ou u
 
 ### Titulares e liberação
 
-O solicitante indicou **@AndreMattheus como titular de ambas as contas** em 04/11/2026. Isso não comprova que as contas existam: criação, aceite dos termos, configuração e confirmação dos acessos cabem ao titular. Arthur configura o fluxo de implantação com os acessos concedidos; Leonardo revisa esta decisão.
+Em **05/11/2026**, Arthur confirmou nesta preparação da #87 que é o titular (**@arthurFeijo**) das contas Render e Neon, ambas criadas em **04/11/2026**, nos planos gratuitos. Arthur também assumiu a administração dos serviços e dos backups. Leonardo permanece como revisor. Este registro se baseia no relato do responsável, sem acesso a credenciais ou verificação dos painéis.
 
 O registro de pré-requisitos abaixo é parte desta ADR. Atualizá-lo com estado real, data e referência sem segredos antes do primeiro deploy. Conta criada, segredo cadastrado e revisão humana são verificações distintas. Não declarar a #87 pronta enquanto os aceites externos e a Definição de Pronto não estiverem demonstrados.
 
-| Recurso | Plano | Titular indicado | Estado em 04/11/2026 |
-|---|---|---|---|
-| Render, conta/workspace e Web Service | Free, uma réplica | @AndreMattheus | Criação, região e configuração pendentes de confirmação pelo titular |
-| Neon, conta/projeto PostgreSQL | Free | @AndreMattheus | Criação, região e configuração pendentes de confirmação pelo titular |
+| Recurso | Plano confirmado | Titular | Criação | Região confirmada |
+|---|---|---|---|---|
+| Render | Free; decisão de uma réplica mantida | @arthurFeijo | 04/11/2026 | Virginia (US East) |
+| Neon | Free | @arthurFeijo | 04/11/2026 | AWS South America East 1 (São Paulo) |
 
-Antes de iniciar deploy, o titular deve confirmar neste registro ou no PR, sem publicar valores:
+Arthur informou como cadastradas no Render as variáveis **`AUTH_DEMO_ENABLED`**, **`QUARKUS_FLYWAY_MIGRATE_AT_START`**, **`QUARKUS_HTTP_HOST`** e **`QUARKUS_HTTP_PORT`**. São configurações de execução, não credenciais do banco ou de implantação. Foram confirmados somente seus nomes; seus valores não foram informados nem verificados. O cadastro de credenciais do banco, chaves JWT e segredos do GitHub Actions permanece sem confirmação.
 
-- Contas criadas e acessos de operação concedidos; regiões efetivas de Render e Neon registradas.
+Para a publicação da #88, o titular ainda deve confirmar neste registro ou no PR, sem publicar valores:
 - Serviço Render configurado com contexto `api/`, porta 10000, uma réplica, autodeploy desligado e health check `/api/status`.
 - Neon PostgreSQL 17 com conexão direta, TLS validado e papéis/grants de migração e runtime.
 - Environment GitHub `producao` e secrets/variáveis cadastrados conforme a tabela desta ADR; migração no startup Render desabilitada.
 - Armazenamento privado, retenção e acesso ao backup definidos, com restauração conferida.
 - Risco de mutação anônima até #81 reconhecido pelo titular e revisor, com dados exclusivamente fictícios.
 
-Todos esses pré-requisitos externos permanecem **pendentes de confirmação**. A dependência #65 foi consultada em 04/11/2026 e está concluída.
+A criação das contas, a titularidade, os planos, as regiões e o responsável pela operação/backups estão **confirmados por relato do titular**. Os demais itens de configuração e publicação acima continuam pendentes. A responsabilidade pelos backups não comprova que armazenamento, retenção ou restauração remota já estejam configurados. A dependência #65 foi consultada em 04/11/2026 e está concluída.
 
 ### API pública e Go local
 
@@ -176,6 +176,6 @@ O procedimento para conferir esta decisão usa somente banco e containers descar
 
 ### Aceite e conclusão
 
-Arthur revisa o procedimento com o titular @AndreMattheus, e @leonardonadson revisa a ADR. As confirmações externas acima continuam pendentes. Para encerrar a #87, o PR deve conter `Closes #87`, CI verde no commit final, aprovação do revisor, comentários resolvidos, integração em `main` e atualização do cartão conforme [Definição de Pronto](../processo.md#definição-de-pronto). O apoio material de IA está registrado no arquivo existente `docs/uso-de-ia.md`.
+Arthur (@arthurFeijo), titular e responsável pela plataforma, deve validar o procedimento, e @leonardonadson revisa a ADR. As contas e as configurações relatadas acima estão registradas; a confirmação dos segredos e dos demais preparativos de publicação continua pendente. Para encerrar a #87, o PR deve conter `Closes #87`, CI verde no commit final, aprovação do revisor, comentários resolvidos, integração em `main` e atualização do cartão conforme [Definição de Pronto](../processo.md#definição-de-pronto). O apoio material de IA está registrado no arquivo existente `docs/uso-de-ia.md`.
 
 O Project deve receber Start date real deste trabalho (04/11/2026) e Finished date somente após a conclusão real, sem copiar datas planejadas. A tentativa de registrar o início pela sessão foi recusada por ausência do escopo de escrita `project`; nenhuma data foi alterada. Arthur deve registrar a data ou conceder o escopo necessário. Execução de ferramenta não substitui confirmação do titular ou aprovação humana.
