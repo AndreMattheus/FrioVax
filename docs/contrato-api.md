@@ -1,6 +1,6 @@
 # Contrato da API — Câmaras e Lotes
 
-Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). A organização interna do serviço está no [ADR 0002](adr/0002-dominio-independente-e-aplicacao-por-interfaces.md), que substitui a proposta do [ADR 0001](adr/0001-arquitetura-em-camadas.md).
+Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). A organização interna do serviço está no [ADR 0002](decisoes/0002-dominio-independente-e-aplicacao-por-interfaces.md), que substitui a proposta do [ADR 0001](decisoes/0001-arquitetura-em-camadas.md).
 
 A especificação OpenAPI gerada a partir do código fica em `/q/openapi`, e o Swagger UI em `/q/swagger-ui` (endereços no [README](../README.md#documentação-openapi-e-swagger-ui)). Este documento continua sendo a referência das decisões; a especificação descreve as rotas já implementadas.
 
@@ -198,7 +198,7 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 
 Todo Problem Details contém `type`, `title`, `status`, `detail` e `instance`. O campo `instance` identifica o caminho da requisição com `/` inicial, por exemplo `/api/camaras`. Erros `422` incluem `erros`, uma lista de `{ "campo": string, "mensagem": string }`.
 
-Problem Details padroniza a resposta HTTP. As regras de negócio e suas exceções permanecem no domínio, conforme o [ADR 0002](adr/0002-dominio-independente-e-aplicacao-por-interfaces.md).
+Problem Details padroniza a resposta HTTP. As regras de negócio e suas exceções permanecem no domínio, conforme o [ADR 0002](decisoes/0002-dominio-independente-e-aplicacao-por-interfaces.md).
 
 ## 6. Exemplos
 
