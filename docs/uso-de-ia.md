@@ -16,9 +16,10 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 
 ## Sprint 2
 
-| Data | Ferramenta | Uso registrado | Fonte e artefato relacionado | Verificação humana necessária |
-|---|---|---|---|---|
-| 03/11/2026 | OpenAI Codex | Registro da planning a partir da confirmação de Leonardo; atualização das duplas de revisão, DoD e política de bloqueios; apoio ao encerramento da tarefa de planejamento | [Issue #65](https://github.com/AndreMattheus/FrioVax/issues/65) e [acordo de processo](processo.md#planning-da-sprint-2--03112026) | Arthur deve revisar a documentação no PR; horários, presença e consenso foram confirmados por Leonardo |
+| Data | Ferramenta | Uso registrado | Fonte e artefato relacionado                                                                                                                                            | Verificação humana necessária                                                                                                                                     |
+|---|---|---|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 03/11/2026 | OpenAI Codex | Registro da planning a partir da confirmação de Leonardo; atualização das duplas de revisão, DoD e política de bloqueios; apoio ao encerramento da tarefa de planejamento | [Issue #65](https://github.com/AndreMattheus/FrioVax/issues/65) e [acordo de processo](processo.md#planning-da-sprint-2--03112026)                                      | Arthur deve revisar a documentação no PR; horários, presença e consenso foram confirmados por Leonardo                                                            |
+| 04/11/2026 | OpenAI Codex | Apoio na explicação de conceitos de Go e do funcionamento da análise térmica no contexto do FrioVax; leitura, verificação de coerência e síntese das decisões já registradas nas issues e na documentação. | [Issue #67](https://github.com/AndreMattheus/FrioVax/issues/67), [ADR 0003](decisoes/0003-servico-go-telemetria.md) e [proposta](proposta.md#6-divisão-entre-java-e-go) | Matheus deve conferir a explicação e propor atualização da documentação; Bianca deve validar as regras de domínio e as complementações propostas na revisão do PR |
 
 ## Política da equipe
 

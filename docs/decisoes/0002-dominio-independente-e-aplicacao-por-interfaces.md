@@ -1,6 +1,6 @@
 # ADR 0002 — Domínio independente e aplicação por interfaces
 
-- **Status:** Proposto
+- **Status:** Vigente
 - **Data:** 29/09/2026
 - **Issue:** [#18](https://github.com/AndreMattheus/FrioVax/issues/18)
 - **Substitui:** [ADR 0001 — Arquitetura em camadas do serviço Java](0001-arquitetura-em-camadas.md)
