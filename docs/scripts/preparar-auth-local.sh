@@ -8,9 +8,21 @@ umask 077
 # Caminhos absolutos: `mvn -f api/pom.xml quarkus:dev` executa a aplicação em api/,
 # não na raiz. No Git Bash, `pwd -W` gera o caminho C:/... que o Java entende.
 raiz_nativa="$(pwd -W 2>/dev/null || pwd)"
+escrever_variavel_caminho() {
+  local nome="$1" valor="$2"
+  # Aspas duplas aceitam apóstrofos; escapar metacaracteres evita expansão ao
+  # carregar o arquivo com source. O Compose substitui estes caminhos pelos
+  # caminhos internos do contêiner definidos em docker-compose.yml.
+  valor="${valor//\\/\\\\}"
+  valor="${valor//\"/\\\"}"
+  valor="${valor//\$/\\\$}"
+  valor="${valor//\`/\\\`}"
+  printf '%s="%s"\n' "$nome" "$valor"
+}
+
 escrever_caminhos_chaves() {
-  printf "JWT_PRIVATE_KEY='%s'\n" "$raiz_nativa/.secrets/auth/privateKey.pem"
-  printf "JWT_PUBLIC_KEY='%s'\n" "$raiz_nativa/.secrets/auth/publicKey.pem"
+  escrever_variavel_caminho JWT_PRIVATE_KEY "$raiz_nativa/.secrets/auth/privateKey.pem"
+  escrever_variavel_caminho JWT_PUBLIC_KEY "$raiz_nativa/.secrets/auth/publicKey.pem"
 }
 
 if [[ -f .env.auth && -f .secrets/auth/privateKey.pem && -f .secrets/auth/publicKey.pem ]]; then

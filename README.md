@@ -121,6 +121,8 @@ set +a
 mise exec -- mvn -f api/pom.xml quarkus:dev
 ```
 
+Os caminhos são escritos entre aspas duplas, com os metacaracteres do shell escapados, inclusive em pastas com apóstrofos como `O'Connor`. Para corrigir um `.env.auth` gerado por uma versão anterior, execute o script novamente antes de carregá-lo; chaves e senhas existentes serão mantidas. A regressão do script pode ser executada com `python -m unittest discover -s docs/scripts -p 'test_preparar_auth_local.py' -v`; ela usa Bash e OpenSSL e verifica também o Compose quando o Docker CLI está instalado, sem precisar iniciar o daemon.
+
 O provisionamento cria `administrador`, `operador` e `auditor`, respectivamente com os perfis `ADMINISTRADOR`, `OPERADOR` e `AUDITOR`. Ele exige `AUTH_DEMO_ENABLED=true` e as três variáveis `AUTH_DEMO_ADMINISTRADOR`, `AUTH_DEMO_OPERADOR` e `AUTH_DEMO_AUDITOR` (mínimo 12 caracteres, máximo 72 bytes UTF-8). Contas já existentes mantêm sua senha e seu id; reiniciar ou gerar outra configuração não troca credenciais persistidas. As senhas são protegidas com BCrypt do Quarkus e salt aleatório. O login diferencia maiúsculas e não aplica `trim` à senha.
 
 | Operação | Requisição | Sucesso |

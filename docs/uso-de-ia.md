@@ -19,6 +19,7 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 | Data | Ferramenta | Uso registrado | Fonte e artefato relacionado | Verificação humana necessária |
 |---|---|---|---|---|
 | 03/11/2026 | OpenAI Codex | Registro da planning a partir da confirmação de Leonardo; atualização das duplas de revisão, DoD e política de bloqueios; apoio ao encerramento da tarefa de planejamento | [Issue #65](https://github.com/AndreMattheus/FrioVax/issues/65) e [acordo de processo](processo.md#planning-da-sprint-2--03112026) | Arthur deve revisar a documentação no PR; horários, presença e consenso foram confirmados por Leonardo |
+| 04/11/2026 | OpenAI Codex | Apoio à implementação e revisão da autenticação da issue #80, testes de sessões e correção do ambiente local para caminhos com apóstrofos; revisão independente por agente sem histórico da conversa | [PR #103](https://github.com/AndreMattheus/FrioVax/pull/103), script de preparação e testes de regressão | Arthur deve revisar a implementação, reproduzir o fluxo local e conferir os testes e o CI; a revisão por IA subsidia a decisão humana |
 
 ## Política da equipe
 
