@@ -34,8 +34,9 @@ Este repositório contém o produto comum de:
 - [Métricas de fluxo da Sprint 1](docs/metricas-sprint-1.md)
 - [Contrato da API — Câmaras e Lotes](docs/contrato-api.md)
 - [Roteiro de validação da Sprint 1](docs/validacao-sprint-1.md)
-- [ADR 0001 — Arquitetura em camadas](docs/adr/0001-arquitetura-em-camadas.md)
-- [ADR 0002 — Domínio independente e aplicação por interfaces](docs/adr/0002-dominio-independente-e-aplicacao-por-interfaces.md) — substitui o ADR 0001
+- [ADR 0001 — Arquitetura em camadas](docs/decisoes/0001-arquitetura-em-camadas.md)
+- [ADR 0002 — Domínio independente e aplicação por interfaces](docs/decisoes/0002-dominio-independente-e-aplicacao-por-interfaces.md) — substitui o ADR 0001
+- [ADR 0003 — Serviço Go de telemetria e regras térmicas](docs/decisoes/0003-servico-go-telemetria.md) — decisão da Sprint 2 revisada
 - [Roteiro do vídeo de Web II](docs/roteiro-video-web2.md)
 - [Roteiro do vídeo de Processos](docs/roteiro-video-processos.md)
 - [Roteiro do vídeo único da Sprint 1 — Web II e Processos](docs/roteiro-video-sprint-1.md)
@@ -59,9 +60,11 @@ Este repositório contém o produto comum de:
 
 A API Java concentra os casos de uso, as regras de negócio e a persistência em PostgreSQL. Sua organização em `api`, `aplicacao`, `dominio` e `persistencia` está descrita no ADR 0002. O serviço Go possui atualmente a rota de saúde; o processamento de telemetria e a integração por Protobuf/gRPC estão previstos para a Sprint 2.
 
+A [ADR 0003](docs/decisoes/0003-servico-go-telemetria.md) define que Java envie janelas de leituras para análise concorrente no Go, sem banco compartilhado nem contadores entre chamadas. Go devolverá resultados por leitura; Java revalidará os dados e confirmará ocorrências e estado térmico em transações curtas, sem manter lock durante a chamada remota. O documento explica política térmica, limiar, reenvios, prazos e falhas, com exemplos e diagrama. Essas funcionalidades ainda não estão implementadas.
+
 ## Como rodar
 
-Pré-requisitos: Git, [mise](https://mise.jdx.dev/) e Docker Desktop (ou Docker Engine com Compose) em execução. Os testes unitários e HTTP em memória abaixo dispensam Docker e PostgreSQL. Execute os comandos a partir da raiz do repositório; as versões de Java 25, Maven 3.9.16 e Go 1.27 estão definidas em `mise.toml`. A primeira instalação precisa de internet para baixar as ferramentas, dependências Maven, módulos Go e imagens Docker.
+Pré-requisitos: Git, OpenSSL, [mise](https://mise.jdx.dev/) e Docker Desktop (ou Docker Engine com Compose) em execução. Os testes unitários e HTTP em memória abaixo dispensam Docker e PostgreSQL. Execute os comandos a partir da raiz do repositório; as versões de Java 25, Maven 3.9.16 e Go 1.27 estão definidas em `mise.toml`. A primeira instalação precisa de internet para baixar as ferramentas, dependências Maven, módulos Go e imagens Docker.
 
 Em um clone novo:
 
@@ -76,9 +79,10 @@ mise run test
 
 `mise trust` confia nas tarefas definidas neste repositório; revise `mise.toml` antes de executá-lo. `mise run test` usa um PostgreSQL temporário iniciado pelo Quarkus Dev Services e precisa de Docker, mas não do Compose. Para verificar também formatação, análise estática e build Go, execute `mise run ci`.
 
-Para subir a API, o serviço Go e o banco:
+Para subir a API, o serviço Go e o banco, gere primeiro as chaves e senhas locais:
 
 ```bash
+bash docs/scripts/preparar-auth-local.sh
 mise run up
 ```
 
@@ -108,6 +112,42 @@ Com a API no ar, a documentação das rotas fica disponível em:
 | `mise run lint` | Verifica Maven, `gofmt` e `go vet` |
 | `mise run ci` | Reproduz o pipeline localmente |
 | `mise run up` | Sobe os serviços com Docker Compose e acompanha os logs |
+
+### Autenticação e sessões
+
+Execute `bash docs/scripts/preparar-auth-local.sh` na raiz para gerar uma chave RSA exclusiva e três senhas aleatórias. O script exige Bash e OpenSSL (no Windows, use WSL ou Git Bash) e não substitui chaves nem senhas existentes. As chaves ficam em `.secrets/auth/`; as variáveis e senhas ficam em `.env.auth`, ambos ignorados pelo Git. O `.env.auth` guarda os caminhos absolutos das chaves, pois o Maven executa a aplicação em `api/`; se mover o repositório, execute o script de novo para atualizá-los. O Compose carrega esse arquivo, monta as chaves somente para leitura e usa os caminhos internos do contêiner. Para executar o Quarkus diretamente, na raiz:
+
+```bash
+set -a
+source .env.auth
+set +a
+mise exec -- mvn -f api/pom.xml quarkus:dev
+```
+
+Os caminhos são escritos entre aspas duplas, com os metacaracteres do shell escapados, inclusive em pastas com apóstrofos como `O'Connor`. Para corrigir um `.env.auth` gerado por uma versão anterior, execute o script novamente antes de carregá-lo; chaves e senhas existentes serão mantidas. A regressão do script pode ser executada com `python -m unittest discover -s docs/scripts -p 'test_preparar_auth_local.py' -v`; ela usa Bash e OpenSSL e verifica também o Compose quando o Docker CLI está instalado, sem precisar iniciar o daemon.
+
+O provisionamento cria `administrador`, `operador` e `auditor`, respectivamente com os perfis `ADMINISTRADOR`, `OPERADOR` e `AUDITOR`. Ele exige `AUTH_DEMO_ENABLED=true` e as três variáveis `AUTH_DEMO_ADMINISTRADOR`, `AUTH_DEMO_OPERADOR` e `AUTH_DEMO_AUDITOR` (mínimo 12 caracteres, máximo 72 bytes UTF-8). Contas já existentes mantêm sua senha e seu id; reiniciar ou gerar outra configuração não troca credenciais persistidas. As senhas são protegidas com BCrypt do Quarkus e salt aleatório. O login diferencia maiúsculas e não aplica `trim` à senha.
+
+| Operação | Requisição | Sucesso |
+|---|---|---|
+| Login | `POST /api/auth/login`, JSON com `login` e `senha` | 200 com tokens e identidade |
+| Renovar | `POST /api/auth/renovar`, JSON com `refreshToken` | 200 com novo par; refresh anterior inutilizado |
+| Logout | `POST /api/auth/logout`, JSON com `refreshToken` | 204, refresh revogado |
+| Identidade | `GET /api/auth/identidade`, `Authorization: Bearer <accessToken>` | 200 com `id`, `login` e `perfil` |
+
+Login e renovação retornam `accessToken`, `refreshToken`, `tokenType=Bearer`, `expiresIn=900`, `expiraEm`, `refreshExpiraEm` e `identidade`. O JWT RS256 dura **15 minutos**, é validado pelo Quarkus sem consulta ao banco e carrega o UUID interno em `sub`, login em `upn` e perfil em `groups`. O refresh opaco tem 256 bits aleatórios, dura **24 horas** e só seu hash SHA-256 é persistido. Cada renovação consome o refresh e cria outro válido por 24 horas, na mesma transação; duas chamadas concorrentes não podem consumi-lo duas vezes.
+
+**Logout revoga o refresh enviado. O access já emitido continua válido até expirar, por no máximo 15 minutos.** Use o refresh mais recente depois de renovar. Credenciais inválidas e refresh ausente, expirado, revogado ou já usado recebem o mesmo 401 genérico. Access ausente, expirado, de outro emissor ou com assinatura inválida também recebe 401. Respostas com tokens usam `Cache-Control: no-store`; senhas e tokens não são registrados pela implementação. Os perfis estão disponíveis na identidade; a aplicação dos perfis às demais rotas pertence à issue #81.
+
+Para implantação, forneça `JWT_PRIVATE_KEY`, `JWT_PUBLIC_KEY` (caminhos para o par RSA PEM montado no ambiente) e `JWT_ISSUER`. Não há chave padrão no artefato de produção; a configuração exige chaves próprias. Mantenha a chave privada e as credenciais no gerenciador de segredos do ambiente e use HTTPS. O provisionamento demonstrativo fica desabilitado por padrão. As chaves de `api/src/test/resources/auth` são exclusivas de testes e não entram no jar da aplicação. A expiração é verificada sem tolerância adicional; `ConfiguracaoJwt` corrige a interpretação de `clock.skew=0` no SmallRye JWT 4.6.3.
+
+Para validar a issue #80 com PostgreSQL temporário e relógio controlado:
+
+```bash
+mise exec -- mvn --batch-mode -f api/pom.xml "-Dtest=AutenticacaoServiceTest,AutenticacaoPostgresTest" test
+```
+
+Os cenários cobrem os três perfis, credenciais protegidas, erro genérico, prazo do JWT, assinatura/emissor inválidos, identidade sem acesso ao banco, expiração do refresh no limite de 24 h, rotação, concorrência e logout com access ainda válido. A configuração de teste usa somente chaves e credenciais artificiais e dispensa `.env.auth`.
 
 ### Testes
 

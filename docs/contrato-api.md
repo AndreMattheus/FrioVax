@@ -1,6 +1,6 @@
 # Contrato da API — Câmaras e Lotes
 
-Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). A organização interna do serviço está no [ADR 0002](adr/0002-dominio-independente-e-aplicacao-por-interfaces.md), que substitui a proposta do [ADR 0001](adr/0001-arquitetura-em-camadas.md).
+Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). A organização interna do serviço está no [ADR 0002](decisoes/0002-dominio-independente-e-aplicacao-por-interfaces.md), que substitui a proposta do [ADR 0001](decisoes/0001-arquitetura-em-camadas.md).
 
 A especificação OpenAPI gerada a partir do código fica em `/q/openapi`, e o Swagger UI em `/q/swagger-ui` (endereços no [README](../README.md#documentação-openapi-e-swagger-ui)). Este documento continua sendo a referência das decisões; a especificação descreve as rotas já implementadas.
 
@@ -198,7 +198,7 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 
 Todo Problem Details contém `type`, `title`, `status`, `detail` e `instance`. O campo `instance` identifica o caminho da requisição com `/` inicial, por exemplo `/api/camaras`. Erros `422` incluem `erros`, uma lista de `{ "campo": string, "mensagem": string }`.
 
-Problem Details padroniza a resposta HTTP. As regras de negócio e suas exceções permanecem no domínio, conforme o [ADR 0002](adr/0002-dominio-independente-e-aplicacao-por-interfaces.md).
+Problem Details padroniza a resposta HTTP. As regras de negócio e suas exceções permanecem no domínio, conforme o [ADR 0002](decisoes/0002-dominio-independente-e-aplicacao-por-interfaces.md).
 
 ## 6. Exemplos
 
@@ -417,3 +417,18 @@ Content-Type: application/problem+json
 - Reativação de registros inativos.
 - Estados térmicos da câmara e política térmica (US05, US08).
 - Autenticação, perfis e auditoria (US09, US10).
+
+## 7. Autenticação e sessões (Sprint 2 — #80)
+
+As rotas de autenticação e a configuração local estão descritas no [README](../README.md#autenticação-e-sessões) e na OpenAPI. As convenções de normalização e validação dos CRUDs (§2.3–2.4) não se aplicam às credenciais: login e senha são comparados exatamente; credenciais ausentes ou inválidas retornam 401 genérico, sem revelar a existência da conta. JSON malformado continua retornando 400.
+
+- `POST /api/auth/login`: recebe `{ "login": "operador", "senha": "<senha local>" }`.
+- `POST /api/auth/renovar`: recebe `{ "refreshToken": "<refresh mais recente>" }`, consome o refresh e retorna novo par de tokens.
+- `POST /api/auth/logout`: recebe o mesmo formato, revoga o refresh e retorna 204. Refresh inválido/expirado/reutilizado recebe 401.
+- `GET /api/auth/identidade`: exige Bearer JWT e retorna UUID interno, login e perfil. O UUID corresponde a `sub`, o login a `upn` e o perfil a `groups`; não consulta o banco.
+
+JWT de acesso RS256: 15 minutos, validação local da assinatura, emissor e expiração pelo Quarkus, sem consulta ao banco e sem tolerância adicional. Refresh: opaco, aleatório, 24 horas, persistido apenas como hash SHA-256. Rotação e revogação são transacionais e serializadas por sessão. O logout não invalida o access já emitido, que continua válido até expirar (no máximo 15 minutos).
+
+Login e renovação retornam 200 com `accessToken`, `refreshToken`, `tokenType`, `expiresIn` (900 segundos), `expiraEm`, `refreshExpiraEm` e `identidade`. Respostas com tokens não podem ser armazenadas em cache. Credenciais e sessões inválidas retornam Problem Details com `type=/problemas/autenticacao-invalida`, `title=Autenticação inválida`, `status=401` e `detail=Credenciais ou sessão inválidas.`. A rejeição de Bearer é realizada pelo mecanismo de segurança do Quarkus, antes do resource.
+
+Os perfis disponíveis são `ADMINISTRADOR`, `OPERADOR` e `AUDITOR`. A autorização das demais rotas será aplicada na issue #81.
