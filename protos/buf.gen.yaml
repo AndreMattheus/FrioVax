@@ -1,0 +1,10 @@
+version: v2
+# Diretório exclusivo de gerados: remove arquivos obsoletos antes de gerar.
+clean: true
+plugins:
+  - local: [go, run, google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.12]
+    out: ../services/telemetry/gen
+    opt: paths=source_relative
+  - local: [go, run, google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.2]
+    out: ../services/telemetry/gen
+    opt: paths=source_relative
