@@ -6,7 +6,7 @@
 - **Revisor:** @leonardonadson
 - **Issue:** [S2-24 / #87](https://github.com/AndreMattheus/FrioVax/issues/87)
 - **Implementação da publicação:** [S2-25 / #88](https://github.com/AndreMattheus/FrioVax/issues/88)
-- **Decisão relacionada:** [ADR 0003 — Serviço Go de telemetria e regras térmicas (PR #102)](https://github.com/AndreMattheus/FrioVax/pull/102/files). O arquivo previsto é `docs/decisoes/0003-servico-go-telemetria.md`; ainda não está integrado à base desta ADR. A mudança dos caminhos das ADRs 0001–0002 pertence à #67.
+- **Decisão relacionada:** [ADR 0003 — Serviço Go de telemetria e regras térmicas](https://github.com/AndreMattheus/FrioVax/blob/main/docs/decisoes/0003-servico-go-telemetria.md), integrada à `main` pelo [PR #102](https://github.com/AndreMattheus/FrioVax/pull/102). As ADRs 0001–0002 também foram movidas para `docs/decisoes/` nessa entrega da #67.
 
 ## Contexto
 
@@ -30,21 +30,28 @@ Em **05/11/2026**, Arthur confirmou nesta preparação da #87 que é o titular (
 
 O registro de pré-requisitos abaixo é parte desta ADR. Atualizá-lo com estado real, data e referência sem segredos antes do primeiro deploy. Conta criada, segredo cadastrado e revisão humana são verificações distintas. Não declarar a #87 pronta enquanto os aceites externos e a Definição de Pronto não estiverem demonstrados.
 
+A data do primeiro acionamento de deploy no Render não foi registrada nesta evidência. Assim, a exigência de registrar os titulares antes de iniciar o deploy não tem sua ordem cronológica comprovada; isso não demonstra, por si só, descumprimento nem publicação bem-sucedida da API.
+
 | Recurso | Plano confirmado | Titular | Criação | Região confirmada |
 |---|---|---|---|---|
 | Render | Free; decisão de uma réplica mantida | @arthurFeijo | 04/11/2026 | Virginia (US East) |
 | Neon | Free | @arthurFeijo | 04/11/2026 | AWS South America East 1 (São Paulo) |
 
-Arthur informou como cadastradas no Render as variáveis **`AUTH_DEMO_ENABLED`**, **`QUARKUS_FLYWAY_MIGRATE_AT_START`**, **`QUARKUS_HTTP_HOST`** e **`QUARKUS_HTTP_PORT`**. São configurações de execução, não credenciais do banco ou de implantação. Foram confirmados somente seus nomes; seus valores não foram informados nem verificados. O cadastro de credenciais do banco, chaves JWT e segredos do GitHub Actions permanece sem confirmação.
+Arthur informou como cadastradas no Render as variáveis **`AUTH_DEMO_ENABLED`**, **`QUARKUS_FLYWAY_MIGRATE_AT_START`**, **`QUARKUS_HTTP_HOST`** e **`QUARKUS_HTTP_PORT`**. São configurações de execução, não credenciais do banco ou de implantação. Foram confirmados somente seus nomes; seus valores não foram informados nem verificados. O cadastro de credenciais do banco e chaves JWT no Render permanece sem confirmação.
+
+Em **06/11/2026**, Arthur confirmou o cadastro no GitHub dos cinco secrets previstos para o environment `producao`: **`FLYWAY_URL`**, **`FLYWAY_USER`**, **`FLYWAY_PASSWORD`**, **`RENDER_DEPLOY_HOOK_URL`** e **`RENDER_API_KEY`**. Também confirmou que **`API_BASE_URL`** foi movida de Environment secrets para **Environment variables**. Na mesma data, a conferência dos metadados pela CLI do GitHub confirmou os cinco nomes em secrets e `API_BASE_URL` em variables, sem consultar os valores. Sua validade e o funcionamento da conexão, migração e implantação serão verificados na #88.
 
 Para a publicação da #88, o titular ainda deve confirmar neste registro ou no PR, sem publicar valores:
+
 - Serviço Render configurado com contexto `api/`, porta 10000, uma réplica, autodeploy desligado e health check `/api/status`.
 - Neon PostgreSQL 17 com conexão direta, TLS validado e papéis/grants de migração e runtime.
-- Environment GitHub `producao` e secrets/variáveis cadastrados conforme a tabela desta ADR; migração no startup Render desabilitada.
+- Restrições de publicação do environment GitHub `producao` à branch `main` e aprovação humana quando disponível; migração no startup Render desabilitada. O cadastro dos secrets e de `API_BASE_URL` já foi confirmado acima.
 - Armazenamento privado, retenção e acesso ao backup definidos, com restauração conferida.
 - Risco de mutação anônima até #81 reconhecido pelo titular e revisor, com dados exclusivamente fictícios.
 
-A criação das contas, a titularidade, os planos, as regiões e o responsável pela operação/backups estão **confirmados por relato do titular**. Os demais itens de configuração e publicação acima continuam pendentes. A responsabilidade pelos backups não comprova que armazenamento, retenção ou restauração remota já estejam configurados. A dependência #65 foi consultada em 04/11/2026 e está concluída.
+A criação das contas, a titularidade, os planos, as regiões, o responsável pela operação/backups e o cadastro dos secrets e da variável pública no GitHub estão **confirmados por relato do titular**. Os demais itens de configuração e publicação acima continuam pendentes. A responsabilidade pelos backups não comprova que armazenamento, retenção ou restauração remota já estejam configurados. A dependência #65 foi consultada em 04/11/2026 e está concluída.
+
+Na consulta aos metadados do GitHub em **06/11/2026**, o environment `producao` ainda estava sem restrição de branches e sem regras de aprovação configuradas. Aplicar as regras previstas acima antes de usar o workflow de publicação da #88.
 
 ### API pública e Go local
 
@@ -176,6 +183,6 @@ O procedimento para conferir esta decisão usa somente banco e containers descar
 
 ### Aceite e conclusão
 
-Arthur (@arthurFeijo), titular e responsável pela plataforma, deve validar o procedimento, e @leonardonadson revisa a ADR. As contas e as configurações relatadas acima estão registradas; a confirmação dos segredos e dos demais preparativos de publicação continua pendente. Para encerrar a #87, o PR deve conter `Closes #87`, CI verde no commit final, aprovação do revisor, comentários resolvidos, integração em `main` e atualização do cartão conforme [Definição de Pronto](../processo.md#definição-de-pronto). O apoio material de IA está registrado no arquivo existente `docs/uso-de-ia.md`.
+Arthur (@arthurFeijo), titular e responsável pela plataforma, deve validar o procedimento, e @leonardonadson revisa a ADR. As contas, as configurações relatadas e o cadastro dos secrets/variável no GitHub estão registrados; as credenciais e chaves no Render e os demais preparativos de publicação ainda precisam de confirmação para a #88. Para encerrar a #87, o PR deve conter `Closes #87`, CI verde no commit final, aprovação do revisor, comentários resolvidos, integração em `main` e atualização do cartão conforme [Definição de Pronto](../processo.md#definição-de-pronto). O apoio material de IA está registrado no arquivo existente `docs/uso-de-ia.md`.
 
-O Project deve receber Start date real deste trabalho (04/11/2026) e Finished date somente após a conclusão real, sem copiar datas planejadas. A tentativa de registrar o início pela sessão foi recusada por ausência do escopo de escrita `project`; nenhuma data foi alterada. Arthur deve registrar a data ou conceder o escopo necessário. Execução de ferramenta não substitui confirmação do titular ou aprovação humana.
+Na conferência do Project em **06/11/2026**, a #87 estava em **Em Progresso**, com **Start date = 04/11/2026** e Finished date vazio. O início real já está registrado; preencher o término somente após a conclusão real, sem copiar datas planejadas. O PR #104 permanecia em rascunho, sem aprovação e sem integração, com CI verde no commit publicado `4d66b49`; atualizações locais posteriores precisam ser enviadas e validadas pelo CI antes de integrar. Execução de ferramenta não substitui o aceite do responsável pela plataforma ou a aprovação do revisor.
