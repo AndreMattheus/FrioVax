@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import static io.restassured.RestAssured.given;
+import static br.ufrn.friovax.api.suporte.AutenticacaoHttpSupport.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.empty;
 

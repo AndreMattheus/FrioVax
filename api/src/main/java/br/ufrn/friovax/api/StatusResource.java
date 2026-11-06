@@ -1,6 +1,7 @@
 package br.ufrn.friovax.api;
 
 import br.ufrn.friovax.api.compartilhado.api.DocumentacaoApi;
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -13,6 +14,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 public class StatusResource {
 
     @GET
+    @PermitAll
     @Operation(summary = "Consultar status", description = "Indica que a API está no ar. Não consulta o banco.")
     @Produces(MediaType.APPLICATION_JSON)
     public StatusResponse status() {

@@ -115,6 +115,14 @@ public class DocumentacaoApi extends Application {
         instantes com offset (`2026-09-23T14:05:00-03:00`). "Hoje" é o dia corrente em `America/Fortaleza`.
         - `capacidade`, `ocupacao` e `quantidade` são contadas em doses.
 
+        **Autenticação e perfis**
+
+        Câmaras e lotes exigem Bearer JWT obtido em `POST /api/auth/login`. Use **Authorize** no Swagger UI.
+        ADMINISTRADOR gerencia cadastros e descarte; OPERADOR consulta e registra baixas; AUDITOR consulta.
+        Ausência de Bearer ou token inválido/expirado retorna 401; perfil insuficiente retorna 403 antes da \
+        execução. Essas rejeições do Quarkus podem ter corpo vazio. Saúde e documentação são públicas, \
+        mas as operações exibidas continuam protegidas. Perfil e ator vêm somente da identidade validada.
+
         **Inativação**
 
         `DELETE` faz remoção lógica: o registro passa a `ativo=false`, continua consultável por `GET /{id}` e seu \
