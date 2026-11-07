@@ -41,10 +41,14 @@ class MigracoesFlywayTest {
 
             assertTrue(resultado.success);
             assertEquals(versoesDisponiveis().size(), resultado.migrationsExecuted);
-            assertEquals(Set.of("camaras", "lotes", "flyway_schema_history"), tabelas(esquema));
+            assertEquals(Set.of("camaras", "lotes", "usuarios", "sessoes", "flyway_schema_history"), tabelas(esquema));
             assertTrue(restricoes(esquema).containsAll(Set.of("uk_camaras_codigo", "chk_camaras_estado",
                     "chk_faixa_termica", "uk_lotes_codigo", "fk_lotes_camara", "chk_lotes_quantidade",
-                    "chk_lotes_estado", "chk_lotes_disponivel_com_doses", "chk_lotes_esgotado_sem_doses")));
+                    "chk_lotes_estado", "chk_lotes_disponivel_com_doses", "chk_lotes_esgotado_sem_doses",
+                    "uk_usuarios_login", "chk_usuarios_senha_hash", "chk_usuarios_perfil",
+                    "chk_sessoes_token_hash", "fk_sessoes_usuario", "chk_sessoes_expiracao", "chk_sessoes_revogacao")));
+            assertEquals(0, contar(esquema + ".usuarios"));
+            assertEquals(0, contar(esquema + ".sessoes"));
             assertEquals(versoesDisponiveis(), versoesAplicadas(flywayNoEsquema(esquema)));
         } finally {
             apagar(esquema);

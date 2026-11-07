@@ -19,3 +19,6 @@ services/telemetry/coverage.out
 # mise
 .mise.local.toml
 
+
+# Chaves de autenticação geradas por ambiente
+.secrets/

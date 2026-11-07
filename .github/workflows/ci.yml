@@ -8,6 +8,24 @@ permissions:
   contents: read
 
 jobs:
+  auth-local:
+    name: Ambiente de autenticação (${{ matrix.os }})
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Configurar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Testar geração e atualização do ambiente no Bash
+        env:
+          FRIOVAX_TEST_COMPOSE: ${{ runner.os == 'Linux' && '1' || '0' }}
+        run: python -m unittest discover -s docs/scripts -p 'test_preparar_auth_local.py' -v
+
   protobuf:
     name: Protobuf / Buf
     runs-on: ubuntu-latest
