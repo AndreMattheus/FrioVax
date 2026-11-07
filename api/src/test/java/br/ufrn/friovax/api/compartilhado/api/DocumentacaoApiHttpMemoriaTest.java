@@ -4,6 +4,8 @@ import br.ufrn.friovax.api.suporte.HttpEmMemoriaProfile;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
 import org.junit.jupiter.api.Test;
+import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
@@ -11,10 +13,44 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasKey;
+import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 @TestProfile(HttpEmMemoriaProfile.class)
 class DocumentacaoApiHttpMemoriaTest {
+
+    @Test
+    void todasAsOperacoesProtegidasDocumentamBearerPerfisE401403() {
+        var spec = given().accept("application/json").get("/q/openapi").then()
+                .statusCode(200).extract().jsonPath();
+        Map<String, Map<String, Map<String, Object>>> paths = spec.getMap("paths");
+        int verificadas = 0;
+        for (var path : paths.entrySet()) {
+            if (!path.getKey().startsWith("/api/camaras") && !path.getKey().startsWith("/api/lotes")) continue;
+            for (var item : path.getValue().entrySet()) {
+                if (!List.of("get", "post", "put", "delete").contains(item.getKey())) continue;
+                verificadas++;
+                var operacao = item.getValue();
+                String rota = item.getKey() + " " + path.getKey();
+                var security = (List<Map<String, Object>>) operacao.get("security");
+                assertNotNull(security, rota);
+                assertTrue(security.stream().anyMatch(s -> s.containsKey("bearerAuth")), rota);
+                var respostas = (Map<String, Object>) operacao.get("responses");
+                assertTrue(respostas.containsKey("401"), rota);
+                assertTrue(respostas.containsKey("403"), rota);
+                String descricao = operacao.get("description").toString();
+                assertTrue(descricao.contains("ADMINISTRADOR"), rota);
+                assertEquals(item.getKey().equals("get") || path.getKey().endsWith("/baixas"),
+                        descricao.contains("OPERADOR"), rota);
+                assertEquals(item.getKey().equals("get"), descricao.contains("AUDITOR"), rota);
+            }
+        }
+        assertEquals(12, verificadas);
+        assertFalse(paths.get("/api/status").get("get").containsKey("security"));
+        for (var rota : List.of("login", "renovar", "logout")) {
+            assertFalse(paths.get("/api/auth/" + rota).get("post").containsKey("security"));
+        }
+    }
 
     @Test
     void publicaEspecificacaoOpenApiEmJson() {
