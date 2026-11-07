@@ -19,7 +19,8 @@ services:
 
   api:
     build:
-      context: ./api
+      context: .
+      dockerfile: api/Dockerfile
     environment:
       QUARKUS_HTTP_HOST: 0.0.0.0
       TELEMETRY_BASE_URL: http://telemetry:8081

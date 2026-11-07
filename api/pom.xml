@@ -34,6 +34,10 @@
 
   <dependencies>
     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-grpc</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.tngtech.archunit</groupId>
       <artifactId>archunit-junit5</artifactId>
       <version>1.5.1</version>
@@ -94,6 +98,12 @@
         <artifactId>quarkus-maven-plugin</artifactId>
         <version>${quarkus.platform.version}</version>
         <extensions>true</extensions>
+        <configuration>
+          <properties>
+            <!-- Mesmo contrato usado pelo Go, fora do diretório da API. -->
+            <quarkus.grpc.codegen.proto-directory>${project.basedir}/../protos</quarkus.grpc.codegen.proto-directory>
+          </properties>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

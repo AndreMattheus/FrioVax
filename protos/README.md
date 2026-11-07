@@ -122,6 +122,47 @@ contrato. Nunca os editar manualmente. `clean: true` limpa **somente a saída
 configurada `services/telemetry/gen/`** antes da geração para não deixar arquivos
 obsoletos. Não guardar código manual nesse diretório.
 
+## Geração Java pelo Maven
+
+A dependência `quarkus-grpc`, em [api/pom.xml](../api/pom.xml), habilita a geração
+Java. Sua versão vem do BOM do Quarkus: a lista de versões compatíveis já adotada
+pela API. O plugin Maven do Quarkus executa `generate-code` antes de compilar,
+usando o ciclo de build do empacotamento `quarkus`.
+
+```bash
+mise exec -- mvn --batch-mode -f api/pom.xml clean package -DskipTests
+```
+
+`clean` remove a saída anterior; `package` gera, compila e empacota; `-DskipTests`
+pula a execução dos testes. Para executar a suíte existente, use `verify` sem essa opção.
+
+```text
+protos/friovax/telemetry/v1/telemetry.proto
+                 |
+       Maven + extensão quarkus-grpc
+                 |
+api/target/generated-sources/grpc/br/ufrn/friovax/telemetry/v1/
+                 |
+       compilação junto da API
+```
+
+O plugin recebe `quarkus.grpc.codegen.proto-directory` com o valor
+`${project.basedir}/../protos`. `project.basedir` é a pasta do `pom.xml` (`api/`),
+independentemente do diretório de onde o comando Maven foi executado.
+Java e Go leem o mesmo contrato, sem cópias manuais.
+
+O `.proto` define `java_package = "br.ufrn.friovax.telemetry.v1"` e
+`java_multiple_files = true`: mensagens como `Reading` recebem arquivos Java
+separados nesse pacote. O Quarkus também gera o suporte gRPC. Os geradores Java
+são obtidos pelo Maven; não dependem dos plugins Go nem do executável Buf.
+
+As classes geradas ficam em `target/`, já ignorado pelo Git, e são recriadas no
+build. Domínio e aplicação não importam esses tipos: a conversão pertence aos
+adaptadores de transporte. Gerar classes não inicia uma chamada remota.
+
+O [Dockerfile da API](../api/Dockerfile) preserva `api/` e `protos/` como pastas
+irmãs no estágio de build. Consulte os [comandos Docker](../README.md#build-docker-da-api).
+
 ## Janela, contexto e candidatas
 
 Uma **candidata** é uma leitura nova aguardando análise e confirmação pelo Java.
