@@ -4,6 +4,7 @@
 .vscode
 .codex
 .agents
+**/.secrets
 **/.env
 **/.env.*
 **/*.log

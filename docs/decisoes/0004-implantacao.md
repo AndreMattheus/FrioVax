@@ -20,7 +20,7 @@ O repositório já possui container Java, PostgreSQL 17, migrações Flyway e CI
 
 Publicar **uma réplica** da API Java como Web Service Docker no **Render Free** e manter os dados em um projeto **Neon Free / PostgreSQL 17**. Regiões confirmadas pelo titular em 05/11/2026: Render em **Virginia (US East)** e Neon em **AWS South America East 1 (São Paulo)**. Avaliar a latência dessa combinação na #88; eventual mudança de região deve ser registrada nesta decisão. Não habilitar cobrança ou upgrade automático para contornar limites.
 
-O Render constrói o commit aprovado usando `api/Dockerfile`, com contexto Docker `api/` (root directory `api`, Dockerfile `./Dockerfile`). O SHA completo identifica a versão; registrar também o ID do deploy e, quando disponível, o digest da imagem. A réplica escuta em `0.0.0.0`, com `QUARKUS_HTTP_HOST=0.0.0.0` e `QUARKUS_HTTP_PORT=10000`; configurar a porta correspondente no serviço. O tráfego externo usa HTTPS com TLS terminado pelo Render; banco e API não compartilham disco.
+O Render constrói o commit aprovado usando `api/Dockerfile`, com contexto Docker na raiz do repositório (root directory vazio, Dockerfile `./api/Dockerfile`, contexto `.`), incluindo `protos/` para a geração Java. O SHA completo identifica a versão; registrar também o ID do deploy e, quando disponível, o digest da imagem. A réplica escuta em `0.0.0.0`, com `QUARKUS_HTTP_HOST=0.0.0.0` e `QUARKUS_HTTP_PORT=10000`; configurar a porta correspondente no serviço. O tráfego externo usa HTTPS com TLS terminado pelo Render; banco e API não compartilham disco.
 
 O filesystem do container é efêmero: não guardar dados oficiais, backups ou uploads nele. O Neon conserva os dados entre redeploys. Render Free pode suspender a instância por inatividade e não oferece alta disponibilidade; partida a frio e indisponibilidade temporária são aceitáveis nesta demonstração. Verificar cotas e disponibilidade dos planos antes de provisionar. [Referências Render: Web Services](https://render.com/docs/web-services), [Free](https://render.com/docs/free).
 
@@ -43,7 +43,7 @@ Em **06/11/2026**, Arthur confirmou o cadastro no GitHub dos cinco secrets previ
 
 Para a publicação da #88, o titular ainda deve confirmar neste registro ou no PR, sem publicar valores:
 
-- Serviço Render configurado com contexto `api/`, porta 10000, uma réplica, autodeploy desligado e health check `/api/status`.
+- Serviço Render configurado com contexto na raiz (`.`), Dockerfile `api/Dockerfile`, porta 10000, uma réplica, autodeploy desligado e health check `/api/status`.
 - Neon PostgreSQL 17 com conexão direta, TLS validado e papéis/grants de migração e runtime.
 - Restrições de publicação do environment GitHub `producao` à branch `main` e aprovação humana quando disponível; migração no startup Render desabilitada. O cadastro dos secrets e de `API_BASE_URL` já foi confirmado acima.
 - Armazenamento privado, retenção e acesso ao backup definidos, com restauração conferida.
