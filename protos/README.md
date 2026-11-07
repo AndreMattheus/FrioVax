@@ -122,6 +122,55 @@ contrato. Nunca os editar manualmente. `clean: true` limpa **somente a saída
 configurada `services/telemetry/gen/`** antes da geração para não deixar arquivos
 obsoletos. Não guardar código manual nesse diretório.
 
+## Verificação do contrato no CI
+
+Na raiz do repositório:
+
+```bash
+mise run proto-check
+```
+
+O mesmo comando é executado no job `Protobuf / Buf` em cada push e pull request,
+sem filtros por caminho. Ele verifica:
+
+```text
+buf lint       -> contrato atende STANDARD e COMMENTS?
+buf generate   -> recria os arquivos Go com os plugins fixados
+git diff       -> arquivos rastreados continuam iguais ao índice do Git?
+git ls-files   -> a geração produziu arquivos ainda não adicionados ao Git?
+```
+
+`git diff --exit-code` falha para alterações ou exclusões de arquivos rastreados,
+mas não detecta arquivos novos. Por isso a verificação também procura arquivos
+não rastreados, inclusive ignorados, somente em `services/telemetry/gen/`.
+`clean: true` remove saídas obsoletas desse diretório antes de gerar; uma saída
+obsoleta versionada aparece como exclusão e faz a verificação falhar.
+
+O comando regenera os arquivos locais e não faz staging nem commit. Ao alterar
+o contrato, execute `mise run proto-generate`, revise o diff e adicione os gerados
+correspondentes ao staging antes de executar `proto-check`. O índice é a versão
+preparada para commit; no checkout limpo do CI, ele corresponde ao commit avaliado.
+Se a verificação falhar, a saída regenerada fica disponível para revisão.
+
+`mise run lint` inclui o lint do contrato. `mise run ci` inclui `proto-check`,
+além das verificações Java e Go. As variantes Windows e Linux fazem as mesmas
+verificações. Buf e Go usam as versões declaradas no mise; os plugins usam as
+versões do `buf.gen.yaml`. O job de contrato habilita somente Go e Buf.
+
+Para conferir o comportamento, use uma cópia isolada com os gerados adicionados
+ao índice e execute `mise run proto-check` após cada alteração:
+
+| Cenário | Resultado esperado |
+|---|---|
+| Contrato e gerados sincronizados | Sucesso |
+| Campo sem comentário | Falha no lint, antes da geração |
+| Campo novo no contrato sem atualizar os gerados | Falha na comparação dos arquivos |
+| Novo `.proto` que produz um arquivo Go ainda não rastreado | Falha na verificação de arquivos novos |
+| Arquivo gerado obsoleto adicionado ao índice | Remoção pela geração e falha na comparação |
+
+Esses comandos verificam o contrato e a reprodução da geração; não comprovam
+o comportamento térmico nem substituem os testes dos adaptadores.
+
 ## Geração Java pelo Maven
 
 A dependência `quarkus-grpc`, em [api/pom.xml](../api/pom.xml), habilita a geração

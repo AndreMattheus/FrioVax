@@ -78,7 +78,7 @@ mise run build
 mise run test
 ```
 
-`mise trust` confia nas tarefas definidas neste repositório; revise `mise.toml` antes de executá-lo. `mise run test` usa um PostgreSQL temporário iniciado pelo Quarkus Dev Services e precisa de Docker, mas não do Compose. Para verificar também formatação, análise estática e build Go, execute `mise run ci`.
+`mise trust` confia nas tarefas definidas neste repositório; revise `mise.toml` antes de executá-lo. `mise run test` usa um PostgreSQL temporário iniciado pelo Quarkus Dev Services e precisa de Docker, mas não do Compose. Para verificar também o contrato, os gerados Go, a formatação, a análise estática e o build Go, execute `mise run ci`.
 
 O Maven gera as classes Java diretamente de `protos/`, em `api/target/generated-sources/grpc/`, antes de compilá-las. Não é necessário executar Buf para compilar Java. Os comandos e a separação entre código gerado e domínio estão no [guia dos contratos](protos/README.md).
 
@@ -137,8 +137,11 @@ Com a API no ar, a documentação das rotas fica disponível em:
 | `mise run test` | Executa os testes dos dois stacks |
 | `mise run test-unit` | Executa testes Java de domínio, aplicação e suporte sem banco |
 | `mise run test-http` | Executa testes HTTP de câmaras, lotes e documentação em memória, sem banco |
-| `mise run lint` | Verifica Maven, `gofmt` e `go vet` |
-| `mise run ci` | Reproduz o pipeline localmente |
+| `mise run proto-lint` | Valida o contrato com Buf |
+| `mise run proto-generate` | Regenera os arquivos Go a partir do contrato |
+| `mise run proto-check` | Valida o contrato e confere os gerados Go contra o Git |
+| `mise run lint` | Verifica Buf, Maven, `gofmt` e `go vet` |
+| `mise run ci` | Verifica contrato, gerados, suíte Java e verificações Go |
 | `mise run up` | Sobe os serviços com Docker Compose e acompanha os logs |
 
 ### Testes
@@ -196,7 +199,7 @@ Ao adicionar um teste HTTP sem banco, use o sufixo `HttpMemoriaTest` e selecione
 | `mise run test-unit` | Domínio, aplicação e suporte, sem iniciar Quarkus | Não |
 | `mise run test-http` | Rotas HTTP reais com persistência em memória | Não |
 | `mise run test` | Todos os testes Java e Go, incluindo integração PostgreSQL | Sim |
-| `mise run ci` | Validação Java completa, formatação, análise estática, testes e build Go | Sim |
+| `mise run ci` | Contrato e gerados, validação Java completa, formatação, análise estática, testes e build Go | Sim |
 
 #### Suíte completa e integração
 
@@ -222,7 +225,7 @@ Os testes com PostgreSQL real ficam agrupados assim:
 | `integracao.RollbackTransacionalTest` | Uma rejeição desfaz a transação inteira, inclusive gravações já enviadas ao banco antes dela. |
 | `integracao.AlocacaoConcorrenteTest` | Alocações e movimentações simultâneas não excedem a capacidade; redução de capacidade e inativação da câmara concorrentes com alocações e movimentações entre câmaras de origem e destino. |
 
-Antes de concluir uma alteração, execute `mise run ci`: ele verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Nos testes HTTP com PostgreSQL, as transações ocorrem no servidor; os dados criados precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP. A aprovação das seleções sem banco não substitui a validação do CI completo. Para comprovar o CI, confira os jobs Java / Quarkus e Go / Telemetria no PR e, após a integração, no commit da branch principal.
+Antes de concluir uma alteração, execute `mise run ci`: ele valida o contrato e os gerados, verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Nos testes HTTP com PostgreSQL, as transações ocorrem no servidor; os dados criados precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP. A aprovação das seleções sem banco não substitui a validação do CI completo. Para comprovar o CI, confira os jobs Protobuf / Buf, Java / Quarkus e Go / Telemetria no PR e, após a integração, no commit da branch principal.
 
 #### Arquitetura
 

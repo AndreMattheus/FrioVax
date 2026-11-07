@@ -8,6 +8,22 @@ permissions:
   contents: read
 
 jobs:
+  protobuf:
+    name: Protobuf / Buf
+    runs-on: ubuntu-latest
+    env:
+      MISE_ENABLE_TOOLS: go,buf
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Configurar mise, Go e Buf
+        uses: jdx/mise-action@v5
+        with:
+          version: "2026.9.18"
+          cache_key_prefix: mise-protobuf
+      - name: Validar contrato e conferir gerados Go
+        run: mise run proto-check
+
   medicao:
     name: Evidências / Sprint 2 (${{ matrix.os }})
     strategy:
