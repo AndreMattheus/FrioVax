@@ -44,8 +44,9 @@ public class AtualizarCamara {
         var agora = OffsetDateTime.now(relogio);
         int versaoAnterior = camara.getPolitica().getVersao();
 
-        // Autor ainda nulo: as rotas de câmara não exigem login. Quando a autorização por perfil proteger a rota,
-        // o usuário autenticado passa a ser informado aqui e registrado na nova versão da política.
+        // Autor ainda nulo. A rota já exige ADMINISTRADOR (#106), mas repassar o usuário autenticado até aqui
+        // fica para a auditoria (US10): a versão da política referencia `usuarios(id)`, e o autor precisa ser um
+        // usuário cadastrado.
         camara.atualizar(dados.nome(), dados.unidade(), dados.capacidade(),
             dados.temperaturaMinima(), dados.temperaturaMaxima(), dados.estado(),
             ocupacao, possuiLotesAtivos, null, agora);

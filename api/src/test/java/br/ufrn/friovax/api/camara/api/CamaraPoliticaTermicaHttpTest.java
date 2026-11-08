@@ -18,12 +18,12 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static io.restassured.RestAssured.given;
+import static br.ufrn.friovax.api.suporte.AutenticacaoHttpSupport.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** PUT de câmara de ponta a ponta com a política versionada no PostgreSQL (S2-05). */
+/** PUT de câmara de ponta a ponta com a política versionada no PostgreSQL (S2-05), autenticado como administrador. */
 @QuarkusTest
 class CamaraPoliticaTermicaHttpTest {
     private static final String ROTA = "/api/camaras/{id}";
@@ -43,24 +43,24 @@ class CamaraPoliticaTermicaHttpTest {
     void criarCamara() {
         var codigo = "H-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         id = QuarkusTransaction.requiringNew().call(() -> camaras.salvar(Camara.nova(codigo, "Câmara", "UBS teste",
-                1000, new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL,
-                OffsetDateTime.now())).getId());
+            1000, new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL,
+            OffsetDateTime.now())).getId());
     }
 
     @AfterEach
     void apagarCamara() {
         QuarkusTransaction.requiringNew().run(() -> entityManager
-                .createNativeQuery("delete from camaras where id = :id").setParameter("id", id).executeUpdate());
+            .createNativeQuery("delete from camaras where id = :id").setParameter("id", id).executeUpdate());
     }
 
     @Test
     void novaFaixaCriaVersaoPreservaAAnteriorEAvisaDepoisDoCommit() {
         given().contentType("application/json").body(corpo("3.0", "7.0"))
-                .when().put(ROTA, id).then()
-                .statusCode(200)
-                .body("temperaturaMinima", equalTo(3.0f),
-                        "temperaturaMaxima", equalTo(7.0f),
-                        "estadoTermico", equalTo("SEM_LEITURAS"));
+            .when().put(ROTA, id).then()
+            .statusCode(200)
+            .body("temperaturaMinima", equalTo(3.0f),
+                "temperaturaMaxima", equalTo(7.0f),
+                "estadoTermico", equalTo("SEM_LEITURAS"));
 
         var historico = historico();
         assertEquals(2, historico.size());
@@ -73,7 +73,7 @@ class CamaraPoliticaTermicaHttpTest {
     @Test
     void mesmaFaixaNaoCriaVersao() {
         given().contentType("application/json").body(corpo("2.0", "8.00"))
-                .when().put(ROTA, id).then().statusCode(200);
+            .when().put(ROTA, id).then().statusCode(200);
 
         assertEquals(1, historico().size());
     }
@@ -81,9 +81,9 @@ class CamaraPoliticaTermicaHttpTest {
     @Test
     void faixaInvalidaNaoCriaVersaoNemAvisa() {
         given().contentType("application/json").body(corpo("8.0", "2.0"))
-                .when().put(ROTA, id).then()
-                .statusCode(422)
-                .contentType("application/problem+json");
+            .when().put(ROTA, id).then()
+            .statusCode(422)
+            .contentType("application/problem+json");
 
         assertEquals(1, historico().size());
         assertTrue(coletor.recebidasDe("camara", id).isEmpty());
