@@ -7,6 +7,7 @@ command -v jq >/dev/null || { echo 'jq é necessário' >&2; exit 1; }
 command -v docker >/dev/null || { echo 'Docker Compose é necessário' >&2; exit 1; }
 
 api_url="${API_URL:-http://localhost:8080}"
+: "${ACCESS_TOKEN:?Defina ACCESS_TOKEN com o accessToken de um administrador (POST /api/auth/login)}"
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 response="$tmp_dir/response.json"
@@ -16,9 +17,9 @@ request() {
   local expected="$1" method="$2" path="$3" body="${4:-}" status
   if [[ -n "$body" ]]; then
     status="$(curl -sS -L -o "$response" -w '%{http_code}' -X "$method" \
-      -H 'Content-Type: application/json' --data "$body" "$api_url$path")"
+      -H "Authorization: Bearer $ACCESS_TOKEN" -H 'Content-Type: application/json' --data "$body" "$api_url$path")"
   else
-    status="$(curl -sS -L -o "$response" -w '%{http_code}' -X "$method" "$api_url$path")"
+    status="$(curl -sS -L -o "$response" -w '%{http_code}' -X "$method" -H "Authorization: Bearer $ACCESS_TOKEN" "$api_url$path")"
   fi
   if [[ "$status" != "$expected" ]]; then
     echo "$method $path: esperado HTTP $expected, recebido $status" >&2

@@ -15,6 +15,8 @@ import br.ufrn.friovax.api.lote.dominio.LoteFiltro;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import io.quarkus.security.PermissionsAllowed;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -41,10 +43,15 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+import static br.ufrn.friovax.api.autenticacao.dominio.MatrizAcesso.*;
+
 @Path("/api/lotes")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Tag(name = DocumentacaoApi.TAG_LOTES)
+@SecurityRequirement(name = "bearerAuth")
+@APIResponse(responseCode = "401", description = "Bearer ausente, inválido ou expirado.")
+@APIResponse(responseCode = "403", description = "Perfil sem permissão para esta operação.")
 @APIResponse(responseCode = "500", ref = DocumentacaoApi.ERRO_INTERNO)
 public class LoteResource {
 
@@ -71,8 +78,10 @@ public class LoteResource {
     }
 
     @POST
+    @PermissionsAllowed(GERENCIAR_CADASTRO)
     @Operation(summary = "Cadastrar lote",
-        description = "Cria um lote `DISPONIVEL` e ativo numa câmara ativa e `OPERACIONAL`, desde que a ocupação "
+        description = "Somente ADMINISTRADOR. "
+            + "Cria um lote `DISPONIVEL` e ativo numa câmara ativa e `OPERACIONAL`, desde que a ocupação "
             + "da câmara somada à `quantidade` não ultrapasse a capacidade.")
     @APIResponse(responseCode = "201", description = "Lote criado.",
         headers = @Header(name = "Location", description = "Endereço do lote criado.",
@@ -98,8 +107,10 @@ public class LoteResource {
     }
 
     @GET
+    @PermissionsAllowed(CONSULTAR_OPERACAO)
     @Operation(summary = "Listar lotes",
-        description = "Lista lotes paginados por `id` crescente. Filtros combinados usam E lógico; sem `ativo`, só "
+        description = "ADMINISTRADOR, OPERADOR ou AUDITOR. "
+            + "Lista lotes paginados por `id` crescente. Filtros combinados usam E lógico; sem `ativo`, só "
             + "aparecem lotes ativos. O intervalo de validade é inclusivo e pode ter só um dos limites.")
     @APIResponse(responseCode = "200", description = "Página de lotes; `items` vem vazio além da última página ou "
         + "quando `camaraId` não existe.")
@@ -161,8 +172,10 @@ public class LoteResource {
     }
 
     @GET
+    @PermissionsAllowed(CONSULTAR_OPERACAO)
     @Path("/{id}")
-    @Operation(summary = "Consultar lote", description = "Retorna o lote, mesmo inativo.")
+    @Operation(summary = "Consultar lote", description = "ADMINISTRADOR, OPERADOR ou AUDITOR. "
+            + "Retorna o lote, mesmo inativo.")
     @APIResponse(responseCode = "200", description = "Lote encontrado.")
     @APIResponse(responseCode = "404", ref = DocumentacaoApi.NAO_ENCONTRADO)
     public LoteResponse consultar(@Parameter(description = "Identificador técnico do lote.", example = "10")
@@ -171,9 +184,11 @@ public class LoteResource {
     }
 
     @PUT
+    @PermissionsAllowed(GERENCIAR_CADASTRO)
     @Path("/{id}")
     @Operation(summary = "Atualizar lote",
-        description = "Substitui todos os campos editáveis; todos são obrigatórios e o `codigo` não muda. A "
+        description = "Somente ADMINISTRADOR. "
+            + "Substitui todos os campos editáveis; todos são obrigatórios e o `codigo` não muda. A "
             + "quantidade pode aumentar, nunca diminuir: reduções passam pela baixa com motivo. Trocar `camaraId` "
             + "move o lote; a câmara de destino é revalidada sem contar o próprio lote, na mesma transação. Uma "
             + "rejeição não altera o lote.")
@@ -198,9 +213,11 @@ public class LoteResource {
     }
 
     @POST
+    @PermissionsAllowed(REGISTRAR_BAIXA)
     @Path("/{id}/baixas")
     @Operation(summary = "Registrar baixa de lote",
-        description = "Retira doses do lote, por aplicação (`ADMINISTRADA`) ou perda (`PERDA`). A `quantidade` "
+        description = "ADMINISTRADOR ou OPERADOR. "
+            + "Retira doses do lote, por aplicação (`ADMINISTRADA`) ou perda (`PERDA`). A `quantidade` "
             + "diminui e, ao chegar a zero, o lote passa a `ESGOTADO`. A ocupação da câmara diminui na mesma "
             + "medida. O lote é bloqueado durante a operação, então baixas simultâneas são aplicadas uma depois da "
             + "outra. Nesta versão o motivo é obrigatório, mas não é armazenado.")
@@ -221,10 +238,12 @@ public class LoteResource {
     }
 
     @POST
+    @PermissionsAllowed(DESCARTAR_LOTE)
     @Path("/{id}/descarte")
     @Consumes(MediaType.WILDCARD) // sem corpo: aceita a requisição com ou sem Content-Type
     @Operation(summary = "Descartar lote",
-        description = "Retira o lote inteiro de uso, independentemente da quantidade restante: o lote passa a "
+        description = "Somente ADMINISTRADOR. "
+            + "Retira o lote inteiro de uso, independentemente da quantidade restante: o lote passa a "
             + "`DESCARTADO` e não aceita mais baixas. A quantidade é mantida, e o lote continua ativo e ocupando a "
             + "câmara até ser inativado (`DELETE`). Repetir o descarte responde 200 sem alterar o lote.")
     @APIResponse(responseCode = "200", description = "Lote descartado, ou já descartado.")
@@ -238,9 +257,11 @@ public class LoteResource {
     }
 
     @DELETE
+    @PermissionsAllowed(GERENCIAR_CADASTRO)
     @Path("/{id}")
     @Operation(summary = "Inativar lote",
-        description = "Remoção lógica: o lote passa a `ativo=false`, continua consultável e seu código continua "
+        description = "Somente ADMINISTRADOR. "
+            + "Remoção lógica: o lote passa a `ativo=false`, continua consultável e seu código continua "
             + "reservado. A quantidade deixa de contar na ocupação da câmara. Repetir a chamada também responde 204.")
     @APIResponse(responseCode = "204", description = "Lote inativado, ou já inativo.")
     @APIResponse(responseCode = "404", ref = DocumentacaoApi.NAO_ENCONTRADO)

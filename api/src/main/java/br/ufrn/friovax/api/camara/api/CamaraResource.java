@@ -12,6 +12,8 @@ import br.ufrn.friovax.api.compartilhado.api.DocumentacaoApi;
 import br.ufrn.friovax.api.compartilhado.api.ProblemDetails;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 import br.ufrn.friovax.api.compartilhado.api.PaginaResponse;
+import io.quarkus.security.PermissionsAllowed;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.QueryParam;
 import jakarta.inject.Inject;
@@ -38,10 +40,15 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
+import static br.ufrn.friovax.api.autenticacao.dominio.MatrizAcesso.*;
+
 @Path("/api/camaras")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Tag(name = DocumentacaoApi.TAG_CAMARAS)
+@SecurityRequirement(name = "bearerAuth")
+@APIResponse(responseCode = "401", description = "Bearer ausente, inválido ou expirado.")
+@APIResponse(responseCode = "403", description = "Perfil sem permissão para esta operação.")
 @APIResponse(responseCode = "500", ref = DocumentacaoApi.ERRO_INTERNO)
 public class CamaraResource {
 
@@ -63,8 +70,10 @@ public class CamaraResource {
     }
 
     @POST
+    @PermissionsAllowed(GERENCIAR_CADASTRO)
     @Operation(summary = "Cadastrar câmara",
-        description = "Cria uma câmara ativa, com ocupação zero, em qualquer um dos estados manuais.")
+        description = "Somente ADMINISTRADOR. "
+            + "Cria uma câmara ativa, com ocupação zero, em qualquer um dos estados manuais.")
     @APIResponse(responseCode = "201", description = "Câmara criada.",
         headers = @Header(name = "Location", description = "Endereço da câmara criada.",
             schema = @Schema(type = SchemaType.STRING, format = "uri")),
@@ -91,8 +100,10 @@ public class CamaraResource {
     }
 
     @GET
+    @PermissionsAllowed(CONSULTAR_OPERACAO)
     @Operation(summary = "Listar câmaras",
-        description = "Lista câmaras paginadas por `id` crescente. Filtros combinados usam E lógico; sem `ativo`, "
+        description = "ADMINISTRADOR, OPERADOR ou AUDITOR. "
+            + "Lista câmaras paginadas por `id` crescente. Filtros combinados usam E lógico; sem `ativo`, "
             + "só aparecem câmaras ativas.")
     @APIResponse(responseCode = "200", description = "Página de câmaras; `items` vem vazio além da última página.")
     @APIResponse(responseCode = "400", ref = DocumentacaoApi.REQUISICAO_INVALIDA)
@@ -140,8 +151,10 @@ public class CamaraResource {
     }
 
     @GET
+    @PermissionsAllowed(CONSULTAR_OPERACAO)
     @Path("/{id}")
-    @Operation(summary = "Consultar câmara", description = "Retorna a câmara com sua ocupação atual, mesmo inativa.")
+    @Operation(summary = "Consultar câmara", description = "ADMINISTRADOR, OPERADOR ou AUDITOR. "
+            + "Retorna a câmara com sua ocupação atual, mesmo inativa.")
     @APIResponse(responseCode = "200", description = "Câmara encontrada.")
     @APIResponse(responseCode = "404", ref = DocumentacaoApi.NAO_ENCONTRADO)
     public CamaraResponse consultar(@Parameter(description = "Identificador técnico da câmara.", example = "1")
@@ -150,9 +163,11 @@ public class CamaraResource {
     }
 
     @PUT
+    @PermissionsAllowed(GERENCIAR_CADASTRO)
     @Path("/{id}")
     @Operation(summary = "Atualizar câmara",
-        description = "Substitui todos os campos editáveis; todos são obrigatórios e o `codigo` não muda. As "
+        description = "Somente ADMINISTRADOR. "
+            + "Substitui todos os campos editáveis; todos são obrigatórios e o `codigo` não muda. As "
             + "transições manuais entre `OPERACIONAL`, `MANUTENCAO` e `DESATIVADA` são livres, mas mudar para "
             + "`MANUTENCAO` ou `DESATIVADA` exige que a câmara não tenha lotes ativos.")
     @APIResponse(responseCode = "200", description = "Câmara atualizada.")
@@ -173,9 +188,11 @@ public class CamaraResource {
     }
 
     @DELETE
+    @PermissionsAllowed(GERENCIAR_CADASTRO)
     @Path("/{id}")
     @Operation(summary = "Inativar câmara",
-        description = "Remoção lógica: a câmara passa a `ativo=false`, continua consultável e seu código continua "
+        description = "Somente ADMINISTRADOR. "
+            + "Remoção lógica: a câmara passa a `ativo=false`, continua consultável e seu código continua "
             + "reservado. Só é permitida sem lotes ativos; repetir a chamada numa câmara já inativa também "
             + "responde 204.")
     @APIResponse(responseCode = "204", description = "Câmara inativada, ou já inativa.")

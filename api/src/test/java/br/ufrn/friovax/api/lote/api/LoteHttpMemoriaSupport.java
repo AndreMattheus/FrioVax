@@ -6,7 +6,7 @@ import io.restassured.response.ValidatableResponse;
 
 import java.util.Map;
 
-import static io.restassured.RestAssured.given;
+import static br.ufrn.friovax.api.suporte.AutenticacaoHttpSupport.given;
 import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;

@@ -56,6 +56,7 @@ Um item só chega a **Pronto** quando:
 - testes relevantes foram criados ou atualizados e passam;
 - `mise run ci` passa e o workflow está verde;
 - código, contrato e documentação permanecem coerentes;
+- cada rota nova ou alterada aplica a autenticação e a permissão da matriz da US09, documenta Bearer/401/403 e testa perfis permitidos/proibidos e ausência de efeitos nas negações, conforme [a diretriz de autorização](autorizacao.md);
 - não há segredo, dado pessoal ou alerta crítico conhecido;
 - o PR referencia a issue, informa como verificar e recebeu uma aprovação;
 - comentários de revisão foram resolvidos;

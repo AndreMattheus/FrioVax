@@ -33,10 +33,11 @@ Altere `friovax` no comando se configurou `DB_USER` ou `DB_NAME` no `.env`.
 Na raiz do clone, execute:
 
 ```bash
-bash docs/scripts/validar-sprint-1.sh
+# Obtenha o accessToken de um administrador em POST /api/auth/login.
+ACCESS_TOKEN='<accessToken>' bash docs/scripts/validar-sprint-1.sh
 ```
 
-O script usa `API_URL=http://localhost:8080` por padrão, cria códigos aleatórios para permitir novas execuções e deixa os registros de demonstração inativos ao terminar. Ele interrompe na primeira resposta inesperada. As etapas e resultados esperados são:
+Após a aplicação da US09, o script exige `ACCESS_TOKEN` de administrador e o envia como Bearer nas requisições. O script usa `API_URL=http://localhost:8080` por padrão, cria códigos aleatórios para permitir novas execuções e deixa os registros de demonstração inativos ao terminar. Ele interrompe na primeira resposta inesperada. As etapas e resultados esperados são:
 
 | Etapa | Verificação |
 |---|---|

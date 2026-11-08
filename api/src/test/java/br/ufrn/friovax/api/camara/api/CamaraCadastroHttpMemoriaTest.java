@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static io.restassured.RestAssured.given;
+import static br.ufrn.friovax.api.suporte.AutenticacaoHttpSupport.given;
 import static io.restassured.config.HttpClientConfig.httpClientConfig;
 import static io.restassured.config.RestAssuredConfig.config;
 import static org.hamcrest.Matchers.blankOrNullString;

@@ -137,6 +137,35 @@ class AutenticacaoPostgresTest {
     }
 
     @Test
+    void negacoesNasRotasOperacionaisNaoConsultamNemGravamNoPostgres() {
+        var operador = login("operador", SENHA).then().statusCode(200).extract().<String>path("accessToken");
+        var auditor = login("auditor", SENHA).then().statusCode(200).extract().<String>path("accessToken");
+        var stats = em.getEntityManagerFactory().unwrap(SessionFactory.class).getStatistics();
+        long comandos = stats.getPrepareStatementCount();
+        for (var rota : List.of(
+                List.of("GET", "/api/camaras"), List.of("GET", "/api/camaras/1"),
+                List.of("POST", "/api/camaras"), List.of("PUT", "/api/camaras/1"),
+                List.of("DELETE", "/api/camaras/1"), List.of("GET", "/api/lotes"),
+                List.of("GET", "/api/lotes/1"), List.of("POST", "/api/lotes"),
+                List.of("PUT", "/api/lotes/1"), List.of("DELETE", "/api/lotes/1"),
+                List.of("POST", "/api/lotes/1/baixas"), List.of("POST", "/api/lotes/1/descarte"))) {
+            given().contentType("application/json").body(Map.of("perfil", "ADMINISTRADOR"))
+                    .request(rota.get(0), rota.get(1)).then().statusCode(401);
+            if (!rota.get(0).equals("GET")) {
+                given().auth().oauth2(auditor).contentType("application/json")
+                        .body(Map.of("perfil", "ADMINISTRADOR", "ator", "forjado"))
+                        .request(rota.get(0), rota.get(1)).then().statusCode(403);
+                if (!rota.get(1).endsWith("/baixas")) {
+                    given().auth().oauth2(operador).contentType("application/json")
+                            .body(Map.of("perfil", "ADMINISTRADOR", "ator", "forjado"))
+                            .request(rota.get(0), rota.get(1)).then().statusCode(403);
+                }
+            }
+            assertEquals(comandos, stats.getPrepareStatementCount(), rota.toString());
+        }
+    }
+
+    @Test
     void openApiDocumentaRotacaoLogoutEEsquemaBearer() {
         given().accept("application/json").get("/q/openapi").then().statusCode(200)
                 .body("components.securitySchemes.bearerAuth.scheme", equalTo("bearer"),
