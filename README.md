@@ -33,6 +33,7 @@ Este repositório contém o produto comum de:
 - [Retrospectiva da Sprint 1 — reunião de 15/10](docs/retrospectiva-01.md)
 - [Métricas de fluxo da Sprint 1](docs/metricas-sprint-1.md)
 - [Contrato da API — Câmaras e Lotes](docs/contrato-api.md)
+- [Contrato Protobuf — Telemetria e geração Java/Go](protos/README.md)
 - [Roteiro de validação da Sprint 1](docs/validacao-sprint-1.md)
 - [ADR 0001 — Arquitetura em camadas](docs/decisoes/0001-arquitetura-em-camadas.md)
 - [ADR 0002 — Domínio independente e aplicação por interfaces](docs/decisoes/0002-dominio-independente-e-aplicacao-por-interfaces.md) — substitui o ADR 0001
@@ -51,14 +52,14 @@ Este repositório contém o produto comum de:
 .
 ├── api/                    # API Java 25/Quarkus
 ├── services/telemetry/      # Microsserviço Go de telemetria
-├── protos/                 # Reservado aos contratos da Sprint 2
+├── protos/                 # Contrato Protobuf compartilhado entre Java e Go
 ├── docs/                   # Contrato da API, arquitetura e documentos do projeto
 ├── .github/workflows/      # CI dos dois stacks
 ├── docker-compose.yml
 └── mise.toml
 ```
 
-A API Java concentra os casos de uso, as regras de negócio e a persistência em PostgreSQL. Sua organização em `api`, `aplicacao`, `dominio` e `persistencia` está descrita no ADR 0002. O serviço Go possui atualmente a rota de saúde; o processamento de telemetria e a integração por Protobuf/gRPC estão previstos para a Sprint 2.
+A API Java concentra os casos de uso, as regras de negócio e a persistência em PostgreSQL. Sua organização em `api`, `aplicacao`, `dominio` e `persistencia` está descrita no ADR 0002. O contrato Protobuf gera código Go versionado e classes Java durante o build Maven. O serviço Go possui a rota de saúde; a geração do contrato não implementa a análise térmica nem a chamada entre serviços.
 
 A [ADR 0003](docs/decisoes/0003-servico-go-telemetria.md) define que Java envie janelas de leituras para análise concorrente no Go, sem banco compartilhado nem contadores entre chamadas. Go devolverá resultados por leitura; Java revalidará os dados e confirmará ocorrências e estado térmico em transações curtas, sem manter lock durante a chamada remota. O documento explica política térmica, limiar, reenvios, prazos e falhas, com exemplos e diagrama. Essas funcionalidades ainda não estão implementadas.
 
@@ -77,7 +78,9 @@ mise run build
 mise run test
 ```
 
-`mise trust` confia nas tarefas definidas neste repositório; revise `mise.toml` antes de executá-lo. `mise run test` usa um PostgreSQL temporário iniciado pelo Quarkus Dev Services e precisa de Docker, mas não do Compose. Para verificar também formatação, análise estática e build Go, execute `mise run ci`.
+`mise trust` confia nas tarefas definidas neste repositório; revise `mise.toml` antes de executá-lo. `mise run test` usa um PostgreSQL temporário iniciado pelo Quarkus Dev Services e precisa de Docker, mas não do Compose. Para verificar também o contrato, os gerados Go, a formatação, a análise estática e o build Go, execute `mise run ci`.
+
+O Maven gera as classes Java diretamente de `protos/`, em `api/target/generated-sources/grpc/`, antes de compilá-las. Não é necessário executar Buf para compilar Java. Os comandos e a separação entre código gerado e domínio estão no [guia dos contratos](protos/README.md).
 
 Para subir a API, o serviço Go e o banco, gere primeiro as chaves e senhas locais:
 
@@ -87,6 +90,32 @@ mise run up
 ```
 
 Esse comando mantém o Compose no terminal. Aguarde os serviços ficarem prontos; para encerrar, use `Ctrl+C` e `docker compose down`. O volume do banco permanece para a próxima subida. O [roteiro de validação](docs/validacao-sprint-1.md) exercita a API e confere os dados após reiniciar o serviço.
+
+### Build Docker da API
+
+Execute na raiz do repositório:
+
+```bash
+docker compose build api
+# Alternativa sem Compose:
+docker build -f api/Dockerfile -t friovax-api .
+```
+
+O contexto de build é o conjunto de arquivos que o Docker pode acessar. No Compose,
+`context: .` disponibiliza a raiz, incluindo `api/` e `protos/`;
+`dockerfile: api/Dockerfile` indica a receita de construção. Usar apenas `api/`
+como contexto impediria copiar o contrato que está na pasta irmã `protos/`.
+
+```text
+Repositório (contexto .)       Estágio de build da imagem
+api/pom.xml e api/src/    ->   /workspace/api/
+protos/                  ->   /workspace/protos/
+```
+
+Assim, o caminho `../protos` usado pelo Maven funciona no computador e no Docker.
+O `.dockerignore` da raiz exclui histórico Git, arquivos locais de ambiente e
+saídas de compilação. O Dockerfile copia somente as entradas necessárias; a imagem
+final recebe o aplicativo compilado, sem Maven ou fontes do projeto.
 
 Em outro terminal, confira as rotas de saúde:
 
@@ -109,8 +138,11 @@ Com a API no ar, a documentação das rotas fica disponível em:
 | `mise run test` | Executa os testes dos dois stacks |
 | `mise run test-unit` | Executa testes Java de domínio, aplicação e suporte sem banco |
 | `mise run test-http` | Executa testes HTTP de câmaras, lotes e documentação em memória, sem banco |
-| `mise run lint` | Verifica Maven, `gofmt` e `go vet` |
-| `mise run ci` | Reproduz o pipeline localmente |
+| `mise run proto-lint` | Valida o contrato com Buf |
+| `mise run proto-generate` | Regenera os arquivos Go a partir do contrato |
+| `mise run proto-check` | Valida o contrato e confere os gerados Go contra o Git |
+| `mise run lint` | Verifica Buf, Maven, `gofmt` e `go vet` |
+| `mise run ci` | Verifica contrato, gerados, suíte Java e verificações Go |
 | `mise run up` | Sobe os serviços com Docker Compose e acompanha os logs |
 
 ### Autenticação e sessões
@@ -204,7 +236,7 @@ Ao adicionar um teste HTTP sem banco, use o sufixo `HttpMemoriaTest` e selecione
 | `mise run test-unit` | Domínio, aplicação e suporte, sem iniciar Quarkus | Não |
 | `mise run test-http` | Rotas HTTP reais com persistência em memória | Não |
 | `mise run test` | Todos os testes Java e Go, incluindo integração PostgreSQL | Sim |
-| `mise run ci` | Validação Java completa, formatação, análise estática, testes e build Go | Sim |
+| `mise run ci` | Contrato e gerados, validação Java completa, formatação, análise estática, testes e build Go | Sim |
 
 #### Suíte completa e integração
 
@@ -230,7 +262,7 @@ Os testes com PostgreSQL real ficam agrupados assim:
 | `integracao.RollbackTransacionalTest` | Uma rejeição desfaz a transação inteira, inclusive gravações já enviadas ao banco antes dela. |
 | `integracao.AlocacaoConcorrenteTest` | Alocações e movimentações simultâneas não excedem a capacidade; redução de capacidade e inativação da câmara concorrentes com alocações e movimentações entre câmaras de origem e destino. |
 
-Antes de concluir uma alteração, execute `mise run ci`: ele verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Nos testes HTTP com PostgreSQL, as transações ocorrem no servidor; os dados criados precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP. A aprovação das seleções sem banco não substitui a validação do CI completo. Para comprovar o CI, confira os jobs Java / Quarkus e Go / Telemetria no PR e, após a integração, no commit da branch principal.
+Antes de concluir uma alteração, execute `mise run ci`: ele valida o contrato e os gerados, verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Nos testes HTTP com PostgreSQL, as transações ocorrem no servidor; os dados criados precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP. A aprovação das seleções sem banco não substitui a validação do CI completo. Para comprovar o CI, confira os jobs Protobuf / Buf, Java / Quarkus e Go / Telemetria no PR e, após a integração, no commit da branch principal.
 
 #### Arquitetura
 

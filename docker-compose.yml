@@ -19,7 +19,8 @@ services:
 
   api:
     build:
-      context: ./api
+      context: .
+      dockerfile: api/Dockerfile
     env_file:
       - .env.auth
     volumes:

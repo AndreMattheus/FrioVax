@@ -2,6 +2,32 @@
 go = "1.27"
 java = "temurin-25"
 maven = "3.9.16"
+buf = "1.75.0"
+
+[tasks.proto-lint]
+description = "Valida o contrato Protobuf com STANDARD e COMMENTS"
+dir = "protos"
+run = "buf lint"
+
+[tasks.proto-generate]
+description = "Gera os stubs Go com plugins locais de versões fixadas (primeiro uso requer internet)"
+dir = "protos"
+run = "buf generate"
+
+[tasks.proto-check]
+description = "Valida e regenera o contrato, exigindo gerados Go sincronizados com o Git"
+run = [
+  "mise run proto-lint",
+  "mise run proto-generate",
+  "git diff --exit-code -- services/telemetry/gen",
+  'untracked=$(git ls-files --others -- services/telemetry/gen) && if [ -n "$untracked" ]; then printf "%s\n" "$untracked"; exit 1; fi',
+]
+run_windows = [
+  "mise run proto-lint",
+  "mise run proto-generate",
+  "git diff --exit-code -- services/telemetry/gen",
+  'powershell -NoProfile -Command "$files = @(git ls-files --others -- services/telemetry/gen); if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; if ($files.Count -gt 0) { $files; exit 1 }"',
+]
 
 [tasks.build]
 description = "Compila o serviço Java e o microsserviço Go"
@@ -28,11 +54,13 @@ run = 'mvn --batch-mode -f api/pom.xml "-Dtest=*HttpMemoriaTest" test'
 [tasks.lint]
 description = "Verifica a formatação e a compilação"
 run = [
+  "mise run proto-lint",
   "mvn --batch-mode -f api/pom.xml -DskipTests verify",
   "test -z \"$(gofmt -l services/telemetry)\"",
   "go -C services/telemetry vet ./...",
 ]
 run_windows = [
+  "mise run proto-lint",
   "mvn --batch-mode -f api/pom.xml -DskipTests verify",
   'powershell -NoProfile -Command "$files = @(gofmt -l services/telemetry); if ($files.Count -gt 0) { $files; exit 1 }"',
   "go -C services/telemetry vet ./...",
@@ -45,6 +73,7 @@ run = "docker compose up --build"
 [tasks.ci]
 description = "Reproduz localmente o pipeline de CI"
 run = [
+  "mise run proto-check",
   "mvn --batch-mode -f api/pom.xml verify",
   "test -z \"$(gofmt -l services/telemetry)\"",
   "go -C services/telemetry vet ./...",
@@ -52,6 +81,7 @@ run = [
   "go -C services/telemetry build -o bin/telemetry ./cmd/server",
 ]
 run_windows = [
+  "mise run proto-check",
   "mvn --batch-mode -f api/pom.xml verify",
   'powershell -NoProfile -Command "$files = @(gofmt -l services/telemetry); if ($files.Count -gt 0) { $files; exit 1 }"',
   "go -C services/telemetry vet ./...",

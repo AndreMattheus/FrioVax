@@ -1,0 +1,150 @@
+syntax = "proto3";
+
+package friovax.telemetry.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/AndreMattheus/FrioVax/services/telemetry/gen/friovax/telemetry/v1;telemetryv1";
+option java_multiple_files = true;
+option java_package = "br.ufrn.friovax.telemetry.v1";
+
+// TelemetryService analisa janelas sem persistir dados nem confirmar ocorrências.
+service TelemetryService {
+  // AnalyzeReadings preserva a ordem das janelas e de todas as candidatas.
+  // Validação de uma janela produz WindowError sem cancelar as demais.
+  // Estrutura global inválida retorna INVALID_ARGUMENT; cancelamento retorna
+  // CANCELLED; prazo esgotado, DEADLINE_EXCEEDED; falha interna global, INTERNAL.
+  // O cliente configura deadline de 800 ms e não repete falhas de transporte.
+  rpc AnalyzeReadings(AnalyzeReadingsRequest) returns (AnalyzeReadingsResponse);
+}
+
+// AnalyzeReadingsRequest contém de 1 a 50 candidatas no total, sem câmaras repetidas.
+// Os limites e invariantes comentados serão validados pelos adaptadores/domínio;
+// Protobuf e buf lint verificam a estrutura do contrato, não regras de negócio.
+message AnalyzeReadingsRequest {
+  // Identificador não vazio de correlação, preservado na resposta.
+  string correlation_id = 1;
+  // Uma janela por câmara, com pelo menos uma candidata em cada janela.
+  repeated ReadingWindow windows = 2;
+}
+
+// AnalyzeReadingsResponse contém uma resposta por janela, na ordem recebida.
+message AnalyzeReadingsResponse {
+  // Mesmo identificador recebido na requisição.
+  string correlation_id = 1;
+  // Resultados independentes; erro global da RPC não confirma resultados parciais.
+  repeated WindowResult results = 2;
+}
+
+// ReadingWindow reúne política, histórico necessário e novas leituras de uma câmara.
+message ReadingWindow {
+  // Identificador positivo da câmara, correspondente ao Long da API Java.
+  int64 chamber_id = 1;
+  // Política vigente obrigatória, comum a todas as leituras da janela.
+  ThermalPolicy policy = 2;
+  // Últimas leituras aceitas, em ordem estritamente crescente de instante.
+  // Até N-1 itens (máximo 99), sem atravessar mudança de política ou resolução.
+  // N=1 exige contexto vazio. Contexto não gera resultados nem novos efeitos.
+  repeated Reading context = 3;
+  // Novas leituras em ordem estritamente crescente, posteriores ao contexto.
+  // De 1 a 50 itens, respeitando o total global de 50 e sem IDs externos repetidos
+  // entre contexto e candidatas. Java valida também a última leitura persistida.
+  repeated Reading candidates = 4;
+}
+
+// ThermalPolicy define faixa inclusiva e limiar de leituras inseguras consecutivas.
+message ThermalPolicy {
+  // Versão positiva da política; mudar a versão reinicia o contexto considerado.
+  int64 version = 1;
+  // Mínimo em décimos de grau Celsius (-9999 a 9999), menor que o máximo.
+  optional int32 minimum_temperature_tenths_celsius = 2;
+  // Máximo em décimos de grau Celsius (-9999 a 9999); igualdade é segura.
+  optional int32 maximum_temperature_tenths_celsius = 3;
+  // Limiar N de 1 a 100; valores abaixo e acima da faixa contam na mesma sequência.
+  int32 consecutive_unsafe_threshold = 4;
+}
+
+// Reading identifica uma medição, seja contexto persistido ou candidata nova.
+message Reading {
+  // ID externo não vazio e sem normalização silenciosa; chave junto da câmara.
+  string external_id = 1;
+  // Deve corresponder à câmara da janela; permite detectar mistura de câmaras.
+  int64 chamber_id = 2;
+  // Deve corresponder à versão da política da janela.
+  int64 policy_version = 3;
+  // Temperatura obrigatória em décimos de grau Celsius (-9999 a 9999).
+  // Exemplo: 87 representa 8,7 °C. Não arredondar; zero é válido e difere de ausência.
+  optional int32 temperature_tenths_celsius = 4;
+  // Instante obrigatório e válido, normalizado para UTC, com precisão de nanossegundos.
+  google.protobuf.Timestamp measured_at = 5;
+}
+
+// WindowResult associa exclusivamente sucesso ou erro a uma janela recebida.
+message WindowResult {
+  // Identificador da câmara recebido na janela.
+  int64 chamber_id = 1;
+  // Versão recebida; zero se ausente/inválida na entrada rejeitada.
+  int64 policy_version = 2;
+  // Exatamente uma alternativa deve estar preenchida; ausência é resposta inválida.
+  oneof outcome {
+    // Resultados de todas as candidatas da janela válida.
+    WindowAnalysis analysis = 3;
+    // Rejeição da janela inteira, sem resultados térmicos aplicáveis.
+    WindowError error = 4;
+  }
+}
+
+// WindowAnalysis contém um resultado para cada candidata, na ordem recebida.
+message WindowAnalysis {
+  // Nunca reduzir à última candidata: um sinal intermediário deve ser preservado.
+  repeated CandidateResult candidates = 1;
+}
+
+// CandidateResult descreve o cálculo, sem determinar estado operacional ou gravar efeitos.
+message CandidateResult {
+  // ID externo da candidata correspondente, dentro da câmara do resultado.
+  string external_id = 1;
+  // Classificação da temperatura; UNSPECIFIED não é resultado válido.
+  ReadingClassification classification = 2;
+  // Sequência insegura limitada a N; segura retorna zero e reinicia a sequência.
+  int32 consecutive_unsafe_count = 3;
+  // Verdadeiro quando a candidata insegura atinge ou mantém N.
+  // Java impede abertura duplicada e não resolve ocorrência por leitura segura.
+  bool threshold_reached = 4;
+  // IDs externos das últimas inseguras consecutivas, em ordem cronológica, até N.
+  // Inclui a candidata atual e pode referenciar contexto ou candidatas anteriores.
+  // Todos pertencem à mesma câmara/versão. Segura retorna lista vazia.
+  repeated string evidence_external_ids = 5;
+}
+
+// ReadingClassification compara a temperatura com os limites inclusivos da política.
+enum ReadingClassification {
+  // Ausência de classificação; não usar como resultado de uma análise válida.
+  READING_CLASSIFICATION_UNSPECIFIED = 0;
+  // Temperatura entre mínimo e máximo, inclusive.
+  READING_CLASSIFICATION_SAFE = 1;
+  // Temperatura menor que o mínimo ou maior que o máximo.
+  READING_CLASSIFICATION_UNSAFE = 2;
+}
+
+// WindowError representa falha de validação interna restrita a uma câmara.
+message WindowError {
+  // Código estável para tratamento pelo adaptador; UNSPECIFIED não é válido.
+  WindowErrorCode code = 1;
+  // Descrição para diagnóstico, sem stack, credenciais ou decisão baseada no texto.
+  string description = 2;
+}
+
+// WindowErrorCode distingue erros nomeados sem acoplar o contrato a HTTP.
+enum WindowErrorCode {
+  // Erro não especificado; não utilizar em uma resposta válida.
+  WINDOW_ERROR_CODE_UNSPECIFIED = 0;
+  // Janela incompleta, limites, IDs, temperaturas ou ordem de leituras inválidos.
+  WINDOW_ERROR_CODE_INVALID_WINDOW = 1;
+  // Política ausente ou incoerente (versão, faixa ou limiar inválidos).
+  WINDOW_ERROR_CODE_INVALID_POLICY = 2;
+  // Leitura pertence a uma câmara diferente da janela.
+  WINDOW_ERROR_CODE_CHAMBER_MISMATCH = 3;
+  // Leitura pertence a outra versão de política.
+  WINDOW_ERROR_CODE_POLICY_VERSION_MISMATCH = 4;
+}

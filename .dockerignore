@@ -1,0 +1,15 @@
+# Arquivos locais e histórico não participam do build.
+.git
+.idea
+.vscode
+.codex
+.agents
+**/.secrets
+**/.env
+**/.env.*
+**/*.log
+
+# Saídas locais são reconstruídas dentro da imagem.
+**/target
+**/bin
+**/coverage.out
