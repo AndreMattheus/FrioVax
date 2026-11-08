@@ -58,17 +58,17 @@ public class CamaraRepositoryEmMemoria implements CamaraRepository {
     @Override
     public synchronized Pagina<Camara> listar(CamaraFiltro filtro, Paginacao paginacao) {
         var filtradas = camaras.values().stream()
-                .filter(camara -> camara.isAtivo() == filtro.ativo())
-                .filter(camara -> filtro.unidade() == null || camara.getUnidade().equalsIgnoreCase(filtro.unidade()))
-                .filter(camara -> filtro.estado() == null || camara.getEstado() == filtro.estado())
-                .map(CamaraRepositoryEmMemoria::copia)
-                .toList();
+            .filter(camara -> camara.isAtivo() == filtro.ativo())
+            .filter(camara -> filtro.unidade() == null || camara.getUnidade().equalsIgnoreCase(filtro.unidade()))
+            .filter(camara -> filtro.estado() == null || camara.getEstado() == filtro.estado())
+            .map(CamaraRepositoryEmMemoria::copia)
+            .toList();
         return Paginador.paginar(filtradas, paginacao);
     }
 
     private static Camara copia(Camara camara) {
         return Camara.reconstituir(camara.getId(), camara.getCodigo(), camara.getNome(), camara.getUnidade(),
-                camara.getCapacidade(), camara.getTemperaturaMinima(), camara.getTemperaturaMaxima(),
-                camara.getEstado(), camara.isAtivo(), camara.getCriadoEm(), camara.getAtualizadoEm());
+            camara.getCapacidade(), camara.getPolitica(), camara.getEstadoTermico(),
+            camara.getEstado(), camara.isAtivo(), camara.getCriadoEm(), camara.getAtualizadoEm());
     }
 }
