@@ -47,7 +47,7 @@ Para a publicação da #88, o titular ainda deve confirmar neste registro ou no 
 - Neon PostgreSQL 17 com conexão direta, TLS validado e papéis/grants de migração e runtime.
 - Restrições de publicação do environment GitHub `producao` à branch `main` e aprovação humana quando disponível; migração no startup Render desabilitada. O cadastro dos secrets e de `API_BASE_URL` já foi confirmado acima.
 - Armazenamento privado, retenção e acesso ao backup definidos, com restauração conferida.
-- Risco de mutação anônima até #81 reconhecido pelo titular e revisor, com dados exclusivamente fictícios.
+- Autenticação e perfis da #81 verificados no ambiente publicado, com credenciais para o smoke autenticado e dados exclusivamente fictícios.
 
 A criação das contas, a titularidade, os planos, as regiões, o responsável pela operação/backups e o cadastro dos secrets e da variável pública no GitHub estão **confirmados por relato do titular**. Os demais itens de configuração e publicação acima continuam pendentes. A responsabilidade pelos backups não comprova que armazenamento, retenção ou restauração remota já estejam configurados. A dependência #65 foi consultada em 04/11/2026 e está concluída.
 
@@ -59,13 +59,13 @@ O serviço Go **não será publicado**. Avaliar a integração por `docker compo
 
 A API deve iniciar e atender inventário sem Go. Quando a integração da ADR 0003 for implementada, telemetria desabilitada/ausente deve rejeitar novas análises com erro controlado `503`, sem inventar resultados nem confirmar parcialmente efeitos oficiais. Não chamar Go em observer de startup, liveness ou health check do provedor. Registrar endpoint/flag de desabilitação e testar a degradação na issue da integração antes de publicá-la. Esta ADR não implementa antecipadamente esse contrato.
 
-Até a autorização por perfis da [#81](https://github.com/AndreMattheus/FrioVax/issues/81), as rotas de mutação podem estar anônimas. A URL acadêmica usará **somente dados fictícios**, sem dados pessoais, credenciais de terceiros ou inventário real; qualquer visitante pode alterar esses dados. O titular e o revisor precisam reconhecer esse risco no registro antes da publicação inicial. Dados de demonstração não substituem autenticação/autorização.
+As rotas de câmaras e lotes exigem Bearer JWT e aplicam a [matriz de autorização da #81](../autorizacao.md). Administrador gerencia cadastros e descarte; operador consulta e registra baixas; auditor consulta. A URL acadêmica usará **somente dados fictícios**, sem dados pessoais, credenciais de terceiros ou inventário real. Antes da publicação inicial, verificar que requisições sem token recebem 401 e perfis sem permissão recebem 403.
 
 ### Saúde
 
 Configurar no Render **`GET /api/status`**, que retorna `200` com `service=friovax-api` e `status=UP`. É uma verificação do processo HTTP, sem banco nem Go. Isso evita que ausência de telemetria ou partida a frio do banco provoquem uma sequência de reinícios. Não acrescentar dependências remotas a essa rota.
 
-Separadamente, o smoke do job verifica `GET /q/health/ready` (inclui o datasource) e uma consulta de inventário, com timeout e tentativas limitadas. Se o banco não estiver disponível, o deployment falha e exige investigação; o status do processo sozinho não é evidência de prontidão do banco. Esses endpoints devem permanecer acessíveis ao health check após a autenticação. [Health checks do Render](https://render.com/docs/health-checks).
+Separadamente, o smoke do job verifica `GET /q/health/ready` (inclui o datasource) e uma consulta de inventário, com timeout e tentativas limitadas. `/api/status` e `/q/health/ready` permanecem públicos. Para consultar o inventário, o job faz login em `POST /api/auth/login` com uma conta de consulta, como AUDITOR, e envia o `accessToken` recebido em `Authorization: Bearer <accessToken>`. As credenciais ficam nos secrets do environment `producao`; credenciais e tokens não entram nos logs. Se o banco não estiver disponível ou a consulta autenticada falhar, o deployment falha e exige investigação; o status do processo sozinho não é evidência de prontidão do banco. [Health checks do Render](https://render.com/docs/health-checks).
 
 ### Conexão PostgreSQL e TLS
 
@@ -171,8 +171,8 @@ Migração compatível, SHA imutável e confirmação do deploy reduzem o risco 
 O procedimento para conferir esta decisão usa somente banco e containers descartáveis, sem credenciais ou connection string de produção:
 
 1. Criar PostgreSQL 17 isolado e aplicar as migrações do repositório com Flyway 12.0.0, usando a sequência de validação/migração desta ADR.
-2. Construir `api/Dockerfile` e iniciar a API apontando para esse banco, com `QUARKUS_FLYWAY_MIGRATE_AT_START=false`, sem iniciar Go e com telemetria apontando para uma porta local sem serviço. Conferir `/api/status` e `/q/health/ready` retornando `UP`.
-3. Criar uma câmara fictícia pela API, guardar seu ID/representação persistida e gerar backup com `pg_dump`.
+2. Construir `api/Dockerfile` e iniciar a API apontando para esse banco, com `QUARKUS_FLYWAY_MIGRATE_AT_START=false`, chaves JWT próprias do ensaio e uma conta ADMINISTRADOR provisionada para o teste, sem iniciar Go e com telemetria apontando para uma porta local sem serviço. Conferir `/api/status` e `/q/health/ready` retornando `UP` sem autenticação.
+3. Fazer login em `POST /api/auth/login` com a conta ADMINISTRADOR e enviar o Bearer recebido para criar uma câmara fictícia pela API. Usar Bearer também nas consultas posteriores, renovando a sessão se necessário; guardar o ID/representação persistida da câmara e gerar backup com `pg_dump`.
 4. Somente numa cópia temporária das migrações, acrescentar uma migração com `CREATE TABLE ensaio_parcial(id int); SELECT 1/0;`. Executar Flyway e exigir retorno diferente de zero, tabela parcial ausente, histórico anterior preservado e registro HTTP inalterado. O erro deve interromper o procedimento antes do deploy.
 5. Na cópia temporária, substituir a migração não aplicada por uma aditiva válida. Aplicá-la, recriar o container da imagem anterior e conferir o mesmo registro e histórico novo. Não alterar migrações oficiais nem SQL já aplicado.
 6. Restaurar o backup em outro banco vazio com `pg_restore --exit-on-error`, comparar o registro e o histórico do backup, preservando o banco de origem. Remover apenas os recursos descartáveis criados pelo ensaio.
