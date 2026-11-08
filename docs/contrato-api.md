@@ -14,7 +14,7 @@ Itens marcados com **⚠️ Pendente** dependem de validação externa e não de
 | D2 | Unidade da câmara | Representada pelo campo texto obrigatório `unidade` na câmara. A entidade Unidade prevista na [proposta](proposta.md#4-entidades-principais) fica **adiada**; não haverá um terceiro CRUD nesta sprint.                                                                                                 |
 | D3 | Identificadores | `id` é o identificador técnico (inteiro gerado pelo banco) usado nas rotas. `codigo` da câmara e `codigo` do lote são identificadores de negócio únicos, normalizados (ver [§2.3](#23-normalização)).                                                                                                   |
 | D4 | Unidade de contagem | `capacidade` da câmara e `quantidade` do lote são contadas em **doses**, sempre inteiros positivos.                                                                                                                                                                                                     |
-| D5 | Estado da câmara | estado (operacional) é independente de ativo (cadastro). Valores manuais: OPERACIONAL, MANUTENCAO e DESATIVADA. Detecção térmica não é antecipada (ver [§3.1](#31-estado-da-câmara)).                                                                                                                   |
+| D5 | Estado da câmara | `estado` (operacional) é independente de `ativo` (cadastro) e de `estadoTermico` (situação térmica). Valores manuais: `OPERACIONAL`, `MANUTENCAO` e `DESATIVADA`. A situação térmica é atribuída só pelo sistema (ver [§3.1](#31-estado-da-câmara) e [§3.5](#35-política-térmica)). |
 | D6 | Ocupação | `ocupacao` = soma de `quantidade` dos lotes **ativos** da câmara. Inativar um lote libera capacidade.                                                                                                                                                                                                   |
 | D7 | Alteração de câmara | Rejeitada com `409` se reduzir `capacidade` abaixo da `ocupacao`. Inativação de câmara com lotes ativos também retorna `409`.                                                                                                                                                                           |
 | D8 | Alteração de lote | Editáveis: `imunobiologico`, `fabricante`, `validade`, `quantidade` e `camaraId` (troca de câmara permitida). A quantidade pode aumentar, com revalidação da capacidade, mas não diminuir por PUT: toda redução passa pela baixa com motivo (ver §3.4). `codigo` é imutável. |
@@ -39,9 +39,10 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 | `nome` | string | Obrigatório | 1 a 100 caracteres após `trim`.                                                      |
 | `unidade` | string | Obrigatório | 1 a 100 caracteres após `trim`.                                                      |
 | `capacidade` | integer (int32) | Obrigatório | `> 0`, em doses; não pode ficar abaixo de `ocupacao`.                                |
-| `temperaturaMinima` | number (decimal, 1 casa) | Obrigatório | Em °C; de `-999.9` a `999.9`; `temperaturaMinima < temperaturaMaxima`. |
-| `temperaturaMaxima` | number (decimal, 1 casa) | Obrigatório | Em °C; de `-999.9` a `999.9`. |
+| `temperaturaMinima` | number (decimal, 1 casa) | Obrigatório | Em °C; de `-999.9` a `999.9`; `temperaturaMinima < temperaturaMaxima`. Pertence à política térmica vigente (ver [§3.5](#35-política-térmica)). |
+| `temperaturaMaxima` | number (decimal, 1 casa) | Obrigatório | Em °C; de `-999.9` a `999.9`. Pertence à política térmica vigente. |
 | `estado` | string (enum) | Obrigatório | `OPERACIONAL`,`MANUTENCAO` ou `DESATIVADA`.                                          |
+| `estadoTermico` | string (enum) | — | Somente leitura; atribuído só pelo sistema. `SEM_LEITURAS` (inicial), `NORMAL`, `ATENCAO` ou `EM_ALERTA` (ADR 0003). Independente de `estado`. |
 | `ocupacao` | integer (int32) | — | Somente leitura; soma dos lotes ativos.                                              |
 | `ativo` | boolean | — | Somente leitura; alterado apenas por `DELETE`.                                       |
 | `criadoEm` | string (date-time) | — | Somente leitura.                                                                     |
@@ -91,7 +92,7 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 - O cadastro aceita qualquer um desses três estados e cria a câmara com `ativo=true` e `ocupacao=0`.
 - Transições manuais permitidas via PUT: `OPERACIONAL` ↔ `MANUTENCAO` ↔ `DESATIVADA`.
 - Colocar em `MANUTENCAO` ou `DESATIVADA` uma câmara com lotes ativos alocados retorna 409 — os lotes precisam ser movidos para outra câmara antes da transição, pelo mesmo motivo já aplicado à inativação (D7).
-- Estados ligados à excursão térmica (por exemplo `EM_ALERTA`) serão definidos na Sprint 2 (US05) e só poderão ser atribuídos pelo sistema.
+- A situação térmica (inclusive `EM_ALERTA`) não usa este campo: fica em `estadoTermico`, atribuído só pelo sistema (ver [§3.5](#35-política-térmica)).
 - Uma câmara inativa não pode ser alterada (`PUT` → `409`).
 
 ### 3.2 Alocação de lotes
@@ -119,6 +120,16 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 | `DESCARTADO` | Transição manual, via `POST /api/lotes/{id}/descarte`, para lotes retirados de circulação antes de esgotar (ex.: violação de temperatura, dano) |
 
 Um lote `DESCARTADO` não aceita mais uso (`POST /api/lotes/{id}/baixas` → `409`).
+
+### 3.5 Política térmica
+
+A faixa térmica da câmara pertence a uma política versionada, com faixa e limiar N de leituras inseguras consecutivas ([ADR 0003](decisoes/0003-servico-go-telemetria.md), seção 2). A política é a única fonte oficial da faixa.
+
+- A câmara nova, ou já existente antes da migração V4, começa na versão 1, com a faixa informada e limiar `3` (valor de demonstração), e com `estadoTermico` = `SEM_LEITURAS`. Nenhuma leitura é inventada.
+- No `PUT /api/camaras/{id}`, uma faixa diferente da vigente cria nova versão, preservando o limiar. A mesma faixa, inclusive com outra escala (`8` e `8.00`), não cria versão.
+- Versões anteriores nunca são alteradas nem apagadas. Uma nova versão reinicia a sequência: sem ocorrência aberta, `estadoTermico` volta a `SEM_LEITURAS`; em `EM_ALERTA`, continua em alerta.
+- O limiar vai de `1` a `100`. A alteração do limiar e a consulta do histórico de versões pela API ficam para a rota de política (S2-14).
+- Uma edição confirmada da câmara gera um aviso interno de mudança, entregue somente depois do commit, para a auditoria (US10).
 
 ## 4. Rotas
 
@@ -236,6 +247,7 @@ Content-Type: application/json
   "temperaturaMinima": 2.0,
   "temperaturaMaxima": 8.0,
   "estado": "OPERACIONAL",
+  "estadoTermico": "SEM_LEITURAS",
   "ocupacao": 0,
   "ativo": true,
   "criadoEm": "2026-09-23T14:05:00-03:00",

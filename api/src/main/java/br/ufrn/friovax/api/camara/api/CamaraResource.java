@@ -92,7 +92,7 @@ public class CamaraResource {
         var resultado = service.cadastrar(dados);
         var resposta = new CamaraResponse(resultado.id(), resultado.codigo(), resultado.nome(), resultado.unidade(),
             resultado.capacidade(), resultado.temperaturaMinima(), resultado.temperaturaMaxima(),
-            resultado.estado(), resultado.ocupacao(), resultado.ativo(),
+            resultado.estado(), resultado.estadoTermico(), resultado.ocupacao(), resultado.ativo(),
             resultado.criadoEm(), resultado.atualizadoEm());
         var location = uriInfo.getAbsolutePathBuilder().path(Long.toString(resultado.id())).build();
 
@@ -108,21 +108,21 @@ public class CamaraResource {
     @APIResponse(responseCode = "200", description = "Página de câmaras; `items` vem vazio além da última página.")
     @APIResponse(responseCode = "400", ref = DocumentacaoApi.REQUISICAO_INVALIDA)
     public PaginaResponse<CamaraResponse> listar(
-            @Parameter(description = "Unidade exata, sem diferenciar maiúsculas de minúsculas.",
-                example = "UBS Centro")
-            @QueryParam("unidade") String unidade,
-            @Parameter(description = "Estado operacional exato. Vazio equivale a ausente.",
-                schema = @Schema(implementation = EstadoCamara.class))
-            @QueryParam("estado") String estado,
-            @Parameter(description = "`true` lista só câmaras ativas; `false`, só inativas.",
-                schema = @Schema(type = SchemaType.BOOLEAN, defaultValue = "true"))
-            @QueryParam("ativo") String ativo,
-            @Parameter(description = "Número da página, a partir de 0.",
-                schema = @Schema(type = SchemaType.INTEGER, format = "int32", minimum = "0", defaultValue = "0"))
-            @QueryParam("page") String page,
-            @Parameter(description = "Itens por página.", schema = @Schema(type = SchemaType.INTEGER,
-                format = "int32", minimum = "1", maximum = "100", defaultValue = "20"))
-            @QueryParam("size") String size) {
+        @Parameter(description = "Unidade exata, sem diferenciar maiúsculas de minúsculas.",
+            example = "UBS Centro")
+        @QueryParam("unidade") String unidade,
+        @Parameter(description = "Estado operacional exato. Vazio equivale a ausente.",
+            schema = @Schema(implementation = EstadoCamara.class))
+        @QueryParam("estado") String estado,
+        @Parameter(description = "`true` lista só câmaras ativas; `false`, só inativas.",
+            schema = @Schema(type = SchemaType.BOOLEAN, defaultValue = "true"))
+        @QueryParam("ativo") String ativo,
+        @Parameter(description = "Número da página, a partir de 0.",
+            schema = @Schema(type = SchemaType.INTEGER, format = "int32", minimum = "0", defaultValue = "0"))
+        @QueryParam("page") String page,
+        @Parameter(description = "Itens por página.", schema = @Schema(type = SchemaType.INTEGER,
+            format = "int32", minimum = "1", maximum = "100", defaultValue = "20"))
+        @QueryParam("size") String size) {
         CamaraFiltro filtro;
         Paginacao paginacao;
         try {
@@ -140,10 +140,10 @@ public class CamaraResource {
                 throw new IllegalArgumentException("ativo deve ser true ou false");
             }
             filtro = new CamaraFiltro(unidade,
-                    estado == null || estado.trim().isEmpty() ? null : EstadoCamara.valueOf(estado.trim()),
-                    Boolean.parseBoolean(ativo));
+                estado == null || estado.trim().isEmpty() ? null : EstadoCamara.valueOf(estado.trim()),
+                Boolean.parseBoolean(ativo));
             paginacao = new Paginacao(page == null ? Paginacao.PAGINA_PADRAO : Integer.parseInt(page),
-                    size == null ? Paginacao.TAMANHO_PADRAO : Integer.parseInt(size));
+                size == null ? Paginacao.TAMANHO_PADRAO : Integer.parseInt(size));
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("Parâmetros de consulta inválidos.", e);
         }
@@ -169,7 +169,9 @@ public class CamaraResource {
         description = "Somente ADMINISTRADOR. "
             + "Substitui todos os campos editáveis; todos são obrigatórios e o `codigo` não muda. As "
             + "transições manuais entre `OPERACIONAL`, `MANUTENCAO` e `DESATIVADA` são livres, mas mudar para "
-            + "`MANUTENCAO` ou `DESATIVADA` exige que a câmara não tenha lotes ativos.")
+            + "`MANUTENCAO` ou `DESATIVADA` exige que a câmara não tenha lotes ativos. A faixa pertence à política "
+            + "térmica versionada: uma faixa diferente cria nova versão, preservando o limiar e as versões anteriores, "
+            + "e o estado térmico volta a `SEM_LEITURAS` (exceto em `EM_ALERTA`); a mesma faixa não cria versão.")
     @APIResponse(responseCode = "200", description = "Câmara atualizada.")
     @APIResponse(responseCode = "400", ref = DocumentacaoApi.REQUISICAO_INVALIDA)
     @APIResponse(responseCode = "404", ref = DocumentacaoApi.NAO_ENCONTRADO)

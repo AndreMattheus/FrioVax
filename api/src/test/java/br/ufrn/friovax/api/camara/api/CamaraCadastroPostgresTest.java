@@ -175,7 +175,7 @@ class CamaraCadastroPostgresTest {
 
         var json = resposta.jsonPath();
         assertEquals(Set.of("id", "codigo", "nome", "unidade", "capacidade", "temperaturaMinima",
-                "temperaturaMaxima", "estado", "ocupacao", "ativo", "criadoEm", "atualizadoEm"),
+                "temperaturaMaxima", "estado", "estadoTermico", "ocupacao", "ativo", "criadoEm", "atualizadoEm"),
             json.getMap("").keySet());
         var location = URI.create(resposta.header("Location"));
         assertEquals(ROTA + "/" + json.getLong("id"), location.getPath());

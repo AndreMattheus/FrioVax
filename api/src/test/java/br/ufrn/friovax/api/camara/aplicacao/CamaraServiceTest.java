@@ -3,6 +3,7 @@ package br.ufrn.friovax.api.camara.aplicacao;
 import br.ufrn.friovax.api.camara.dominio.Camara;
 import br.ufrn.friovax.api.camara.dominio.CamaraFiltro;
 import br.ufrn.friovax.api.camara.dominio.EstadoCamara;
+import br.ufrn.friovax.api.camara.dominio.EstadoTermico;
 import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
@@ -28,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CamaraServiceTest {
 
     private static final Clock RELOGIO = Clock.fixed(
-            Instant.parse("2026-09-29T12:00:00Z"), ZoneId.of("America/Fortaleza"));
+        Instant.parse("2026-09-29T12:00:00Z"), ZoneId.of("America/Fortaleza"));
     private static final OffsetDateTime AGORA = OffsetDateTime.parse("2026-09-29T09:00:00-03:00");
 
     private final CamaraRepositoryEmMemoria repositorio = new CamaraRepositoryEmMemoria();
@@ -36,7 +37,7 @@ class CamaraServiceTest {
 
     private static CadastrarCamaraDTO dadosCadastro(String codigo, EstadoCamara estado) {
         return new CadastrarCamaraDTO(codigo, " Câmara principal ", " UBS Centro ", 5000,
-                new BigDecimal("2.00"), new BigDecimal("8"), estado);
+            new BigDecimal("2.00"), new BigDecimal("8"), estado);
     }
 
     @Test
@@ -44,8 +45,8 @@ class CamaraServiceTest {
         var resultado = service.cadastrar(dadosCadastro(" cam-01 ", EstadoCamara.OPERACIONAL));
 
         assertEquals(new CamaraResultado(1L, "CAM-01", "Câmara principal", "UBS Centro", 5000,
-                new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL,
-                0, true, AGORA, AGORA), resultado);
+            new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL,
+            EstadoTermico.SEM_LEITURAS, 0, true, AGORA, AGORA), resultado);
 
         var salva = repositorio.buscarPorId(resultado.id()).orElseThrow();
         assertEquals("CAM-01", salva.getCodigo());
@@ -88,12 +89,12 @@ class CamaraServiceTest {
         var primeira = service.cadastrar(dadosCadastro("CAM-01", EstadoCamara.OPERACIONAL));
 
         var erro = assertThrows(CodigoDuplicado.class,
-                () -> service.cadastrar(dadosCadastro(codigo, EstadoCamara.MANUTENCAO)));
+            () -> service.cadastrar(dadosCadastro(codigo, EstadoCamara.MANUTENCAO)));
 
         assertEquals("Já existe câmara com o código CAM-01.", erro.getMessage());
         assertEquals(1, repositorio.listar(CamaraFiltro.ativas(), Paginacao.padrao()).totalElementos());
         assertEquals(EstadoCamara.OPERACIONAL,
-                repositorio.buscarPorId(primeira.id()).orElseThrow().getEstado());
+            repositorio.buscarPorId(primeira.id()).orElseThrow().getEstado());
     }
 
     @Test
@@ -104,23 +105,23 @@ class CamaraServiceTest {
         repositorio.salvar(camara);
 
         assertThrows(CodigoDuplicado.class,
-                () -> service.cadastrar(dadosCadastro(" cam-01 ", EstadoCamara.OPERACIONAL)));
+            () -> service.cadastrar(dadosCadastro(" cam-01 ", EstadoCamara.OPERACIONAL)));
 
         assertEquals(0, repositorio.listar(CamaraFiltro.ativas(), Paginacao.padrao()).totalElementos());
         assertEquals(1, repositorio.listar(new CamaraFiltro(null, null, false),
-                Paginacao.padrao()).totalElementos());
+            Paginacao.padrao()).totalElementos());
         assertFalse(repositorio.buscarPorId(resultado.id()).orElseThrow().isAtivo());
     }
 
     @ParameterizedTest
     @CsvSource({
-            "0, 2.0, 8.0, capacidade",
-            "10, 8.0, 2.0, temperaturaMinima",
-            "10, 2.0, 1000.0, temperaturaMaxima"
+        "0, 2.0, 8.0, capacidade",
+        "10, 8.0, 2.0, temperaturaMinima",
+        "10, 2.0, 1000.0, temperaturaMaxima"
     })
     void devePropagarValidacaoDoDominioSemGravar(int capacidade, String minima, String maxima, String campo) {
         var invalido = new CadastrarCamaraDTO("CAM-01", "Nome", "UBS", capacidade,
-                new BigDecimal(minima), new BigDecimal(maxima), EstadoCamara.OPERACIONAL);
+            new BigDecimal(minima), new BigDecimal(maxima), EstadoCamara.OPERACIONAL);
 
         var erro = assertThrows(ValidacaoDeNegocio.class, () -> service.cadastrar(invalido));
 
@@ -142,10 +143,10 @@ class CamaraServiceTest {
 
         assertFalse(repositorioComConflito.existePorCodigo("CAM-01"));
         var erro = assertThrows(CodigoDuplicado.class,
-                () -> serviceComConflito.cadastrar(dadosCadastro("CAM-01", EstadoCamara.OPERACIONAL)));
+            () -> serviceComConflito.cadastrar(dadosCadastro("CAM-01", EstadoCamara.OPERACIONAL)));
 
         assertSame(conflito, erro);
         assertEquals(0, repositorioComConflito.listar(CamaraFiltro.ativas(),
-                Paginacao.padrao()).totalElementos());
+            Paginacao.padrao()).totalElementos());
     }
 }
