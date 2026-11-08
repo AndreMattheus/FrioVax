@@ -169,7 +169,7 @@ O provisionamento cria `administrador`, `operador` e `auditor`, respectivamente 
 
 Login e renovação retornam `accessToken`, `refreshToken`, `tokenType=Bearer`, `expiresIn=900`, `expiraEm`, `refreshExpiraEm` e `identidade`. O JWT RS256 dura **15 minutos**, é validado pelo Quarkus sem consulta ao banco e carrega o UUID interno em `sub`, login em `upn` e perfil em `groups`. O refresh opaco tem 256 bits aleatórios, dura **24 horas** e só seu hash SHA-256 é persistido. Cada renovação consome o refresh e cria outro válido por 24 horas, na mesma transação; duas chamadas concorrentes não podem consumi-lo duas vezes.
 
-**Logout revoga o refresh enviado. O access já emitido continua válido até expirar, por no máximo 15 minutos.** Use o refresh mais recente depois de renovar. Credenciais inválidas e refresh ausente, expirado, revogado ou já usado recebem o mesmo 401 genérico. Access ausente, expirado, de outro emissor ou com assinatura inválida também recebe 401. Respostas com tokens usam `Cache-Control: no-store`; senhas e tokens não são registrados pela implementação. Os perfis estão disponíveis na identidade; a aplicação dos perfis às demais rotas pertence à issue #81.
+**Logout revoga o refresh enviado. O access já emitido continua válido até expirar, por no máximo 15 minutos.** Use o refresh mais recente depois de renovar. Credenciais inválidas e refresh ausente, expirado, revogado ou já usado recebem o mesmo 401 genérico. Access ausente, expirado, de outro emissor ou com assinatura inválida também recebe 401. Respostas com tokens usam `Cache-Control: no-store`; senhas e tokens não são registrados pela implementação. Todas as rotas de câmaras e lotes exigem Bearer e aplicam a [matriz de acesso por operação](docs/autorizacao.md). Administrador gerencia cadastros e descarte; operador consulta e registra baixas; auditor consulta. Bearer ausente/inválido recebe 401 e perfil sem permissão recebe 403, antes da execução.
 
 Para implantação, forneça `JWT_PRIVATE_KEY`, `JWT_PUBLIC_KEY` (caminhos para o par RSA PEM montado no ambiente) e `JWT_ISSUER`. Não há chave padrão no artefato de produção; a configuração exige chaves próprias. Mantenha a chave privada e as credenciais no gerenciador de segredos do ambiente e use HTTPS. O provisionamento demonstrativo fica desabilitado por padrão. As chaves de `api/src/test/resources/auth` são exclusivas de testes e não entram no jar da aplicação. A expiração é verificada sem tolerância adicional; `ConfiguracaoJwt` corrige a interpretação de `clock.skew=0` no SmallRye JWT 4.6.3.
 
@@ -229,6 +229,8 @@ mise exec -- mvn --batch-mode -f api/pom.xml "-Dtest=*HttpMemoriaTest" test
 mise exec -- mvn --batch-mode -f api/pom.xml "-Dtest=LoteBaixaDescarteHttpMemoriaTest" test
 ```
 
+Os testes de negócio usam `AutenticacaoHttpSupport.given()` com JWT real de administrador; use `autenticado(Perfil.OPERADOR)` ou `autenticado(Perfil.AUDITOR)` para outros perfis e `RestAssured.given()` para anônimos. As guardas permanecem ativas. Toda rota nova segue a [diretriz obrigatória de autorização](docs/autorizacao.md#regra-obrigatória-para-novas-rotas), com teste de permissão e OpenAPI atualizada.
+
 Ao adicionar um teste HTTP sem banco, use o sufixo `HttpMemoriaTest` e selecione `HttpEmMemoriaProfile` para incluí-lo neste comando.
 
 | Seleção | O que executa | Precisa de Docker? |
@@ -286,7 +288,7 @@ para validar uma violação, use o tipo importado em um campo, assinatura ou ano
 
 A especificação OpenAPI 3.1 é gerada a partir do código pelo SmallRye OpenAPI. As anotações ficam nas classes da camada `api`: rotas em `*Resource`, campos em `*Request` e `*Response`, e metadados e respostas de erro reutilizadas em `compartilhado/api/DocumentacaoApi`. A especificação cobre os campos e suas regras, as enumerações, o formato das datas, os filtros, a paginação, o vínculo entre lote e câmara e as respostas de sucesso e de erro em Problem Details. Também explica a inativação, as restrições de capacidade e o significado de cada filtro.
 
-O Swagger UI é publicado também no jar empacotado (`quarkus.swagger-ui.always-include=true`). Por isso, os endereços acima funcionam em `mise run up`, no Compose, e em `quarkus dev`. Em **Try it out**, a interface envia as requisições para a própria API local.
+O Swagger UI é publicado também no jar empacotado (`quarkus.swagger-ui.always-include=true`). Por isso, os endereços acima funcionam em `mise run up`, no Compose, e em `quarkus dev`. Faça login em `POST /api/auth/login`, copie o `accessToken` e informe-o em **Authorize**. Em **Try it out**, a interface envia Bearer para a própria API local, respeitando o perfil do usuário; consultar a documentação é público.
 
 Ao alterar uma rota, um campo ou uma regra do contrato, atualize as anotações correspondentes. `DocumentacaoApiHttpMemoriaTest`, incluído em `mise run test-http`, verifica se a especificação continua publicada e se as rotas, os filtros e as respostas principais estão documentados.
 
@@ -294,7 +296,7 @@ Ao alterar uma rota, um campo ou uma regra do contrato, atualize as anotações 
 
 O endereço local da API é `http://localhost:8080`. O [contrato da API](docs/contrato-api.md) define as rotas previstas, os campos e as respostas esperadas. O Postman também pode importar a especificação de `http://localhost:8080/q/openapi` para gerar a coleção de requisições.
 
-1. Com os serviços iniciados por `mise run up`, crie uma requisição no Postman e escolha o método e a URL. Por exemplo, `POST http://localhost:8080/api/camaras`.
+1. Com os serviços iniciados por `mise run up`, faça login em `POST /api/auth/login` e configure **Authorization → Bearer Token** com o `accessToken` recebido. Use administrador nos exemplos de cadastro/alteração/descarte; veja os demais perfis na [matriz de acesso](docs/autorizacao.md). Crie uma requisição no Postman e escolha o método e a URL. Por exemplo, `POST http://localhost:8080/api/camaras`.
 2. Em **Body → raw → JSON**, copie o JSON de um [exemplo do contrato](docs/contrato-api.md#6-exemplos). Confira o cabeçalho `Content-Type: application/json`.
 3. Envie e compare o status, os cabeçalhos e o JSON retornado com o contrato. Na criação, espere `201`, um ID gerado e o cabeçalho `Location`, que identifica o recurso criado.
 4. Para exercitar erros, altere uma condição por vez. No exemplo de câmara, repetir o código retorna `409`; com um novo código, `capacidade: 0` retorna `422` e `estado: "INVALIDO"` retorna `400`.

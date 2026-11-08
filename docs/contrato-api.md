@@ -202,10 +202,13 @@ Problem Details padroniza a resposta HTTP. As regras de negócio e suas exceçõ
 
 ## 6. Exemplos
 
+Obtenha `accessToken` via `POST /api/auth/login` e envie Bearer em todas as requisições de câmaras/lotes. Os exemplos de mutação usam administrador; consultas aceitam os três perfis e baixa aceita também operador. A [matriz de acesso](autorizacao.md) é obrigatória para rotas novas.
+
 ### 6.1 Criar câmara
 
 ```http
 POST /api/camaras
+Authorization: Bearer <accessToken>
 Content-Type: application/json
 
 {
@@ -244,6 +247,7 @@ Content-Type: application/json
 
 ```http
 POST /api/lotes
+Authorization: Bearer <accessToken>
 Content-Type: application/json
 
 {
@@ -280,6 +284,7 @@ Content-Type: application/json
 
 ```http
 PUT /api/lotes/10
+Authorization: Bearer <accessToken>
 Content-Type: application/json
 
 {
@@ -314,6 +319,7 @@ Content-Type: application/json
 
 ```http
 GET /api/lotes?imunobiologico=febre&camaraId=2&validadeDe=2027-01-01&validadeAte=2027-12-31&page=0&size=20
+Authorization: Bearer <accessToken>
 ```
 
 ```http
@@ -416,7 +422,7 @@ Content-Type: application/problem+json
 - Entidade e CRUD de Unidade (D2).
 - Reativação de registros inativos.
 - Estados térmicos da câmara e política térmica (US05, US08).
-- Autenticação, perfis e auditoria (US09, US10).
+- Trilha de auditoria de alterações (US10). Autenticação e autorização estão implementadas (§7–8).
 
 ## 7. Autenticação e sessões (Sprint 2 — #80)
 
@@ -431,4 +437,12 @@ JWT de acesso RS256: 15 minutos, validação local da assinatura, emissor e expi
 
 Login e renovação retornam 200 com `accessToken`, `refreshToken`, `tokenType`, `expiresIn` (900 segundos), `expiraEm`, `refreshExpiraEm` e `identidade`. Respostas com tokens não podem ser armazenadas em cache. Credenciais e sessões inválidas retornam Problem Details com `type=/problemas/autenticacao-invalida`, `title=Autenticação inválida`, `status=401` e `detail=Credenciais ou sessão inválidas.`. A rejeição de Bearer é realizada pelo mecanismo de segurança do Quarkus, antes do resource.
 
-Os perfis disponíveis são `ADMINISTRADOR`, `OPERADOR` e `AUDITOR`. A autorização das demais rotas será aplicada na issue #81.
+Os perfis disponíveis são `ADMINISTRADOR`, `OPERADOR` e `AUDITOR`. A autorização de câmaras e lotes segue a matriz da §8.
+
+## 8. Autorização por operação (Sprint 2 — #81)
+
+Todas as rotas de câmaras e lotes exigem Bearer JWT validado. Administrador executa todas as operações; operador consulta e registra baixas; auditor consulta. Cadastro, edição, inativação e descarte são exclusivos de administrador. Ausência de token, token expirado ou inválido retorna 401; identidade válida sem perfil permitido retorna 403 antes da execução, sem gravação ou chamada Go. A rejeição de segurança é feita pelo Quarkus e pode retornar corpo vazio; não se exige Problem Details nesses 401/403.
+
+Saúde, status, OpenAPI e Swagger UI permanecem públicos; isso não permite executar operações protegidas sem Bearer. Login, renovação e logout validam credenciais ou refresh, conforme §7. Perfil e ator nunca são aceitos do body, query ou cabeçalhos auxiliares para autorizar ou atribuir ações.
+
+A [diretriz de autorização](autorizacao.md) define a matriz completa, as guardas reutilizáveis para próximas funcionalidades e o suporte de testes. `quarkus.security.jaxrs.deny-unannotated-endpoints=true` bloqueia toda nova rota REST sem anotação de segurança. Cada operação deve declarar `@PermissionsAllowed` no método e incluir testes de permissão; a regra também integra a Definição de Pronto e o checklist do PR.
