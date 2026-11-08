@@ -1,6 +1,7 @@
 package br.ufrn.friovax.api.camara.persistencia;
 
 import br.ufrn.friovax.api.camara.dominio.EstadoCamara;
+import br.ufrn.friovax.api.camara.dominio.EstadoTermico;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -33,11 +33,9 @@ public class CamaraEntity extends PanacheEntityBase {
     @Column(nullable = false)
     public int capacidade;
 
-    @Column(name = "temperatura_minima", nullable = false)
-    public BigDecimal temperaturaMinima;
-
-    @Column(name = "temperatura_maxima", nullable = false)
-    public BigDecimal temperaturaMaxima;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_termico", nullable = false)
+    public EstadoTermico estadoTermico;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

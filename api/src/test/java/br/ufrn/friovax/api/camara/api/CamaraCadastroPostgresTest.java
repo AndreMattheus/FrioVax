@@ -49,40 +49,40 @@ class CamaraCadastroPostgresTest {
     DataSource dataSource;
 
     private final String codigo = "HTTP-" + UUID.randomUUID().toString()
-            .replace("-", "").substring(0, 15).toUpperCase(Locale.ROOT);
+        .replace("-", "").substring(0, 15).toUpperCase(Locale.ROOT);
     private final String unidade = "Teste HTTP " + UUID.randomUUID();
 
     private Map<String, Object> bodyValido() {
         return new HashMap<>(Map.of(
-                "codigo", codigo,
-                "nome", "Câmara principal",
-                "unidade", unidade,
-                "capacidade", 5000,
-                "temperaturaMinima", new BigDecimal("2.0"),
-                "temperaturaMaxima", new BigDecimal("8.0"),
-                "estado", "OPERACIONAL"
+            "codigo", codigo,
+            "nome", "Câmara principal",
+            "unidade", unidade,
+            "capacidade", 5000,
+            "temperaturaMinima", new BigDecimal("2.0"),
+            "temperaturaMaxima", new BigDecimal("8.0"),
+            "estado", "OPERACIONAL"
         ));
     }
 
     private Response cadastrar(Object body) {
         return given()
-                .config(config().httpClient(httpClientConfig()
-                        .setParam("http.connection.timeout", 10000)
-                        .setParam("http.socket.timeout", 10000)))
-                .contentType("application/json")
-                .body(body)
-                .post(ROTA);
+            .config(config().httpClient(httpClientConfig()
+                .setParam("http.connection.timeout", 10000)
+                .setParam("http.socket.timeout", 10000)))
+            .contentType("application/json")
+            .body(body)
+            .post(ROTA);
     }
 
     private ValidatableResponse verificarProblema(Response resposta, int status, String tipo) {
         return resposta.then()
-                .statusCode(status)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/" + tipo))
-                .body("status", equalTo(status))
-                .body("title", not(blankOrNullString()))
-                .body("detail", not(blankOrNullString()))
-                .body("instance", equalTo(ROTA));
+            .statusCode(status)
+            .contentType("application/problem+json")
+            .body("type", equalTo("/problemas/" + tipo))
+            .body("status", equalTo(status))
+            .body("title", not(blankOrNullString()))
+            .body("detail", not(blankOrNullString()))
+            .body("instance", equalTo(ROTA));
     }
 
     private long contarRegistros() throws SQLException {
@@ -119,18 +119,31 @@ class CamaraCadastroPostgresTest {
                 assertEquals(json.getString("nome"), registro.getString("nome"));
                 assertEquals(json.getString("unidade"), registro.getString("unidade"));
                 assertEquals(json.getInt("capacidade"), registro.getInt("capacidade"));
-                assertEquals(0, new BigDecimal(json.getString("temperaturaMinima"))
-                        .compareTo(registro.getBigDecimal("temperatura_minima")));
-                assertEquals(0, new BigDecimal(json.getString("temperaturaMaxima"))
-                        .compareTo(registro.getBigDecimal("temperatura_maxima")));
+                assertEquals("SEM_LEITURAS", registro.getString("estado_termico"));
                 assertEquals(json.getString("estado"), registro.getString("estado"));
                 assertTrue(registro.getBoolean("ativo"));
                 var criadoEm = registro.getObject("criado_em", OffsetDateTime.class);
                 assertEquals(criadoEm, registro.getObject("atualizado_em", OffsetDateTime.class));
                 // O PostgreSQL armazena esses instantes com precisão de microssegundos.
                 assertTrue(Duration.between(criadoEm.toInstant(),
-                        OffsetDateTime.parse(json.getString("criadoEm")).toInstant()).abs().toNanos() <= 1000);
+                    OffsetDateTime.parse(json.getString("criadoEm")).toInstant()).abs().toNanos() <= 1000);
                 assertFalse(registro.next());
+            }
+        }
+        // A faixa fica na política térmica (V4): a câmara nova grava a versão 1, com o limiar inicial.
+        try (var conexao = dataSource.getConnection();
+             var consulta = conexao.prepareStatement(
+                 "SELECT * FROM politicas_termicas WHERE camara_id = ? ORDER BY versao")) {
+            consulta.setLong(1, json.getLong("id"));
+            try (var politica = consulta.executeQuery()) {
+                assertTrue(politica.next());
+                assertEquals(1, politica.getInt("versao"));
+                assertEquals(0, new BigDecimal(json.getString("temperaturaMinima"))
+                    .compareTo(politica.getBigDecimal("temperatura_minima")));
+                assertEquals(0, new BigDecimal(json.getString("temperaturaMaxima"))
+                    .compareTo(politica.getBigDecimal("temperatura_maxima")));
+                assertEquals(3, politica.getInt("limiar"));
+                assertFalse(politica.next());
             }
         }
         assertEquals(1, contarRegistros());
@@ -147,23 +160,23 @@ class CamaraCadastroPostgresTest {
         var inicio = Instant.now();
 
         var resposta = given().contentType("application/json").queryParam("origem", "teste")
-                .body(body).post(ROTA);
+            .body(body).post(ROTA);
         resposta.then().statusCode(201).contentType("application/json")
-                .body("id", greaterThan(0))
-                .body("codigo", equalTo(codigo))
-                .body("nome", equalTo("Câmara principal"))
-                .body("unidade", equalTo(unidade))
-                .body("capacidade", equalTo(5000))
-                .body("temperaturaMinima", equalTo(2.0f))
-                .body("temperaturaMaxima", equalTo(8.0f))
-                .body("estado", equalTo("OPERACIONAL"))
-                .body("ocupacao", equalTo(0))
-                .body("ativo", equalTo(true));
+            .body("id", greaterThan(0))
+            .body("codigo", equalTo(codigo))
+            .body("nome", equalTo("Câmara principal"))
+            .body("unidade", equalTo(unidade))
+            .body("capacidade", equalTo(5000))
+            .body("temperaturaMinima", equalTo(2.0f))
+            .body("temperaturaMaxima", equalTo(8.0f))
+            .body("estado", equalTo("OPERACIONAL"))
+            .body("ocupacao", equalTo(0))
+            .body("ativo", equalTo(true));
 
         var json = resposta.jsonPath();
         assertEquals(Set.of("id", "codigo", "nome", "unidade", "capacidade", "temperaturaMinima",
                 "temperaturaMaxima", "estado", "ocupacao", "ativo", "criadoEm", "atualizadoEm"),
-                json.getMap("").keySet());
+            json.getMap("").keySet());
         var location = URI.create(resposta.header("Location"));
         assertEquals(ROTA + "/" + json.getLong("id"), location.getPath());
         assertNull(location.getQuery());
@@ -184,7 +197,7 @@ class CamaraCadastroPostgresTest {
         var resposta = cadastrar(body);
 
         resposta.then().statusCode(201).body("estado", equalTo(estado))
-                .body("ativo", equalTo(true)).body("ocupacao", equalTo(0));
+            .body("ativo", equalTo(true)).body("ocupacao", equalTo(0));
         verificarPersistencia(resposta);
     }
 
@@ -201,8 +214,8 @@ class CamaraCadastroPostgresTest {
         var resposta = cadastrar(body);
 
         resposta.then().statusCode(201).body("nome", equalTo(texto)).body("unidade", equalTo(texto))
-                .body("capacidade", equalTo(Integer.MAX_VALUE))
-                .body("temperaturaMinima", equalTo(-999.9f)).body("temperaturaMaxima", equalTo(999.9f));
+            .body("capacidade", equalTo(Integer.MAX_VALUE))
+            .body("temperaturaMinima", equalTo(-999.9f)).body("temperaturaMaxima", equalTo(999.9f));
         verificarPersistencia(resposta);
     }
 
@@ -226,7 +239,7 @@ class CamaraCadastroPostgresTest {
             var resposta2 = segunda.get(30, TimeUnit.SECONDS);
 
             assertEquals(List.of(201, 409), List.of(resposta1.statusCode(), resposta2.statusCode())
-                    .stream().sorted().toList());
+                .stream().sorted().toList());
             var sucesso = resposta1.statusCode() == 201 ? resposta1 : resposta2;
             var conflito = resposta1.statusCode() == 409 ? resposta1 : resposta2;
             verificarProblema(conflito, 409, "codigo-duplicado");

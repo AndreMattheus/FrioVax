@@ -3,6 +3,7 @@ package br.ufrn.friovax.api.camara.dominio;
 import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -27,6 +28,12 @@ public interface CamaraRepository {
 
     /** Considera câmaras ativas e inativas; o código deve estar normalizado. */
     boolean existePorCodigo(String codigo);
+
+    /**
+     * Todas as versões da política térmica da câmara, da mais antiga para a vigente. A vigente também está em
+     * {@link Camara#getPolitica()}; as anteriores nunca são alteradas nem apagadas.
+     */
+    List<PoliticaTermica> historicoDePoliticas(long camaraId);
 
     /** Lista as câmaras que atendem ao filtro, ordenadas por id crescente. */
     Pagina<Camara> listar(CamaraFiltro filtro, Paginacao paginacao);
