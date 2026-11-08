@@ -1,2 +1,4 @@
 id,issue,etapa,tipo,inicio,fim,autor,fonte,precisao,observacao
 S2-66-coleta-01,66,coleta,automacao,2026-11-03T19:24:39.352963Z,2026-11-03T19:25:38.818629Z,coletor-github,docs/evidencias/sprint-2/exportacoes/20261103T192538818629Z/manifesto.json,observado,Execucao real da coleta paginada; inclui latencia das APIs. Nao representa trabalho humano nem implantacao.
+S2-69-trabalho-01,69,implementacao,trabalho,2026-11-07T22:30:00-03:00,2026-11-08T00:37:00-03:00,biancammedeiros,https://github.com/AndreMattheus/FrioVax/issues/69#issuecomment-6724909296,relatado,Partes 1 e 2: dominio da politica termica e migracao V4
+S2-69-trabalho-02,69,implementacao,trabalho,2026-11-08T13:00:00-03:00,2026-11-08T14:40:00-03:00,biancammedeiros,https://github.com/AndreMattheus/FrioVax/issues/69#issuecomment-6724909296,relatado,Parte 3: aviso de mudanca confirmada e API; integracao com o #106

@@ -1,3 +1,4 @@
 id,issue,tipo,instante,autor,fonte,precisao
 S2-66-chegada,66,chegada,2026-10-24T02:56:32Z,github-project-automation,docs/evidencias/sprint-2/exportacoes/20261103T192538818629Z/issue-66-timeline.json#/0,observado
 S2-66-inicio,66,inicio,2026-11-03T19:19:22Z,leonardonadson,docs/evidencias/sprint-2/exportacoes/20261103T192538818629Z/issue-66-timeline.json#/3,observado
+S2-69-inicio,69,inicio,2026-11-07T22:30:00-03:00,biancammedeiros,https://github.com/AndreMattheus/FrioVax/issues/69#issuecomment-6724909296,relatado
