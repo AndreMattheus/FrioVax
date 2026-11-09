@@ -41,60 +41,60 @@ class CamaraCadastroHttpMemoriaTest extends HttpEmMemoriaSupport {
     private static final String ROTA = "/api/camaras";
 
     private final String codigo = "HTTP-" + UUID.randomUUID().toString()
-            .replace("-", "").substring(0, 15).toUpperCase(Locale.ROOT);
+        .replace("-", "").substring(0, 15).toUpperCase(Locale.ROOT);
     private final String unidade = "Teste HTTP " + UUID.randomUUID();
 
     private Map<String, Object> bodyValido() {
         return new HashMap<>(Map.of(
-                "codigo", codigo,
-                "nome", "Câmara principal",
-                "unidade", unidade,
-                "capacidade", 5000,
-                "temperaturaMinima", new BigDecimal("2.0"),
-                "temperaturaMaxima", new BigDecimal("8.0"),
-                "estado", "OPERACIONAL"
+            "codigo", codigo,
+            "nome", "Câmara principal",
+            "unidade", unidade,
+            "capacidade", 5000,
+            "temperaturaMinima", new BigDecimal("2.0"),
+            "temperaturaMaxima", new BigDecimal("8.0"),
+            "estado", "OPERACIONAL"
         ));
     }
 
     private Response cadastrar(Object body) {
         return given()
-                .config(config().httpClient(httpClientConfig()
-                        .setParam("http.connection.timeout", 10000)
-                        .setParam("http.socket.timeout", 10000)))
-                .contentType("application/json")
-                .body(body)
-                .queryParam("origem", "teste")
-                .post(ROTA);
+            .config(config().httpClient(httpClientConfig()
+                .setParam("http.connection.timeout", 10000)
+                .setParam("http.socket.timeout", 10000)))
+            .contentType("application/json")
+            .body(body)
+            .queryParam("origem", "teste")
+            .post(ROTA);
     }
 
     private ValidatableResponse verificarProblema(Response resposta, int status, String tipo) {
         return resposta.then()
-                .statusCode(status)
-                .contentType("application/problem+json")
-                .body("type", equalTo("/problemas/" + tipo))
-                .body("status", equalTo(status))
-                .body("title", not(blankOrNullString()))
-                .body("detail", not(blankOrNullString()))
-                .body("instance", equalTo(ROTA));
+            .statusCode(status)
+            .contentType("application/problem+json")
+            .body("type", equalTo("/problemas/" + tipo))
+            .body("status", equalTo(status))
+            .body("title", not(blankOrNullString()))
+            .body("detail", not(blankOrNullString()))
+            .body("instance", equalTo(ROTA));
     }
 
     private void verificarValidacao(Response resposta, String campo) {
         verificarProblema(resposta, 422, "validacao")
-                .body("title", equalTo("Dados inválidos"))
-                .body("erros.campo", hasItem(campo))
-                .body("erros[0].mensagem", not(blankOrNullString()));
+            .body("title", equalTo("Dados inválidos"))
+            .body("erros.campo", hasItem(campo))
+            .body("erros[0].mensagem", not(blankOrNullString()));
         assertEquals(0, contarRegistros());
     }
 
     private long contarRegistros() {
         return Stream.of(true, false).mapToLong(ativo ->
-                given().queryParam("ativo", ativo).get(ROTA).then().statusCode(200)
-                        .extract().jsonPath().getLong("totalElements")).sum();
+            given().queryParam("ativo", ativo).get(ROTA).then().statusCode(200)
+                .extract().jsonPath().getLong("totalElements")).sum();
     }
 
     private void verificarRepresentacaoSalva(Response resposta) {
         var consulta = given().get(resposta.header("Location")).then()
-                .statusCode(200).contentType("application/json").extract().response();
+            .statusCode(200).contentType("application/json").extract().response();
         assertEquals(resposta.jsonPath().getMap(""), consulta.jsonPath().getMap(""));
         assertEquals(1, contarRegistros());
     }
@@ -109,23 +109,24 @@ class CamaraCadastroHttpMemoriaTest extends HttpEmMemoriaSupport {
         body.put("temperaturaMaxima", 8);
 
         var resposta = given().contentType("application/json").queryParam("origem", "teste")
-                .body(body).post(ROTA);
+            .body(body).post(ROTA);
         resposta.then().statusCode(201).contentType("application/json")
-                .body("id", greaterThan(0))
-                .body("codigo", equalTo(codigo))
-                .body("nome", equalTo("Câmara principal"))
-                .body("unidade", equalTo(unidade))
-                .body("capacidade", equalTo(5000))
-                .body("temperaturaMinima", equalTo(2.0f))
-                .body("temperaturaMaxima", equalTo(8.0f))
-                .body("estado", equalTo("OPERACIONAL"))
-                .body("ocupacao", equalTo(0))
-                .body("ativo", equalTo(true));
+            .body("id", greaterThan(0))
+            .body("codigo", equalTo(codigo))
+            .body("nome", equalTo("Câmara principal"))
+            .body("unidade", equalTo(unidade))
+            .body("capacidade", equalTo(5000))
+            .body("temperaturaMinima", equalTo(2.0f))
+            .body("temperaturaMaxima", equalTo(8.0f))
+            .body("estado", equalTo("OPERACIONAL"))
+            .body("estadoTermico", equalTo("SEM_LEITURAS"))
+            .body("ocupacao", equalTo(0))
+            .body("ativo", equalTo(true));
 
         var json = resposta.jsonPath();
         assertEquals(Set.of("id", "codigo", "nome", "unidade", "capacidade", "temperaturaMinima",
-                "temperaturaMaxima", "estado", "ocupacao", "ativo", "criadoEm", "atualizadoEm"),
-                json.getMap("").keySet());
+                "temperaturaMaxima", "estado", "estadoTermico", "ocupacao", "ativo", "criadoEm", "atualizadoEm"),
+            json.getMap("").keySet());
         var location = URI.create(resposta.header("Location"));
         assertEquals(ROTA + "/" + json.getLong("id"), location.getPath());
         assertNull(location.getQuery());
@@ -145,7 +146,7 @@ class CamaraCadastroHttpMemoriaTest extends HttpEmMemoriaSupport {
         var resposta = cadastrar(body);
 
         resposta.then().statusCode(201).body("estado", equalTo(estado))
-                .body("ativo", equalTo(true)).body("ocupacao", equalTo(0));
+            .body("ativo", equalTo(true)).body("ocupacao", equalTo(0));
         verificarRepresentacaoSalva(resposta);
     }
 
@@ -162,9 +163,9 @@ class CamaraCadastroHttpMemoriaTest extends HttpEmMemoriaSupport {
         var resposta = cadastrar(body);
 
         resposta.then().statusCode(201).body("id", greaterThan(0))
-                .body("ocupacao", equalTo(0)).body("ativo", equalTo(true))
-                .body("criadoEm", not(equalTo("2000-01-01T00:00:00Z")))
-                .body("atualizadoEm", equalTo(resposta.jsonPath().getString("criadoEm")));
+            .body("ocupacao", equalTo(0)).body("ativo", equalTo(true))
+            .body("criadoEm", not(equalTo("2000-01-01T00:00:00Z")))
+            .body("atualizadoEm", equalTo(resposta.jsonPath().getString("criadoEm")));
         assertFalse(resposta.jsonPath().getMap("").containsKey("campoDesconhecido"));
         verificarRepresentacaoSalva(resposta);
     }
@@ -182,8 +183,8 @@ class CamaraCadastroHttpMemoriaTest extends HttpEmMemoriaSupport {
         var resposta = cadastrar(body);
 
         resposta.then().statusCode(201).body("nome", equalTo(texto)).body("unidade", equalTo(texto))
-                .body("capacidade", equalTo(Integer.MAX_VALUE))
-                .body("temperaturaMinima", equalTo(-999.9f)).body("temperaturaMaxima", equalTo(999.9f));
+            .body("capacidade", equalTo(Integer.MAX_VALUE))
+            .body("temperaturaMinima", equalTo(-999.9f)).body("temperaturaMaxima", equalTo(999.9f));
         verificarRepresentacaoSalva(resposta);
     }
 
@@ -243,12 +244,12 @@ class CamaraCadastroHttpMemoriaTest extends HttpEmMemoriaSupport {
 
     @ParameterizedTest
     @CsvSource({
-            "8.0, 8.0, temperaturaMinima",
-            "9.0, 8.0, temperaturaMinima",
-            "2.05, 8.0, temperaturaMinima",
-            "2.0, 8.05, temperaturaMaxima",
-            "-1000.0, 8.0, temperaturaMinima",
-            "2.0, 1000.0, temperaturaMaxima"
+        "8.0, 8.0, temperaturaMinima",
+        "9.0, 8.0, temperaturaMinima",
+        "2.05, 8.0, temperaturaMinima",
+        "2.0, 8.05, temperaturaMaxima",
+        "-1000.0, 8.0, temperaturaMinima",
+        "2.0, 1000.0, temperaturaMaxima"
     })
     void deveRejeitarFaixaTermicaInvalida(String minima, String maxima, String campo) {
         var body = bodyValido();
@@ -285,7 +286,7 @@ class CamaraCadastroHttpMemoriaTest extends HttpEmMemoriaSupport {
         body.put(campo, valor);
 
         verificarProblema(cadastrar(body), 400, "requisicao-invalida")
-                .body("detail", equalTo("O campo '" + campo + "' contém um valor incompatível com o tipo esperado."));
+            .body("detail", equalTo("O campo '" + campo + "' contém um valor incompatível com o tipo esperado."));
         assertEquals(0, contarRegistros());
     }
 
@@ -302,7 +303,7 @@ class CamaraCadastroHttpMemoriaTest extends HttpEmMemoriaSupport {
     @Test
     void deveRejeitarJsonMalformado() {
         verificarProblema(cadastrar("{ isso não é json"), 400, "requisicao-invalida")
-                .body("detail", equalTo("O body da requisição não é um JSON válido."));
+            .body("detail", equalTo("O body da requisição não é um JSON válido."));
         assertEquals(0, contarRegistros());
     }
 
@@ -326,12 +327,12 @@ class CamaraCadastroHttpMemoriaTest extends HttpEmMemoriaSupport {
         body.put("nome", "Tentativa duplicada");
 
         verificarProblema(cadastrar(body), 409, "codigo-duplicado")
-                .body("title", equalTo("Código duplicado"))
-                .body("detail", equalTo("Já existe câmara com o código " + codigo + "."));
+            .body("title", equalTo("Código duplicado"))
+            .body("detail", equalTo("Já existe câmara com o código " + codigo + "."));
 
         assertEquals(1, contarRegistros());
         given().get(ROTA + "/{id}", id).then().statusCode(200)
-                .body("nome", equalTo("Câmara principal"), "ativo", equalTo(ativo));
+            .body("nome", equalTo("Câmara principal"), "ativo", equalTo(ativo));
     }
 
 }

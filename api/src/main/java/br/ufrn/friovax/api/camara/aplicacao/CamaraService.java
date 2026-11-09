@@ -26,7 +26,7 @@ public class CamaraService {
     public CamaraResultado cadastrar(CadastrarCamaraDTO dados) {
         var agora = OffsetDateTime.now(relogio);
         var camara = Camara.nova(dados.codigo(), dados.nome(), dados.unidade(), dados.capacidade(),
-                dados.temperaturaMinima(), dados.temperaturaMaxima(), dados.estado(), agora);
+            dados.temperaturaMinima(), dados.temperaturaMaxima(), dados.estado(), agora);
 
         if (repositorio.existePorCodigo(camara.getCodigo())) {
             throw new CodigoDuplicado("câmara", camara.getCodigo());
@@ -34,7 +34,7 @@ public class CamaraService {
 
         var salva = repositorio.salvar(camara);
         return new CamaraResultado(salva.getId(), salva.getCodigo(), salva.getNome(), salva.getUnidade(),
-                salva.getCapacidade(), salva.getTemperaturaMinima(), salva.getTemperaturaMaxima(),
-                salva.getEstado(), 0, salva.isAtivo(), salva.getCriadoEm(), salva.getAtualizadoEm());
+            salva.getCapacidade(), salva.getTemperaturaMinima(), salva.getTemperaturaMaxima(),
+            salva.getEstado(), salva.getEstadoTermico(), 0, salva.isAtivo(), salva.getCriadoEm(), salva.getAtualizadoEm());
     }
 }

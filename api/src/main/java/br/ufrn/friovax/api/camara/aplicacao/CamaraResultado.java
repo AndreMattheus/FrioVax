@@ -1,6 +1,7 @@
 package br.ufrn.friovax.api.camara.aplicacao;
 
 import br.ufrn.friovax.api.camara.dominio.EstadoCamara;
+import br.ufrn.friovax.api.camara.dominio.EstadoTermico;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -14,6 +15,7 @@ public record CamaraResultado(
         BigDecimal temperaturaMinima,
         BigDecimal temperaturaMaxima,
         EstadoCamara estado,
+        EstadoTermico estadoTermico,
         int ocupacao,
         boolean ativo,
         OffsetDateTime criadoEm,

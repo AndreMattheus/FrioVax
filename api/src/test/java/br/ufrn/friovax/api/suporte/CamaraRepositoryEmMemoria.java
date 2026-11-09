@@ -3,10 +3,15 @@ package br.ufrn.friovax.api.suporte;
 import br.ufrn.friovax.api.camara.dominio.Camara;
 import br.ufrn.friovax.api.camara.dominio.CamaraFiltro;
 import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
+import br.ufrn.friovax.api.camara.dominio.PoliticaTermica;
 import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
 import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
@@ -20,9 +25,11 @@ public class CamaraRepositoryEmMemoria implements CamaraRepository {
 
     private final Map<Long, Camara> camaras = new TreeMap<>();
     private final AtomicLong sequencia = new AtomicLong();
+    private final Map<Long, List<PoliticaTermica>> politicas = new HashMap<>();
 
     public synchronized void limpar() {
         camaras.clear();
+        politicas.clear();
         sequencia.set(0);
     }
 
@@ -37,7 +44,19 @@ public class CamaraRepositoryEmMemoria implements CamaraRepository {
             throw new IllegalStateException("Câmara " + camara.getId() + " não está gravada");
         }
         camaras.put(camara.getId(), copia(camara));
+        // Como no banco, só acrescenta a versão vigente quando ela ainda não foi gravada.
+        var historico = politicas.computeIfAbsent(camara.getId(), id -> new ArrayList<>());
+        if (historico.stream().noneMatch(p -> p.getVersao() == camara.getPolitica().getVersao())) {
+            historico.add(camara.getPolitica());
+        }
         return camara;
+    }
+
+    @Override
+    public synchronized List<PoliticaTermica> historicoDePoliticas(long camaraId) {
+        return politicas.getOrDefault(camaraId, List.of()).stream()
+            .sorted(Comparator.comparingInt(PoliticaTermica::getVersao))
+            .toList();
     }
 
     @Override
@@ -58,17 +77,17 @@ public class CamaraRepositoryEmMemoria implements CamaraRepository {
     @Override
     public synchronized Pagina<Camara> listar(CamaraFiltro filtro, Paginacao paginacao) {
         var filtradas = camaras.values().stream()
-                .filter(camara -> camara.isAtivo() == filtro.ativo())
-                .filter(camara -> filtro.unidade() == null || camara.getUnidade().equalsIgnoreCase(filtro.unidade()))
-                .filter(camara -> filtro.estado() == null || camara.getEstado() == filtro.estado())
-                .map(CamaraRepositoryEmMemoria::copia)
-                .toList();
+            .filter(camara -> camara.isAtivo() == filtro.ativo())
+            .filter(camara -> filtro.unidade() == null || camara.getUnidade().equalsIgnoreCase(filtro.unidade()))
+            .filter(camara -> filtro.estado() == null || camara.getEstado() == filtro.estado())
+            .map(CamaraRepositoryEmMemoria::copia)
+            .toList();
         return Paginador.paginar(filtradas, paginacao);
     }
 
     private static Camara copia(Camara camara) {
         return Camara.reconstituir(camara.getId(), camara.getCodigo(), camara.getNome(), camara.getUnidade(),
-                camara.getCapacidade(), camara.getTemperaturaMinima(), camara.getTemperaturaMaxima(),
-                camara.getEstado(), camara.isAtivo(), camara.getCriadoEm(), camara.getAtualizadoEm());
+            camara.getCapacidade(), camara.getPolitica(), camara.getEstadoTermico(),
+            camara.getEstado(), camara.isAtivo(), camara.getCriadoEm(), camara.getAtualizadoEm());
     }
 }
