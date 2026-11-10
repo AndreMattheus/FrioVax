@@ -8,6 +8,16 @@ permissions:
   contents: read
 
 jobs:
+  deploy-contract:
+    name: Contrato da publicação
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - run: python -m unittest discover -s docs/scripts -p 'test_deploy.py' -v
+
   auth-local:
     name: Ambiente de autenticação (${{ matrix.os }})
     strategy:

@@ -1,0 +1,92 @@
+name: Publicar API
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      backup_sha:
+        description: SHA completo de main autorizado para este backup
+        required: true
+        type: string
+      backup_restore_reference:
+        description: SHA256 do arquivo restaurado (somente 64 caracteres hexadecimais)
+        required: true
+        type: string
+      backup_verified_at:
+        description: Fim do ensaio em UTC (exemplo 2026-11-10T19:20:00Z)
+        required: true
+        type: string
+      writes_paused:
+        description: Confirmo escritas suspensas desde o backup ate o fim da publicacao
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: producao
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment:
+      name: producao
+      url: ${{ vars.API_BASE_URL }}
+    permissions:
+      contents: read
+      actions: read
+      deployments: write
+    env:
+      DEPLOY_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+      GH_TOKEN: ${{ github.token }}
+      API_BASE_URL: ${{ vars.API_BASE_URL }}
+      RENDER_SERVICE_ID: ${{ vars.RENDER_SERVICE_ID }}
+      RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      FLYWAY_URL: ${{ secrets.FLYWAY_URL }}
+      FLYWAY_USER: ${{ secrets.FLYWAY_USER }}
+      FLYWAY_PASSWORD: ${{ secrets.FLYWAY_PASSWORD }}
+      SMOKE_LOGIN: ${{ secrets.SMOKE_LOGIN }}
+      SMOKE_PASSWORD: ${{ secrets.SMOKE_PASSWORD }}
+      BACKUP_VERIFIED_SHA: ${{ inputs.backup_sha }}
+      BACKUP_RESTORE_REFERENCE: ${{ inputs.backup_restore_reference }}
+      BACKUP_VERIFIED_AT: ${{ inputs.backup_verified_at }}
+      BACKUP_WRITES_PAUSED: ${{ inputs.writes_paused }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.DEPLOY_SHA }}
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Registrar deployment
+        id: deployment
+        run: python docs/scripts/deploy.py begin
+      - name: Conferir CI, configuração e recuperação
+        run: python docs/scripts/deploy.py preflight
+      - name: Migrar banco (sem saída sensível)
+        run: python docs/scripts/deploy.py migrate
+      - name: Aplicar e conferir permissoes do usuario da API
+        run: python docs/scripts/deploy.py grants
+      - name: Publicar SHA e esperar Render
+        run: python docs/scripts/deploy.py render
+      - name: Saúde e smoke autenticado
+        run: python docs/scripts/deploy.py smoke
+      - name: Registrar resultado final
+        if: always()
+        env:
+          DEPLOY_RESULT: ${{ job.status }}
+        run: python docs/scripts/deploy.py finish

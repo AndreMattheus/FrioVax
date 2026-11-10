@@ -26,6 +26,16 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 
 ## Política da equipe
 
+Registro de 10/11/2026 — OpenAI Codex: apoio à #88 com workflow de publicação,
+scripts e testes de falha, configuração de migração por ambiente e documentação
+de operação. Fontes: `docs/implantacao.md`, workflow e scripts no mesmo PR.
+Arthur deve conferir configuração real, recuperação, persistência e execução
+remota; Leonardo revisa. Preparação local não comprova conclusão da publicação.
+Continuidade em 10/11/2026: apoio aos scripts PowerShell de backup, restauracao
+e definicao de senha runtime, grants limitados no CI e proposta de backup manual
+com declaracao por execucao. Resultados remotos de migracao/restore foram
+relatados por Arthur. Ajuste da ADR depende de revisao de Leonardo.
+
 - IA pode apoiar pesquisa, explicação, testes, documentação e revisão.
 - O autor do PR responde pelo conteúdo submetido e deve conseguir explicá-lo.
 - Código gerado não é integrado sem teste e revisão humana.
