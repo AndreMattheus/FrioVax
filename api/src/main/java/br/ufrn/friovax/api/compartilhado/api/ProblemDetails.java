@@ -11,7 +11,8 @@ import java.util.List;
 public record ProblemDetails(
         @Schema(description = "Categoria do erro: `/problemas/requisicao-invalida`, "
             + "`/problemas/recurso-nao-encontrado`, `/problemas/codigo-duplicado`, `/problemas/capacidade-excedida`, "
-            + "`/problemas/estado-incompativel`, `/problemas/validacao` ou `/problemas/erro-interno`.",
+            + "`/problemas/estado-incompativel`, `/problemas/validacao`, `/problemas/analise-indisponivel`, "
+            + "`/problemas/falha-de-integracao` ou `/problemas/erro-interno`.",
             examples = "/problemas/capacidade-excedida")
         String type,
         @Schema(description = "Resumo da categoria do erro.", examples = "Capacidade da câmara excedida")
