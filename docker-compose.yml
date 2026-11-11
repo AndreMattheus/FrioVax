@@ -29,6 +29,7 @@ services:
       JWT_PRIVATE_KEY: /run/secrets/auth/privateKey.pem
       JWT_PUBLIC_KEY: /run/secrets/auth/publicKey.pem
       QUARKUS_HTTP_HOST: 0.0.0.0
+      QUARKUS_FLYWAY_MIGRATE_AT_START: "true"
       TELEMETRY_BASE_URL: http://telemetry:8081
       DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-friovax}
       DB_USER: ${DB_USER:-friovax}

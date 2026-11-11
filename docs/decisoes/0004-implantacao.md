@@ -93,6 +93,44 @@ Não versionar valores, `.env` de produção, backups, certificados privados ou 
 
 ### Migração e deploy pelo GitHub Actions
 
+#### Ajuste proposto na #88: backup manual
+
+Em 10/11/2026, Arthur escolheu manter backup e ensaio de restauracao manuais.
+Esta alteracao permanece **pendente de revisao de Leonardo no PR da #88**;
+nao representa aprovacao humana ja obtida.
+
+Antes de cada publicacao, o operador confirma ausencia de outro job de producao,
+suspende escritas e novas publicacoes, cria dump privado e restaura em destino
+isolado. Confere tabelas, contagens e dados de referencia. Mantem a suspensao ate
+terminar migracao, deploy e smoke. Nao executar rollback ou deploy manual em
+paralelo. O operador registra SHA pretendido, hash SHA256, horario real e resultado
+do ensaio, sem credenciais. Se houver novas escritas ou troca de SHA, repetir.
+
+O workflow exige, em Run workflow na main, SHA completo, hash do arquivo,
+horario do ensaio com fuso e declaracao de escritas suspensas. Aceita ensaio de
+no maximo seis horas. Isso e uma declaracao do operador, nao verificacao remota
+do arquivo nem bloqueio tecnico de escritas. Revisao humana e controle operacional
+sao obrigatorios. A exclusao mutua do CI cobre migracao, grants, deploy e smoke;
+a parte manual fica coberta pela reserva operacional descrita acima.
+
+Push em main continua disparando CI e tentativa de publicacao. Sem declaracao
+manual do backup, o preflight registra failure antes de alterar o banco ou chamar
+o Render. A publicacao efetiva ocorre por workflow_dispatch depois do ensaio.
+Nao usar variaveis de environment para liberar backups antigos automaticamente.
+
+O titular guarda os arquivos fora do repositorio e de artefatos publicos, em
+armazenamento privado com acesso restrito. Proposta de retencao para revisao:
+sete dias e pelo menos os tres ultimos backups aprovados; descarte manual somente
+apos conferencia pelo titular. A copia local nao protege contra perda do computador;
+definir copia privada adicional antes de depender dessa recuperacao operacional.
+
+O ensaio remoto relatado em 10/11 usou PostgreSQL 18.6, diferentemente do 17
+previsto inicialmente: V1–V3 aplicadas no teste e V999 invalida revertida. O backup
+anterior a migracao foi restaurado em banco isolado vazio, com listas de tabelas
+vazias na origem e destino. Isso nao demonstra recuperacao de registros: repetir
+com dados ficticios para concluir a evidencia. Aceitacao do PostgreSQL 18 fica
+incluida nesta revisao, sem alterar o PostgreSQL 17 dos testes locais.
+
 A implementação do workflow pertence à **#88**. O contrato obrigatório é:
 
 1. Disparo por push em `main` ou `workflow_dispatch` restrito a `main`. Checkout de um SHA completo; CI completo verde para esse mesmo SHA. Nenhum segredo de produção em jobs de pull request, inclusive de forks.
