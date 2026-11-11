@@ -2,6 +2,7 @@ import contextlib
 import io
 import os
 import subprocess
+import tempfile
 import unittest
 from unittest.mock import patch
 from datetime import datetime, timezone, timedelta
@@ -10,6 +11,60 @@ import deploy
 
 
 class DeployTest(unittest.TestCase):
+    def test_invalid_api_url_still_allows_final_failure(self):
+        for url in ('', 'http://example.org', 'https://[invalid'):
+            with self.subTest(url=url), tempfile.TemporaryDirectory() as directory:
+                env = {'API_BASE_URL': url, 'DEPLOY_SHA': 'a' * 40,
+                       'GITHUB_ENV': os.path.join(directory, 'env'), 'GITHUB_REPOSITORY': 'owner/repo',
+                       'GITHUB_RUN_ID': '123', 'DEPLOY_RESULT': 'failure'}
+                with patch.dict(os.environ, env, clear=True), \
+                        patch('deploy.github', return_value={'id': 42}) as github:
+                    with self.assertRaises((deploy.Failure, ValueError)):
+                        deploy.begin()
+                    with contextlib.redirect_stdout(io.StringIO()):
+                        deploy.finish()
+                self.assertEqual(2, github.call_count)
+                path, method, body = github.call_args.args
+                self.assertEqual('deployments/42/statuses', path)
+                self.assertEqual('POST', method)
+                self.assertEqual('failure', body['state'])
+                self.assertNotIn('environment_url', body)
+
+    def test_render_recovers_from_connection_failure_without_repeating_hook(self):
+        responses = [(202, {'deploy': {'id': 'dep-test'}}),
+                     deploy.Failure('connection interrupted'),
+                     (200, {'id': 'dep-test', 'status': 'live',
+                            'commit': {'id': 'a' * 40}})]
+        with patch.dict(os.environ, self.preflight_environment()), \
+                patch('deploy.request', side_effect=responses) as request, \
+                patch('deploy.time.sleep') as sleep, \
+                contextlib.redirect_stdout(io.StringIO()):
+            deploy.render()
+        self.assertEqual(3, request.call_count)
+        self.assertEqual('POST', request.call_args_list[0].args[1])
+        for call in request.call_args_list[1:]:
+            self.assertEqual(('https://api.render.com/v1/services/srv-test/deploys/dep-test',),
+                             call.args)
+        sleep.assert_called_once()
+
+    def test_render_connection_failures_stop_at_existing_deadline(self):
+        with patch.dict(os.environ, self.preflight_environment()), \
+                patch('deploy.request', side_effect=[(202, {'id': 'dep-test'}),
+                                                     deploy.Failure('timeout')]) as request, \
+                patch('deploy.time.monotonic', side_effect=[0, 1199, 1199, 1200]), \
+                patch('deploy.time.sleep') as sleep:
+            with self.assertRaisesRegex(deploy.Failure, 'Timeout aguardando Render'):
+                deploy.render()
+        self.assertEqual(2, request.call_count)
+        sleep.assert_called_once_with(1)
+
+    def test_render_does_not_retry_hook_connection_failure(self):
+        with patch.dict(os.environ, self.preflight_environment()), \
+                patch('deploy.request', side_effect=deploy.Failure('timeout')) as request:
+            with self.assertRaises(deploy.Failure):
+                deploy.render()
+        request.assert_called_once()
+
     def test_grants_failure_blocks_publication(self):
         with patch.dict(os.environ, self.preflight_environment()), \
                 patch('deploy.subprocess.run', return_value=subprocess.CompletedProcess([], 1)):

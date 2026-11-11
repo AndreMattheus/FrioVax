@@ -76,13 +76,18 @@ def base_url():
 
 
 def status(state):
-    github(f'deployments/{required("DEPLOYMENT_ID")}/statuses', 'POST', {
+    body = {
         'state': state, 'environment': 'producao',
-        'environment_url': base_url(),
         'log_url': f'https://github.com/{required("GITHUB_REPOSITORY")}/actions/runs/{required("GITHUB_RUN_ID")}',
         'description': 'Saúde e smoke aprovados' if state == 'success' else 'Publicação controlada pelo CI',
         'auto_inactive': state == 'success',
-    })
+    }
+    try:
+        body['environment_url'] = base_url()
+    except (Failure, ValueError):
+        if state != 'failure':
+            raise
+    github(f'deployments/{required("DEPLOYMENT_ID")}/statuses', 'POST', body)
 
 
 def begin():
@@ -174,7 +179,12 @@ def render():
             url += f'/{deploy_id}'
         else:
             url += '?' + urllib.parse.urlencode({'createdAfter': started, 'limit': 100})
-        code, result = request(url, token=required('RENDER_API_KEY'))
+        token = required('RENDER_API_KEY')
+        try:
+            code, result = request(url, token=token)
+        except Failure:
+            time.sleep(min(10, max(0, deadline - time.monotonic())))
+            continue
         if code == 200:
             candidates = [result] if deploy_id else [r['deploy'] for r in result]
             matches = [d for d in candidates if d.get('commit', {}).get('id') == sha()]
@@ -193,7 +203,7 @@ def render():
                 raise Failure('Render retornou SHA diferente do solicitado.')
         elif code not in (429, 500, 502, 503, 504):
             raise Failure(f'Consulta Render falhou (HTTP {code}).')
-        time.sleep(10)
+        time.sleep(min(10, max(0, deadline - time.monotonic())))
     raise Failure('Timeout aguardando Render live no SHA solicitado.')
 
 

@@ -26,6 +26,11 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 
 ## Política da equipe
 
+Registro de 11/11/2026 — OpenAI Codex: apoio aos ajustes solicitados por Leonardo
+na #88: retentativa de consultas Render dentro do prazo, status final de falha
+sem URL valida, testes de regressao e retirada do fechamento automatico da issue.
+Arthur deve revisar as alteracoes; o aceite operacional remoto segue pendente.
+
 Registro de 10/11/2026 — OpenAI Codex: apoio à #88 com workflow de publicação,
 scripts e testes de falha, configuração de migração por ambiente e documentação
 de operação. Fontes: `docs/implantacao.md`, workflow e scripts no mesmo PR.

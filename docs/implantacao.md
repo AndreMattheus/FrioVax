@@ -6,6 +6,11 @@ cinco minutos de partida a frio. Os dados devem permanecer no Neon.
 
 ## Automação
 
+A #88 permanece aberta ate o aceite operacional: publicacao real pelo workflow,
+runtime com usuario limitado, smoke autenticado e comparacao dos registros apos
+redeploy. O PR de preparacao referencia a issue sem fechamento automatico;
+testes com mocks nao substituem essas evidencias.
+
 O push em `main` executa o CI existente. Ao terminar com sucesso, `deploy.yml`
 recebe `workflow_run` e publica o **head_sha desse CI**, sem confundir com o SHA
 do evento `workflow_run`. Também aceita execução manual em `main`, exigindo CI
