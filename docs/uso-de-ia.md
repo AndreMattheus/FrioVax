@@ -26,6 +26,13 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 
 ## Política da equipe
 
+Registro de 13/11/2026 — OpenAI Codex: apoio ao diagnostico da restauracao e do
+contexto Docker no Render, acompanhamento somente de leitura dos runs/deployments
+e redacao do relatorio `docs/evidencias/sprint-2/validacao/implantacao-88.md`.
+Arthur executou backup, restauracao e consultas autenticadas e relatou a
+preservacao de dados. Leonardo deve revisar evidencia e mudancas locais antes
+do encerramento; nenhuma credencial foi registrada neste relato.
+
 Registro de 11/11/2026 — OpenAI Codex: apoio aos ajustes solicitados por Leonardo
 na #88: retentativa de consultas Render dentro do prazo, status final de falha
 sem URL valida, testes de regressao e retirada do fechamento automatico da issue.

@@ -4,6 +4,10 @@ O serviço existente é https://friovax.onrender.com. Render Free suspende o
 processo por inatividade; a próxima requisição o inicia. O smoke tolera até
 cinco minutos de partida a frio. Os dados devem permanecer no Neon.
 
+Resultado operacional de 13/11/2026: primeira publicacao e redeploy aprovados,
+com preservacao do registro de referencia relatada por Arthur. Fontes e limites
+no [relatorio da #88](evidencias/sprint-2/validacao/implantacao-88.md).
+
 ## Automação
 
 A #88 permanece aberta ate o aceite operacional: publicacao real pelo workflow,
