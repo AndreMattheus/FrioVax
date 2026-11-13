@@ -41,11 +41,14 @@ class MigracoesFlywayTest {
 
             assertTrue(resultado.success);
             assertEquals(versoesDisponiveis().size(), resultado.migrationsExecuted);
-            assertEquals(Set.of("camaras", "lotes", "usuarios", "sessoes", "politicas_termicas",
-                "flyway_schema_history"), tabelas(esquema));
+            assertEquals(Set.of("camaras", "lotes", "usuarios", "sessoes", "politicas_termicas", "leituras",
+                "ocorrencias", "ocorrencia_evidencias", "ocorrencia_lotes", "flyway_schema_history"), tabelas(esquema));
             assertTrue(restricoes(esquema).containsAll(Set.of("uk_camaras_codigo", "chk_camaras_estado",
                 "chk_camaras_estado_termico", "uk_politicas_camara_versao", "fk_politicas_camara",
-                "chk_politicas_faixa", "chk_politicas_limiar", "uk_lotes_codigo", "fk_lotes_camara", "chk_lotes_quantidade",
+                "chk_politicas_faixa", "chk_politicas_limiar", "uk_leituras_camara_id_externo",
+                "uk_leituras_camara_instante", "fk_leituras_politica", "chk_leituras_resultado",
+                "uk_ocorrencias_leitura_abertura", "chk_ocorrencias_resolucao", "pk_ocorrencia_evidencias",
+                "pk_ocorrencia_lotes", "fk_lotes_afetados_lote", "uk_lotes_codigo", "fk_lotes_camara", "chk_lotes_quantidade",
                 "chk_lotes_estado", "chk_lotes_disponivel_com_doses", "chk_lotes_esgotado_sem_doses",
                 "uk_usuarios_login", "chk_usuarios_senha_hash", "chk_usuarios_perfil",
                 "chk_sessoes_token_hash", "fk_sessoes_usuario", "chk_sessoes_expiracao", "chk_sessoes_revogacao")));
@@ -117,7 +120,8 @@ class MigracoesFlywayTest {
             var resultado = flywayNoEsquema(esquema).migrate();
 
             assertTrue(resultado.success);
-            assertEquals(1, resultado.migrationsExecuted);
+            assertEquals(versoesDisponiveis().size() - 3, resultado.migrationsExecuted,
+                "todas as migrações posteriores à V3 são aplicadas");
             assertEquals(2, contar(esquema + ".politicas_termicas"));
             assertEquals(1, contar(esquema + ".lotes"));
             assertEquals("1|-25.0|-15.5|3|true|true|SEM_LEITURAS|MANUTENCAO", politicaMigrada(esquema, "C-FREEZER"));
