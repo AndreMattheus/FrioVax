@@ -19,6 +19,9 @@ class ArquiteturaTest {
     private static final String API = "br.ufrn.friovax.api.*.api..";
     private static final String APLICACAO = "br.ufrn.friovax.api.*.aplicacao..";
     private static final String PERSISTENCIA = "br.ufrn.friovax.api.*.persistencia..";
+    private static final String INTEGRACAO = "br.ufrn.friovax.api.*.integracao..";
+    private static final String[] TRANSPORTE_GRPC = {"io.grpc..", "com.google.protobuf..", "io.quarkus.grpc..",
+            "br.ufrn.friovax.telemetry.."};
 
     @ArchTest
     static final ArchRule dominio_independente = classes().that().resideInAPackage(DOMINIO)
@@ -37,11 +40,13 @@ class ArquiteturaTest {
             .layer("Aplicacao").definedBy(APLICACAO)
             .layer("Dominio").definedBy(DOMINIO)
             .layer("Persistencia").definedBy(PERSISTENCIA)
+            .layer("Integracao").definedBy(INTEGRACAO)
             .whereLayer("API").mayNotBeAccessedByAnyLayer()
             .whereLayer("Aplicacao").mayOnlyBeAccessedByLayers("API")
-            .whereLayer("Dominio").mayOnlyBeAccessedByLayers("API", "Aplicacao", "Persistencia")
+            .whereLayer("Dominio").mayOnlyBeAccessedByLayers("API", "Aplicacao", "Persistencia", "Integracao")
             .whereLayer("Persistencia").mayNotBeAccessedByAnyLayer()
-            .because("API chama aplicação; aplicação e persistência dependem do domínio (ADR 0002)");
+            .whereLayer("Integracao").mayNotBeAccessedByAnyLayer()
+            .because("API chama aplicação; aplicação e adaptadores dependem do domínio (ADR 0002)");
 
     @ArchTest
     static final ArchRule api_nao_acessa_repositorios = noClasses().that().resideInAnyPackage(API, "br.ufrn.friovax.api")
@@ -54,6 +59,17 @@ class ArquiteturaTest {
                     "javax.ws.rs..", "javax.persistence..", "org.hibernate..", "io.quarkus.hibernate..",
                     "java.sql..", "javax.sql..")
             .because("a aplicação usa interfaces do domínio e não conhece HTTP ou persistência concreta");
+
+    @ArchTest
+    static final ArchRule dominio_e_aplicacao_sem_grpc = noClasses().that().resideInAnyPackage(DOMINIO, APLICACAO)
+            .should().dependOnClassesThat().resideInAnyPackage(TRANSPORTE_GRPC)
+            .because("a análise térmica é usada pela porta do domínio; gRPC e tipos gerados ficam no adaptador "
+                    + "(ADR 0003, seção 1)");
+
+    @ArchTest
+    static final ArchRule grpc_somente_no_adaptador = noClasses().that().resideOutsideOfPackage(INTEGRACAO)
+            .should().dependOnClassesThat().resideInAnyPackage(TRANSPORTE_GRPC)
+            .because("somente o adaptador de integração traduz Protobuf e status gRPC");
 
     @ArchTest
     static final ArchRule persistencia_sem_http = noClasses().that().resideInAPackage(PERSISTENCIA)
