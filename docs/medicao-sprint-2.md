@@ -28,13 +28,23 @@ Tudo fica em [evidencias/sprint-2/](evidencias/sprint-2/README.md). Os CSVs usam
 
 ### Passo a passo para cada autor
 
-1. Ao começar de verdade, mover o cartão para `Em Progresso`, preencher **Start date** com a data real e abrir uma linha `trabalho` com início, autor e fonte (comentário na issue ou registro versionado). Fechar o intervalo ao pausar; reabrir com outro ID ao retomar. Não deduzir início/fim pelos horários dos commits.
+1. Ao começar de verdade, mover o cartão para `Em Progresso`, preencher **Start date** com a data real e abrir uma linha `trabalho` com início, autor e fonte (comentário na issue ou registro versionado). Fechar o intervalo ao pausar; reabrir com outro ID ao retomar. Não registrar horários de commits como trabalho `observado` ou `relatado`; sem relato, usar a estimativa por commits descrita abaixo.
 2. Ao executar teste/build/coleta, registrar `automacao` com o período efetivo do job. A fila do runner é `espera`, não execução. Se trabalhar durante o job, registrar ambos; o cálculo usa a união temporal, sem somar a sobreposição.
 3. Ao ficar impedido, aplicar `blocked`, registrar motivo, dono da remoção e início. Na liberação, registrar fonte e fim e remover a label. O cartão continua contando no WIP. Espera por revisão é `espera`; só aplicar `blocked` se houver impedimento real.
 4. Ao pedir revisão, gravar o evento `pedido_revisao` e abrir `espera`/etapa `revisao`. Usar o evento `review_requested` efetivo; abertura do PR só serve como aproximação explicitamente marcada quando não houver evento. PR em draft ainda não é pedido de revisão.
 5. Na primeira review humana de outra pessoa, registrar `primeira_revisao` e fechar a espera. Contam reviews submetidas (`APPROVED`, `CHANGES_REQUESTED` ou `COMMENTED`); excluir bot, autorreview e comentário comum. Não confundir primeira review com aprovação final. Ciclos posteriores recebem novos intervalos.
 6. Registrar merge, conclusão da DoD e publicação como eventos distintos. **Finished date** só recebe a data da DoD efetivamente cumprida. Fechamento administrativo da issue não comprova integração nem publicação. Preservar Planned start/Target date como planejamento.
 7. Vincular cada registro à URL do evento/job/PR ou a `caminho/do/snapshot.json#/ponteiro/JSON`. Executar o validador antes do PR. Se faltar informação, deixar a lacuna explícita; não completar a jornada por suposição.
+
+### Estimativa de trabalho pelos commits
+
+Quando não houver relato contemporâneo, o autor pode estimar seus intervalos `trabalho` pelos commits originais do PR, sem contar merges:
+
+1. Commits com até 60 minutos entre si formam um bloco.
+2. O bloco começa 60 minutos antes do primeiro commit, sem sobrepor o bloco anterior, e termina no último commit.
+3. A linha usa `precisao=estimado`, aponta como `fonte` o último commit do bloco (`https://github.com/<dono>/<repo>/commit/<sha>`) e informa o método e a quantidade de commits em `observacao`.
+
+Um commit indica quando o código foi salvo, não a duração do esforço. Por isso, a estimativa não comprova atenção contínua e é apresentada separadamente das medições observadas e relatadas. Um relato posterior com fonte substitui a estimativa do mesmo período. A linha antiga é preservada, e o PR explica a correção. Depois de rebase ou squash, conferir se o SHA citado continua acessível no PR.
 
 No Project, reaproveitar **Planned start**, **Target date**, **Start date** e **Finished date** existentes. São campos de data, sem hora; o timestamp completo e sua fonte ficam nos CSVs/eventos. Uma mudança para `Em Progresso` é fonte do início do fluxo; não comprova horas ativas ininterruptas.
 
