@@ -75,7 +75,7 @@ message Reading {
   // Temperatura obrigatória em décimos de grau Celsius (-9999 a 9999).
   // Exemplo: 87 representa 8,7 °C. Não arredondar; zero é válido e difere de ausência.
   optional int32 temperature_tenths_celsius = 4;
-  // Instante obrigatório e válido, normalizado para UTC, com precisão de nanossegundos.
+  // Instante obrigatório e válido, normalizado para UTC, com precisão de até microssegundos (nanos múltiplo de 1000).
   google.protobuf.Timestamp measured_at = 5;
 }
 
