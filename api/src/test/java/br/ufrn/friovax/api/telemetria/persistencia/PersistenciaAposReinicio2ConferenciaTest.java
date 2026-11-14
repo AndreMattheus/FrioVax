@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Segunda metade da prova de persistência após reinício da API: roda noutra aplicação Quarkus, iniciada depois de
@@ -58,6 +59,8 @@ class PersistenciaAposReinicio2ConferenciaTest {
                         "select id, nome from camaras where codigo like :prefixo order by id desc")
                 .setParameter("prefixo", ReinicioDaApi.PREFIXO_CODIGO + "%").getResultList());
         if (gravadas.isEmpty()) {
+            assumeTrue(ReinicioDaApi.bancoSobreviveAoReinicio(), "Sem URL de banco e sem reaproveitamento de contêineres, "
+                    + "o Dev Services recria o PostgreSQL no reinício: não há o mesmo banco para conferir.");
             fail("Nada foi gravado antes do reinício. Execute junto com PersistenciaAposReinicio1GravacaoTest, "
                     + "por exemplo com -Dtest='PersistenciaAposReinicio*'.");
         }
