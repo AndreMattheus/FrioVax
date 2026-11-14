@@ -11,6 +11,7 @@ import io.grpc.Metadata;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.MetadataUtils;
 import io.quarkus.grpc.GrpcClient;
+import io.quarkus.runtime.Startup;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jboss.logging.Logger;
@@ -26,13 +27,19 @@ import java.util.concurrent.TimeUnit;
  * repetição automática. O canal é criado sem conectar, então a API inicia mesmo com o serviço Go ausente. A
  * correlação segue no corpo e no metadado {@value #CABECALHO_CORRELACAO}; interromper a thread chamadora cancela a RPC
  * no servidor.
+ *
+ * <p>{@link Startup} cria o adaptador na inicialização: um prazo inválido impede o boot em vez de virar erro 500 na
+ * primeira análise. Criar o adaptador não abre conexão.
  */
+@Startup
 @ApplicationScoped
 public class AnaliseTermicaGrpc implements AnaliseTermica {
 
     static final String CABECALHO_CORRELACAO = "x-correlation-id";
     static final Metadata.Key<String> CHAVE_CORRELACAO =
             Metadata.Key.of(CABECALHO_CORRELACAO, Metadata.ASCII_STRING_MARSHALLER);
+
+    static final int DESCRICAO_LOGADA_MAXIMA = 200;
 
     private static final Logger LOG = Logger.getLogger(AnaliseTermicaGrpc.class);
 
@@ -73,15 +80,27 @@ public class AnaliseTermicaGrpc implements AnaliseTermica {
         }
     }
 
-    /** Traduz o status remoto sem repassar a descrição do servidor nem a causa ao chamador. */
+    /**
+     * Traduz o status remoto sem repassar a descrição do servidor nem a causa ao chamador. A descrição fica só no log,
+     * limitada e sem caracteres de controle, para diagnosticar a falha de integração.
+     */
     private RuntimeException traduzir(String correlacaoId, StatusRuntimeException falha) {
         var codigo = falha.getStatus().getCode();
-        LOG.warnf("Análise térmica %s falhou com status gRPC %s", correlacaoId, codigo);
+        LOG.warnf("Análise térmica %s falhou com status gRPC %s: %s", correlacaoId, codigo,
+                descricaoParaLog(falha.getStatus().getDescription()));
         return switch (codigo) {
             case UNAVAILABLE -> new AnaliseIndisponivel(Motivo.SERVICO_INACESSIVEL);
             case DEADLINE_EXCEEDED -> new AnaliseIndisponivel(Motivo.PRAZO_ESGOTADO);
             case CANCELLED -> new AnaliseIndisponivel(Motivo.CANCELADA);
             default -> new FalhaDeIntegracao("O serviço de análise térmica recusou a chamada (status " + codigo + ").");
         };
+    }
+
+    static String descricaoParaLog(String descricao) {
+        if (descricao == null || descricao.isBlank()) {
+            return "sem descrição";
+        }
+        var limpa = descricao.replaceAll("\\p{Cntrl}", " ").strip();
+        return limpa.length() <= DESCRICAO_LOGADA_MAXIMA ? limpa : limpa.substring(0, DESCRICAO_LOGADA_MAXIMA) + "…";
     }
 }
