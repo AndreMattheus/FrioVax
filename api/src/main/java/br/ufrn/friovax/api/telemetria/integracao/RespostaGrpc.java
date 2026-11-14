@@ -17,9 +17,7 @@ import br.ufrn.friovax.telemetry.v1.WindowError;
 import br.ufrn.friovax.telemetry.v1.WindowResult;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -69,18 +67,18 @@ final class RespostaGrpc {
             throw falha("a câmara " + janela.camaraId() + " tem " + analise.getCandidatesCount()
                     + " resultados para " + janela.candidatas().size() + " candidatas");
         }
-        var conhecidas = new HashSet<String>();
-        Stream.concat(janela.contexto().stream(), janela.candidatas().stream())
-                .map(LeituraDaAnalise::idExterno).forEach(conhecidas::add);
+        var ordem = Stream.concat(janela.contexto().stream(), janela.candidatas().stream())
+                .map(LeituraDaAnalise::idExterno).toList();
         var candidatas = new ArrayList<ResultadoDaCandidata>(janela.candidatas().size());
         for (int i = 0; i < janela.candidatas().size(); i++) {
-            candidatas.add(candidata(janela, janela.candidatas().get(i), analise.getCandidates(i), conhecidas));
+            int posicao = janela.contexto().size() + i;
+            candidatas.add(candidata(janela, janela.candidatas().get(i), analise.getCandidates(i), ordem, posicao));
         }
         return new ResultadoDaJanela.Analisada(janela.camaraId(), janela.politica().versao(), candidatas);
     }
 
     private static ResultadoDaCandidata candidata(JanelaDeAnalise janela, LeituraDaAnalise enviada,
-                                                  CandidateResult resultado, Set<String> conhecidas) {
+                                                  CandidateResult resultado, List<String> ordem, int posicao) {
         var camara = janela.camaraId();
         if (!enviada.idExterno().equals(resultado.getExternalId())) {
             throw falha("resultado fora de ordem na câmara " + camara);
@@ -91,8 +89,8 @@ final class RespostaGrpc {
             throw falha("sequência acima do limiar na câmara " + camara);
         }
         List<String> evidencias = resultado.getEvidenceExternalIdsList();
-        if (!conhecidas.containsAll(evidencias)) {
-            throw falha("evidência desconhecida na câmara " + camara);
+        if (!evidenciasConsecutivas(evidencias, ordem, posicao)) {
+            throw falha("evidências fora da sequência que termina na candidata, na câmara " + camara);
         }
         try {
             var termico = switch (resultado.getClassification()) {
@@ -111,6 +109,16 @@ final class RespostaGrpc {
         } catch (IllegalArgumentException incoerente) {
             throw falha("resultado incoerente na câmara " + camara + " (" + semPonto(incoerente.getMessage()) + ")");
         }
+    }
+
+    /**
+     * As evidências de uma insegura são as leituras imediatamente anteriores a ela, na ordem da janela, terminando
+     * nela: exatamente {@code ordem[posicao - k + 1 .. posicao]}. Leituras futuras, repetidas ou fora de ordem não
+     * formam uma sequência consecutiva.
+     */
+    private static boolean evidenciasConsecutivas(List<String> evidencias, List<String> ordem, int posicao) {
+        int inicio = posicao - evidencias.size() + 1;
+        return evidencias.isEmpty() || inicio >= 0 && evidencias.equals(ordem.subList(inicio, posicao + 1));
     }
 
     private static ResultadoDaJanela rejeitada(JanelaDeAnalise janela, long politicaVersao, WindowError erro) {

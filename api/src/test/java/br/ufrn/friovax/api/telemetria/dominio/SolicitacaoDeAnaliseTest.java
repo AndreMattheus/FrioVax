@@ -87,6 +87,16 @@ class SolicitacaoDeAnaliseTest {
     }
 
     @Test
+    void correlacaoSoAceitaAsciiSeguroParaMetadadoELog() {
+        assertDoesNotThrow(() -> SolicitacaoDeAnalise.de("lote-2026.11:abc_1", janela(1, 1)));
+        assertThrows(IllegalArgumentException.class, () -> SolicitacaoDeAnalise.de("análise-1", janela(1, 1)));
+        assertThrows(IllegalArgumentException.class, () -> SolicitacaoDeAnalise.de("a\nb", janela(1, 1)));
+        assertThrows(IllegalArgumentException.class, () -> SolicitacaoDeAnalise.de("com espaço", janela(1, 1)));
+        assertThrows(IllegalArgumentException.class,
+                () -> SolicitacaoDeAnalise.de("x".repeat(SolicitacaoDeAnalise.CORRELACAO_MAXIMA + 1), janela(1, 1)));
+    }
+
+    @Test
     void resultadoInseguroTerminaNaCandidataComUmaEvidenciaPorPasso() {
         assertDoesNotThrow(() -> new ResultadoDaCandidata("c3", ResultadoTermico.insegura(3, true),
                 List.of("c1", "c2", "c3")));

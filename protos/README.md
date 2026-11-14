@@ -225,8 +225,9 @@ caso de uso -> AnaliseTermica (porta no domínio)
 
 `RespostaGrpc` confere a resposta contra a solicitação enviada: correlação,
 quantidade e ordem das janelas e das candidatas, versão da política, `oneof`
-preenchido, enums conhecidos, sequência até N, sinal coerente e evidências da
-própria janela. Qualquer divergência invalida a chamada inteira
+preenchido, enums conhecidos, sequência até N e sinal coerente. As evidências
+devem ser as leituras consecutivas, na ordem da janela, que terminam na própria
+candidata. Qualquer divergência invalida a chamada inteira
 (`FalhaDeIntegracao`). Um `WindowError` vira `ResultadoDaJanela.Rejeitada`
 somente para aquela câmara. Endereço, porta e prazo estão descritos no
 [README](../README.md#cliente-grpc-da-análise-térmica).
