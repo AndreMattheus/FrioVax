@@ -14,17 +14,45 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LeituraTest {
     private static final OffsetDateTime ACEITA = OffsetDateTime.parse("2026-11-10T12:00:00-03:00");
-    private static final OffsetDateTime MEDIDA = OffsetDateTime.parse("2026-11-10T11:59:00.123456789-03:00");
+    private static final OffsetDateTime MEDIDA = OffsetDateTime.parse("2026-11-10T11:59:00.123456-03:00");
 
     @Test
     void normalizaInstanteTemperaturaEOrigem() {
         var leitura = nova("L-1", MEDIDA, "8", "  sensor-1  ");
 
         assertEquals(OffsetDateTime.parse("2026-11-10T14:59:00.123456Z"), leitura.getInstante(),
-                "UTC e microssegundos, a precisão do PostgreSQL");
+                "mesmo instante em UTC, sem perder os microssegundos");
         assertEquals(ZoneOffset.UTC, leitura.getInstante().getOffset());
         assertEquals(new BigDecimal("8.0"), leitura.getTemperatura());
         assertEquals("sensor-1", leitura.getOrigem());
+    }
+
+    @Test
+    void aceitaAte6CasasDecimaisSemArredondar() {
+        var comZerosAMais = OffsetDateTime.parse("2026-11-10T12:00:00.123456000Z");
+        var semFracao = OffsetDateTime.parse("2026-11-10T12:00:00Z");
+
+        assertEquals(123_456_000, nova("L-1", comZerosAMais, "8.0", "s").getInstante().getNano());
+        assertEquals(0, nova("L-2", semFracao, "8.0", "s").getInstante().getNano());
+    }
+
+    @Test
+    void recusaInstanteComPrecisaoMaiorQueMicrossegundosEmVezDeTruncar() {
+        // Truncados, os dois virariam 12:00:00.123456 e seriam tratados como o mesmo instante.
+        var a = OffsetDateTime.parse("2026-11-10T12:00:00.123456100Z");
+        var b = OffsetDateTime.parse("2026-11-10T12:00:00.123456900Z");
+
+        assertEquals("instante", campo(() -> nova("L-1", a, "8.0", "s")));
+        assertEquals("instante", campo(() -> nova("L-1", b, "8.0", "s")));
+        assertEquals("instante", campo(() -> nova("L-1", MEDIDA.plusNanos(1), "8.0", "s")));
+    }
+
+    @Test
+    void reenvioComInstanteDeMaisDe6CasasNaoEhConsideradoIgual() {
+        var leitura = nova("L-1", OffsetDateTime.parse("2026-11-10T12:00:00.123456Z"), "8.0", "s");
+
+        assertEquals("instante", campo(() -> leitura.temMesmoConteudo(new BigDecimal("8.0"),
+                OffsetDateTime.parse("2026-11-10T12:00:00.123456100Z"), "s")));
     }
 
     @Test

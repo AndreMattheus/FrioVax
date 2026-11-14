@@ -410,7 +410,7 @@ type Reading struct {
 	// Temperatura obrigatória em décimos de grau Celsius (-9999 a 9999).
 	// Exemplo: 87 representa 8,7 °C. Não arredondar; zero é válido e difere de ausência.
 	TemperatureTenthsCelsius *int32 `protobuf:"varint,4,opt,name=temperature_tenths_celsius,json=temperatureTenthsCelsius,proto3,oneof" json:"temperature_tenths_celsius,omitempty"`
-	// Instante obrigatório e válido, normalizado para UTC, com precisão de nanossegundos.
+	// Instante obrigatório e válido, normalizado para UTC, com precisão de até microssegundos (nanos múltiplo de 1000).
 	MeasuredAt    *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=measured_at,json=measuredAt,proto3" json:"measured_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

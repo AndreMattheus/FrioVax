@@ -238,6 +238,10 @@ Temperaturas são inteiros em décimos: 90 significa 9 °C, e -15 significa -1,5
 Campos de temperatura usam
 `optional` para distinguir ausência de 0 °C. `Timestamp` representa o instante;
 a API converte o offset recebido para o mesmo instante UTC, sem arredondar.
+A precisão aceita é de microssegundos, a mesma do `TIMESTAMPTZ` do PostgreSQL:
+a API recusa com `422` um instante com mais de 6 casas decimais nos segundos
+(por exemplo, `12:00:00.123456100`), em vez de truncá-lo. Por isso, todo
+`Timestamp` enviado pela API tem `nanos` múltiplo de 1000.
 
 ## Invariantes e falhas
 

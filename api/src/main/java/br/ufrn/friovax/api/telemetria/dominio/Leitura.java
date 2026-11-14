@@ -5,7 +5,6 @@ import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 //Leitura de temperatura aceita para uma câmara
@@ -14,6 +13,8 @@ public final class Leitura {
 
     public static final int TAMANHO_MAXIMO_ID_EXTERNO = 100;
     public static final int TAMANHO_MAXIMO_ORIGEM = 100;
+
+    private static final int NANOS_POR_MICROSSEGUNDO = 1_000;
 
     private static final BigDecimal TEMPERATURA_MINIMA = new BigDecimal("-999.9");
     private static final BigDecimal TEMPERATURA_MAXIMA = new BigDecimal("999.9");
@@ -72,11 +73,20 @@ public final class Leitura {
         this.id = id;
     }
 
+    /**
+     * Converte para UTC sem arredondar. A precisão aceita é de microssegundos, a mesma do {@code TIMESTAMPTZ} do
+     * PostgreSQL: um instante com fração menor é recusado, porque truncá-lo faria dois instantes diferentes (por exemplo
+     * {@code 12:00:00.123456100} e {@code 12:00:00.123456900}) virarem o mesmo.
+     */
     static OffsetDateTime instanteNormalizado(OffsetDateTime instante) {
         if (instante == null) {
             throw new ValidacaoDeNegocio("instante", "deve ser informado com fuso");
         }
-        return instante.withOffsetSameInstant(ZoneOffset.UTC).truncatedTo(ChronoUnit.MICROS);
+        if (instante.getNano() % NANOS_POR_MICROSSEGUNDO != 0) {
+            throw new ValidacaoDeNegocio("instante",
+                    "deve ter no máximo 6 casas decimais nos segundos (precisão de microssegundos)");
+        }
+        return instante.withOffsetSameInstant(ZoneOffset.UTC);
     }
 
     private static String idExternoValidado(String idExterno) {
@@ -127,7 +137,7 @@ public final class Leitura {
         return idExterno;
     }
 
-    /** Instante da medição, em UTC, com precisão de microssegundos. */
+    /** Instante da medição em UTC, exatamente como recebido (precisão de até microssegundos). */
     public OffsetDateTime getInstante() {
         return instante;
     }
