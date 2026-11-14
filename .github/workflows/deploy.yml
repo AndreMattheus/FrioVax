@@ -1,6 +1,10 @@
 name: Publicar API
 
 on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -12,7 +16,11 @@ concurrency:
 
 jobs:
   publicar:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
     timeout-minutes: 40
     environment:
@@ -23,7 +31,7 @@ jobs:
       actions: read
       deployments: write
     env:
-      DEPLOY_SHA: ${{ github.sha }}
+      DEPLOY_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
       GH_TOKEN: ${{ github.token }}
       API_BASE_URL: ${{ vars.API_BASE_URL }}
       RENDER_SERVICE_ID: ${{ vars.RENDER_SERVICE_ID }}

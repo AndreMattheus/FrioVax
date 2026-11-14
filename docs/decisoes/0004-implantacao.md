@@ -113,11 +113,11 @@ backup privado, recuperacao conferida e plano de mudanca antes de prosseguir.
 O CI nao detecta automaticamente dados reais nem SQL destrutivo; essa avaliacao
 cabe a revisao humana antes do merge. Nenhum plano pago e autorizado por esta mudanca.
 
-A retirada do bloqueio vem acompanhada de publicacao exclusivamente manual:
-somente workflow_dispatch em main, sem campos de backup. Push/PR mantem CI
-automatico; merge e CI verde nao publicam. O operador escolhe quando publicar
-um conjunto pequeno de mudancas aprovadas. Nao e necessario alterar secrets ou
-variaveis no GitHub. O autodeploy nativo do Render continua desligado.
+A retirada do bloqueio permite publicacao automatica apos CI verde de push em
+main: workflow_run publica o head_sha desse CI. CI de PR nao publica.
+workflow_dispatch em main continua disponivel sem campos de backup, com CI verde
+para o mesmo SHA. Nao e necessario alterar secrets ou variaveis no GitHub.
+O autodeploy nativo do Render continua desligado: a publicacao passa pelo CI.
 CI verde no mesmo SHA, Flyway validate/migrate/validate, grants limitados,
 exclusao mutua, TLS, verificacao do SHA live e smoke continuam obrigatorios.
 
@@ -129,7 +129,7 @@ na branch descartavel. O PostgreSQL 17 dos testes locais permanece inalterado.
 Backups existentes devem continuar privados; nao ha descarte automatico neste PR.
 A implementação do workflow pertence à **#88**. O contrato obrigatório é:
 
-1. Disparo exclusivamente por `workflow_dispatch` restrito a `main`. Checkout de um SHA completo selecionado na execucao; CI completo verde de push para esse mesmo SHA. Push e merge nao publicam automaticamente. Nenhum segredo de producao em jobs de pull request, inclusive de forks.
+1. Disparo automatico por workflow_run apos CI de push verde em main ou manual por workflow_dispatch restrito a main. Checkout do SHA completo do CI aprovado ou selecionado na execucao manual; CI verde de push para esse mesmo SHA. Nenhum segredo de producao em jobs de pull request, inclusive de forks.
 2. Job de publicação com **`environment: producao`**, permissões mínimas (`contents: read`, `deployments: write`) e `concurrency: group: producao`, `cancel-in-progress: false`. A região crítica cobre migração, grants, deploy e smoke. Operações manuais também precisam respeitar essa exclusão.
 3. Conferir pre-requisitos e versao anterior compativel com o esquema. Backup/restauracao sao opcionais para dados ficticios recriaveis; para dados importantes ou mudanca destrutiva, exigir revisao do plano de recuperacao conforme a politica acima. Nao guardar dumps em artefatos publicos.
 4. Executar **Flyway validate + migrate + validate**, com as migrações do mesmo SHA que será publicado, conexão direta e `cleanDisabled=true`. No validate anterior, permitir somente migrações `pending` com `ignoreMigrationPatterns=*:pending`; depois do migrate, esvaziar os padrões ignorados e exigir validação estrita. Não ignorar checksum divergente ou migração aplicada ausente do código. A versão da CLI deve coincidir com o Flyway resolvido pelo BOM da API (12.0.0 nesta base); fixar imagem por versão e digest na #88. Versões diferentes exigem novo ensaio.

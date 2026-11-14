@@ -15,11 +15,12 @@ runtime com usuario limitado, smoke autenticado e comparacao dos registros apos
 redeploy. O PR de preparacao referencia a issue sem fechamento automatico;
 testes com mocks nao substituem essas evidencias.
 
-Push e pull request executam o CI existente automaticamente, mas nao publicam.
-`deploy.yml` aceita somente `workflow_dispatch` em `main`, pelo botao Run workflow
-ou chamada explicita equivalente pela CLI/API. Publica o `github.sha` selecionado
-nessa execucao e exige CI verde de push para o mesmo SHA. Merge e conclusao do CI
-nao disparam deploy. Pull requests nao recebem segredos de producao.
+Push e pull request executam o CI existente automaticamente. Quando o CI de push
+em `main` termina com sucesso, `deploy.yml` recebe `workflow_run` e publica o
+`head_sha` desse CI. CI de pull request nao dispara publicacao e PRs nao recebem
+segredos de producao. `workflow_dispatch` em main permanece disponivel para
+publicacao manual do `github.sha` selecionado, tambem exigindo CI verde de push
+para o mesmo SHA. Portanto, merge em main seguido de CI verde publica automaticamente.
 Publicacoes rotineiras nao exigem backup nem campos adicionais no formulario.
 
 O job usa `environment: producao` e exclusão mútua sem cancelar migração em curso.
