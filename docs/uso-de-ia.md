@@ -31,7 +31,7 @@ Registro de 14/11/2026 — OpenAI Codex: consolidacao no PR #111 das evidencias
 da #88 e da dispensa de backup por publicacao no ambiente academico; ajuste do
 workflow, preflight, testes e ADR. Scripts e evidencias de recuperacao preservados.
 Arthur solicitou a mudanca apos sugestao de Leonardo; Leonardo deve revisar
-o risco aceito e a publicacao automatica apos CI verde antes do merge.
+o risco aceito e a publicacao exclusivamente manual antes do merge.
 
 Registro de 13/11/2026 — OpenAI Codex: apoio ao diagnostico da restauracao e do
 contexto Docker no Render, acompanhamento somente de leitura dos runs/deployments
