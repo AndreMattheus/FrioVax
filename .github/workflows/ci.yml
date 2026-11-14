@@ -78,11 +78,6 @@ jobs:
   java:
     name: Java / Quarkus
     runs-on: ubuntu-latest
-    env:
-      # Mantém o PostgreSQL do Dev Services entre os reinícios da aplicação que o Quarkus faz ao trocar de perfil de
-      # teste. Sem isso, cada perfil recebe um banco novo, e a prova de persistência após reinício (#70) não teria o
-      # que conferir. O runner é descartado ao fim do job, então nenhum contêiner fica para trás.
-      TESTCONTAINERS_REUSE_ENABLE: "true"
     steps:
       - name: Checkout
         uses: actions/checkout@v5
