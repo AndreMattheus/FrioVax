@@ -281,6 +281,9 @@ O domínio só pode depender de tipos Java e de domínio; JDBC também é proibi
 As regras verificam o sentido das dependências entre camadas, impedem acesso da
 API a repositórios e mantêm HTTP e JPA fora da aplicação, preservando CDI e
 transações permitidos pelo ADR. A persistência também não pode conhecer HTTP.
+Domínio e aplicação não podem depender de `io.grpc`, Protobuf, `io.quarkus.grpc`
+nem dos tipos gerados (`br.ufrn.friovax.telemetry..`). Somente os pacotes
+`*.integracao` fazem essa tradução, e nenhuma camada os acessa diretamente.
 ArchUnit analisa bytecode: uma importação não utilizada não gera dependência;
 para validar uma violação, use o tipo importado em um campo, assinatura ou anotação.
 
@@ -313,7 +316,7 @@ O Compose sobe um PostgreSQL 17 com volume nomeado `db-data` e healthcheck; a AP
 | `DB_PASSWORD` | `friovax` | Senha (somente desenvolvimento) |
 | `DB_PORT` | `5432` | Porta do PostgreSQL publicada no host |
 
-O Compose define `DB_URL=jdbc:postgresql://db:5432/<DB_NAME>` para a API e repassa `DB_USER` e `DB_PASSWORD`. Fora do Compose, o perfil de produção usa `DB_URL`, `DB_USER` e `DB_PASSWORD` para conectar ao banco. `TELEMETRY_BASE_URL` aponta para `http://telemetry:8081` no Compose (padrão local: `http://localhost:8081`); `QUARKUS_HTTP_HOST=0.0.0.0` permite acesso à API pelo host. As portas HTTP publicadas são `8080` para a API e `8081` para a telemetria.
+O Compose define `DB_URL=jdbc:postgresql://db:5432/<DB_NAME>` para a API e repassa `DB_USER` e `DB_PASSWORD`. Fora do Compose, o perfil de produção usa `DB_URL`, `DB_USER` e `DB_PASSWORD` para conectar ao banco. `QUARKUS_HTTP_HOST=0.0.0.0` permite acesso à API pelo host. As portas HTTP publicadas são `8080` para a API e `8081` para a saúde da telemetria.
 
 Para mudar os padrões do Compose, copie `.env.example` para `.env` e edite os valores. Se alterar as credenciais de um volume já criado, o PostgreSQL manterá as credenciais originais; use um banco novo ou ajuste-as no banco. Os dados persistem entre `docker compose down` e `up`; `docker compose down -v` **apaga** o volume e seus dados. Em `mise run test` e `quarkus dev`, o Quarkus Dev Services sobe um PostgreSQL temporário automaticamente (requer Docker).
 
@@ -332,6 +335,20 @@ docker compose exec db psql -U friovax -d friovax -c "SELECT id, codigo, nome, u
 ```
 
 Se personalizou `DB_USER` ou `DB_NAME`, ajuste o usuário ou o banco no comando. Uma requisição rejeitada não deve criar registros; repetir a consulta após reiniciar os serviços também permite conferir a persistência dos dados.
+
+### Cliente gRPC da análise térmica
+
+A API chama o serviço Go por gRPC, pela porta `AnaliseTermica` do domínio. O adaptador `telemetria.integracao.AnaliseTermicaGrpc` usa os stubs gerados de `protos/`. A antiga configuração HTTP `TELEMETRY_BASE_URL` foi descontinuada.
+
+| Variável | Padrão local | Compose | Uso |
+|---|---|---|---|
+| `TELEMETRY_GRPC_HOST` | `localhost` | `telemetry` | Host do serviço Go |
+| `TELEMETRY_GRPC_PORT` | `9090` | `9090` | Porta gRPC do serviço Go, separada da porta HTTP de saúde (`8081`) |
+| `TELEMETRY_DEADLINE` | `800ms` | padrão | Prazo de cada RPC, incluindo a espera pela conexão |
+
+O canal só conecta na primeira chamada. Assim, a API inicia, responde em `/q/health` e atende cadastros e consultas mesmo sem o Go. Não há repetição automática. `UNAVAILABLE`, `DEADLINE_EXCEEDED` e cancelamento viram `AnaliseIndisponivel` (`503`, `/problemas/analise-indisponivel`). Status de chamada recusada (`INVALID_ARGUMENT`, `INTERNAL` e outros) ou resposta fora do contrato viram `FalhaDeIntegracao` (`502`, `/problemas/falha-de-integracao`), sem culpar o usuário nem expor stack, payload ou a descrição do servidor. A correlação segue no corpo e no metadado `x-correlation-id`. Interromper a thread que chamou cancela a RPC no servidor.
+
+Os testes `AnaliseTermicaGrpcTest` sobem um servidor gRPC real de teste (Netty, porta livre) que responde, demora, recusa a conexão ou devolve erros. Eles conferem a conversão para décimos e `Timestamp`, os resultados de todas as candidatas, o prazo e o cancelamento. `TelemetriaSemGoHttpMemoriaTest` prova o boot e a saúde sem o Go. `AnaliseTermicaGrpcQuarkusTest` usa endereço, porta e prazo vindos da configuração. Em modo de teste, o Quarkus redireciona clientes gRPC para a própria porta de teste. Por isso, os perfis de teste definem `quarkus.grpc.clients.telemetria.test-port`.
 
 ## Licença
 
