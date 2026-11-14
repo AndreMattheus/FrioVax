@@ -85,6 +85,17 @@ class TelemetriaRegrasPostgresTest {
     }
 
     @Test
+    void bancoNaoImpedeInstanteAnteriorAUltimaLeitura() {
+        // A constraint só barra instantes iguais. "Posterior à última leitura" (ADR 0003, seção 5) é conferido pela
+        // recepção (S2-10) com a câmara bloqueada, usando ultimaDaCamara.
+        salvar("S-1", 5, 1, ResultadoTermico.segura());
+        long anterior = salvar("S-2", 1, 1, ResultadoTermico.segura());
+
+        assertEquals("S-1", transacao(() -> leituras.ultimaDaCamara(camaraId).orElseThrow().getIdExterno()));
+        assertTrue(transacao(() -> leituras.buscarPorId(anterior)).isPresent());
+    }
+
+    @Test
     void leituraNumaVersaoDePoliticaInexistenteEhRecusadaPeloBanco() {
         assertThrows(RuntimeException.class, () -> salvar("S-1", 0, 99, ResultadoTermico.segura()));
 

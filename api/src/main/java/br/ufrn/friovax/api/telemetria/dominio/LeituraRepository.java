@@ -15,6 +15,10 @@ public interface LeituraRepository {
     /**
      * Grava uma leitura nova.
      *
+     * <p>A constraint {@code uk_leituras_camara_instante} só impede dois instantes iguais na mesma câmara; não impede
+     * gravar um instante anterior ao da última leitura. A exigência de instante estritamente posterior (ADR 0003,
+     * seção 5) é do caso de uso da recepção, que confere {@link #ultimaDaCamara} com a câmara bloqueada.
+     *
      * @throws LeituraJaRegistrada se a chave {@code (camaraId, idExterno)} já existir
      * @throws LeituraForaDeOrdem  se já houver leitura da câmara no mesmo instante
      */
