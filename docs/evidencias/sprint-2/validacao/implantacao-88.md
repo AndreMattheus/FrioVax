@@ -60,6 +60,10 @@ dump, senha, token ou chave privada e incluido neste relatorio.
 
 ## Falhas anteriores e limites
 
+Este relatorio preserva a politica e os ensaios usados nas publicacoes de 13/11.
+A proposta posterior de dispensar backup por deploy academico esta na ADR e no
+mesmo PR #111; nao invalida nem transforma os ensaios historicos em requisitos atuais.
+
 - [Run 43473041460](https://github.com/AndreMattheus/FrioVax/actions/runs/43473041460): SHA da declaracao de backup incorreto; interrompeu antes de migrar.
 - [Run 43473388886](https://github.com/AndreMattheus/FrioVax/actions/runs/43473388886): migracao/grants passaram; build Render falhou por Root Directory `api/`. Arthur removeu a raiz, manteve Dockerfile `api/Dockerfile` e contexto `.`.
 - Ensaio de SQL invalido na branch descartavel foi relatado anteriormente por Arthur: V999 revertida e V1–V3 preservadas. Nao foi injetada migracao invalida em production.

@@ -6,24 +6,6 @@ on:
     types: [completed]
     branches: [main]
   workflow_dispatch:
-    inputs:
-      backup_sha:
-        description: SHA completo de main autorizado para este backup
-        required: true
-        type: string
-      backup_restore_reference:
-        description: SHA256 do arquivo restaurado (somente 64 caracteres hexadecimais)
-        required: true
-        type: string
-      backup_verified_at:
-        description: Fim do ensaio em UTC (exemplo 2026-11-10T19:20:00Z)
-        required: true
-        type: string
-      writes_paused:
-        description: Confirmo escritas suspensas desde o backup ate o fim da publicacao
-        required: true
-        type: boolean
-        default: false
 
 permissions:
   contents: read
@@ -60,10 +42,6 @@ jobs:
       FLYWAY_PASSWORD: ${{ secrets.FLYWAY_PASSWORD }}
       SMOKE_LOGIN: ${{ secrets.SMOKE_LOGIN }}
       SMOKE_PASSWORD: ${{ secrets.SMOKE_PASSWORD }}
-      BACKUP_VERIFIED_SHA: ${{ inputs.backup_sha }}
-      BACKUP_RESTORE_REFERENCE: ${{ inputs.backup_restore_reference }}
-      BACKUP_VERIFIED_AT: ${{ inputs.backup_verified_at }}
-      BACKUP_WRITES_PAUSED: ${{ inputs.writes_paused }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -75,7 +53,7 @@ jobs:
       - name: Registrar deployment
         id: deployment
         run: python docs/scripts/deploy.py begin
-      - name: Conferir CI, configuração e recuperação
+      - name: Conferir CI e configuração
         run: python docs/scripts/deploy.py preflight
       - name: Migrar banco (sem saída sensível)
         run: python docs/scripts/deploy.py migrate

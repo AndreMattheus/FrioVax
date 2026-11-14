@@ -5,7 +5,7 @@ import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
-from datetime import datetime, timezone, timedelta
+
 
 import deploy
 
@@ -85,38 +85,20 @@ class DeployTest(unittest.TestCase):
                 'FLYWAY_USER': 'migration', 'FLYWAY_PASSWORD': 'not-a-real-secret',
                 'RENDER_SERVICE_ID': 'srv-test', 'RENDER_API_KEY': 'private',
                 'RENDER_DEPLOY_HOOK_URL': 'https://api.render.com/deploy/srv-test?key=private',
-                'SMOKE_LOGIN': 'auditor', 'SMOKE_PASSWORD': 'private',
-                'BACKUP_VERIFIED_SHA': 'a' * 40, 'BACKUP_RESTORE_REFERENCE': 'c' * 64,
-                'BACKUP_VERIFIED_AT': datetime.now(timezone.utc).isoformat(),
-                'BACKUP_WRITES_PAUSED': 'true'}
+                'SMOKE_LOGIN': 'auditor', 'SMOKE_PASSWORD': 'private'}
 
-    def test_backup_attestation_requires_paused_writes(self):
+    def test_green_ci_allows_preflight_without_backup_inputs(self):
         env = self.preflight_environment()
-        env['BACKUP_WRITES_PAUSED'] = 'false'
-        with patch.dict(os.environ, env), self.assertRaises(deploy.Failure):
-            deploy.verify_backup('a' * 40)
-
-    def test_stale_backup_is_rejected(self):
-        env = self.preflight_environment()
-        env['BACKUP_VERIFIED_AT'] = (datetime.now(timezone.utc) - timedelta(hours=7)).isoformat()
-        with patch.dict(os.environ, env), self.assertRaises(deploy.Failure):
-            deploy.verify_backup('a' * 40)
-
-    def test_current_backup_attestation_passes(self):
-        with patch.dict(os.environ, self.preflight_environment()):
-            deploy.verify_backup('a' * 40)
-
-    def test_arbitrary_reference_rejected(self):
-        env = self.preflight_environment()
-        env['BACKUP_RESTORE_REFERENCE'] = 'https://example.org/private?token=secret'
-        with patch.dict(os.environ, env), self.assertRaises(deploy.Failure):
-            deploy.verify_backup('a' * 40)
-
-    def test_backup_for_other_sha_blocks(self):
-        env = self.preflight_environment()
-        env['BACKUP_VERIFIED_SHA'] = 'b' * 40
         runs = {'workflow_runs': [{'head_sha': 'a' * 40, 'head_branch': 'main', 'conclusion': 'success'}]}
-        with patch.dict(os.environ, env), patch('deploy.github', return_value=runs):
+        self.assertFalse(any(k.startswith('BACKUP_') for k in env))
+        with patch.dict(os.environ, env, clear=True), patch('deploy.github', return_value=runs), \
+                contextlib.redirect_stdout(io.StringIO()):
+            deploy.preflight()
+
+    def test_failed_ci_blocks_publication_without_backup_gate(self):
+        runs = {'workflow_runs': [{'head_sha': 'a' * 40, 'head_branch': 'main', 'conclusion': 'failure'}]}
+        with patch.dict(os.environ, self.preflight_environment(), clear=True), \
+                patch('deploy.github', return_value=runs):
             with self.assertRaises(deploy.Failure):
                 deploy.preflight()
 

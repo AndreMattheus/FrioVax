@@ -46,7 +46,7 @@ Para a publicação da #88, o titular ainda deve confirmar neste registro ou no 
 - Serviço Render configurado com contexto na raiz (`.`), Dockerfile `api/Dockerfile`, porta 10000, uma réplica, autodeploy desligado e health check `/api/status`.
 - Neon PostgreSQL 17 com conexão direta, TLS validado e papéis/grants de migração e runtime.
 - Restrições de publicação do environment GitHub `producao` à branch `main` e aprovação humana quando disponível; migração no startup Render desabilitada. O cadastro dos secrets e de `API_BASE_URL` já foi confirmado acima.
-- Armazenamento privado, retenção e acesso ao backup definidos, com restauração conferida.
+- Para backups opcionais, definir armazenamento privado, retencao e acesso; conferir restauracao antes de confiar na recuperacao. A exigencia para dados importantes/mudancas destrutivas segue a revisao abaixo.
 - Autenticação e perfis da #81 verificados no ambiente publicado, com credenciais para o smoke autenticado e dados exclusivamente fictícios.
 
 A criação das contas, a titularidade, os planos, as regiões, o responsável pela operação/backups e o cadastro dos secrets e da variável pública no GitHub estão **confirmados por relato do titular**. Os demais itens de configuração e publicação acima continuam pendentes. A responsabilidade pelos backups não comprova que armazenamento, retenção ou restauração remota já estejam configurados. A dependência #65 foi consultada em 04/11/2026 e está concluída.
@@ -93,49 +93,44 @@ Não versionar valores, `.env` de produção, backups, certificados privados ou 
 
 ### Migração e deploy pelo GitHub Actions
 
-#### Ajuste proposto na #88: backup manual
+#### Revisao proposta em 14/11/2026: backup opcional no ambiente academico
 
-Em 10/11/2026, Arthur escolheu manter backup e ensaio de restauracao manuais.
-Esta alteracao permanece **pendente de revisao de Leonardo no PR da #88**;
-nao representa aprovacao humana ja obtida.
+Por sugestao de Leonardo e solicitacao de Arthur, o PR #111 reune as evidencias
+operacionais da #88 e a retirada do backup/restauracao como requisito para cada
+publicacao. Esta revisao depende da aprovacao do PR; nao declara aceite antecipado.
 
-Antes de cada publicacao, o operador confirma ausencia de outro job de producao,
-suspende escritas e novas publicacoes, cria dump privado e restaura em destino
-isolado. Confere tabelas, contagens e dados de referencia. Mantem a suspensao ate
-terminar migracao, deploy e smoke. Nao executar rollback ou deploy manual em
-paralelo. O operador registra SHA pretendido, hash SHA256, horario real e resultado
-do ensaio, sem credenciais. Se houver novas escritas ou troca de SHA, repetir.
+O ambiente publico identificado por `producao` no GitHub e pela branch production
+no Neon e uma demonstracao academica, exclusivamente com dados ficticios e
+recriaveis. A equipe aceita o risco de perder dados de demonstracao e de precisar
+recriar o ambiente. Isso nao autoriza apagar o banco publico nem executar clean.
+Nao ha garantia de recuperacao dos dados criados depois de um backup opcional.
 
-O workflow exige, em Run workflow na main, SHA completo, hash do arquivo,
-horario do ensaio com fuso e declaracao de escritas suspensas. Aceita ensaio de
-no maximo seis horas. Isso e uma declaracao do operador, nao verificacao remota
-do arquivo nem bloqueio tecnico de escritas. Revisao humana e controle operacional
-sao obrigatorios. A exclusao mutua do CI cobre migracao, grants, deploy e smoke;
-a parte manual fica coberta pela reserva operacional descrita acima.
+Nao sao exigidos dump, restauracao, janela de seis horas ou declaracao de escritas
+pausadas a cada deploy rotineiro. Os scripts continuam disponiveis para backup e
+ensaio opcionais. Se houver dados reais/importantes, uso operacional ou migracao
+destrutiva planejada, interromper a publicacao e revisar esta decisao: exigir
+backup privado, recuperacao conferida e plano de mudanca antes de prosseguir.
+O CI nao detecta automaticamente dados reais nem SQL destrutivo; essa avaliacao
+cabe a revisao humana antes do merge. Nenhum plano pago e autorizado por esta mudanca.
 
-Push em main continua disparando CI e tentativa de publicacao. Sem declaracao
-manual do backup, o preflight registra failure antes de alterar o banco ou chamar
-o Render. A publicacao efetiva ocorre por workflow_dispatch depois do ensaio.
-Nao usar variaveis de environment para liberar backups antigos automaticamente.
+A retirada do bloqueio habilita o comportamento ja configurado: push em main,
+seguido de CI verde, publica automaticamente o SHA desse CI. workflow_dispatch
+em main permanece disponivel sem campos de backup. Nao e necessario alterar
+secrets ou variaveis no GitHub. O autodeploy nativo do Render continua desligado.
+CI verde no mesmo SHA, Flyway validate/migrate/validate, grants limitados,
+exclusao mutua, TLS, verificacao do SHA live e smoke continuam obrigatorios.
 
-O titular guarda os arquivos fora do repositorio e de artefatos publicos, em
-armazenamento privado com acesso restrito. Proposta de retencao para revisao:
-sete dias e pelo menos os tres ultimos backups aprovados; descarte manual somente
-apos conferencia pelo titular. A copia local nao protege contra perda do computador;
-definir copia privada adicional antes de depender dessa recuperacao operacional.
-
-O ensaio remoto relatado em 10/11 usou PostgreSQL 18.6, diferentemente do 17
-previsto inicialmente: V1–V3 aplicadas no teste e V999 invalida revertida. O backup
-anterior a migracao foi restaurado em banco isolado vazio, com listas de tabelas
-vazias na origem e destino. Isso nao demonstra recuperacao de registros: repetir
-com dados ficticios para concluir a evidencia. Aceitacao do PostgreSQL 18 fica
-incluida nesta revisao, sem alterar o PostgreSQL 17 dos testes locais.
-
+Historico: em 10/11 foi adotado backup manual, aprovado na revisao do PR #109.
+Os ensaios de 13/11 comprovaram restauracao isolada e persistencia apos redeploy,
+conforme relatorio da #88; suas evidencias sao preservadas. O banco remoto foi
+identificado como PostgreSQL 18.6 e o ensaio inicial de V999 invalida foi revertido
+na branch descartavel. O PostgreSQL 17 dos testes locais permanece inalterado.
+Backups existentes devem continuar privados; nao ha descarte automatico neste PR.
 A implementação do workflow pertence à **#88**. O contrato obrigatório é:
 
 1. Disparo por push em `main` ou `workflow_dispatch` restrito a `main`. Checkout de um SHA completo; CI completo verde para esse mesmo SHA. Nenhum segredo de produção em jobs de pull request, inclusive de forks.
-2. Job de publicação com **`environment: producao`**, permissões mínimas (`contents: read`, `deployments: write`) e `concurrency: group: producao`, `cancel-in-progress: false`. A região crítica cobre backup, migração, deploy e smoke. Operações manuais também precisam respeitar essa exclusão.
-3. Conferir pré-requisitos e versão anterior recuperável. Antes de alterar dados, criar backup lógico protegido e verificar sua recuperação em destino isolado; restringir acesso e retenção fora do repositório e dos artefatos públicos do Actions. Um backup não validado não é garantia de recuperação.
+2. Job de publicação com **`environment: producao`**, permissões mínimas (`contents: read`, `deployments: write`) e `concurrency: group: producao`, `cancel-in-progress: false`. A região crítica cobre migração, grants, deploy e smoke. Operações manuais também precisam respeitar essa exclusão.
+3. Conferir pre-requisitos e versao anterior compativel com o esquema. Backup/restauracao sao opcionais para dados ficticios recriaveis; para dados importantes ou mudanca destrutiva, exigir revisao do plano de recuperacao conforme a politica acima. Nao guardar dumps em artefatos publicos.
 4. Executar **Flyway validate + migrate + validate**, com as migrações do mesmo SHA que será publicado, conexão direta e `cleanDisabled=true`. No validate anterior, permitir somente migrações `pending` com `ignoreMigrationPatterns=*:pending`; depois do migrate, esvaziar os padrões ignorados e exigir validação estrita. Não ignorar checksum divergente ou migração aplicada ausente do código. A versão da CLI deve coincidir com o Flyway resolvido pelo BOM da API (12.0.0 nesta base); fixar imagem por versão e digest na #88. Versões diferentes exigem novo ensaio.
 5. Se migração falhar, interromper antes do hook e registrar deployment `failure`. Nunca executar `clean`, reset, baseline sobre banco existente ou `repair` automático. SQL transacional reverte a migração que falhou; instruções não transacionais exigem procedimento específico de recuperação antes da aprovação do PR.
 6. Chamar o hook HTTPS secreto com `ref=SHA_COMPLETO`, autodeploy nativo do Render **desligado**, evitando publicar antes da migração ou publicar outro commit. Um HTTP `200`/`202` do hook apenas aceita/enfileira a solicitação; ainda não comprova publicação.

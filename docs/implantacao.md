@@ -19,8 +19,7 @@ O push em `main` executa o CI existente. Ao terminar com sucesso, `deploy.yml`
 recebe `workflow_run` e publica o **head_sha desse CI**, sem confundir com o SHA
 do evento `workflow_run`. Também aceita execução manual em `main`, exigindo CI
 verde de push para o mesmo SHA. Pull requests não recebem segredos de produção.
-Com backup manual, a tentativa automatica para no preflight sem confirmacao;
-ela nao altera o banco. O operador faz o ensaio e libera pela execucao manual.
+Publicacoes rotineiras nao exigem backup. CI verde na main dispara publicacao automatica; execucao manual continua disponivel sem campos adicionais.
 
 O job usa `environment: producao` e exclusão mútua sem cancelar migração em curso.
 Registra um GitHub Deployment antes do preflight; erro de configuração, migração,
@@ -80,7 +79,7 @@ Configuracao sob responsabilidade de Arthur no Render/Neon:
 - O papel `friovax_runtime` foi criado por SQL, com senha propria e sem atributos
   administrativos ou associacao a `neon_superuser`, conforme relato de Arthur.
 - Depois de migracoes e grants, trocar `DB_USER` e `DB_PASSWORD` no Render para
-  esse papel. A troca e sua validacao ainda nao foram confirmadas.
+  esse papel. Arthur confirmou a troca; deploy e smoke foram aprovados em 13/11.
 - `JWT_PRIVATE_KEY` e `JWT_PUBLIC_KEY` apontam para os secret files proprios;
   `JWT_ISSUER=friovax-api`. Arthur confirmou seu cadastro e os caminhos.
 - Para provisionar contas, `AUTH_DEMO_ENABLED=true` exige todas as tres senhas:
@@ -93,33 +92,28 @@ Configuracao sob responsabilidade de Arthur no Render/Neon:
   consulta/insercao nessa tabela e uso de sua sequencia. Os ensaios remotos
   anteriores cobriram V1–V3; renovar o ensaio remoto com V4 antes da publicacao.
 
-**Recuperacao manual proposta:** Arthur escolheu executar backup/restauracao
-antes de cada publicacao; ajuste registrado na ADR, pendente de Leonardo.
-Sem outro deploy em andamento, suspender escritas e novas publicacoes, criar
-backup privado e verificar restauracao isolada. Manter a suspensao ate o smoke.
-Em Run workflow informar SHA completo, SHA256 do dump e horario ISO 8601 do fim
-do ensaio (com fuso) e marcar a declaracao de escritas suspensas. Ensaio precisa
-ter no maximo seis horas. Inputs nao sao secrets: nunca inserir credenciais.
-O CI confere formato, SHA e prazo, mas nao inspeciona o arquivo nem bloqueia
-escritas. A responsabilidade por essa verificacao permanece com o operador.
-Nao cadastrar BACKUP_* como variaveis permanentes. Repetir apos novas escritas.
-Definir acesso, retencao e copia privada adicional conforme proposta na ADR.
-
+**Backup opcional no ambiente academico:** a retirada da exigencia por publicacao
+esta proposta na ADR no mesmo PR #111, pendente de revisao. Somente dados ficticios
+recriaveis sao permitidos; a equipe aceita possivel perda desses dados. Os scripts
+e evidencias anteriores permanecem. Antes de dados reais/importantes ou migracao
+destrutiva, revisar o plano e exigir recuperacao comprovada. O CI nao classifica
+os dados nem detecta automaticamente SQL destrutivo; a revisao humana deve impedir
+esses usos sem protecao. O nome `producao` e mantido para preservar o historico.
+Nao cadastrar BACKUP_* e nao informar hashes/horarios para liberar um deploy.
 ## Redeploy e persistência
 
 Para criar o backup privado da origem confirmada, executar no PowerShell
 `powershell -NoProfile -File docs/scripts/backup-neon.ps1`. O script pede usuário
 e senha interativamente, valida TLS e salva em `%LOCALAPPDATA%\FrioVax\backups`,
 fora do repositório. Restaura as variáveis de ambiente ao terminar. A leitura do
-arquivo por `pg_restore --list` não comprova restauração: ainda é obrigatório
+arquivo por `pg_restore --list` não comprova restauração: para comprovar recuperacao e necessario
 restaurar em destino isolado e comparar o conteúdo. Definir retenção e permissões
 da pasta com o titular; o arquivo pode conter dados sensíveis, não compartilhá-lo.
 
 1. Com conta ADMINISTRADOR e dados fictícios, cadastrar uma câmara na API pública.
    Guardar ID e resposta sem tokens como referência; não usar a conta AUDITOR.
-2. Conferir backup/recuperação atual e os pré-requisitos acima.
-3. Em Actions → Publicar API → Run workflow, escolher `main` e informar os quatro
-   campos do backup. O SHA deve corresponder ao commit selecionado de main.
+2. Conferir os pre-requisitos acima. Backup/restauracao sao opcionais neste ambiente academico.
+3. Em Actions → Publicar API → Run workflow, escolher `main` e executar sem campos de backup. O CI exige testes verdes para o SHA selecionado.
 4. Aguardar o job e consultar a mesma câmara pelo ID. Comparar campos e datas.
 5. Registrar no PR SHA, ID Render, ID GitHub Deployment, horários reais,
    referência ao run e resultado da comparação. Sem essa execução, persistência
