@@ -1,5 +1,6 @@
 package br.ufrn.friovax.api.telemetria.integracao;
 
+import br.ufrn.friovax.api.suporte.PortaSemServico;
 import br.ufrn.friovax.api.telemetria.dominio.AnaliseIndisponivel;
 import br.ufrn.friovax.api.telemetria.dominio.ClassificacaoTermica;
 import br.ufrn.friovax.api.telemetria.dominio.FalhaDeIntegracao;
@@ -196,6 +197,12 @@ class AnaliseTermicaGrpcTest {
                         a.getCandidates(1).toBuilder().setEvidenceExternalIds(0, "fantasma")))),
                 Arguments.of("evidências sem a candidata", adulterarAnalise(a -> a.setCandidates(1,
                         a.getCandidates(1).toBuilder().setEvidenceExternalIds(1, "c1")))),
+                Arguments.of("evidências com leitura futura", adulterarAnalise(a -> a.setCandidates(1,
+                        a.getCandidates(1).toBuilder().setEvidenceExternalIds(0, "c3")))),
+                Arguments.of("evidências repetidas", adulterarAnalise(a -> a.setCandidates(2,
+                        a.getCandidates(2).toBuilder().setEvidenceExternalIds(0, "c3").setEvidenceExternalIds(1, "c3")))),
+                Arguments.of("evidências fora de ordem", adulterarAnalise(a -> a.setCandidates(2,
+                        a.getCandidates(2).toBuilder().setEvidenceExternalIds(0, "c2").setEvidenceExternalIds(1, "c1")))),
                 Arguments.of("erro sem código", adulterar(r -> r.toBuilder().setResults(0, WindowResult.newBuilder()
                         .setChamberId(1).setPolicyVersion(2).setError(WindowError.newBuilder()
                                 .setDescription("sem código"))).build())));
@@ -282,11 +289,7 @@ class AnaliseTermicaGrpcTest {
 
     @Test
     void servicoAusenteFalhaRapidoComoIndisponivel() throws Exception {
-        int portaLivre;
-        try (var socket = new ServerSocket(0)) {
-            portaLivre = socket.getLocalPort();
-        }
-        var canalSemServidor = canalPara(portaLivre);
+        var canalSemServidor = canalPara(PortaSemServico.porta());
         try {
             var inicio = System.nanoTime();
             var falha = assertThrows(AnaliseIndisponivel.class, () -> new AnaliseTermicaGrpc(
@@ -321,6 +324,23 @@ class AnaliseTermicaGrpcTest {
         assertEquals(AnaliseIndisponivel.Motivo.CANCELADA, falha.motivo());
         assertTrue(servidor.observouCancelamento(Duration.ofSeconds(2)), "o servidor percebe o cancelamento");
         assertEquals(List.of("corr-cancelada"), servidor.correlacoesNoMetadado);
+    }
+
+    @Test
+    void prazoNaoPositivoEhRecusadoNaCriacao() {
+        var stub = TelemetryServiceGrpc.newBlockingStub(canal);
+
+        assertThrows(IllegalArgumentException.class, () -> new AnaliseTermicaGrpc(stub, Duration.ZERO));
+        assertThrows(IllegalArgumentException.class, () -> new AnaliseTermicaGrpc(stub, Duration.ofMillis(-1)));
+    }
+
+    @Test
+    void descricaoRemotaVaiAoLogLimitadaESemQuebraDeLinha() {
+        var descricao = AnaliseTermicaGrpc.descricaoParaLog("linha 1\nlinha forjada\r" + "x".repeat(300));
+
+        assertFalse(descricao.contains("\n") || descricao.contains("\r"));
+        assertTrue(descricao.length() <= AnaliseTermicaGrpc.DESCRICAO_LOGADA_MAXIMA + 1);
+        assertEquals("sem descrição", AnaliseTermicaGrpc.descricaoParaLog(null));
     }
 
     private AnaliseTermicaGrpc adaptador(Duration prazo) {
