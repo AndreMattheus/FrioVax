@@ -16,6 +16,9 @@ public class HttpEmMemoriaProfile implements QuarkusTestProfile {
     public static final Clock RELOGIO = Clock.fixed(
             Instant.parse("2026-10-11T01:30:00Z"), ZoneId.of("America/Fortaleza"));
 
+    /** Porta local sem serviço: estes testes rodam sem o Go, como a API deve suportar. */
+    public static final int PORTA_SEM_TELEMETRIA = PortaSemServico.porta();
+
     @Override
     public Map<String, String> getConfigOverrides() {
         return Map.of(
@@ -25,7 +28,8 @@ public class HttpEmMemoriaProfile implements QuarkusTestProfile {
                 "quarkus.datasource.active", "false",
                 "quarkus.hibernate-orm.enabled", "false",
                 "quarkus.flyway.enabled", "false",
-                "quarkus.flyway.migrate-at-start", "false");
+                "quarkus.flyway.migrate-at-start", "false",
+                "quarkus.grpc.clients.telemetria.test-port", String.valueOf(PORTA_SEM_TELEMETRIA));
     }
 
     @Produces

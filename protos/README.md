@@ -209,6 +209,31 @@ As classes geradas ficam em `target/`, já ignorado pelo Git, e são recriadas n
 build. Domínio e aplicação não importam esses tipos: a conversão pertence aos
 adaptadores de transporte. Gerar classes não inicia uma chamada remota.
 
+### Cliente Java
+
+```text
+caso de uso -> AnaliseTermica (porta no domínio)
+                    |
+          AnaliseTermicaGrpc (telemetria.integracao)
+                    |  RequisicaoGrpc: BigDecimal -> décimos, OffsetDateTime -> Timestamp UTC
+                    |  stub bloqueante + prazo + metadado x-correlation-id
+                    v
+          serviço Go: AnalyzeReadings
+                    |
+          RespostaGrpc: confere a resposta e cria ResultadoDaAnalise
+```
+
+`RespostaGrpc` confere a resposta contra a solicitação enviada: correlação,
+quantidade e ordem das janelas e das candidatas, versão da política, `oneof`
+preenchido, enums conhecidos, sequência até N e sinal coerente. As evidências
+devem ser todas as últimas leituras inseguras consecutivas, limitadas a N e
+terminando na própria candidata. A conferência usa as temperaturas e a faixa
+enviadas: uma leitura segura, inclusive nos limites, interrompe a sequência no
+contexto ou nas candidatas. Qualquer divergência invalida a chamada inteira
+(`FalhaDeIntegracao`). Um `WindowError` vira `ResultadoDaJanela.Rejeitada`
+somente para aquela câmara. Endereço, porta e prazo estão descritos no
+[README](../README.md#cliente-grpc-da-análise-térmica).
+
 O [Dockerfile da API](../api/Dockerfile) preserva `api/` e `protos/` como pastas
 irmãs no estágio de build. Consulte os [comandos Docker](../README.md#build-docker-da-api).
 
