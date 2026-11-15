@@ -72,6 +72,8 @@ jobs:
         env:
           PYTHONUTF8: "0"
         run: python -m unittest discover -s docs/scripts -p 'test_medicao_sprint_2.py' -v
+      - name: Testar contas do fluxo de valor
+        run: python -m unittest discover -s docs/scripts -p 'test_fluxo_de_valor.py' -v
       - name: Validar registros e integridade dos cortes preservados
         run: python docs/scripts/validar-medicao-sprint-2.py
 
