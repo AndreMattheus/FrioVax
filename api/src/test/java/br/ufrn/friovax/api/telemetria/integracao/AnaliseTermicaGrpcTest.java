@@ -22,6 +22,7 @@ import br.ufrn.friovax.telemetry.v1.WindowResult;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.Status;
+import org.jboss.logmanager.ExtLogRecord;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import static br.ufrn.friovax.api.telemetria.integracao.JanelasDeTeste.POLITICA;
@@ -50,6 +54,7 @@ import static br.ufrn.friovax.api.telemetria.integracao.JanelasDeTeste.leitura;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -144,6 +149,49 @@ class AnaliseTermicaGrpcTest {
         assertEquals(ClassificacaoTermica.SEGURA, candidatas.get(1).resultado().classificacao());
     }
 
+    static Stream<Arguments> janelasComLeituraSegura() {
+        return Stream.of("2", "4", "8").flatMap(temperatura -> Stream.of(
+                Arguments.of("segura nas candidatas: " + temperatura, janela(1, "9", temperatura, "9")),
+                Arguments.of("segura no contexto: " + temperatura, new JanelaDeAnalise(1, POLITICA,
+                        List.of(leitura("c1", 0, "9"), leitura("c2", 1, temperatura)),
+                        List.of(leitura("c3", 2, "9"))))));
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("janelasComLeituraSegura")
+    void evidenciasNaoPodemAtravessarLeituraSegura(String cenario, JanelaDeAnalise janela) {
+        servidor.comportarSe(ServidorTelemetriaDeTeste.analisando(adulterarAnalise(analise -> {
+            int ultima = analise.getCandidatesCount() - 1;
+            analise.setCandidates(ultima, analise.getCandidates(ultima).toBuilder()
+                    .setConsecutiveUnsafeCount(3).setThresholdReached(true)
+                    .clearEvidenceExternalIds().addAllEvidenceExternalIds(List.of("c1", "c2", "c3")));
+        })));
+
+        var falha = assertThrows(FalhaDeIntegracao.class,
+                () -> adaptador(PRAZO).analisar(SolicitacaoDeAnalise.de("corr", janela)), cenario);
+
+        assertTrue(falha.getMessage().startsWith("Resposta inválida do serviço de análise térmica"));
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("janelasComLeituraSegura")
+    void leituraSeguraReiniciaASequenciaEEvidencias(String cenario, JanelaDeAnalise janela) {
+        var candidatas = analisada(adaptador(PRAZO).analisar(SolicitacaoDeAnalise.de("corr", janela)), 0)
+                .candidatas();
+
+        assertEquals(new ResultadoDaCandidata("c3", ResultadoTermico.insegura(1, false), List.of("c3")),
+                candidatas.getLast(), cenario);
+    }
+
+    @Test
+    void aoManterOLimiarPreservaSomenteAsUltimasNEvidencias() {
+        var candidatas = analisada(adaptador(PRAZO).analisar(
+                SolicitacaoDeAnalise.de("corr", janela(1, "9", "1", "9", "1"))), 0).candidatas();
+
+        assertEquals(new ResultadoDaCandidata("c4", ResultadoTermico.insegura(3, true), List.of("c2", "c3", "c4")),
+                candidatas.getLast());
+    }
+
     @Test
     void variasJanelasMantemOrdemEErroDeUmaCamaraNaoAnulaAsOutras() {
         servidor.comportarSe(ServidorTelemetriaDeTeste.analisando(resposta -> resposta.toBuilder()
@@ -187,6 +235,18 @@ class AnaliseTermicaGrpcTest {
                         a.getCandidates(3).toBuilder().setClassificationValue(42)))),
                 Arguments.of("segura com sequência", adulterarAnalise(a -> a.setCandidates(3,
                         a.getCandidates(3).toBuilder().setConsecutiveUnsafeCount(1)))),
+                Arguments.of("segura classificada como insegura", adulterarAnalise(a -> a.setCandidates(3,
+                        a.getCandidates(3).toBuilder()
+                                .setClassification(ReadingClassification.READING_CLASSIFICATION_UNSAFE)
+                                .setConsecutiveUnsafeCount(3).setThresholdReached(true)
+                                .addAllEvidenceExternalIds(List.of("c2", "c3", "c4"))))),
+                Arguments.of("insegura classificada como segura", adulterarAnalise(a -> a.setCandidates(0,
+                        a.getCandidates(0).toBuilder()
+                                .setClassification(ReadingClassification.READING_CLASSIFICATION_SAFE)
+                                .setConsecutiveUnsafeCount(0).clearEvidenceExternalIds()))),
+                Arguments.of("sequência insegura truncada", adulterarAnalise(a -> a.setCandidates(2,
+                        a.getCandidates(2).toBuilder().setConsecutiveUnsafeCount(1).setThresholdReached(false)
+                                .clearEvidenceExternalIds().addEvidenceExternalIds("c3")))),
                 Arguments.of("sequência acima de N", adulterarAnalise(a -> a.setCandidates(2,
                         a.getCandidates(2).toBuilder().setConsecutiveUnsafeCount(4).addEvidenceExternalIds("c3")))),
                 Arguments.of("limiar sem sinal", adulterarAnalise(a -> a.setCandidates(2,
@@ -233,13 +293,34 @@ class AnaliseTermicaGrpcTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("statusDaChamadaInteira")
-    void traduzStatusRemotoSemRepetirNemRepassarADescricaoDoServidor(Status status, Class<?> esperada,
-                                                                     AnaliseIndisponivel.Motivo motivo) {
-        var segredo = "senha=s3gr3d0 at friovax.Analise.run(Analise.go:42)";
+    void traduzStatusRemotoSemRepetirNemRepassarOuLogarADescricaoDoServidor(Status status, Class<?> esperada,
+                                                                           AnaliseIndisponivel.Motivo motivo) {
+        var segredo = "senha=s3gr3d0\nlinha forjada\r at friovax.Analise.run(Analise.go:42)";
         servidor.comportarSe(ServidorTelemetriaDeTeste.falhando(status.withDescription(segredo)));
+        var registros = new ArrayList<ExtLogRecord>();
+        var logger = Logger.getLogger(AnaliseTermicaGrpc.class.getName());
+        var captura = new Handler() {
+            @Override
+            public void publish(LogRecord registro) {
+                registros.add(ExtLogRecord.wrap(registro));
+            }
 
-        var falha = assertThrows(RuntimeException.class,
-                () -> adaptador(PRAZO).analisar(SolicitacaoDeAnalise.de("corr", janela(1, "5"))));
+            @Override
+            public void flush() {
+            }
+
+            @Override
+            public void close() {
+            }
+        };
+        RuntimeException falha;
+        logger.addHandler(captura);
+        try {
+            falha = assertThrows(RuntimeException.class,
+                    () -> adaptador(PRAZO).analisar(SolicitacaoDeAnalise.de("corr", janela(1, "5"))));
+        } finally {
+            logger.removeHandler(captura);
+        }
 
         assertInstanceOf(esperada, falha);
         if (falha instanceof AnaliseIndisponivel indisponivel) {
@@ -247,7 +328,11 @@ class AnaliseTermicaGrpcTest {
         }
         assertFalse(falha.getMessage().contains("s3gr3d0"));
         assertFalse(falha.getMessage().contains("Analise.go"));
-        assertEquals(null, falha.getCause(), "o status remoto não é encadeado na exceção");
+        assertNull(falha.getCause(), "o status remoto não é encadeado na exceção");
+        assertEquals(1, registros.size());
+        assertEquals("Análise térmica corr falhou com status gRPC " + status.getCode() + ": " + falha.getMessage(),
+                registros.getFirst().getFormattedMessage(), "somente correlação, status e diagnóstico controlado");
+        assertNull(registros.getFirst().getThrown(), "o log não carrega a exceção remota");
         assertEquals(1, servidor.chamadas.get(), "sem repetição automática");
     }
 
@@ -332,15 +417,6 @@ class AnaliseTermicaGrpcTest {
 
         assertThrows(IllegalArgumentException.class, () -> new AnaliseTermicaGrpc(stub, Duration.ZERO));
         assertThrows(IllegalArgumentException.class, () -> new AnaliseTermicaGrpc(stub, Duration.ofMillis(-1)));
-    }
-
-    @Test
-    void descricaoRemotaVaiAoLogLimitadaESemQuebraDeLinha() {
-        var descricao = AnaliseTermicaGrpc.descricaoParaLog("linha 1\nlinha forjada\r" + "x".repeat(300));
-
-        assertFalse(descricao.contains("\n") || descricao.contains("\r"));
-        assertTrue(descricao.length() <= AnaliseTermicaGrpc.DESCRICAO_LOGADA_MAXIMA + 1);
-        assertEquals("sem descrição", AnaliseTermicaGrpc.descricaoParaLog(null));
     }
 
     private AnaliseTermicaGrpc adaptador(Duration prazo) {

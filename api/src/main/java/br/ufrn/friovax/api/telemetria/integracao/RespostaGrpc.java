@@ -68,7 +68,7 @@ final class RespostaGrpc {
                     + " resultados para " + janela.candidatas().size() + " candidatas");
         }
         var ordem = Stream.concat(janela.contexto().stream(), janela.candidatas().stream())
-                .map(LeituraDaAnalise::idExterno).toList();
+                .toList();
         var candidatas = new ArrayList<ResultadoDaCandidata>(janela.candidatas().size());
         for (int i = 0; i < janela.candidatas().size(); i++) {
             int posicao = janela.contexto().size() + i;
@@ -78,7 +78,7 @@ final class RespostaGrpc {
     }
 
     private static ResultadoDaCandidata candidata(JanelaDeAnalise janela, LeituraDaAnalise enviada,
-                                                  CandidateResult resultado, List<String> ordem, int posicao) {
+                                                  CandidateResult resultado, List<LeituraDaAnalise> ordem, int posicao) {
         var camara = janela.camaraId();
         if (!enviada.idExterno().equals(resultado.getExternalId())) {
             throw falha("resultado fora de ordem na câmara " + camara);
@@ -89,8 +89,8 @@ final class RespostaGrpc {
             throw falha("sequência acima do limiar na câmara " + camara);
         }
         List<String> evidencias = resultado.getEvidenceExternalIdsList();
-        if (!evidenciasConsecutivas(evidencias, ordem, posicao)) {
-            throw falha("evidências fora da sequência que termina na candidata, na câmara " + camara);
+        if (!evidenciasConsecutivas(evidencias, ordem, posicao, janela)) {
+            throw falha("evidências fora da sequência insegura que termina na candidata, na câmara " + camara);
         }
         try {
             var termico = switch (resultado.getClassification()) {
@@ -112,13 +112,24 @@ final class RespostaGrpc {
     }
 
     /**
-     * As evidências de uma insegura são as leituras imediatamente anteriores a ela, na ordem da janela, terminando
-     * nela: exatamente {@code ordem[posicao - k + 1 .. posicao]}. Leituras futuras, repetidas ou fora de ordem não
-     * formam uma sequência consecutiva.
+     * As evidências são todas as últimas inseguras consecutivas até a candidata, limitadas a N. Uma temperatura
+     * dentro da faixa inclusiva interrompe a sequência, tanto no contexto quanto nas candidatas. A conferência usa
+     * as temperaturas enviadas para também recusar classificações incoerentes ou uma sequência truncada.
      */
-    private static boolean evidenciasConsecutivas(List<String> evidencias, List<String> ordem, int posicao) {
-        int inicio = posicao - evidencias.size() + 1;
-        return evidencias.isEmpty() || inicio >= 0 && evidencias.equals(ordem.subList(inicio, posicao + 1));
+    private static boolean evidenciasConsecutivas(List<String> evidencias, List<LeituraDaAnalise> ordem,
+                                                 int posicao, JanelaDeAnalise janela) {
+        var politica = janela.politica();
+        int inicio = posicao;
+        while (inicio >= 0 && posicao - inicio < politica.limiar()) {
+            var temperatura = ordem.get(inicio).temperatura();
+            if (temperatura.compareTo(politica.temperaturaMinima()) >= 0
+                    && temperatura.compareTo(politica.temperaturaMaxima()) <= 0) {
+                break;
+            }
+            inicio--;
+        }
+        var esperadas = ordem.subList(inicio + 1, posicao + 1).stream().map(LeituraDaAnalise::idExterno).toList();
+        return evidencias.equals(esperadas);
     }
 
     private static ResultadoDaJanela rejeitada(JanelaDeAnalise janela, long politicaVersao, WindowError erro) {

@@ -39,8 +39,6 @@ public class AnaliseTermicaGrpc implements AnaliseTermica {
     static final Metadata.Key<String> CHAVE_CORRELACAO =
             Metadata.Key.of(CABECALHO_CORRELACAO, Metadata.ASCII_STRING_MARSHALLER);
 
-    static final int DESCRICAO_LOGADA_MAXIMA = 200;
-
     private static final Logger LOG = Logger.getLogger(AnaliseTermicaGrpc.class);
 
     private final TelemetryServiceBlockingStub stub;
@@ -81,26 +79,18 @@ public class AnaliseTermicaGrpc implements AnaliseTermica {
     }
 
     /**
-     * Traduz o status remoto sem repassar a descrição do servidor nem a causa ao chamador. A descrição fica só no log,
-     * limitada e sem caracteres de controle, para diagnosticar a falha de integração.
+     * Traduz o status remoto sem repassar a descrição do servidor nem a causa ao chamador ou ao log. O diagnóstico
+     * registrado contém somente a correlação, o código gRPC e a mensagem controlada da exceção traduzida.
      */
     private RuntimeException traduzir(String correlacaoId, StatusRuntimeException falha) {
         var codigo = falha.getStatus().getCode();
-        LOG.warnf("Análise térmica %s falhou com status gRPC %s: %s", correlacaoId, codigo,
-                descricaoParaLog(falha.getStatus().getDescription()));
-        return switch (codigo) {
+        var traduzida = switch (codigo) {
             case UNAVAILABLE -> new AnaliseIndisponivel(Motivo.SERVICO_INACESSIVEL);
             case DEADLINE_EXCEEDED -> new AnaliseIndisponivel(Motivo.PRAZO_ESGOTADO);
             case CANCELLED -> new AnaliseIndisponivel(Motivo.CANCELADA);
             default -> new FalhaDeIntegracao("O serviço de análise térmica recusou a chamada (status " + codigo + ").");
         };
-    }
-
-    static String descricaoParaLog(String descricao) {
-        if (descricao == null || descricao.isBlank()) {
-            return "sem descrição";
-        }
-        var limpa = descricao.replaceAll("\\p{Cntrl}", " ").strip();
-        return limpa.length() <= DESCRICAO_LOGADA_MAXIMA ? limpa : limpa.substring(0, DESCRICAO_LOGADA_MAXIMA) + "…";
+        LOG.warnf("Análise térmica %s falhou com status gRPC %s: %s", correlacaoId, codigo, traduzida.getMessage());
+        return traduzida;
     }
 }
