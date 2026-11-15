@@ -40,3 +40,28 @@ A publicação é o fim da etapa *Publicar SHA e esperar Render* do job que cria
 A amostra continua sendo [#69](https://github.com/AndreMattheus/FrioVax/issues/69) (S2-05), [#70](https://github.com/AndreMattheus/FrioVax/issues/70) (S2-06) e [#80](https://github.com/AndreMattheus/FrioVax/issues/80) (S2-16), definida em [`amostra.csv`](evidencias/sprint-2/amostra.csv).
 
 Nenhuma das três estava publicada em 08/11, e não havia como estar: o primeiro deploy bem-sucedido em produção aconteceu em 13/11, com a entrega da [#88](https://github.com/AndreMattheus/FrioVax/issues/88). Até essa data nenhuma tarefa da API tinha sido publicada, então a troca prevista para 08/11 não tinha substituta válida. As três foram publicadas antes desta apuração e foram mantidas sem substituição. O `amostra.csv` não muda.
+
+## Gargalo
+
+O gargalo é a **espera**, não o trabalho. Na Sprint 1, os cartões passaram quase todo o lead em fila antes de começar, e quase um em cada quatro PRs esperou mais de um dia pela primeira revisão. A espera por revisão é a maior espera **recorrente** que a equipe controla dentro do ciclo, e é nela que atua o experimento da [#92](https://github.com/AndreMattheus/FrioVax/issues/92).
+
+### Espera até a primeira revisão — linha de base da Sprint 1
+
+Definição usada na linha de base da #92: da abertura do PR (ou da primeira saída de rascunho) até a primeira review submetida (`APPROVED`, `CHANGES_REQUESTED` ou `COMMENTED`) por outra pessoa, excluindo bots e autorreview. Entram os PRs #36–#64 integrados em `main`.
+
+```bash
+python3 docs/scripts/medir-fluxo-de-valor.py revisao docs/evidencias/sprint-2/exportacoes/20261103T192538818629Z
+```
+
+| Medida | Resultado |
+|---|---:|
+| PRs integrados com review de outra pessoa | 26 (o #63 não foi integrado; o #54 e o #61 não são PRs) |
+| Acima de 24 h corridas | **6 de 26 (23,1%)** |
+| Mediana | **5,32 h** |
+| Máximo | **62,06 h** ([#55](https://github.com/AndreMattheus/FrioVax/pull/55)) |
+
+Os seis acima de 24 h: [#55](https://github.com/AndreMattheus/FrioVax/pull/55) 62,06 h, [#53](https://github.com/AndreMattheus/FrioVax/pull/53) 53,06 h, [#47](https://github.com/AndreMattheus/FrioVax/pull/47) 34,11 h, [#62](https://github.com/AndreMattheus/FrioVax/pull/62) 25,96 h, [#38](https://github.com/AndreMattheus/FrioVax/pull/38) 25,77 h e [#43](https://github.com/AndreMattheus/FrioVax/pull/43) 24,18 h. O comando reproduz exatamente os 23%, a mediana de 5,3 h e o máximo de 62,1 h registrados na #92 em 21/10.
+
+### Espera no backlog — Sprint 1
+
+Pela [apuração de 15/10](metricas-sprint-1.md#resultados), o lead time médio dos 24 cartões técnicos foi **11,68 dias** e o cycle time médio, **1,35 dia**. A diferença, **10,33 dias (88% do lead médio)**, é o tempo entre a chegada ao Project e o início do trabalho. Esses valores vêm da apuração de 15/10, com o método e as aproximações descritos lá; não foram recalculados neste corte.
