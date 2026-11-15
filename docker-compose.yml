@@ -30,6 +30,7 @@ services:
       JWT_PUBLIC_KEY: /run/secrets/auth/publicKey.pem
       QUARKUS_HTTP_HOST: 0.0.0.0
       QUARKUS_FLYWAY_MIGRATE_AT_START: "true"
+      RESUMO_CACHE_TTL: ${RESUMO_CACHE_TTL:-30s}
       # Porta gRPC do Go, aberta pela #72. Até lá, a análise térmica responde 503 e o restante da API funciona.
       TELEMETRY_GRPC_HOST: telemetry
       TELEMETRY_GRPC_PORT: "9090"

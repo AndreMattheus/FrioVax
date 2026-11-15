@@ -3,6 +3,8 @@ package br.ufrn.friovax.api.camara.aplicacao;
 import br.ufrn.friovax.api.camara.dominio.Camara;
 import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
 import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
+import br.ufrn.friovax.api.compartilhado.aplicacao.MudancaConfirmada;
+import br.ufrn.friovax.api.compartilhado.aplicacao.PublicadorDeMudancas;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -15,11 +17,17 @@ public class CamaraService {
 
     private final CamaraRepository repositorio;
     private final Clock relogio;
+    private final PublicadorDeMudancas publicador;
 
     @Inject
-    public CamaraService(CamaraRepository repositorio, Clock relogio) {
+    public CamaraService(CamaraRepository repositorio, Clock relogio, PublicadorDeMudancas publicador) {
         this.repositorio = repositorio;
         this.relogio = relogio;
+        this.publicador = publicador;
+    }
+
+    public CamaraService(CamaraRepository repositorio, Clock relogio) {
+        this(repositorio, relogio, PublicadorDeMudancas.nenhum());
     }
 
     @Transactional
@@ -33,6 +41,7 @@ public class CamaraService {
         }
 
         var salva = repositorio.salvar(camara);
+        publicador.publicar(new MudancaConfirmada("camara", salva.getId(), "Cadastro de câmara", null, agora));
         return new CamaraResultado(salva.getId(), salva.getCodigo(), salva.getNome(), salva.getUnidade(),
             salva.getCapacidade(), salva.getTemperaturaMinima(), salva.getTemperaturaMaxima(),
             salva.getEstado(), salva.getEstadoTermico(), 0, salva.isAtivo(), salva.getCriadoEm(), salva.getAtualizadoEm());

@@ -2,6 +2,7 @@ package br.ufrn.friovax.api.telemetria.persistencia;
 
 import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
+import br.ufrn.friovax.api.compartilhado.dominio.PublicadorDeMudancaPersistida;
 import br.ufrn.friovax.api.telemetria.dominio.LoteAfetado;
 import br.ufrn.friovax.api.telemetria.dominio.Ocorrencia;
 import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaJaAberta;
@@ -9,6 +10,7 @@ import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaRepository;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.persistence.PersistenceException;
 
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ import java.util.Optional;
  */
 @ApplicationScoped
 public class OcorrenciaRepositoryPostgres implements OcorrenciaRepository, PanacheRepositoryBase<OcorrenciaEntity, Long> {
+    @Inject
+    PublicadorDeMudancaPersistida mudancas;
 
     @Override
     public Ocorrencia salvar(Ocorrencia ocorrencia) {
@@ -32,6 +36,8 @@ public class OcorrenciaRepositoryPostgres implements OcorrenciaRepository, Panac
         } else {
             gravarResolucao(ocorrencia);
         }
+        mudancas.publicar("ocorrencia", ocorrencia.getId(), "Gravação de ocorrência",
+                ocorrencia.getResolvidaEm().orElse(ocorrencia.getAbertaEm()));
         return ocorrencia;
     }
 

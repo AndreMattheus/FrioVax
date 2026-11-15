@@ -1,5 +1,8 @@
 # FrioVax
 
+Resumo operacional: `GET /api/resumo`, com cache local de 30 s, invalidação após
+commit e métricas Prometheus. Veja [contrato, política de acesso e demonstração](docs/resumo.md).
+
 Plataforma para gestão de câmaras de conservação, lotes de imunobiológicos e monitoramento de condições térmicas.
 
 ## Equipe
