@@ -1,11 +1,13 @@
 package br.ufrn.friovax.api.compartilhado.aplicacao;
 
+import br.ufrn.friovax.api.compartilhado.dominio.PublicadorDeMudancaPersistida;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Status;
 import jakarta.transaction.Synchronization;
 import jakarta.transaction.TransactionSynchronizationRegistry;
+import java.time.OffsetDateTime;
 
 /**
  * Entrega o aviso como evento CDI ({@code @Observes MudancaConfirmada}) somente depois que a transação atual for
@@ -13,7 +15,7 @@ import jakarta.transaction.TransactionSynchronizationRegistry;
  * {@code TransactionPhase.AFTER_SUCCESS}: qualquer observador só vê mudanças que de fato foram gravadas.
  */
 @ApplicationScoped
-public class PublicadorDeMudancasCdi implements PublicadorDeMudancas {
+public class PublicadorDeMudancasCdi implements PublicadorDeMudancas, PublicadorDeMudancaPersistida {
 
     private final Event<MudancaConfirmada> eventos;
     private final TransactionSynchronizationRegistry transacoes;
@@ -22,6 +24,11 @@ public class PublicadorDeMudancasCdi implements PublicadorDeMudancas {
     public PublicadorDeMudancasCdi(Event<MudancaConfirmada> eventos, TransactionSynchronizationRegistry transacoes) {
         this.eventos = eventos;
         this.transacoes = transacoes;
+    }
+
+    @Override
+    public void publicar(String recurso, long id, String descricao, OffsetDateTime instante) {
+        publicar(new MudancaConfirmada(recurso, id, descricao, null, instante));
     }
 
     @Override
