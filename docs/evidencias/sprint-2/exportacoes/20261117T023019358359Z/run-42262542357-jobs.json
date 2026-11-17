@@ -1,0 +1,50 @@
+[
+  {
+    "id": 128045931056,
+    "run_id": 42262542357,
+    "run_attempt": 1,
+    "head_sha": "a2bd0dd4558b6f535bcac38b9c340b24fffe8d05",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-06T17:32:18Z",
+    "started_at": "2026-11-06T17:32:20Z",
+    "completed_at": "2026-11-06T17:33:18Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42262542357/job/128045931056"
+  },
+  {
+    "id": 128045931483,
+    "run_id": 42262542357,
+    "run_attempt": 1,
+    "head_sha": "a2bd0dd4558b6f535bcac38b9c340b24fffe8d05",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-06T17:32:18Z",
+    "started_at": "2026-11-06T17:32:21Z",
+    "completed_at": "2026-11-06T17:32:28Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42262542357/job/128045931483"
+  },
+  {
+    "id": 128045931564,
+    "run_id": 42262542357,
+    "run_attempt": 1,
+    "head_sha": "a2bd0dd4558b6f535bcac38b9c340b24fffe8d05",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-06T17:32:18Z",
+    "started_at": "2026-11-06T17:32:20Z",
+    "completed_at": "2026-11-06T17:32:38Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42262542357/job/128045931564"
+  },
+  {
+    "id": 128045931587,
+    "run_id": 42262542357,
+    "run_attempt": 1,
+    "head_sha": "a2bd0dd4558b6f535bcac38b9c340b24fffe8d05",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-06T17:32:18Z",
+    "started_at": "2026-11-06T17:32:20Z",
+    "completed_at": "2026-11-06T17:32:32Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42262542357/job/128045931587"
+  }
+]

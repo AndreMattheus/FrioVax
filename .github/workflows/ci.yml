@@ -64,6 +64,8 @@ jobs:
         run: git config --global core.autocrlf true
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - name: Configurar Python
         uses: actions/setup-python@v6
         with:
@@ -76,6 +78,11 @@ jobs:
         run: python -m unittest discover -s docs/scripts -p 'test_fluxo_de_valor.py' -v
       - name: Validar registros e integridade dos cortes preservados
         run: python docs/scripts/validar-medicao-sprint-2.py
+      - name: Reproduzir fluxo publicado e linhas de base sem consultar a API
+        run: |
+          python docs/scripts/medir-fluxo-de-valor.py itens
+          python docs/scripts/medir-fluxo-de-valor.py revisao docs/evidencias/sprint-2/exportacoes/20261103T192538818629Z
+          python docs/scripts/medir-fluxo-de-valor.py backlog
 
   java:
     name: Java / Quarkus
