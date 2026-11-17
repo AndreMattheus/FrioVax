@@ -291,11 +291,22 @@ a API recusa com `422` um instante com mais de 6 casas decimais nos segundos
 | Prazo esgotado | gRPC `DEADLINE_EXCEEDED` |
 | Falha interna que compromete a chamada | gRPC `INTERNAL` |
 | Serviço inacessível | gRPC `UNAVAILABLE`, observado pelo cliente |
+| Limite de mensagem ou de análises simultâneas excedido | gRPC `RESOURCE_EXHAUSTED` |
+| Servidor encerrando, sem admitir nova análise | gRPC `UNAVAILABLE` |
 
 Comentários e `buf lint` não executam regras de negócio. Domínio e adaptadores
 devem validar os dados; os detalhes de cada campo estão no `.proto`. Erros do
 contrato interno não devem ser automaticamente atribuídos ao usuário HTTP.
 O deadline de 800 ms é responsabilidade do adaptador Java, não do Buf.
+
+O servidor Go registra `TelemetryService`, health gRPC e reflection. Por padrão,
+usa `9090` para gRPC e `8081` para saúde HTTP, com 4 MiB por mensagem e 16 análises
+simultâneas por processo, sem fila. Health e reflection não consomem vagas de análise.
+O limite de mensagem não altera o limite de negócio de 50 candidatas.
+Não há retry automático nem alteração do contrato v1. O adaptador Java atualmente
+trata `RESOURCE_EXHAUSTED` como `FalhaDeIntegracao` (`502`), conforme seu tratamento
+de chamadas recusadas; esta entrega não muda essa classificação.
+Consulte a [configuração do servidor](../README.md#servidor-go-de-telemetria).
 
 ## Evolução do contrato
 

@@ -62,9 +62,9 @@ Este repositório contém o produto comum de:
 └── mise.toml
 ```
 
-A API Java concentra os casos de uso, as regras de negócio e a persistência em PostgreSQL. Sua organização em `api`, `aplicacao`, `dominio` e `persistencia` está descrita no ADR 0002. O contrato Protobuf gera código Go versionado e classes Java durante o build Maven. O serviço Go possui a rota de saúde; a geração do contrato não implementa a análise térmica nem a chamada entre serviços.
+A API Java concentra os casos de uso, as regras de negócio e a persistência em PostgreSQL. Sua organização em `api`, `aplicacao`, `dominio` e `persistencia` está descrita no ADR 0002. O contrato Protobuf gera código Go versionado e classes Java durante o build Maven. O serviço Go expõe a análise térmica por gRPC, com saúde HTTP/gRPC e reflection; a API possui um adaptador cliente separado dos casos de uso.
 
-A [ADR 0003](docs/decisoes/0003-servico-go-telemetria.md) define que Java envie janelas de leituras para análise concorrente no Go, sem banco compartilhado nem contadores entre chamadas. Go devolverá resultados por leitura; Java revalidará os dados e confirmará ocorrências e estado térmico em transações curtas, sem manter lock durante a chamada remota. O documento explica política térmica, limiar, reenvios, prazos e falhas, com exemplos e diagrama. Essas funcionalidades ainda não estão implementadas.
+A [ADR 0003](docs/decisoes/0003-servico-go-telemetria.md) define que Java envie janelas de leituras para análise concorrente no Go, sem banco compartilhado nem contadores entre chamadas. Go devolve resultados por candidata. A integração dos casos de uso Java para revalidar dados e confirmar leituras, ocorrências e estado térmico em transações curtas continua nos cards correspondentes da sprint. A exposição gRPC não confirma esses efeitos oficiais.
 
 ## Como rodar
 
@@ -271,7 +271,7 @@ Antes de concluir uma alteração, execute `mise run ci`: ele valida o contrato 
 
 #### Domínio Go de análise térmica
 
-O pacote `services/telemetry/internal/dominio` calcula classificação, sequência e evidências por candidata. A análise de janelas roda em Go diretamente, sem iniciar servidor ou banco. A exposição do domínio pelo servidor gRPC é parte da [#72](https://github.com/AndreMattheus/FrioVax/issues/72).
+O pacote `services/telemetry/internal/dominio` calcula classificação, sequência e evidências por candidata. Seus testes não precisam de servidor ou banco. Os testes de `internal/grpc` usam `bufconn` para exercitar mensagens reais pela pilha gRPC; `internal/servidor` verifica saúde, reflection, limites, logs e encerramento. O CI executa também `go test -race ./...`.
 
 Na raiz do repositório, com o Go configurado pelo mise:
 
@@ -363,9 +363,46 @@ A API chama o serviço Go por gRPC, pela porta `AnaliseTermica` do domínio. O a
 | `TELEMETRY_DEADLINE` | `800ms` | padrão | Prazo de cada RPC, incluindo a espera pela conexão |
 | `TELEMETRY_GRPC_PLAIN_TEXT` | `true` | padrão | `false` exige TLS; o gRPC fica na rede interna e não é exposto na internet |
 
-O servidor gRPC do Go é entregue pela [#72](https://github.com/AndreMattheus/FrioVax/issues/72). Até lá, o Compose já aponta para `telemetry:9090`, mas o healthcheck do Go confere só o HTTP `/health`, e as análises respondem `503`. O canal só conecta na primeira chamada. Assim, a API inicia, responde em `/q/health` e atende cadastros e consultas mesmo sem o Go. Não há repetição automática. `UNAVAILABLE`, `DEADLINE_EXCEEDED` e cancelamento viram `AnaliseIndisponivel` (`503`, `/problemas/analise-indisponivel`). Status de chamada recusada (`INVALID_ARGUMENT`, `INTERNAL` e outros) ou resposta fora do contrato viram `FalhaDeIntegracao` (`502`, `/problemas/falha-de-integracao`), sem culpar o usuário nem expor stack, payload ou a descrição do servidor. A correlação segue no corpo e no metadado `x-correlation-id`. Ela aceita de 1 a 128 caracteres: letras ASCII, dígitos, `.`, `_`, `:` e `-`. Os logs registram somente a correlação, o código gRPC e um diagnóstico controlado pela API, sem a descrição arbitrária nem a exceção do servidor. O adaptador é criado na inicialização: um `TELEMETRY_DEADLINE` zero ou negativo impede o boot. Interromper a thread que chamou cancela a RPC no servidor.
+O servidor gRPC do Go atende em `telemetry:9090` no Compose. O healthcheck HTTP do Go acompanha sua prontidão. A API Java possui o cliente de análise; os endpoints e a confirmação dos efeitos oficiais pertencem aos cards de integração. O canal só conecta na primeira chamada. Assim, a API inicia, responde em `/q/health` e atende cadastros e consultas mesmo sem o Go. Não há repetição automática. `UNAVAILABLE`, `DEADLINE_EXCEEDED` e cancelamento viram `AnaliseIndisponivel` (`503`, `/problemas/analise-indisponivel`). Status de chamada recusada (`INVALID_ARGUMENT`, `INTERNAL` e outros) ou resposta fora do contrato viram `FalhaDeIntegracao` (`502`, `/problemas/falha-de-integracao`), sem culpar o usuário nem expor stack, payload ou a descrição do servidor. A correlação segue no corpo e no metadado `x-correlation-id`. Ela aceita de 1 a 128 caracteres: letras ASCII, dígitos, `.`, `_`, `:` e `-`. Os logs registram somente a correlação, o código gRPC e um diagnóstico controlado pela API, sem a descrição arbitrária nem a exceção do servidor. O adaptador é criado na inicialização: um `TELEMETRY_DEADLINE` zero ou negativo impede o boot. Interromper a thread que chamou cancela a RPC no servidor.
 
 Os testes `AnaliseTermicaGrpcTest` sobem um servidor gRPC real de teste (Netty, porta livre) que responde, demora, recusa a conexão ou devolve erros. Eles conferem a conversão para décimos e `Timestamp`, os resultados de todas as candidatas, o prazo e o cancelamento. `TelemetriaSemGoHttpMemoriaTest` prova o boot e a saúde sem o Go. `AnaliseTermicaGrpcQuarkusTest` usa endereço, porta e prazo vindos da configuração. Em modo de teste, o Quarkus redireciona clientes gRPC para a própria porta de teste. Por isso, os perfis de teste definem `quarkus.grpc.clients.telemetria.test-port`.
+
+### Servidor Go de telemetria
+
+O Compose ainda condiciona o início da API à saúde da telemetria. A remoção
+dessa dependência de inicialização pertence à #84; a capacidade do processo Java
+de iniciar sem Go já é verificada pelos testes do cliente.
+
+O processo oferece HTTP `/health` em `8081` e gRPC em `9090`. O Compose publica
+somente a porta HTTP; gRPC fica acessível aos containers da rede interna.
+`EXPOSE 9090` no Dockerfile documenta a porta e não a publica no host.
+
+| Variável no Go | Padrão | Uso |
+|---|---|---|
+| `PORT` | `8081` | Porta HTTP de saúde |
+| `GRPC_PORT` | `9090` | Porta gRPC, distinta da HTTP |
+| `GRPC_MAX_MESSAGE_BYTES` | `4194304` | Limite de 4 MiB para cada mensagem recebida ou enviada |
+| `GRPC_MAX_CONCURRENT_ANALYSES` | `16` | Análises simultâneas no processo, somadas todas as conexões |
+| `SHUTDOWN_TIMEOUT` | `5s` | Prazo compartilhado para encerrar HTTP e gRPC |
+
+Portas inválidas/iguais, limites não positivos e duração inválida impedem o boot.
+Excesso de análises retorna `RESOURCE_EXHAUSTED` sem fila. Health e reflection
+não ocupam vagas de análise. Esses valores são limites iniciais, não uma medição
+de capacidade. O deadline de cada chamada continua configurado pelo cliente Java.
+
+O health gRPC informa `SERVING` para o servidor (`service: ""`) e para
+`friovax.telemetry.v1.TelemetryService`. O HTTP retorna `200 {"status":"UP"}`
+quando pronto. SIGTERM ou Ctrl+C marca indisponibilidade e inicia `GracefulStop`;
+ao esgotar o prazo, fecha as conexões restantes. O Compose espera 10 segundos
+antes de matar o container (`TELEMETRY_STOP_GRACE_PERIOD`); mantenha esse intervalo
+maior que `SHUTDOWN_TIMEOUT` se personalizar a configuração.
+
+Os logs da análise contêm método, correlação validada do corpo, código e duração;
+não registram payload nem descrições arbitrárias de erros. O metadado
+`x-correlation-id` não substitui a correlação do corpo.
+
+Para executar fora de containers: `mise exec -- go -C services/telemetry run ./cmd/server`.
+Use `grpcurl -plaintext localhost:9090 list` para descobrir os serviços.
 
 ## Licença
 

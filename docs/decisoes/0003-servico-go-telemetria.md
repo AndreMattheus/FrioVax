@@ -7,7 +7,7 @@
 
 ## Contexto
 
-O FrioVax recebe leituras simuladas de câmaras de conservação e precisa reconhecer sequências fora da faixa configurada. A API Java mantém câmaras, lotes e suas regras transacionais. Atualmente, o serviço Go implementa somente a rota HTTP de saúde; esta ADR especifica comportamento futuro planejado.
+O FrioVax recebe leituras simuladas de câmaras de conservação e precisa reconhecer sequências fora da faixa configurada. A API Java mantém câmaras, lotes e suas regras transacionais. Na decisão original, o serviço Go implementava somente a rota HTTP de saúde. Em 17/11/2026, o domínio Go e sua exposição gRPC estão implementados; a integração dos casos de uso e dos efeitos oficiais continua nos cards correspondentes.
 
 No domínio do produto, há processamento de sequências e concorrência entre câmaras independentes. A chamada entre serviços envolve espera de rede, mas a análise Go escolhida não depende de terceiros nem de agendamento. Não se pretende introduzir sensores, streaming, filas ou notificações externas.
 
