@@ -1,0 +1,26 @@
+[
+  {
+    "id": 126169225972,
+    "run_id": 41708251664,
+    "run_attempt": 1,
+    "head_sha": "fd5fef2c9091ca706b34151e6fa36fbb52758854",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-03T19:58:37Z",
+    "started_at": "2026-11-03T19:58:39Z",
+    "completed_at": "2026-11-03T20:00:48Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41708251664/job/126169225972"
+  },
+  {
+    "id": 126169226346,
+    "run_id": 41708251664,
+    "run_attempt": 1,
+    "head_sha": "fd5fef2c9091ca706b34151e6fa36fbb52758854",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-03T19:58:37Z",
+    "started_at": "2026-11-03T19:58:39Z",
+    "completed_at": "2026-11-03T19:59:20Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41708251664/job/126169226346"
+  }
+]

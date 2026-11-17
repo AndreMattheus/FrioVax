@@ -1,0 +1,30 @@
+[
+  {
+    "sha": "d46f0d44bfdaad62177391f49647535cda7b2b07",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/commit/d46f0d44bfdaad62177391f49647535cda7b2b07",
+    "author": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "committer": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "authored_at": "2026-10-02T18:24:17Z",
+    "committed_at": "2026-10-02T18:24:17Z"
+  },
+  {
+    "sha": "e034639d5a3ec93551c2c4d9906926f50c2b98bd",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/commit/e034639d5a3ec93551c2c4d9906926f50c2b98bd",
+    "author": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "committer": {
+      "login": "web-flow",
+      "type": "User"
+    },
+    "authored_at": "2026-10-02T19:11:43Z",
+    "committed_at": "2026-10-02T19:11:43Z"
+  }
+]

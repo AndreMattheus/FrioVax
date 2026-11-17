@@ -15,9 +15,11 @@ Substituir todos os campos do modelo; não copiá-lo como observação real. Ao 
 
 - `eventos.csv`: marcos com fonte e timestamp; registro não substitui o dado original exportado.
 - `amostra.csv`: seleção #69/#70/#80; o estado da seleção não significa conclusão ou publicação.
-- `implantacoes.csv`, `incidentes.csv` e `monitoramento.csv`: começam só com cabeçalho. Ausência de linha não é ocorrência fictícia nem medição de zero incidentes.
+- `implantacoes.csv`: publicações com deployment, SHA, smoke e PRs incorporados. A #91 registrou as duas usadas pela amostra; as demais e as falhas ficam para a #90.
+- `incidentes.csv` e `monitoramento.csv`: começam só com cabeçalho. Ausência de linha não é ocorrência fictícia nem medição de zero incidentes.
 - `exportacoes/`: um diretório novo por execução; `manifesto.json` descreve consultas, tempo de extração, páginas e hashes. Arquivos JSON guardam metadados originais selecionados, sem texto livre ou credenciais. Não regravar um corte existente.
 - `validacao/`: resultados da conferência paginada e do primeiro exercício do protocolo.
+- `validacao/fluxo-91-jobs.json`: metadados selecionados e passos dos dois jobs de publicação usados pela #91, com comandos e instante da consulta. Complementa os cortes sem regravá-los; preserva o sucesso e os horários de Render e smoke.
 
 Comandos, definições, fórmulas, prazos e tratamento de lacunas estão no plano. Atualizar os CSVs pelo PR da tarefa correspondente; executar `python3 docs/scripts/validar-medicao-sprint-2.py` antes de publicar. Usar instantes com fuso inclusive para esperas e bloqueios. Campos de data do Project não guardam hora.
 

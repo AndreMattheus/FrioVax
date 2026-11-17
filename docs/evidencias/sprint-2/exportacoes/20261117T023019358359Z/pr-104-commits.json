@@ -1,0 +1,72 @@
+[
+  {
+    "sha": "6893583239ebc7589cde8c2cd0113032232f2dbb",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/commit/6893583239ebc7589cde8c2cd0113032232f2dbb",
+    "author": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "committer": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "authored_at": "2026-11-04T22:50:45Z",
+    "committed_at": "2026-11-04T22:50:45Z"
+  },
+  {
+    "sha": "ad2829989c9f4e62ae23fa9d90b2534086fdc787",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/commit/ad2829989c9f4e62ae23fa9d90b2534086fdc787",
+    "author": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "committer": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "authored_at": "2026-11-04T22:59:32Z",
+    "committed_at": "2026-11-04T22:59:32Z"
+  },
+  {
+    "sha": "4d66b492bd55a941b20e61cbdfb7b176d48408b8",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/commit/4d66b492bd55a941b20e61cbdfb7b176d48408b8",
+    "author": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "committer": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "authored_at": "2026-11-05T14:31:29Z",
+    "committed_at": "2026-11-05T14:31:29Z"
+  },
+  {
+    "sha": "a2bd0dd4558b6f535bcac38b9c340b24fffe8d05",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/commit/a2bd0dd4558b6f535bcac38b9c340b24fffe8d05",
+    "author": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "committer": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "authored_at": "2026-11-06T17:32:56Z",
+    "committed_at": "2026-11-06T17:32:56Z"
+  },
+  {
+    "sha": "c47022cb35c0ab59182277b001a820fcd58394a2",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/commit/c47022cb35c0ab59182277b001a820fcd58394a2",
+    "author": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "committer": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "authored_at": "2026-11-06T17:37:57Z",
+    "committed_at": "2026-11-06T17:37:57Z"
+  }
+]

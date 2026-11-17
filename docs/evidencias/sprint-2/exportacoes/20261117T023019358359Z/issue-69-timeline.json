@@ -1,0 +1,78 @@
+[
+  {
+    "__typename": "AddedToProjectV2Event",
+    "id": "ATPVTE_lADOUOpn_88AAAABZiTqZ88AAAAH8PuHoA",
+    "createdAt": "2026-10-24T02:56:36Z",
+    "actor": {
+      "login": "github-project-automation"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABZiTqZ88AAAAH8PuOtw",
+    "createdAt": "2026-10-24T02:56:38Z",
+    "actor": {
+      "login": "github-project-automation"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "",
+    "status": "Backlog",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABZiTqZ88AAAAIMQOB4Q",
+    "createdAt": "2026-11-04T22:31:41Z",
+    "actor": {
+      "login": "leonardonadson"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Backlog",
+    "status": "Sprint Backlog",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABZiTqZ88AAAAIMbpQag",
+    "createdAt": "2026-11-05T01:33:51Z",
+    "actor": {
+      "login": "biancammedeiros"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Sprint Backlog",
+    "status": "Em Progresso",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ClosedEvent",
+    "id": "CE_lADOUOpn_88AAAABZiTqZ88AAAAIRevPAg",
+    "createdAt": "2026-11-09T03:52:33Z",
+    "actor": {
+      "login": "AndreMattheus"
+    }
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABZiTqZ88AAAAIRevY8g",
+    "createdAt": "2026-11-09T03:52:35Z",
+    "actor": {
+      "login": "github-project-automation"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Em Progresso",
+    "status": "Pronto",
+    "wasAutomated": false
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "id": 132049645078,
+    "run_id": 43473041460,
+    "run_attempt": 1,
+    "head_sha": "c51e2981773fed0a40fb85264c1bc5201b63269b",
+    "status": "completed",
+    "conclusion": "failure",
+    "created_at": "2026-11-13T17:27:55Z",
+    "started_at": "2026-11-13T17:27:59Z",
+    "completed_at": "2026-11-13T17:28:06Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43473041460/job/132049645078"
+  }
+]
