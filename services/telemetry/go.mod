@@ -3,6 +3,7 @@ module github.com/AndreMattheus/FrioVax/services/telemetry
 go 1.27
 
 require (
+	golang.org/x/sync v0.23.0
 	google.golang.org/grpc v1.85.0
 	google.golang.org/protobuf v1.36.12
 )

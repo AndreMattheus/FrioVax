@@ -269,6 +269,19 @@ Os testes com PostgreSQL real ficam agrupados assim:
 
 Antes de concluir uma alteração, execute `mise run ci`: ele valida o contrato e os gerados, verifica a API com Maven, confere a formatação e executa análise estática, testes e build do serviço Go. Nos testes HTTP com PostgreSQL, as transações ocorrem no servidor; os dados criados precisam de limpeza própria, pois uma transação no método de teste não engloba a chamada HTTP. A aprovação das seleções sem banco não substitui a validação do CI completo. Para comprovar o CI, confira os jobs Protobuf / Buf, Java / Quarkus e Go / Telemetria no PR e, após a integração, no commit da branch principal.
 
+#### Domínio Go de análise térmica
+
+O pacote `services/telemetry/internal/dominio` calcula classificação, sequência e evidências por candidata. A análise de janelas roda em Go diretamente, sem iniciar servidor ou banco. A exposição do domínio pelo servidor gRPC é parte da [#72](https://github.com/AndreMattheus/FrioVax/issues/72).
+
+Na raiz do repositório, com o Go configurado pelo mise:
+
+```bash
+mise exec -- go -C services/telemetry test ./...
+mise exec -- go -C services/telemetry test -race ./...
+```
+
+O job **Go / Telemetria** executa os dois comandos. Para reproduzir o segundo localmente, habilite CGO e disponibilize um compilador C compatível com o Go da plataforma. Os testes não dependem do Docker nem do PostgreSQL.
+
 #### Arquitetura
 
 O teste `ArquiteturaTest` usa ArchUnit para verificar os pacotes reais de domínio
