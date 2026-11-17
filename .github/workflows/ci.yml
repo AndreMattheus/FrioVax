@@ -114,12 +114,14 @@ jobs:
         uses: actions/setup-go@v6
         with:
           go-version: "1.27.x"
-          cache-dependency-path: services/telemetry/go.mod
+          cache-dependency-path: services/telemetry/go.sum
       - name: Verificar formatação
         run: test -z "$(gofmt -l services/telemetry)"
       - name: Análise estática
         run: go -C services/telemetry vet ./...
       - name: Testes
         run: go -C services/telemetry test ./...
+      - name: Testes com detector de condições de corrida
+        run: go -C services/telemetry test -race ./...
       - name: Build
         run: go -C services/telemetry build -o bin/telemetry ./cmd/server
