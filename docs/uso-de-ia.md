@@ -16,6 +16,13 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 
 ## Sprint 2
 
+Registro de 18/11/2026 — OpenAI Codex: apoio à #84 na revisão do Compose,
+healthcheck da API, preparação de autenticação em volume, runtime sem root,
+documentação e ensaios com cópia limpa e volumes descartáveis. Evidências em
+`docs/evidencias/sprint-2/validacao/containers-84.md`. Arthur deve compreender e
+revisar as alterações; Leonardo deve revisar o PR. CI remoto, aprovação e datas
+reais no Project permanecem sob responsabilidade da equipe.
+
 | Data | Ferramenta | Uso registrado                                                                                                                                                                                             | Fonte e artefato relacionado                                                                                                                                          | Verificação humana necessária                                                                                                                                                        |
 |---|---|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 15/11/2026 | OpenAI Codex | Apoio à implementação da #79: resumo agregado, cache local com Clock e TTL, eventos após commit, métricas Prometheus, testes e documentação                                                                | [Resumo operacional](resumo.md), código e testes no mesmo conjunto de alterações                                                                                      | Arthur deve revisar a semântica dos totais e reproduzir os testes; Leonardo deve revisar o PR. CI remoto, demonstração e datas reais no Project precisam ser conferidos pela equipe. |
