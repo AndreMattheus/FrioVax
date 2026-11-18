@@ -31,7 +31,6 @@ services:
       QUARKUS_HTTP_HOST: 0.0.0.0
       QUARKUS_FLYWAY_MIGRATE_AT_START: "true"
       RESUMO_CACHE_TTL: ${RESUMO_CACHE_TTL:-30s}
-      # Porta gRPC do Go, aberta pela #72. Até lá, a análise térmica responde 503 e o restante da API funciona.
       TELEMETRY_GRPC_HOST: telemetry
       TELEMETRY_GRPC_PORT: "9090"
       DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-friovax}
@@ -50,6 +49,11 @@ services:
       context: ./services/telemetry
     environment:
       PORT: "8081"
+      GRPC_PORT: "9090"
+      GRPC_MAX_MESSAGE_BYTES: ${GRPC_MAX_MESSAGE_BYTES:-4194304}
+      GRPC_MAX_CONCURRENT_ANALYSES: ${GRPC_MAX_CONCURRENT_ANALYSES:-16}
+      SHUTDOWN_TIMEOUT: ${SHUTDOWN_TIMEOUT:-5s}
+    stop_grace_period: ${TELEMETRY_STOP_GRACE_PERIOD:-10s}
     ports:
       - "8081:8081"
     healthcheck:

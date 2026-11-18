@@ -1,32 +1,23 @@
 package main
 
 import (
-	"encoding/json"
+	"context"
 	"log"
-	"net/http"
 	"os"
-	"time"
+	"os/signal"
+	"syscall"
+
+	"github.com/AndreMattheus/FrioVax/services/telemetry/internal/servidor"
 )
 
 func main() {
-	mux := http.NewServeMux()
-
-	mux.HandleFunc("GET /health", func(response http.ResponseWriter, _ *http.Request) {
-		response.Header().Set("Content-Type", "application/json")
-		_ = json.NewEncoder(response).Encode(map[string]string{"status": "UP"})
-	})
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8081"
+	config, err := servidor.LerConfiguracao(os.Getenv)
+	if err != nil {
+		log.Fatal(err)
 	}
-
-	server := &http.Server{
-		Addr:              ":" + port,
-		Handler:           mux,
-		ReadHeaderTimeout: 5 * time.Second,
+	ctx, cancelar := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer cancelar()
+	if err := servidor.Executar(ctx, config, log.Default()); err != nil {
+		log.Fatal(err)
 	}
-
-	log.Printf("telemetry service listening on :%s", port)
-	log.Fatal(server.ListenAndServe())
 }
