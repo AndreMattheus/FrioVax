@@ -61,4 +61,4 @@ trap - EXIT
 
 echo 'Chaves e senhas locais criadas em .secrets/auth e .env.auth (arquivos ignorados pelo Git).'
 echo 'Para desenvolvimento: set -a; source .env.auth; set +a; mise exec -- mvn -f api/pom.xml quarkus:dev'
-echo 'Para Docker Compose: docker compose up --build'
+echo 'Docker Compose usa credenciais independentes no volume auth-data: docker compose up --build'

@@ -68,7 +68,23 @@ A [ADR 0003](docs/decisoes/0003-servico-go-telemetria.md) define que Java envie 
 
 ## Como rodar
 
-Pré-requisitos: Git, OpenSSL, [mise](https://mise.jdx.dev/) e Docker Desktop (ou Docker Engine com Compose) em execução. Os testes unitários e HTTP em memória abaixo dispensam Docker e PostgreSQL. Execute os comandos a partir da raiz do repositório; as versões de Java 25, Maven 3.9.16 e Go 1.27 estão definidas em `mise.toml`. A primeira instalação precisa de internet para baixar as ferramentas, dependências Maven, módulos Go e imagens Docker.
+Para executar o sistema em um clone limpo, basta Docker Desktop (ou Docker Engine com Compose) em execução:
+
+```bash
+docker compose up --build
+```
+
+Não exige Java, Go, Maven, mise, Bash nem OpenSSL no host. O serviço transitório
+`auth-init` gera chaves RSA e senhas aleatórias no volume `auth-data`; `db`, `api`
+e `telemetry` ficam saudáveis. Para consultar as credenciais locais, execute
+`docker compose exec api cat /run/secrets/auth/env.auth`. Veja [portas, segurança,
+saúde e validação isolada](docs/containers.md). `docker compose down` conserva os
+volumes de banco e autenticação para a próxima subida.
+
+Para desenvolver fora dos contêineres, instale Git, OpenSSL e
+[mise](https://mise.jdx.dev/). Execute os comandos a partir da raiz do repositório;
+as versões estão definidas em `mise.toml`. A primeira instalação precisa de internet
+para baixar ferramentas, dependências e imagens.
 
 Em um clone novo:
 
@@ -85,10 +101,9 @@ mise run test
 
 O Maven gera as classes Java diretamente de `protos/`, em `api/target/generated-sources/grpc/`, antes de compilá-las. Não é necessário executar Buf para compilar Java. Os comandos e a separação entre código gerado e domínio estão no [guia dos contratos](protos/README.md).
 
-Para subir a API, o serviço Go e o banco, gere primeiro as chaves e senhas locais:
+Para subir a API, o serviço Go e o banco pelo atalho do mise:
 
 ```bash
-bash docs/scripts/preparar-auth-local.sh
 mise run up
 ```
 
@@ -124,6 +139,8 @@ Em outro terminal, confira as rotas de saúde:
 
 ```bash
 curl http://localhost:8080/api/status
+curl http://localhost:8080/q/health/live
+curl http://localhost:8080/q/health/ready
 curl http://localhost:8081/health
 ```
 
@@ -150,7 +167,14 @@ Com a API no ar, a documentação das rotas fica disponível em:
 
 ### Autenticação e sessões
 
-Execute `bash docs/scripts/preparar-auth-local.sh` na raiz para gerar uma chave RSA exclusiva e três senhas aleatórias. O script exige Bash e OpenSSL (no Windows, use WSL ou Git Bash) e não substitui chaves nem senhas existentes. As chaves ficam em `.secrets/auth/`; as variáveis e senhas ficam em `.env.auth`, ambos ignorados pelo Git. O `.env.auth` guarda os caminhos absolutos das chaves, pois o Maven executa a aplicação em `api/`; se mover o repositório, execute o script de novo para atualizá-los. O Compose carrega esse arquivo, monta as chaves somente para leitura e usa os caminhos internos do contêiner. Para executar o Quarkus diretamente, na raiz:
+O Compose usa credenciais próprias no volume `auth-data`, sem ler `.env.auth`.
+Para desenvolvimento com Quarkus diretamente no host, execute
+`bash docs/scripts/preparar-auth-local.sh` na raiz para gerar uma chave RSA
+exclusiva e três senhas aleatórias. O script exige Bash e OpenSSL (no Windows,
+use WSL ou Git Bash) e preserva chaves e senhas existentes em `.secrets/auth/`
+e `.env.auth`, ignorados pelo Git. Esse ambiente é separado do Compose.
+Se mover o repositório, execute o script novamente para atualizar os caminhos.
+Para executar o Quarkus diretamente, na raiz:
 
 ```bash
 set -a

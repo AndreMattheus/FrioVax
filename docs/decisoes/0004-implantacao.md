@@ -10,6 +10,11 @@
 
 ## Contexto
 
+Atualização operacional de 18/11/2026 (#84): o Compose local também permite
+iniciar a API sem o Go. A descrição abaixo preserva o contexto da decisão
+original; os comandos e a segurança locais atuais estão em
+[containers](../containers.md).
+
 O MVP acadêmico precisa de uma URL HTTPS para avaliar o inventário persistente, sem contratar recursos pagos nem tornar o serviço Go público. O Java é a autoridade dos dados; o Go analisa janelas térmicas, conforme a ADR 0003. A indisponibilidade dessa análise não pode impedir o inventário nem causar reinícios permanentes da API.
 
 O repositório já possui container Java, PostgreSQL 17, migrações Flyway e CI. O Compose completo depende da saúde do Go, o que é útil para a avaliação integrada local, mas não é a topologia de publicação. No código atual, `telemetry.base-url` é apenas configuração: não há chamada remota na inicialização nem em `GET /api/status`.
