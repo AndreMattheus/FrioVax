@@ -101,21 +101,22 @@ class TestPrepararAuthLocal(unittest.TestCase):
         self.conferir_chaves(self.ler_variaveis())
         self.assertFalse((self.repo / "EXECUTOU").exists())
 
-    def test_compose_le_arquivo_e_usa_chaves_do_container(self):
+    def test_compose_independe_do_arquivo_e_usa_volume_do_container(self):
         if not shutil.which("docker"):
             if os.environ.get("FRIOVAX_TEST_COMPOSE") == "1":
                 self.fail("Docker Compose obrigatório nesta execução")
             self.skipTest("Docker Compose não instalado")
         self.preparar()
-        valores = self.ler_variaveis()
+        (self.repo / ".env.auth").unlink()
         resultado = subprocess.run(["docker", "compose", "config", "--format", "json"],
                                    cwd=self.repo, check=True, capture_output=True,
                                    text=True, encoding="utf-8")
         ambiente = json.loads(resultado.stdout)["services"]["api"]["environment"]
         self.assertEqual("/run/secrets/auth/privateKey.pem", ambiente["JWT_PRIVATE_KEY"])
         self.assertEqual("/run/secrets/auth/publicKey.pem", ambiente["JWT_PUBLIC_KEY"])
+        self.assertEqual("/run/secrets/auth/env.auth", ambiente["FRIOVAX_LOCAL_AUTH"])
         for nome in VARIAVEIS[2:]:
-            self.assertEqual(valores[nome], ambiente[nome])
+            self.assertNotIn(nome, ambiente)
 
 
 if __name__ == "__main__":

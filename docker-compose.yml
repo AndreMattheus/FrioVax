@@ -1,6 +1,14 @@
 name: friovax
 
 services:
+  auth-init:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+      target: local-auth
+    volumes:
+      - auth-data:/auth
+
   db:
     image: postgres:17-alpine
     environment:
@@ -8,7 +16,7 @@ services:
       POSTGRES_USER: ${DB_USER:-friovax}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-friovax}
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     healthcheck:
@@ -21,11 +29,10 @@ services:
     build:
       context: .
       dockerfile: api/Dockerfile
-    env_file:
-      - .env.auth
     volumes:
-      - ./.secrets/auth:/run/secrets/auth:ro
+      - auth-data:/run/secrets/auth:ro
     environment:
+      FRIOVAX_LOCAL_AUTH: /run/secrets/auth/env.auth
       JWT_PRIVATE_KEY: /run/secrets/auth/privateKey.pem
       JWT_PUBLIC_KEY: /run/secrets/auth/publicKey.pem
       QUARKUS_HTTP_HOST: 0.0.0.0
@@ -37,12 +44,18 @@ services:
       DB_USER: ${DB_USER:-friovax}
       DB_PASSWORD: ${DB_PASSWORD:-friovax}
     ports:
-      - "8080:8080"
+      - "127.0.0.1:${API_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--max-time", "3", "http://localhost:8080/q/health/ready"]
+      interval: 5s
+      timeout: 4s
+      start_period: 40s
+      retries: 12
     depends_on:
       db:
         condition: service_healthy
-      telemetry:
-        condition: service_healthy
+      auth-init:
+        condition: service_completed_successfully
 
   telemetry:
     build:
@@ -55,7 +68,7 @@ services:
       SHUTDOWN_TIMEOUT: ${SHUTDOWN_TIMEOUT:-5s}
     stop_grace_period: ${TELEMETRY_STOP_GRACE_PERIOD:-10s}
     ports:
-      - "8081:8081"
+      - "127.0.0.1:${TELEMETRY_HTTP_PORT:-8081}:8081"
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:8081/health"]
       interval: 5s
@@ -64,3 +77,4 @@ services:
 
 volumes:
   db-data:
+  auth-data:
