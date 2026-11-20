@@ -121,7 +121,8 @@ public class DocumentacaoApi extends Application {
         **Autenticação e perfis**
 
         Câmaras e lotes exigem Bearer JWT obtido em `POST /api/auth/login`. Use **Authorize** no Swagger UI.
-        ADMINISTRADOR gerencia cadastros e descarte; OPERADOR consulta e registra baixas; AUDITOR consulta.
+        ADMINISTRADOR gerencia cadastros e descarte; OPERADOR consulta, registra baixas e envia leituras; AUDITOR \
+        consulta.
         Ausência de Bearer ou token inválido/expirado retorna 401; perfil insuficiente retorna 403 antes da \
         execução. Essas rejeições do Quarkus podem ter corpo vazio. Saúde e documentação são públicas, \
         mas as operações exibidas continuam protegidas. Perfil e ator vêm somente da identidade validada.
@@ -149,5 +150,13 @@ public class DocumentacaoApi extends Application {
         `type` identifica a categoria: `/problemas/requisicao-invalida` (400), `/problemas/recurso-nao-encontrado` \
         (404), `/problemas/codigo-duplicado`, `/problemas/capacidade-excedida` e `/problemas/estado-incompativel` \
         (409), `/problemas/validacao` (422) e `/problemas/erro-interno` (500).
+
+        **Leituras**
+
+        `POST /api/leituras` é idempotente pela chave `(camaraId, idExterno)`: o reenvio com o mesmo conteúdo devolve \
+        o registro original (200) sem nova análise, e outro conteúdo retorna `/problemas/leitura-conflitante` (409). \
+        Câmara alterada durante a análise retorna `/problemas/alteracao-concorrente` (409). Falhas do serviço de \
+        análise retornam `/problemas/falha-de-integracao` (502) ou `/problemas/analise-indisponivel` (503), sem \
+        confirmar a leitura.
         """;
 }
