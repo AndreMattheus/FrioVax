@@ -17,7 +17,12 @@ public class ServidorTelemetriaResource implements QuarkusTestResourceLifecycleM
         return Map.of(
                 "quarkus.grpc.clients.telemetria.host", "localhost",
                 "quarkus.grpc.clients.telemetria.test-port", String.valueOf(servidor.porta()),
-                "friovax.telemetria.prazo", PRAZO.toMillis() + "ms");
+                "friovax.telemetria.prazo", prazo().toMillis() + "ms");
+    }
+
+    /** Prazo configurado no cliente gRPC durante os testes que usam este recurso. */
+    protected Duration prazo() {
+        return PRAZO;
     }
 
     @Override
