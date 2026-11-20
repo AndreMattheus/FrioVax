@@ -89,7 +89,7 @@ public final class Leitura {
         return instante.withOffsetSameInstant(ZoneOffset.UTC);
     }
 
-    private static String idExternoValidado(String idExterno) {
+    static String idExternoValidado(String idExterno) {
         if (idExterno == null || idExterno.isBlank()) {
             throw new ValidacaoDeNegocio("idExterno", "deve ser informado");
         }
@@ -100,7 +100,7 @@ public final class Leitura {
         return idExterno;
     }
 
-    private static String origemNormalizada(String origem) {
+    static String origemNormalizada(String origem) {
         var texto = origem == null ? "" : origem.trim();
         if (texto.isEmpty()) {
             throw new ValidacaoDeNegocio("origem", "deve ser informada");
@@ -111,7 +111,7 @@ public final class Leitura {
         return texto;
     }
 
-    private static BigDecimal temperaturaNormalizada(BigDecimal temperatura) {
+    static BigDecimal temperaturaNormalizada(BigDecimal temperatura) {
         if (temperatura == null) {
             throw new ValidacaoDeNegocio("temperatura", "deve ser informada");
         }
