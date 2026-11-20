@@ -25,6 +25,7 @@ public class LeituraRepositoryEmMemoria implements LeituraRepository {
 
     public synchronized void limpar() {
         leituras.clear();
+        sequencia.set(0);
     }
 
     @Override

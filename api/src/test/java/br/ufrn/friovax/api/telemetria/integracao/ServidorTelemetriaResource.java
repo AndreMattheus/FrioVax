@@ -8,8 +8,8 @@ import java.util.Map;
 /** Sobe o servidor gRPC de teste antes do Quarkus e aponta o cliente configurado para ele. */
 public class ServidorTelemetriaResource implements QuarkusTestResourceLifecycleManager {
 
-    static final Duration PRAZO = Duration.ofMillis(400);
-    static volatile ServidorTelemetriaDeTeste servidor;
+    public static final Duration PRAZO = Duration.ofMillis(400);
+    public static volatile ServidorTelemetriaDeTeste servidor;
 
     @Override
     public Map<String, String> start() {
