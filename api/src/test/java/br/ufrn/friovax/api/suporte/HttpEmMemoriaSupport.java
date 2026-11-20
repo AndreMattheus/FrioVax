@@ -11,9 +11,13 @@ public abstract class HttpEmMemoriaSupport {
     @Inject
     protected LoteRepositoryEmMemoria lotes;
 
+    @Inject
+    protected AuditoriaRepositoryEmMemoria auditoria;
+
     @BeforeEach
     void limparRepositorios() {
         lotes.limpar();
         camaras.limpar();
+        auditoria.limpar();
     }
 }

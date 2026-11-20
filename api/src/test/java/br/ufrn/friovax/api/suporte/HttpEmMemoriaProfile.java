@@ -52,6 +52,14 @@ public class HttpEmMemoriaProfile implements QuarkusTestProfile {
     @Singleton
     @Alternative
     @Priority(1)
+    public AuditoriaRepositoryEmMemoria auditoria() {
+        return new AuditoriaRepositoryEmMemoria();
+    }
+
+    @Produces
+    @Singleton
+    @Alternative
+    @Priority(1)
     public Clock relogio() {
         return RELOGIO;
     }
