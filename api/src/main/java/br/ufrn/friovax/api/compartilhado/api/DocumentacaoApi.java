@@ -26,6 +26,8 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
         @Tag(name = DocumentacaoApi.TAG_CAMARAS, description = "Câmaras de conservação, sua capacidade em doses e "
             + "seu estado operacional."),
         @Tag(name = DocumentacaoApi.TAG_LOTES, description = "Lotes de imunobiológicos alocados em câmaras."),
+        @Tag(name = DocumentacaoApi.TAG_LEITURAS, description = "Leituras de temperatura das câmaras, analisadas "
+            + "pelo serviço de telemetria e gravadas com o resultado térmico."),
         @Tag(name = DocumentacaoApi.TAG_STATUS, description = "Verificação simples de disponibilidade da API.")
     },
     components = @Components(responses = {
@@ -89,6 +91,7 @@ public class DocumentacaoApi extends Application {
 
     public static final String TAG_CAMARAS = "Câmaras";
     public static final String TAG_LOTES = "Lotes";
+    public static final String TAG_LEITURAS = "Leituras";
     public static final String TAG_STATUS = "Status";
 
     public static final String PROBLEM_JSON = "application/problem+json";
