@@ -157,12 +157,76 @@ Participação de cada classificação no lead até a publicação:
 - **A espera de publicação da #69 e da #80** (110 h e 170 h) é pontual: não existia ambiente público antes de 13/11. A #70, integrada com o ambiente já no ar, esperou 1,6 h.
 - **A revisão** teve espera menor que a fila e a publicação nas #69 e #80 (10,2 h e 38,1 h no total); a #70 esperou 6,7 h por revisão. O terceiro ciclo da #80 esperou 37,6 h. Na linha de base, quase um em cada quatro PRs esperou mais de um dia. O experimento da #92 compara esse número com os PRs da Sprint 2.
 
+## Experimento: duplas fixas de revisão (#92)
+
+**Intervenção.** Desde a planning da Sprint 2 (03/11), cada PR tem um revisor fixo: Leonardo ⇄ Arthur e Matheus ⇄ Bianca, com Leonardo como apoio. Na Sprint 1, o anel era Bianca → Arthur → Leonardo → Matheus → Bianca. Responsável: Bianca. **Meta, fixada na [#92](https://github.com/AndreMattheus/FrioVax/issues/92) antes da medição: no máximo 10% dos PRs integrados da Sprint 2 com espera acima de 24 h.**
+
+**Definição, igual nos dois períodos.** É a mesma da [linha de base](#espera-até-a-primeira-revisão--linha-de-base-da-sprint-1): da abertura do PR (ou da primeira saída de rascunho) até a primeira review submetida (`APPROVED`, `CHANGES_REQUESTED` ou `COMMENTED`) por outra pessoa. Bots e autorreview não contam; comentários soltos e reações também não. Entram os PRs integrados em `main`. Os dois períodos usam o mesmo corte preservado e o mesmo subcomando, mudando só o intervalo de PRs. O `review_requested` do protocolo da Sprint 2 não é usado aqui, para não mudar a definição entre os períodos.
+
+**Período medido.** São os PRs integrados de 21/10 a 16/11: #100 a #113. Os números #65 a #99 são issues, e os PRs seguintes foram integrados em 17/11, depois do corte de 16/11 às 23h30.
+
+```bash
+python3 docs/scripts/medir-fluxo-de-valor.py revisao docs/evidencias/sprint-2/exportacoes/20261117T023019358359Z
+python3 docs/scripts/medir-fluxo-de-valor.py revisao docs/evidencias/sprint-2/exportacoes/20261117T023019358359Z --primeiro 65 --ultimo 113
+```
+
+### Resultado
+
+| Medida | Sprint 1 (#36–#64) | Sprint 2 (#100–#113) |
+|---|---:|---:|
+| PRs integrados com review de outra pessoa | 26 | 14 |
+| Acima de 24 h corridas | 6 (23,1%) | **1 (7,1%)** |
+| Mediana | 5,32 h | **2,29 h** |
+| Média | 12,95 h | 5,85 h |
+| Máximo | 62,06 h (#55) | 29,36 h (#111) |
+
+| Faixa de espera | Sprint 1 | Sprint 2 |
+|---|---:|---:|
+| Até 1 h | 5 | 6 |
+| Mais de 1 h até 8 h | 11 | 5 |
+| Mais de 8 h até 24 h | 4 | 2 |
+| Mais de 24 h | 6 | 1 |
+
+**A meta foi atingida:** 7,1% dos PRs da Sprint 2 esperaram mais de 24 h, contra 23,1% na Sprint 1.
+
+Distribuição por PR na Sprint 2:
+
+| PR | Autor → primeira review | Início (UTC) | Primeira review (UTC) | Espera (h) |
+|---|---|---|---|---:|
+| [#100](https://github.com/AndreMattheus/FrioVax/pull/100) | Leonardo → Arthur | 2026-11-03T19:09:12Z | 2026-11-03T19:57:56Z | 0,81 |
+| [#101](https://github.com/AndreMattheus/FrioVax/pull/101) | Leonardo → Arthur | 2026-11-03T19:29:38Z | 2026-11-03T20:48:30Z | 1,31 |
+| [#102](https://github.com/AndreMattheus/FrioVax/pull/102) | Matheus → Bianca | 2026-11-04T13:16:16Z | 2026-11-04T18:39:09Z | 5,38 |
+| [#103](https://github.com/AndreMattheus/FrioVax/pull/103) | Leonardo → Arthur | 2026-11-04T21:30:51Z | 2026-11-04T22:23:09Z | 0,87 |
+| [#104](https://github.com/AndreMattheus/FrioVax/pull/104) | Arthur → Leonardo | 2026-11-06T17:39:54Z | 2026-11-06T17:47:07Z | 0,12 |
+| [#105](https://github.com/AndreMattheus/FrioVax/pull/105) | Matheus → Bianca | 2026-11-08T11:31:14Z | 2026-11-08T14:46:53Z | 3,26 |
+| [#106](https://github.com/AndreMattheus/FrioVax/pull/106) | Leonardo → Arthur | 2026-11-08T16:15:39Z | 2026-11-08T17:05:00Z | 0,82 |
+| [#107](https://github.com/AndreMattheus/FrioVax/pull/107) | Bianca → Matheus | 2026-11-08T17:39:01Z | 2026-11-09T03:52:09Z | 10,22 |
+| [#108](https://github.com/AndreMattheus/FrioVax/pull/108) | Bianca → Matheus | 2026-11-09T16:36:38Z | 2026-11-09T17:00:40Z | 0,40 |
+| [#109](https://github.com/AndreMattheus/FrioVax/pull/109) | Arthur → Leonardo | 2026-11-10T20:51:21Z | 2026-11-11T12:56:37Z | 16,09 |
+| [#110](https://github.com/AndreMattheus/FrioVax/pull/110) | Bianca → Matheus | 2026-11-13T18:03:58Z | 2026-11-14T00:17:54Z | 6,23 |
+| [#111](https://github.com/AndreMattheus/FrioVax/pull/111) | Arthur → Leonardo | 2026-11-13T19:03:41Z | 2026-11-15T00:25:20Z | 29,36 |
+| [#112](https://github.com/AndreMattheus/FrioVax/pull/112) | Leonardo → Arthur | 2026-11-15T01:35:44Z | 2026-11-15T02:20:38Z | 0,75 |
+| [#113](https://github.com/AndreMattheus/FrioVax/pull/113) | Arthur → Leonardo | 2026-11-15T17:34:18Z | 2026-11-15T23:47:51Z | 6,23 |
+
+**Substituições de revisor:** nenhuma. Nos 14 PRs, a primeira review foi feita pelo par combinado, e o Leonardo não precisou atuar como apoio na primeira revisão.
+
+**Fatores externos.** A prova de 11/11 coincide com o #109: aberto em 10/11 às 17h51 e revisado em 11/11 às 9h56 (horário de Fortaleza), 16,1 h depois. O único PR acima de 24 h, o #111, foi aberto numa sexta-feira (13/11) às 16h03 e revisado no sábado às 21h25. A espera conta horas corridas, incluindo fim de semana e o feriado de 15/11 (domingo). Nenhuma ausência foi registrada no período.
+
+### Limites da inferência
+
+- **Amostras pequenas e diferentes:** 14 PRs contra 26. A Sprint 2 teve menos PRs, em geral maiores. Um único PR a mais acima de 24 h levaria a Sprint 2 a 14,3% e ao descumprimento da meta.
+- **Sem isolamento da causa:** junto com as duplas, mudaram a Definição de Pronto, o protocolo de medição (que torna a espera visível) e o tipo de trabalho. A queda é compatível com o efeito das duplas, mas não o prova sozinha.
+- **Só a primeira review:** os ciclos seguintes não entram. Por exemplo, o terceiro ciclo da #80 esperou 37,6 h, como descrito em [Amostra da Sprint 2](#amostra-da-sprint-2).
+- **Horas corridas:** noites, fins de semana e feriados contam nos dois períodos, do mesmo jeito.
+- **Período incompleto:** a Sprint 2 vai até 30/11. A medição cobre os PRs integrados até 16/11, como previsto na #92.
+
 ## Reprodução
 
 ```bash
 python3 docs/scripts/validar-medicao-sprint-2.py
 python3 docs/scripts/medir-fluxo-de-valor.py itens
 python3 docs/scripts/medir-fluxo-de-valor.py revisao docs/evidencias/sprint-2/exportacoes/20261117T023019358359Z
+python3 docs/scripts/medir-fluxo-de-valor.py revisao docs/evidencias/sprint-2/exportacoes/20261117T023019358359Z --primeiro 65 --ultimo 113
 python3 docs/scripts/medir-fluxo-de-valor.py backlog
 python3 -m unittest discover -s docs/scripts -p 'test_fluxo_de_valor.py' -v
 ```
@@ -179,5 +243,5 @@ O corte [`20261117T023019358359Z`](evidencias/sprint-2/exportacoes/20261117T0230
 - **Chegada em lote.** A chegada de todos os itens é a inclusão no Project em 24/10 UTC (23/10 em Fortaleza), anterior à planning da Sprint 2 de 03/11. A dependência entre tarefas (por exemplo, #70 depende da #69) aparece como fila do quadro; não foi registrada como bloqueio separado.
 - A fila do runner foi excluída da automação e não foi registrada como espera; soma segundos por execução.
 - Só as duas publicações usadas pela amostra estão em `implantacoes.csv`. As tentativas falhas e as publicações posteriores ficam para a [#90](https://github.com/AndreMattheus/FrioVax/issues/90), que também apura a frequência de implantação.
-- A linha de base de revisão conta a partir da abertura do PR, como foi medida na Sprint 1. O protocolo da Sprint 2 conta a partir do `review_requested`; a comparação da #92 deve usar uma única definição nos dois períodos.
+- A linha de base de revisão conta a partir da abertura do PR, como foi medida na Sprint 1. O protocolo da Sprint 2 conta a partir do `review_requested`. A comparação da #92 usa a definição da linha de base nos dois períodos (ver [Experimento](#experimento-duplas-fixas-de-revisão-92)).
 - O prazo de 08/11 permanece descumprido. Este documento entrega as contas e fontes depois da publicação dos três itens; a aprovação depende de o revisor aceitar expressamente esse desvio, além de reproduzir a validação e verificar a DoD.
