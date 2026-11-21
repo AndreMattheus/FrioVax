@@ -527,7 +527,7 @@ está consultando.
 Filtros, contagem e paginação são executados no banco. As políticas da página
 são buscadas em conjunto; o detalhe busca as leituras de evidência em conjunto,
 reordenando pelos IDs registrados. Isso evita uma consulta por item (N+1).
-A migração V6 acrescenta índices globais de abertura/ID e estado/abertura/ID,
+A migração V7 acrescenta índices globais de abertura/ID e estado/abertura/ID,
 sem modificar migrações já aplicadas. A página e a contagem usam o isolamento
 transacional padrão: novas gravações concorrentes podem mudar páginas entre
 requisições; não se promete um snapshot único entre páginas.
