@@ -105,6 +105,29 @@ class DocumentacaoApiHttpMemoriaTest {
     }
 
     @Test
+    void documentaRecepcaoDeLeiturasComIdempotenciaEFalhasDoGo() {
+        given().accept("application/json").when().get("/q/openapi").then()
+            .statusCode(200)
+            .body("paths.'/api/leituras'.post.tags", hasItem("Leituras"),
+                "paths.'/api/leituras'.post.responses", hasKey("201"),
+                "paths.'/api/leituras'.post.responses", hasKey("200"),
+                "paths.'/api/leituras'.post.responses.'201'.headers", hasKey("Location"),
+                "paths.'/api/leituras'.post.responses.'409'.description",
+                containsString("/problemas/leitura-conflitante"),
+                "paths.'/api/leituras'.post.responses.'409'.description",
+                containsString("/problemas/alteracao-concorrente"),
+                "paths.'/api/leituras'.post.responses.'503'.description",
+                containsString("/problemas/analise-indisponivel"),
+                "paths.'/api/leituras'.post.responses", hasKey("502"),
+                "paths.'/api/leituras/{id}'.get.responses", hasKey("200"),
+                "components.schemas.LeituraRequest.required",
+                hasItems("idExterno", "camaraId", "temperatura", "medidaEm", "origem"),
+                "components.schemas.LeituraRequest.properties.medidaEm.format", equalTo("date-time"),
+                "components.schemas.LeituraRequest.properties.medidaEm.description", containsString("offset"),
+                "components.schemas.LeituraResponse.properties", hasKey("limiarAtingido"));
+    }
+
+    @Test
     void documentaRotasDeLotesComFiltrosEVinculoComCamara() {
         given().accept("application/json").when().get("/q/openapi").then()
             .statusCode(200)

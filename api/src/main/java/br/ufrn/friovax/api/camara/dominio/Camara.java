@@ -190,6 +190,19 @@ public class Camara {
         }
     }
 
+    /**
+     * Novas leituras só entram numa câmara ativa e {@code OPERACIONAL} (ADR 0003, seção 5). O estado térmico não
+     * interfere: uma câmara {@code EM_ALERTA} continua recebendo leituras.
+     */
+    public void exigirAptaParaLeituras() {
+        if (!ativo) {
+            throw new EstadoIncompativel("A câmara " + codigo + " está inativa e não recebe leituras.");
+        }
+        if (estado != EstadoCamara.OPERACIONAL) {
+            throw new EstadoIncompativel("A câmara " + codigo + " está em " + estado + " e não recebe leituras.");
+        }
+    }
+
     /** Chamado pelo repositório ao gravar uma câmara nova. */
     public void atribuirId(long id) {
         if (this.id != null) {
