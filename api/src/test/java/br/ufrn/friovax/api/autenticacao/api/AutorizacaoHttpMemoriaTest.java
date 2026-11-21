@@ -61,7 +61,8 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
                 new Rota("PUT", "/api/lotes/{lote}", "cadastroLote", 200),
                 new Rota("DELETE", "/api/lotes/{lote}", "cadastroLote", 204),
                 new Rota("POST", "/api/lotes/{lote}/baixas", "baixa", 200),
-                new Rota("POST", "/api/lotes/{lote}/descarte", "descarte", 200))
+                new Rota("POST", "/api/lotes/{lote}/descarte", "descarte", 200),
+                new Rota("GET", "/api/auditoria", "trilha", 200))
                 .flatMap(rota -> IDENTIDADES.stream().map(identidade -> Arguments.of(rota, identidade)));
     }
 
@@ -73,7 +74,8 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
                 .replace("{vazia}", Long.toString(camaraVaziaId)).replace("{lote}", Long.toString(loteId));
         boolean permitido = identidade.equals("ADMINISTRADOR")
                 || (rota.operacao().equals("consulta") && Set.of("OPERADOR", "AUDITOR").contains(identidade))
-                || (rota.operacao().equals("baixa") && identidade.equals("OPERADOR"));
+                || (rota.operacao().equals("baixa") && identidade.equals("OPERADOR"))
+                || (rota.operacao().equals("trilha") && identidade.equals("AUDITOR"));
         int esperado = permitido ? rota.sucesso() : naoAutenticado(identidade) ? 401 : 403;
         var requisicao = como(identidade).contentType("application/json")
                 .header("X-Perfil", "ADMINISTRADOR").header("X-Usuario-Id", "forjado")
@@ -137,7 +139,8 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
         return Map.of("camaras", admin().get("/api/camaras?ativo=true").asString(),
                 "camarasInativas", admin().get("/api/camaras?ativo=false").asString(),
                 "lotes", admin().get("/api/lotes?ativo=true").asString(),
-                "lotesInativos", admin().get("/api/lotes?ativo=false").asString());
+                "lotesInativos", admin().get("/api/lotes?ativo=false").asString(),
+                "trilha", admin().get("/api/auditoria?size=100").asString());
     }
 
     private RequestSpecification admin() {

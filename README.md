@@ -453,7 +453,7 @@ vazias; um ID inexistente no detalhe retorna 404.
 O detalhe inclui as leituras de evidência e a fotografia dos lotes na abertura.
 A política original e essa fotografia são preservadas após alterações de faixa,
 movimentação ou inativação dos cadastros. Os instantes são retornados em UTC (`Z`).
-Veja campos, filtros e erros no [contrato do histórico](docs/contrato-api.md#9-histórico-de-leituras-e-ocorrências).
+Veja campos, filtros e erros no [contrato do histórico](docs/contrato-api.md#11-histórico-de-leituras-e-ocorrências).
 
 ## Licença
 

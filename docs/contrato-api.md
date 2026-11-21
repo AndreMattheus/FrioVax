@@ -205,6 +205,10 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 | `409` | Capacidade excedida ou redução abaixo da ocupação                                                                                                                                                                                                                      | `/problemas/capacidade-excedida` |
 | `409` | Operação incompatível com o estado atual (registro inativo, câmara em manutenção, câmara com lotes ativos)                                                                                                                                                             | `/problemas/estado-incompativel` |
 | `422` | Body ou campo obrigatório ausente; campo em branco; formato ou regra de entrada violada após desserialização (inclusive validade não futura, temperatura fora do intervalo, precisão térmica excessiva e `temperaturaMinima >= temperaturaMaxima`) | `/problemas/validacao` |
+| `409` | Leitura com chave `(camaraId, idExterno)` já aceita com outro conteúdo (§10) | `/problemas/leitura-conflitante` |
+| `409` | Câmara alterada durante as duas análises de uma leitura; pode reenviar (§10) | `/problemas/alteracao-concorrente` |
+| `502` | Serviço de análise térmica respondeu fora do contrato ou recusou a janela; nada é gravado (§10) | `/problemas/falha-de-integracao` |
+| `503` | Serviço de análise térmica ausente ou sem resposta no prazo; nada é gravado (§10) | `/problemas/analise-indisponivel` |
 | `500` | Falha interna inesperada, com mensagem genérica e detalhes técnicos apenas no log do servidor                                                                                                                                                                          | `/problemas/erro-interno` |
 
 Todo Problem Details contém `type`, `title`, `status`, `detail` e `instance`. O campo `instance` identifica o caminho da requisição com `/` inicial, por exemplo `/api/camaras`. Erros `422` incluem `erros`, uma lista de `{ "campo": string, "mensagem": string }`.
@@ -434,7 +438,7 @@ Content-Type: application/problem+json
 - Entidade e CRUD de Unidade (D2).
 - Reativação de registros inativos.
 - Estados térmicos da câmara e política térmica (US05, US08).
-- Trilha de auditoria de alterações (US10). Autenticação e autorização estão implementadas (§7–8).
+- Auditoria de políticas térmicas e ocorrências: os tipos já existem na trilha (§9), mas os registros chegam com as rotas de política (S2-14) e de ocorrência.
 
 ## 7. Autenticação e sessões (Sprint 2 — #80)
 
@@ -453,14 +457,167 @@ Os perfis disponíveis são `ADMINISTRADOR`, `OPERADOR` e `AUDITOR`. A autoriza�
 
 ## 8. Autorização por operação (Sprint 2 — #81)
 
-Todas as rotas de câmaras e lotes exigem Bearer JWT validado. Administrador executa todas as operações; operador consulta e registra baixas; auditor consulta. Cadastro, edição, inativação e descarte são exclusivos de administrador. Ausência de token, token expirado ou inválido retorna 401; identidade válida sem perfil permitido retorna 403 antes da execução, sem gravação ou chamada Go. A rejeição de segurança é feita pelo Quarkus e pode retornar corpo vazio; não se exige Problem Details nesses 401/403.
+Todas as rotas de câmaras, lotes e leituras exigem Bearer JWT validado. Administrador executa todas as operações; operador consulta, registra baixas e envia leituras (§10); auditor consulta. Cadastro, edição, inativação e descarte são exclusivos de administrador. Ausência de token, token expirado ou inválido retorna 401; identidade válida sem perfil permitido retorna 403 antes da execução, sem gravação ou chamada Go. A rejeição de segurança é feita pelo Quarkus e pode retornar corpo vazio; não se exige Problem Details nesses 401/403.
 
 Saúde, status, OpenAPI e Swagger UI permanecem públicos; isso não permite executar operações protegidas sem Bearer. Login, renovação e logout validam credenciais ou refresh, conforme §7. Perfil e ator nunca são aceitos do body, query ou cabeçalhos auxiliares para autorizar ou atribuir ações.
 
 A [diretriz de autorização](autorizacao.md) define a matriz completa, as guardas reutilizáveis para próximas funcionalidades e o suporte de testes. `quarkus.security.jaxrs.deny-unannotated-endpoints=true` bloqueia toda nova rota REST sem anotação de segurança. Cada operação deve declarar `@PermissionsAllowed` no método e incluir testes de permissão; a regra também integra a Definição de Pronto e o checklist do PR.
 
+## 9. Trilha de auditoria (Sprint 2 — #82)
 
-## 9. Histórico de leituras e ocorrências
+Toda alteração confirmada de câmara ou lote gera um evento na tabela `eventos_auditoria`, gravado **na mesma transação** da alteração: se a alteração falha ou é desfeita, o evento também some; se o evento não pode ser gravado, a alteração é desfeita. Requisições recusadas (401, 403, 404, 409, 422) não geram evento. Repetições sem efeito também não: um `PUT` com os mesmos valores e um segundo descarte do mesmo lote respondem com sucesso, mas não entram na trilha.
+
+| Recurso | Operação | Quando |
+|---|---|---|
+| `CAMARA` | `CADASTRO`, `ATUALIZACAO`, `INATIVACAO` | `POST`, `PUT` com alguma mudança, `DELETE` de câmara ativa |
+| `LOTE` | `CADASTRO`, `ATUALIZACAO`, `INATIVACAO` | `POST`, `PUT` com alguma mudança, `DELETE` de lote ativo |
+| `LOTE` | `BAIXA`, `DESCARTE` | `POST /baixas`; `POST /descarte` de lote ainda não descartado |
+
+Cada evento guarda:
+
+| Campo | Conteúdo |
+|---|---|
+| `id` | Sequência do banco; define a ordem da trilha |
+| `instante` | Momento oficial da alteração, em UTC (`Z`), com microssegundos |
+| `ator.id`, `ator.login`, `ator.perfil` | `sub`, `upn` e perfil do JWT validado. Alterações sem usuário (tarefas internas) usam `ator.id = null` e `perfil = SISTEMA` |
+| `recurso`, `recursoId` | Tipo e `id` do registro alterado |
+| `operacao` | Uma das operações da tabela acima |
+| `descricao` | Resumo legível, por exemplo `Lote FX2027A atualizado: quantidade 100 → 120` |
+| `correlacaoId` | Correlação da requisição (abaixo) |
+
+O ator **nunca** vem do body, da query ou de cabeçalhos auxiliares (`X-Usuario-Id`, `X-Perfil`); campos assim são ignorados. A trilha não guarda o token nem qualquer parte dele. Os eventos não são alterados nem apagados pela API, e o usuário de execução tem só `SELECT` e `INSERT` na tabela ([`runtime-grants.sql`](scripts/runtime-grants.sql)).
+
+### 9.1 Correlação
+
+Toda resposta traz o cabeçalho `X-Correlation-Id`. Se a requisição envia esse cabeçalho com 1 a 128 caracteres entre `A-Z`, `a-z`, `0-9`, `.`, `_`, `:` e `-`, o mesmo valor é usado; senão o servidor gera um UUID (o valor recebido é descartado, nunca vai para log nem para o banco). A correlação aparece no evento e nas linhas de log da requisição (`[correlacao=...]`).
+
+### 9.2 Consulta
+
+`GET /api/auditoria` — **ADMINISTRADOR** ou **AUDITOR** (`consultar-trilha`); operador recebe 403. Retorna a página da §4.3 com os eventos em ordem de `id` crescente. Consultar não gera evento. Não existe `POST`, `PUT`, `PATCH` nem `DELETE` na trilha (405).
+
+| Parâmetro | Tipo | Comparação |
+|---|---|---|
+| `de` | date-time com offset | `instante >= de` |
+| `ate` | date-time com offset | `instante <= ate`; não pode ser anterior a `de` |
+| `usuarioId` | UUID | Igualdade com `ator.id` |
+| `recurso` | enum (`CAMARA`, `LOTE`, `POLITICA_TERMICA`, `OCORRENCIA`) | Igualdade, em maiúsculas |
+| `recursoId` | int64 > 0 | Igualdade; exige `recurso`, porque câmaras e lotes têm numerações próprias |
+| `page`, `size` | integer | Ver D13 |
+
+Filtros combinados usam **E** lógico e filtro vazio equivale a ausente. Data sem offset, UUID fora do formato canônico, enum desconhecido, `recursoId` sem `recurso` ou `de` depois de `ate` retornam 400 (`/problemas/requisicao-invalida`). Na URL, o `+` do offset deve ir como `%2B`; um `+` sem codificação chega como espaço e também é aceito.
+
+```http
+GET /api/auditoria?recurso=LOTE&recursoId=7&size=2
+Authorization: Bearer <accessToken de AUDITOR>
+```
+
+```json
+{
+  "items": [
+    {
+      "id": 41,
+      "instante": "2026-11-19T17:05:00.123456Z",
+      "ator": { "id": "6f1c0a4e-2b7d-4c55-9a43-0f2d8e1b7c90", "login": "administrador", "perfil": "ADMINISTRADOR" },
+      "recurso": "LOTE",
+      "recursoId": 7,
+      "operacao": "CADASTRO",
+      "descricao": "Lote FX2027A cadastrado na câmara 3 com 100 doses",
+      "correlacaoId": "8c6f2b1e-4a7d-4f3c-9b0e-1d2c3b4a5f60"
+    },
+    {
+      "id": 44,
+      "instante": "2026-11-19T17:20:11.004512Z",
+      "ator": { "id": "0b9e7d52-61c3-4f1a-8e2d-5a7c9b3e1f04", "login": "operador", "perfil": "OPERADOR" },
+      "recurso": "LOTE",
+      "recursoId": 7,
+      "operacao": "BAIXA",
+      "descricao": "Baixa de 5 doses do lote FX2027A (ADMINISTRADA); restam 95",
+      "correlacaoId": "baixa-ubs-centro-0001"
+    }
+  ],
+  "page": 0,
+  "size": 2,
+  "totalElements": 2,
+  "totalPages": 1
+}
+```
+
+## 10. Recepção de leituras (Sprint 2 — #74)
+
+`POST /api/leituras` recebe uma leitura individual, analisa-a no serviço Go e grava a leitura com a versão da política e o resultado térmico confirmado ([ADR 0003](decisoes/0003-servico-go-telemetria.md), seções 3, 5 e 7). Administrador e operador podem enviar; auditor recebe `403` e ausência de autenticação, `401`. `GET /api/leituras/{id}` consulta a leitura aceita (administrador, operador ou auditor).
+
+| Campo | Tipo | Obrigatório | Regra |
+|---|---|---|---|
+| `idExterno` | string | sim | 1 a 100 caracteres, sem caractere nulo. O valor é preservado como enviado. Com `camaraId`, forma a chave de idempotência. |
+| `camaraId` | integer (int64) | sim | ID positivo de câmara existente (`404`), ativa e `OPERACIONAL` (`409`). `EM_ALERTA` não impede o envio. |
+| `temperatura` | number | sim | °C, de `-999.9` a `999.9`, no máximo 1 casa decimal; `8.50` equivale a `8.5`. |
+| `medidaEm` | string (date-time) | sim | ISO 8601 com offset obrigatório (`Z` ou `±hh:mm`) e até 6 casas nos segundos. Em UTC, deve estar entre os anos 0001 e 9999. Deve ser posterior à última leitura aceita da câmara (`409`) e no máximo 5 minutos à frente do relógio da API (`422`). Devolvido em UTC. |
+| `origem` | string | sim | 1 a 100 caracteres após o `trim`, sem caractere nulo. |
+
+**Fluxo.** A câmara é bloqueada apenas em duas transações curtas, sem lock nem transação durante a chamada ao Go:
+
+1. Com a câmara bloqueada, confere a chave, a elegibilidade e a ordem e lê o snapshot: política vigente, última leitura aceita, início do episódio (última resolução) e até N−1 leituras de contexto da política vigente. Encerra sem gravar.
+2. Chama o Go fora de transação, com prazo de 800 ms (`TELEMETRY_DEADLINE`). Alocações e movimentações de lotes na mesma câmara não esperam por essa chamada.
+3. Bloqueia a câmara de novo e revalida: se a chave já foi aceita, devolve o original (`200`) ou `409`; se a câmara saiu de operação, `409`; se a última leitura, a versão da política ou o início do episódio mudaram, refaz os passos 1 a 3 uma única vez e, persistindo a mudança, responde `409` (`/problemas/alteracao-concorrente`). Só grava o resultado calculado para o snapshot confirmado.
+
+Com a nova tentativa, uma requisição pode esperar até duas vezes o prazo no Go, além do trabalho local.
+
+**Respostas.**
+
+- Primeira aceitação: `201`, `Location: /api/leituras/{id}` e a leitura.
+- Reenvio com conteúdo equivalente (temperatura em escala 1, instante em UTC, origem após `trim`): `200` com o registro original, sem nova chamada ao Go. É seguro reenviar depois de perder a resposta HTTP.
+- Mesma chave com outra temperatura, instante ou origem: `409` (`/problemas/leitura-conflitante`). `medidaEm` igual ou anterior à última leitura aceita, câmara inativa ou fora de `OPERACIONAL`: `409` (`/problemas/estado-incompativel`). Nenhum caso grava algo.
+- Go ausente ou lento: `503` no prazo de cada chamada; resposta fora do contrato ou janela recusada: `502`. Nenhuma leitura é confirmada, não há fila nem `202`.
+
+A abertura de ocorrência ao atingir o limiar e a atualização do estado térmico são da S2-11 (#75); a recepção em lote, da S2-36 (#99).
+
+```http
+POST /api/leituras
+Authorization: Bearer <token de OPERADOR>
+Content-Type: application/json
+
+{
+  "idExterno": "sensor-7:000123",
+  "camaraId": 1,
+  "temperatura": 9.4,
+  "medidaEm": "2026-11-20T10:15:00-03:00",
+  "origem": "sensor-7"
+}
+```
+
+```http
+HTTP/1.1 201 Created
+Location: /api/leituras/42
+Content-Type: application/json
+
+{
+  "id": 42,
+  "camaraId": 1,
+  "idExterno": "sensor-7:000123",
+  "temperatura": 9.4,
+  "medidaEm": "2026-11-20T13:15:00Z",
+  "origem": "sensor-7",
+  "politicaVersao": 1,
+  "classificacao": "INSEGURA",
+  "sequencia": 1,
+  "limiarAtingido": false,
+  "aceitaEm": "2026-11-20T13:15:02.120Z"
+}
+```
+
+Reenvio da mesma chave com `"temperatura": 9.5`:
+
+```json
+{
+  "type": "/problemas/leitura-conflitante",
+  "title": "Leitura já registrada com outro conteúdo",
+  "status": 409,
+  "detail": "A leitura sensor-7:000123 da câmara 1 já foi registrada com outra temperatura, instante ou origem.",
+  "instance": "/api/leituras"
+}
+```
+
+## 11. Histórico de leituras e ocorrências
 
 As consultas leem somente resultados confirmados no PostgreSQL, sem chamar Go ou
 reclassificar leituras. Permanecem disponíveis após inativação de câmaras e lotes,
@@ -477,7 +634,7 @@ ou AUDITOR. Token ausente/inválido/expirado retorna 401; identidade autenticada
 sem perfil permitido retorna 403. Erros de consulta usam `application/problem+json`;
 401/403 podem retornar corpo vazio, conforme a política de segurança da §8.
 
-### 9.1 Período, filtros e páginas
+### 11.1 Período, filtros e páginas
 
 - Filtros combinados usam E lógico; omitidos não restringem o resultado.
 - `de` e `ate` são opcionais individualmente e exigem ISO 8601 com offset explícito.
@@ -498,7 +655,7 @@ sem perfil permitido retorna 403. Erros de consulta usam `application/problem+js
 - Não há filtro implícito por cadastro ativo. Ocorrência inexistente no detalhe
   retorna 404. Não há exportação, retenção ou consulta global de leituras.
 
-### 9.2 Representações
+### 11.2 Representações
 
 **Leitura:** `id`, `camaraId`, `idExterno`, `origem`, `temperatura`, `instante`,
 `aceitaEm`, `politica`, `classificacao` (SEGURA/INSEGURA), `sequencia` e
@@ -522,7 +679,7 @@ sem expor login ou credenciais. Registros de resolução sem autor permanecem co
 esse campo nulo; a consulta não infere o responsável a partir do usuário que
 está consultando.
 
-### 9.3 Execução das consultas
+### 11.3 Execução das consultas
 
 Filtros, contagem e paginação são executados no banco. As políticas da página
 são buscadas em conjunto; o detalhe busca as leituras de evidência em conjunto,

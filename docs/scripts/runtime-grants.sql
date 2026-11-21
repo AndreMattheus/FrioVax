@@ -22,8 +22,11 @@ GRANT SELECT, INSERT ON public.politicas_termicas TO friovax_runtime;
 -- V5: leituras, evidências e lotes afetados só são inseridos; a ocorrência recebe UPDATE na resolução.
 GRANT SELECT, INSERT ON public.leituras, public.ocorrencia_evidencias, public.ocorrencia_lotes TO friovax_runtime;
 GRANT SELECT, INSERT, UPDATE ON public.ocorrencias TO friovax_runtime;
+-- V6: a trilha de auditoria só recebe INSERT; nenhuma rota atualiza ou apaga eventos.
+GRANT SELECT, INSERT ON public.eventos_auditoria TO friovax_runtime;
 GRANT USAGE, SELECT ON SEQUENCE public.camaras_id_seq, public.lotes_id_seq,
-  public.politicas_termicas_id_seq, public.leituras_id_seq, public.ocorrencias_id_seq TO friovax_runtime;
+  public.politicas_termicas_id_seq, public.leituras_id_seq, public.ocorrencias_id_seq,
+  public.eventos_auditoria_id_seq TO friovax_runtime;
 DO $$
 BEGIN
     IF has_schema_privilege('friovax_runtime', 'public', 'CREATE')

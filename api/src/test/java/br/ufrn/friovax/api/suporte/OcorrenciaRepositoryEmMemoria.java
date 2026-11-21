@@ -24,6 +24,7 @@ public class OcorrenciaRepositoryEmMemoria implements OcorrenciaRepository {
 
     public synchronized void limpar() {
         ocorrencias.clear();
+        sequencia.set(0);
     }
 
     @Override

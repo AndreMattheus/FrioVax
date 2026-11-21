@@ -1,20 +1,42 @@
 package br.ufrn.friovax.api.telemetria.api;
 
-import br.ufrn.friovax.api.telemetria.aplicacao.ConsultarHistorico.LeituraHistorica;
 import br.ufrn.friovax.api.telemetria.dominio.ClassificacaoTermica;
+import br.ufrn.friovax.api.telemetria.dominio.Leitura;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
-@Schema(description = "Medição e resultado confirmado, sem reanálise. Instantes em UTC (Z).")
-public record LeituraResponse(long id, long camaraId, String idExterno, String origem, BigDecimal temperatura,
-                              Instant instante, Instant aceitaEm, PoliticaHistoricaResponse politica,
-                              ClassificacaoTermica classificacao, int sequencia, boolean limiarAtingido) {
-    static LeituraResponse de(LeituraHistorica historica) {
-        var l = historica.leitura();
-        return new LeituraResponse(l.getId(), l.getCamaraId(), l.getIdExterno(), l.getOrigem(), l.getTemperatura(),
-                l.getInstante().toInstant(), l.getAceitaEm().toInstant(), PoliticaHistoricaResponse.de(historica.politica()),
-                l.getResultado().classificacao(), l.getResultado().sequencia(), l.getResultado().limiarAtingido());
+@Schema(description = "Leitura aceita, com a versão da política usada e o resultado térmico confirmado.")
+public record LeituraResponse(
+        @Schema(description = "Identificador técnico da leitura.", examples = "42")
+        long id,
+        @Schema(examples = "1")
+        long camaraId,
+        @Schema(description = "Identificador na origem, como enviado.", examples = "sensor-7:000123")
+        String idExterno,
+        @Schema(description = "Temperatura em °C com 1 casa decimal.", examples = "9.4")
+        BigDecimal temperatura,
+        @Schema(description = "Instante da medição em UTC.", examples = "2026-11-20T13:15:00Z")
+        OffsetDateTime medidaEm,
+        @Schema(description = "Origem após o `trim`.", examples = "sensor-7")
+        String origem,
+        @Schema(description = "Versão da política térmica usada na análise.", examples = "1")
+        int politicaVersao,
+        @Schema(description = "`SEGURA` dentro da faixa inclusiva da política; `INSEGURA` fora dela.")
+        ClassificacaoTermica classificacao,
+        @Schema(description = "Leituras inseguras consecutivas até esta, limitada ao limiar N; 0 se segura.",
+            examples = "1")
+        int sequencia,
+        @Schema(description = "`true` quando esta leitura insegura atingiu ou manteve o limiar N.")
+        boolean limiarAtingido,
+        @Schema(description = "Instante oficial da aceitação em UTC.", examples = "2026-11-20T13:15:02.120Z")
+        OffsetDateTime aceitaEm
+) {
+    public static LeituraResponse de(Leitura leitura) {
+        var resultado = leitura.getResultado();
+        return new LeituraResponse(leitura.getId(), leitura.getCamaraId(), leitura.getIdExterno(),
+                leitura.getTemperatura(), leitura.getInstante(), leitura.getOrigem(), leitura.getPoliticaVersao(),
+                resultado.classificacao(), resultado.sequencia(), resultado.limiarAtingido(), leitura.getAceitaEm());
     }
 }

@@ -39,8 +39,8 @@ public class LeituraConsultaResource {
     @APIResponse(responseCode = "200", description = "Página de leituras; além do fim, items vazio.")
     @APIResponse(responseCode = "404", description = "Câmara inexistente.",
             content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetails.class)))
-    public PaginaResponse<LeituraResponse> listar(@PathParam("id") long id, @BeanParam ConsultaHistoricoQuery query) {
+    public PaginaResponse<LeituraHistoricaResponse> listar(@PathParam("id") long id, @BeanParam ConsultaHistoricoQuery query) {
         query.validarParametros(uriInfo);
-        return PaginaResponse.de(historico.listarLeituras(id, query.periodo(), query.paginacao()).map(LeituraResponse::de));
+        return PaginaResponse.de(historico.listarLeituras(id, query.periodo(), query.paginacao()).map(LeituraHistoricaResponse::de));
     }
 }

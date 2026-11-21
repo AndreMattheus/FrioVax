@@ -106,6 +106,29 @@ class DocumentacaoApiHttpMemoriaTest {
     }
 
     @Test
+    void documentaRecepcaoDeLeiturasComIdempotenciaEFalhasDoGo() {
+        given().accept("application/json").when().get("/q/openapi").then()
+            .statusCode(200)
+            .body("paths.'/api/leituras'.post.tags", hasItem("Leituras"),
+                "paths.'/api/leituras'.post.responses", hasKey("201"),
+                "paths.'/api/leituras'.post.responses", hasKey("200"),
+                "paths.'/api/leituras'.post.responses.'201'.headers", hasKey("Location"),
+                "paths.'/api/leituras'.post.responses.'409'.description",
+                containsString("/problemas/leitura-conflitante"),
+                "paths.'/api/leituras'.post.responses.'409'.description",
+                containsString("/problemas/alteracao-concorrente"),
+                "paths.'/api/leituras'.post.responses.'503'.description",
+                containsString("/problemas/analise-indisponivel"),
+                "paths.'/api/leituras'.post.responses", hasKey("502"),
+                "paths.'/api/leituras/{id}'.get.responses", hasKey("200"),
+                "components.schemas.LeituraRequest.required",
+                hasItems("idExterno", "camaraId", "temperatura", "medidaEm", "origem"),
+                "components.schemas.LeituraRequest.properties.medidaEm.format", equalTo("date-time"),
+                "components.schemas.LeituraRequest.properties.medidaEm.description", containsString("offset"),
+                "components.schemas.LeituraResponse.properties", hasKey("limiarAtingido"));
+    }
+
+    @Test
     void documentaRotasDeLotesComFiltrosEVinculoComCamara() {
         given().accept("application/json").when().get("/q/openapi").then()
             .statusCode(200)
@@ -138,6 +161,32 @@ class DocumentacaoApiHttpMemoriaTest {
                 equalTo("#/components/responses/DadosInvalidos"),
                 "paths.'/api/lotes/{id}/descarte'.post.description", containsString("DELETE"),
                 "paths.'/api/lotes/{id}/descarte'.post.responses", hasKey("200"));
+    }
+
+    @Test
+    void documentaATrilhaComoSomenteLeituraParaAdministradorEAuditor() {
+        var spec = given().accept("application/json").get("/q/openapi").then()
+                .statusCode(200).extract().jsonPath();
+        Map<String, Map<String, Object>> trilha = spec.getMap("paths.'/api/auditoria'");
+        assertEquals(List.of("get"), List.copyOf(trilha.keySet()), "a trilha não tem rota de escrita");
+        var get = trilha.get("get");
+        assertTrue(((List<Map<String, Object>>) get.get("security")).stream()
+                .anyMatch(s -> s.containsKey("bearerAuth")));
+        String descricao = get.get("description").toString();
+        assertTrue(descricao.contains("ADMINISTRADOR") && descricao.contains("AUDITOR"));
+        assertFalse(descricao.contains("OPERADOR"));
+        given().accept("application/json").when().get("/q/openapi").then()
+            .body("paths.'/api/auditoria'.get.tags", hasItem("Auditoria"),
+                "paths.'/api/auditoria'.get.parameters.name",
+                hasItems("de", "ate", "usuarioId", "recurso", "recursoId", "page", "size"),
+                "paths.'/api/auditoria'.get.responses", hasKey("401"),
+                "paths.'/api/auditoria'.get.responses", hasKey("403"),
+                "paths.'/api/auditoria'.get.responses.'400'.'$ref'",
+                equalTo("#/components/responses/RequisicaoInvalida"),
+                "components.schemas.RecursoAuditado.enum", hasItems("CAMARA", "LOTE"),
+                "components.schemas.OperacaoAuditada.enum", hasItems("CADASTRO", "ATUALIZACAO", "BAIXA", "DESCARTE"),
+                "components.schemas.EventoDeAuditoria.properties",
+                hasKey("correlacaoId"));
     }
 
     @Test
