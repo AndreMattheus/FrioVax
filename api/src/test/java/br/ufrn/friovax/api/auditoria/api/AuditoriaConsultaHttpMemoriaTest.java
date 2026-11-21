@@ -16,6 +16,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -169,8 +171,40 @@ class AuditoriaConsultaHttpMemoriaTest extends HttpEmMemoriaSupport {
 
     @Test
     void operadorNaoConsultaATrilha() {
-        autenticado(Perfil.OPERADOR).get(TRILHA).then().statusCode(403);
+        autenticado(Perfil.OPERADOR).header("X-Correlation-Id", "negacao-operador")
+                .get(TRILHA).then().statusCode(403).header("X-Correlation-Id", "negacao-operador");
         RestAssured.given().get(TRILHA).then().statusCode(401);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"/api/auditoria,401", "/nao-existe,404", "/q/health,200", "/q/health/live,200",
+            "/q/health/ready,200", "/q/openapi,200", "/q/swagger-ui/,200", "/api/status,200", "/q/metrics,401"})
+    void correlacaoTambemCobreRespostasForaDoRest(String rota, int status) {
+        RestAssured.given().header("X-Correlation-Id", "correlacao-global-119").get(rota).then()
+                .statusCode(status).header("X-Correlation-Id", "correlacao-global-119");
+        assertEquals(1, auditoria.todos().size(), "consultas e rejeições não geram evento");
+    }
+
+    @Test
+    void bearerInvalidoTambemDevolveCorrelacao() {
+        RestAssured.given().header("Authorization", "Bearer invalido")
+                .header("X-Correlation-Id", "token-invalido-119").get(TRILHA).then()
+                .statusCode(401).header("X-Correlation-Id", "token-invalido-119");
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {"correlacao com espacos", "valor;invalido"})
+    void geraCorrelacaoEmRespostasAntecipadasQuandoCabecalhoAusenteOuInvalido(String recebida) {
+        for (String rota : new String[]{TRILHA, "/nao-existe", "/q/health", "/q/openapi"}) {
+            var requisicao = RestAssured.given();
+            if (recebida != null) {
+                requisicao.header("X-Correlation-Id", recebida);
+            }
+            String gerada = requisicao.get(rota).header("X-Correlation-Id");
+            assertNotEquals(recebida, gerada);
+            UUID.fromString(gerada);
+        }
     }
 
     @Test
