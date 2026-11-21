@@ -522,7 +522,7 @@ Content-Type: application/json
   "classificacao": "INSEGURA",
   "sequencia": 1,
   "limiarAtingido": false,
-  "aceitaEm": "2026-11-20T10:15:02.120-03:00"
+  "aceitaEm": "2026-11-20T13:15:02.120Z"
 }
 ```
 

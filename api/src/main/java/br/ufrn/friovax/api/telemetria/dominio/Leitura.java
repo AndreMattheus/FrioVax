@@ -5,6 +5,7 @@ import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 //Leitura de temperatura aceita para uma câmara
@@ -50,14 +51,14 @@ public final class Leitura {
         }
         return new Leitura(null, camaraId, idExternoValidado(idExterno), instanteNormalizado(instante),
                 temperaturaNormalizada(temperatura), origemNormalizada(origem), politicaVersao,
-                Objects.requireNonNull(resultado, "resultado"), Objects.requireNonNull(aceitaEm, "aceitaEm"));
+                Objects.requireNonNull(resultado, "resultado"), instanteDeAceitacao(aceitaEm));
     }
 
     public static Leitura reconstituir(long id, long camaraId, String idExterno, OffsetDateTime instante,
                                        BigDecimal temperatura, String origem, int politicaVersao,
                                        ResultadoTermico resultado, OffsetDateTime aceitaEm) {
-        return new Leitura(id, camaraId, idExterno, instante, temperatura, origem, politicaVersao, resultado,
-                aceitaEm);
+        return new Leitura(id, camaraId, idExterno, instante.withOffsetSameInstant(ZoneOffset.UTC), temperatura,
+                origem, politicaVersao, resultado, instanteDeAceitacao(aceitaEm));
     }
 
     public boolean temMesmoConteudo(BigDecimal temperatura, OffsetDateTime instante, String origem) {
@@ -94,6 +95,12 @@ public final class Leitura {
             throw new ValidacaoDeNegocio("idExterno", "deve ser informado");
         }
         if (idExterno.length() > TAMANHO_MAXIMO_ID_EXTERNO) {
+    /** Mantém a mesma representação na primeira resposta e após a leitura do TIMESTAMPTZ. */
+    private static OffsetDateTime instanteDeAceitacao(OffsetDateTime aceitaEm) {
+        return Objects.requireNonNull(aceitaEm, "aceitaEm").withOffsetSameInstant(ZoneOffset.UTC)
+                .truncatedTo(ChronoUnit.MICROS);
+    }
+
             throw new ValidacaoDeNegocio("idExterno", "deve ter no máximo " + TAMANHO_MAXIMO_ID_EXTERNO
                     + " caracteres");
         }

@@ -1,5 +1,6 @@
 package br.ufrn.friovax.api.telemetria.aplicacao;
 
+import br.ufrn.friovax.api.autenticacao.dominio.Perfil;
 import br.ufrn.friovax.api.camara.aplicacao.AtualizarCamara;
 import br.ufrn.friovax.api.camara.aplicacao.AtualizarCamaraDTO;
 import br.ufrn.friovax.api.camara.dominio.Camara;
@@ -16,6 +17,7 @@ import io.grpc.Status;
 import io.quarkus.narayana.jta.QuarkusTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.TestProfile;
+import io.restassured.http.ContentType;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.TransactionalException;
@@ -31,6 +33,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
@@ -40,6 +43,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static br.ufrn.friovax.api.suporte.AutenticacaoHttpSupport.autenticado;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -187,14 +191,19 @@ class RecepcaoDeLeituraPostgresTest {
 
     @Test
     void reenvioDepoisDoCommitRecuperaOResultadoPersistidoSemNovaAnalise() {
-        var primeira = receber("S-1", 0, "9.0");
+        var corpo = Map.of("camaraId", camaraId, "idExterno", "S-1", "temperatura", new BigDecimal("9.0"),
+                "medidaEm", inicio.toString(), "origem", "sensor-1");
+        var primeira = autenticado(Perfil.OPERADOR).contentType(ContentType.JSON).body(corpo)
+                .post("/api/leituras").then().statusCode(201).extract().response();
 
-        var reenvio = receber("S-1", 0, "9.0");
+        var reenvio = autenticado(Perfil.OPERADOR).contentType(ContentType.JSON).body(corpo)
+                .post("/api/leituras").then().statusCode(200).extract().response();
 
-        assertTrue(primeira.criada());
-        assertFalse(reenvio.criada());
-        assertEquals(primeira.leitura().getId(), reenvio.leitura().getId());
-        assertEquals(primeira.leitura().getResultado(), reenvio.leitura().getResultado());
+        var location = primeira.header("Location");
+        assertTrue(location.endsWith("/api/leituras/" + primeira.jsonPath().getLong("id")));
+        var consulta = autenticado(Perfil.AUDITOR).get(location).then().statusCode(200).extract().response();
+        assertEquals(primeira.jsonPath().getMap(""), reenvio.jsonPath().getMap(""));
+        assertEquals(primeira.jsonPath().getMap(""), consulta.jsonPath().getMap(""));
         assertEquals(1, go.chamadas.get());
         assertEquals(1, leiturasGravadas());
     }

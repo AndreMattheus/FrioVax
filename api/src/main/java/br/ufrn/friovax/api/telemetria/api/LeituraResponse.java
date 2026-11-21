@@ -30,7 +30,7 @@ public record LeituraResponse(
         int sequencia,
         @Schema(description = "`true` quando esta leitura insegura atingiu ou manteve o limiar N.")
         boolean limiarAtingido,
-        @Schema(description = "Instante oficial da aceitação.", examples = "2026-11-20T10:15:02.120-03:00")
+        @Schema(description = "Instante oficial da aceitação em UTC.", examples = "2026-11-20T13:15:02.120Z")
         OffsetDateTime aceitaEm
 ) {
     public static LeituraResponse de(Leitura leitura) {

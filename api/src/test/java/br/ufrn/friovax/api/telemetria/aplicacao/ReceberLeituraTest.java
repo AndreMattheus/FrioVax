@@ -44,10 +44,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /** Recepção individual com faixa 2–8 °C e N=3, sem banco nem gRPC (ADR 0003, seções 3 e 5). */
 class ReceberLeituraTest {
 
-    private static final Clock RELOGIO = Clock.fixed(Instant.parse("2026-11-20T15:00:00Z"),
+    private static final Clock RELOGIO = Clock.fixed(Instant.parse("2026-11-20T15:00:00.123456789Z"),
             ZoneId.of("America/Fortaleza"));
     private static final OffsetDateTime AGORA = OffsetDateTime.now(RELOGIO);
-    private static final OffsetDateTime INICIO = AGORA.minusHours(1);
+    private static final OffsetDateTime INICIO = AGORA.minusHours(1).withNano(0);
 
     private final CamaraRepositoryEmMemoria camaras = new CamaraRepositoryEmMemoria();
     private final LeituraRepositoryEmMemoria leituras = new LeituraRepositoryEmMemoria();
@@ -74,7 +74,7 @@ class ReceberLeituraTest {
         assertEquals(1, leitura.getPoliticaVersao());
         assertEquals(ResultadoTermico.insegura(1, false), leitura.getResultado());
         assertEquals("sensor-1", leitura.getOrigem());
-        assertTrue(leitura.getAceitaEm().isEqual(AGORA));
+        assertEquals(OffsetDateTime.parse("2026-11-20T15:00:00.123456Z"), leitura.getAceitaEm());
         assertEquals(1, analise.chamadas());
         assertEquals(List.of("leitura"), mudancas.stream().map(MudancaConfirmada::recurso).toList());
     }
@@ -177,10 +177,11 @@ class ReceberLeituraTest {
 
     @Test
     void toleranciaFuturaDeCincoMinutosUsaORelogioDaApi() {
-        assertTrue(receber.receber(camaraId, "S-1", new BigDecimal("5.0"), AGORA.plusMinutes(5), "s").criada());
+        var limiteEmMicrossegundos = AGORA.plusMinutes(5).withNano(123_456_000);
+        assertTrue(receber.receber(camaraId, "S-1", new BigDecimal("5.0"), limiteEmMicrossegundos, "s").criada());
 
         var falha = assertThrows(ValidacaoDeNegocio.class, () -> receber.receber(camaraId, "S-2",
-                new BigDecimal("5.0"), AGORA.plusMinutes(5).plusNanos(1_000), "s"));
+                new BigDecimal("5.0"), limiteEmMicrossegundos.plusNanos(1_000), "s"));
 
         assertEquals("medidaEm", falha.campo());
         assertEquals(1, analise.chamadas());
