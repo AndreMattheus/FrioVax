@@ -3,6 +3,8 @@ package br.ufrn.friovax.api.camara.aplicacao;
 import br.ufrn.friovax.api.camara.dominio.Camara;
 import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
 import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
+import br.ufrn.friovax.api.auditoria.dominio.OperacaoAuditada;
+import br.ufrn.friovax.api.auditoria.dominio.RecursoAuditado;
 import br.ufrn.friovax.api.compartilhado.aplicacao.MudancaConfirmada;
 import br.ufrn.friovax.api.compartilhado.aplicacao.PublicadorDeMudancas;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -41,7 +43,9 @@ public class CamaraService {
         }
 
         var salva = repositorio.salvar(camara);
-        publicador.publicar(new MudancaConfirmada("camara", salva.getId(), "Cadastro de câmara", null, agora));
+        publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.CAMARA, salva.getId(),
+            OperacaoAuditada.CADASTRO, "Câmara " + salva.getCodigo() + " cadastrada com capacidade " + salva.getCapacidade() + " e faixa "
+                + salva.getTemperaturaMinima() + " a " + salva.getTemperaturaMaxima() + " °C", agora));
         return new CamaraResultado(salva.getId(), salva.getCodigo(), salva.getNome(), salva.getUnidade(),
             salva.getCapacidade(), salva.getTemperaturaMinima(), salva.getTemperaturaMaxima(),
             salva.getEstado(), salva.getEstadoTermico(), 0, salva.isAtivo(), salva.getCriadoEm(), salva.getAtualizadoEm());

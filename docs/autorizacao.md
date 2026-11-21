@@ -11,11 +11,11 @@ Todas as rotas de câmaras, lotes e leituras exigem `Authorization: Bearer <acce
 | `registrar-leitura` | Sim | Sim | Não | `POST /api/leituras` |
 | `alterar-politica` | Sim | Não | Não | Futura alteração de política |
 | `resolver-incidente` | Sim | Não | Não | Futura resolução de incidente |
-| `consultar-trilha` | Sim | Não | Sim | Futura consulta da trilha |
+| `consultar-trilha` | Sim | Não | Sim | `GET /api/auditoria` (trilha de auditoria) |
 
 As guardas futuras já têm testes HTTP em resources exclusivos de teste; as respectivas funcionalidades devem aplicar essas guardas e testar suas rotas reais quando forem implementadas. Os contadores de execução e chamada externa nesses resources são simulados; nenhuma chamada Go real é feita por eles.
 
-Ausência de Bearer ou token inválido/expirado retorna **401**. JWT válido sem perfil permitido (inclusive sem grupos ou com grupo desconhecido) retorna **403**. A rejeição acontece antes do caso de uso, da persistência e de chamadas externas. Campos extras como `perfil`, `ator` e `usuarioId` são ignorados pelos DTOs atuais e nunca participam da autorização. Ao implementar auditoria, derive o ator do `sub` do JWT validado.
+Ausência de Bearer ou token inválido/expirado retorna **401**. JWT válido sem perfil permitido (inclusive sem grupos ou com grupo desconhecido) retorna **403**. A rejeição acontece antes do caso de uso, da persistência e de chamadas externas. Campos extras como `perfil`, `ator` e `usuarioId` são ignorados pelos DTOs atuais e nunca participam da autorização. A trilha de auditoria deriva o ator só do JWT validado: `sub` (UUID), `upn` (login) e o perfil em `groups` ([contrato, §9](contrato-api.md#9-trilha-de-auditoria-sprint-2--82)).
 
 ## Rotas públicas
 

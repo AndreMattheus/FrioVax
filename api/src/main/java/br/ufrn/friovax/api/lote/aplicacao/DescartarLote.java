@@ -1,8 +1,11 @@
 package br.ufrn.friovax.api.lote.aplicacao;
 
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
+import br.ufrn.friovax.api.lote.dominio.EstadoLote;
 import br.ufrn.friovax.api.lote.dominio.Lote;
 import br.ufrn.friovax.api.lote.dominio.LoteRepository;
+import br.ufrn.friovax.api.auditoria.dominio.OperacaoAuditada;
+import br.ufrn.friovax.api.auditoria.dominio.RecursoAuditado;
 import br.ufrn.friovax.api.compartilhado.aplicacao.MudancaConfirmada;
 import br.ufrn.friovax.api.compartilhado.aplicacao.PublicadorDeMudancas;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -37,10 +40,15 @@ public class DescartarLote {
     public Lote descartar(long id) {
         var lote = lotes.buscarPorIdParaAlteracao(id)
                 .orElseThrow(() -> new RecursoNaoEncontrado("Lote", id));
-        // Repetir o descarte não altera nada (o domínio ignora); salvar o mesmo estado é inofensivo.
+        boolean jaDescartado = lote.getEstado() == EstadoLote.DESCARTADO;
         lote.descartar(OffsetDateTime.now(relogio));
+        if (jaDescartado) {
+            return lote;
+        }
         var salvo = lotes.salvar(lote);
-        publicador.publicar(new MudancaConfirmada("lote", salvo.getId(), "Descarte de lote", null, OffsetDateTime.now(relogio)));
+        publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.LOTE, salvo.getId(), OperacaoAuditada.DESCARTE,
+                "Lote " + salvo.getCodigo() + " descartado com " + salvo.getQuantidade() + " doses",
+                OffsetDateTime.now(relogio)));
         return salvo;
     }
 }

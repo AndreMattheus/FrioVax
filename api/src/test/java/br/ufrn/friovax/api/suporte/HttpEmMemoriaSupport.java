@@ -12,6 +12,9 @@ public abstract class HttpEmMemoriaSupport {
     protected LoteRepositoryEmMemoria lotes;
 
     @Inject
+    protected AuditoriaRepositoryEmMemoria auditoria;
+
+    @Inject
     protected LeituraRepositoryEmMemoria leituras;
 
     @Inject
@@ -23,5 +26,6 @@ public abstract class HttpEmMemoriaSupport {
         leituras.limpar();
         lotes.limpar();
         camaras.limpar();
+        auditoria.limpar();
     }
 }

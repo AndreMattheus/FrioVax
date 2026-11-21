@@ -5,6 +5,8 @@ import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
 import br.ufrn.friovax.api.lote.dominio.Lote;
 import br.ufrn.friovax.api.lote.dominio.LoteRepository;
+import br.ufrn.friovax.api.auditoria.dominio.OperacaoAuditada;
+import br.ufrn.friovax.api.auditoria.dominio.RecursoAuditado;
 import br.ufrn.friovax.api.compartilhado.aplicacao.MudancaConfirmada;
 import br.ufrn.friovax.api.compartilhado.aplicacao.PublicadorDeMudancas;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -53,7 +55,9 @@ public class CadastrarLote {
         }
         camara.verificarAlocacao(lotes.ocupacaoDaCamara(camaraId), quantidade);
         var salvo = lotes.salvar(lote);
-        publicador.publicar(new MudancaConfirmada("lote", salvo.getId(), "Cadastro de lote", null, agora));
+        publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.LOTE, salvo.getId(), OperacaoAuditada.CADASTRO,
+                "Lote " + salvo.getCodigo() + " cadastrado na câmara " + salvo.getCamaraId() + " com "
+                        + salvo.getQuantidade() + " doses", agora));
         return salvo;
     }
 }

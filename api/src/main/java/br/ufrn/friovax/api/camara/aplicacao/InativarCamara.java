@@ -4,6 +4,8 @@ import br.ufrn.friovax.api.camara.dominio.Camara;
 import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
 import br.ufrn.friovax.api.lote.dominio.LoteRepository;
+import br.ufrn.friovax.api.auditoria.dominio.OperacaoAuditada;
+import br.ufrn.friovax.api.auditoria.dominio.RecursoAuditado;
 import br.ufrn.friovax.api.compartilhado.aplicacao.MudancaConfirmada;
 import br.ufrn.friovax.api.compartilhado.aplicacao.PublicadorDeMudancas;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -46,6 +48,7 @@ public class InativarCamara {
         }
         camara.inativar(lotes.existeLoteAtivoNaCamara(id), OffsetDateTime.now(relogio));
         camaras.salvar(camara);
-        publicador.publicar(new MudancaConfirmada("camara", camara.getId(), "Inativação de câmara", null, OffsetDateTime.now(relogio)));
+        publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.CAMARA, camara.getId(),
+                OperacaoAuditada.INATIVACAO, "Câmara " + camara.getCodigo() + " inativada", OffsetDateTime.now(relogio)));
     }
 }

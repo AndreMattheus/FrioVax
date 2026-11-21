@@ -4,6 +4,8 @@ import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
 import br.ufrn.friovax.api.lote.dominio.Lote;
 import br.ufrn.friovax.api.lote.dominio.LoteRepository;
+import br.ufrn.friovax.api.auditoria.dominio.OperacaoAuditada;
+import br.ufrn.friovax.api.auditoria.dominio.RecursoAuditado;
 import br.ufrn.friovax.api.compartilhado.aplicacao.MudancaConfirmada;
 import br.ufrn.friovax.api.compartilhado.aplicacao.PublicadorDeMudancas;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -13,6 +15,7 @@ import jakarta.transaction.Transactional;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 
 @ApplicationScoped
 public class AtualizarLote {
@@ -40,6 +43,7 @@ public class AtualizarLote {
         // serializa as alocações e as mudanças de capacidade/estado com cadastro e PUT de câmara.
         var lote = lotes.buscarPorIdParaAlteracao(id)
                 .orElseThrow(() -> new RecursoNaoEncontrado("Lote", id));
+        var antes = Campos.de(lote);
         lote.atualizar(imunobiologico, fabricante, validade, quantidade, camaraId,
                 LocalDate.now(relogio), OffsetDateTime.now(relogio));
 
@@ -47,7 +51,40 @@ public class AtualizarLote {
                 .orElseThrow(() -> new RecursoNaoEncontrado("Câmara", camaraId));
         camara.verificarAlocacao(lotes.ocupacaoDaCamaraExcluindoLote(camaraId, id), quantidade);
         var salvo = lotes.salvar(lote);
-        publicador.publicar(new MudancaConfirmada("lote", salvo.getId(), "Atualização de lote", null, OffsetDateTime.now(relogio)));
+        var depois = Campos.de(salvo);
+        if (!depois.equals(antes)) {
+            var descricao = "Lote " + salvo.getCodigo() + " atualizado: " + antes.diferencas(depois);
+            publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.LOTE, salvo.getId(),
+                    OperacaoAuditada.ATUALIZACAO, descricao, OffsetDateTime.now(relogio)));
+        }
         return salvo;
+    }
+
+    /** O que um PUT pode mudar. A descrição cita textos só pelo nome do campo, sem copiar o conteúdo. */
+    private record Campos(String imunobiologico, String fabricante, LocalDate validade, int quantidade, long camaraId) {
+        static Campos de(Lote lote) {
+            return new Campos(lote.getImunobiologico(), lote.getFabricante(), lote.getValidade(),
+                    lote.getQuantidade(), lote.getCamaraId());
+        }
+
+        String diferencas(Campos depois) {
+            var partes = new ArrayList<String>();
+            if (!imunobiologico.equals(depois.imunobiologico)) {
+                partes.add("imunobiológico");
+            }
+            if (!fabricante.equals(depois.fabricante)) {
+                partes.add("fabricante");
+            }
+            if (!validade.equals(depois.validade)) {
+                partes.add("validade " + validade + " → " + depois.validade);
+            }
+            if (quantidade != depois.quantidade) {
+                partes.add("quantidade " + quantidade + " → " + depois.quantidade);
+            }
+            if (camaraId != depois.camaraId) {
+                partes.add("câmara " + camaraId + " → " + depois.camaraId);
+            }
+            return String.join("; ", partes);
+        }
     }
 }

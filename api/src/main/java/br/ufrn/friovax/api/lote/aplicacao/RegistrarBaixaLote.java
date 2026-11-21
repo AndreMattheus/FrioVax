@@ -4,6 +4,8 @@ import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
 import br.ufrn.friovax.api.lote.dominio.Lote;
 import br.ufrn.friovax.api.lote.dominio.LoteRepository;
 import br.ufrn.friovax.api.lote.dominio.MotivoBaixa;
+import br.ufrn.friovax.api.auditoria.dominio.OperacaoAuditada;
+import br.ufrn.friovax.api.auditoria.dominio.RecursoAuditado;
 import br.ufrn.friovax.api.compartilhado.aplicacao.MudancaConfirmada;
 import br.ufrn.friovax.api.compartilhado.aplicacao.PublicadorDeMudancas;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -42,7 +44,9 @@ public class RegistrarBaixaLote {
                 .orElseThrow(() -> new RecursoNaoEncontrado("Lote", id));
         lote.darBaixa(quantidade, motivo, OffsetDateTime.now(relogio));
         var salvo = lotes.salvar(lote);
-        publicador.publicar(new MudancaConfirmada("lote", salvo.getId(), "Baixa de lote", null, OffsetDateTime.now(relogio)));
+        publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.LOTE, salvo.getId(), OperacaoAuditada.BAIXA,
+                "Baixa de " + quantidade + " doses do lote " + salvo.getCodigo() + " (" + motivo + "); restam "
+                        + salvo.getQuantidade(), OffsetDateTime.now(relogio)));
         return salvo;
     }
 }

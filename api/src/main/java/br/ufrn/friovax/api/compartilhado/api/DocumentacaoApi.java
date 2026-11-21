@@ -26,6 +26,8 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
         @Tag(name = DocumentacaoApi.TAG_CAMARAS, description = "Câmaras de conservação, sua capacidade em doses e "
             + "seu estado operacional."),
         @Tag(name = DocumentacaoApi.TAG_LOTES, description = "Lotes de imunobiológicos alocados em câmaras."),
+        @Tag(name = DocumentacaoApi.TAG_AUDITORIA, description = "Trilha somente leitura das alterações "
+            + "confirmadas: quem, quando, o quê e com qual correlação."),
         @Tag(name = DocumentacaoApi.TAG_LEITURAS, description = "Leituras de temperatura das câmaras, analisadas "
             + "pelo serviço de telemetria e gravadas com o resultado térmico."),
         @Tag(name = DocumentacaoApi.TAG_STATUS, description = "Verificação simples de disponibilidade da API.")
@@ -93,6 +95,7 @@ public class DocumentacaoApi extends Application {
     public static final String TAG_LOTES = "Lotes";
     public static final String TAG_LEITURAS = "Leituras";
     public static final String TAG_STATUS = "Status";
+    public static final String TAG_AUDITORIA = "Auditoria";
 
     public static final String PROBLEM_JSON = "application/problem+json";
 
@@ -122,10 +125,16 @@ public class DocumentacaoApi extends Application {
 
         Câmaras, lotes e leituras exigem Bearer JWT obtido em `POST /api/auth/login`. Use **Authorize** no Swagger UI.
         ADMINISTRADOR gerencia cadastros e descarte; OPERADOR consulta, registra baixas e envia leituras; AUDITOR \
-        consulta.
+        consulta, inclusive a trilha de auditoria (`GET /api/auditoria`), que só ADMINISTRADOR e AUDITOR veem.
         Ausência de Bearer ou token inválido/expirado retorna 401; perfil insuficiente retorna 403 antes da \
         execução. Essas rejeições do Quarkus podem ter corpo vazio. Saúde e documentação são públicas, \
         mas as operações exibidas continuam protegidas. Perfil e ator vêm somente da identidade validada.
+
+        **Auditoria e correlação**
+
+        Toda alteração confirmada de câmara ou lote entra na trilha, na mesma transação, com ator, instante e \
+        correlação. Envie `X-Correlation-Id` (1 a 128 caracteres `A-Z a-z 0-9 . _ : -`) para rastrear a \
+        requisição; sem ele, ou fora do formato, o servidor gera um UUID. A resposta sempre devolve o cabeçalho.
 
         **Inativação**
 

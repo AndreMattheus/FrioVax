@@ -42,7 +42,8 @@ class MigracoesFlywayTest {
             assertTrue(resultado.success);
             assertEquals(versoesDisponiveis().size(), resultado.migrationsExecuted);
             assertEquals(Set.of("camaras", "lotes", "usuarios", "sessoes", "politicas_termicas", "leituras",
-                "ocorrencias", "ocorrencia_evidencias", "ocorrencia_lotes", "flyway_schema_history"), tabelas(esquema));
+                "ocorrencias", "ocorrencia_evidencias", "ocorrencia_lotes", "eventos_auditoria", "flyway_schema_history"),
+                tabelas(esquema));
             assertTrue(restricoes(esquema).containsAll(Set.of("uk_camaras_codigo", "chk_camaras_estado",
                 "chk_camaras_estado_termico", "uk_politicas_camara_versao", "fk_politicas_camara",
                 "chk_politicas_faixa", "chk_politicas_limiar", "uk_leituras_camara_id_externo",
@@ -51,7 +52,8 @@ class MigracoesFlywayTest {
                 "pk_ocorrencia_lotes", "fk_lotes_afetados_lote", "uk_lotes_codigo", "fk_lotes_camara", "chk_lotes_quantidade",
                 "chk_lotes_estado", "chk_lotes_disponivel_com_doses", "chk_lotes_esgotado_sem_doses",
                 "uk_usuarios_login", "chk_usuarios_senha_hash", "chk_usuarios_perfil",
-                "chk_sessoes_token_hash", "fk_sessoes_usuario", "chk_sessoes_expiracao", "chk_sessoes_revogacao")));
+                "chk_sessoes_token_hash", "fk_sessoes_usuario", "chk_sessoes_expiracao", "chk_sessoes_revogacao",
+                "chk_auditoria_ator_perfil", "chk_auditoria_correlacao", "chk_auditoria_ator_sistema")));
             assertEquals(0, contar(esquema + ".usuarios"));
             assertEquals(0, contar(esquema + ".sessoes"));
             assertEquals(versoesDisponiveis(), versoesAplicadas(flywayNoEsquema(esquema)));

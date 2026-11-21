@@ -163,6 +163,32 @@ class DocumentacaoApiHttpMemoriaTest {
     }
 
     @Test
+    void documentaATrilhaComoSomenteLeituraParaAdministradorEAuditor() {
+        var spec = given().accept("application/json").get("/q/openapi").then()
+                .statusCode(200).extract().jsonPath();
+        Map<String, Map<String, Object>> trilha = spec.getMap("paths.'/api/auditoria'");
+        assertEquals(List.of("get"), List.copyOf(trilha.keySet()), "a trilha não tem rota de escrita");
+        var get = trilha.get("get");
+        assertTrue(((List<Map<String, Object>>) get.get("security")).stream()
+                .anyMatch(s -> s.containsKey("bearerAuth")));
+        String descricao = get.get("description").toString();
+        assertTrue(descricao.contains("ADMINISTRADOR") && descricao.contains("AUDITOR"));
+        assertFalse(descricao.contains("OPERADOR"));
+        given().accept("application/json").when().get("/q/openapi").then()
+            .body("paths.'/api/auditoria'.get.tags", hasItem("Auditoria"),
+                "paths.'/api/auditoria'.get.parameters.name",
+                hasItems("de", "ate", "usuarioId", "recurso", "recursoId", "page", "size"),
+                "paths.'/api/auditoria'.get.responses", hasKey("401"),
+                "paths.'/api/auditoria'.get.responses", hasKey("403"),
+                "paths.'/api/auditoria'.get.responses.'400'.'$ref'",
+                equalTo("#/components/responses/RequisicaoInvalida"),
+                "components.schemas.RecursoAuditado.enum", hasItems("CAMARA", "LOTE"),
+                "components.schemas.OperacaoAuditada.enum", hasItems("CADASTRO", "ATUALIZACAO", "BAIXA", "DESCARTE"),
+                "components.schemas.EventoDeAuditoria.properties",
+                hasKey("correlacaoId"));
+    }
+
+    @Test
     void publicaSwaggerUi() {
         given().when().get("/q/swagger-ui/").then()
             .statusCode(200)
