@@ -158,6 +158,31 @@ class LeituraHttpMemoriaTest extends HttpEmMemoriaSupport {
     }
 
     @Test
+    void medidaForaDoIntervaloDeDatasDaTelemetriaResponde422SemChamarOGo() {
+        campoInvalido(corpo("S-1", "5.0", "0001-01-01T00:00:00+01:00", "s"), "medidaEm");
+
+        assertEquals(0, go.chamadas.get());
+        assertEquals(0, total());
+    }
+
+    @Test
+    void camaraIdNaoPositivoResponde422SemChamarOGo() {
+        campoInvalido(corpo(0, "S-1", "5.0", "2026-10-11T01:20:00Z", "s"), "camaraId");
+
+        assertEquals(0, go.chamadas.get());
+        assertEquals(0, total());
+    }
+
+    @Test
+    void textoComCaractereNuloResponde422SemChamarOGo() {
+        campoInvalido(corpo("S-\\u00001", "5.0", "2026-10-11T01:20:00Z", "s"), "idExterno");
+        campoInvalido(corpo("S-1", "5.0", "2026-10-11T01:20:00Z", "s\\u0000ensor"), "origem");
+
+        assertEquals(0, go.chamadas.get());
+        assertEquals(0, total());
+    }
+
+    @Test
     void toleranciaFuturaDeCincoMinutosUsaORelogioFixo() {
         enviar(corpo("S-1", "5.0", AGORA.plusMinutes(5).toString(), "s")).statusCode(201);
 

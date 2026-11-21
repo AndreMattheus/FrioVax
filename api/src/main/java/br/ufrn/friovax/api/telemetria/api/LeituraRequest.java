@@ -11,13 +11,14 @@ import java.math.BigDecimal;
 @Schema(description = "Leitura de temperatura de uma câmara. A chave de idempotência é `(camaraId, idExterno)`.")
 public record LeituraRequest(
 
-    @Schema(description = "Identificador da leitura na origem, de 1 a 100 caracteres. Não recebe `trim` nem "
+    @Schema(description = "Identificador da leitura na origem, de 1 a 100 caracteres, sem caractere nulo. Não recebe `trim` nem "
         + "conversão de maiúsculas: `S-1` e `s-1` são chaves diferentes. Reenviar a mesma chave com o mesmo "
         + "conteúdo devolve o registro original (200).", examples = "sensor-7:000123")
     @NotBlank(message = "deve ser informado")
     String idExterno,
 
-    @Schema(description = "Câmara medida: deve existir (404), estar ativa e `OPERACIONAL` (409).", examples = "1")
+    @Schema(description = "ID positivo da câmara medida. A câmara deve existir (404), estar ativa e "
+        + "`OPERACIONAL` (409).", minimum = "1", examples = "1")
     @NotNull(message = "deve ser informado")
     Long camaraId,
 
@@ -28,13 +29,13 @@ public record LeituraRequest(
 
     @Schema(description = "Instante da medição em ISO 8601 com offset obrigatório (`Z` ou `±hh:mm`) e no máximo 6 "
         + "casas nos segundos. Deve ser posterior à última leitura aceita da câmara (409) e no máximo 5 minutos à "
-        + "frente do relógio da API (422). É comparado e devolvido em UTC.",
+        + "frente do relógio da API (422). Em UTC, deve estar entre os anos 0001 e 9999.",
         type = SchemaType.STRING, format = "date-time", examples = "2026-11-20T10:15:00-03:00")
     @NotBlank(message = "deve ser informado")
     String medidaEm,
 
     @Schema(description = "Origem da leitura, como o sensor ou o operador que a registrou; de 1 a 100 caracteres "
-        + "após o `trim`.", examples = "sensor-7")
+        + "após o `trim`, sem caractere nulo.", examples = "sensor-7")
     @NotBlank(message = "deve ser informada")
     String origem
 ) {}

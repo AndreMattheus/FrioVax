@@ -16,6 +16,8 @@ public final class Leitura {
     public static final int TAMANHO_MAXIMO_ORIGEM = 100;
 
     private static final int NANOS_POR_MICROSSEGUNDO = 1_000;
+    private static final OffsetDateTime INICIO_INTERVALO_MEDICAO = OffsetDateTime.parse("0001-01-01T00:00:00Z");
+    private static final OffsetDateTime FIM_INTERVALO_MEDICAO = OffsetDateTime.parse("9999-12-31T23:59:59.999999Z");
 
     private static final BigDecimal TEMPERATURA_MINIMA = new BigDecimal("-999.9");
     private static final BigDecimal TEMPERATURA_MAXIMA = new BigDecimal("999.9");
@@ -87,7 +89,16 @@ public final class Leitura {
             throw new ValidacaoDeNegocio("instante",
                     "deve ter no máximo 6 casas decimais nos segundos (precisão de microssegundos)");
         }
+        if (instante.isBefore(INICIO_INTERVALO_MEDICAO) || instante.isAfter(FIM_INTERVALO_MEDICAO)) {
+            throw new ValidacaoDeNegocio("instante", "deve estar entre os anos 0001 e 9999 em UTC");
+        }
         return instante.withOffsetSameInstant(ZoneOffset.UTC);
+    }
+
+    /** Mantém a mesma representação na primeira resposta e após a leitura do TIMESTAMPTZ. */
+    private static OffsetDateTime instanteDeAceitacao(OffsetDateTime aceitaEm) {
+        return Objects.requireNonNull(aceitaEm, "aceitaEm").withOffsetSameInstant(ZoneOffset.UTC)
+                .truncatedTo(ChronoUnit.MICROS);
     }
 
     static String idExternoValidado(String idExterno) {
@@ -95,14 +106,11 @@ public final class Leitura {
             throw new ValidacaoDeNegocio("idExterno", "deve ser informado");
         }
         if (idExterno.length() > TAMANHO_MAXIMO_ID_EXTERNO) {
-    /** Mantém a mesma representação na primeira resposta e após a leitura do TIMESTAMPTZ. */
-    private static OffsetDateTime instanteDeAceitacao(OffsetDateTime aceitaEm) {
-        return Objects.requireNonNull(aceitaEm, "aceitaEm").withOffsetSameInstant(ZoneOffset.UTC)
-                .truncatedTo(ChronoUnit.MICROS);
-    }
-
             throw new ValidacaoDeNegocio("idExterno", "deve ter no máximo " + TAMANHO_MAXIMO_ID_EXTERNO
                     + " caracteres");
+        }
+        if (idExterno.indexOf(0) >= 0) {
+            throw new ValidacaoDeNegocio("idExterno", "não pode conter caractere nulo");
         }
         return idExterno;
     }
@@ -114,6 +122,9 @@ public final class Leitura {
         }
         if (texto.length() > TAMANHO_MAXIMO_ORIGEM) {
             throw new ValidacaoDeNegocio("origem", "deve ter no máximo " + TAMANHO_MAXIMO_ORIGEM + " caracteres");
+        }
+        if (texto.indexOf(0) >= 0) {
+            throw new ValidacaoDeNegocio("origem", "não pode conter caractere nulo");
         }
         return texto;
     }

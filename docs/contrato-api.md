@@ -469,11 +469,11 @@ A [diretriz de autorização](autorizacao.md) define a matriz completa, as guard
 
 | Campo | Tipo | Obrigatório | Regra |
 |---|---|---|---|
-| `idExterno` | string | sim | 1 a 100 caracteres, sem `trim` nem conversão de maiúsculas. Com `camaraId`, forma a chave de idempotência. |
-| `camaraId` | integer (int64) | sim | Câmara existente (`404`), ativa e `OPERACIONAL` (`409`). `EM_ALERTA` não impede o envio. |
+| `idExterno` | string | sim | 1 a 100 caracteres, sem caractere nulo. O valor é preservado como enviado. Com `camaraId`, forma a chave de idempotência. |
+| `camaraId` | integer (int64) | sim | ID positivo de câmara existente (`404`), ativa e `OPERACIONAL` (`409`). `EM_ALERTA` não impede o envio. |
 | `temperatura` | number | sim | °C, de `-999.9` a `999.9`, no máximo 1 casa decimal; `8.50` equivale a `8.5`. |
-| `medidaEm` | string (date-time) | sim | ISO 8601 com offset obrigatório (`Z` ou `±hh:mm`) e até 6 casas nos segundos. Posterior à última leitura aceita da câmara (`409`) e no máximo 5 minutos à frente do relógio da API (`422`). Devolvido em UTC. |
-| `origem` | string | sim | 1 a 100 caracteres após o `trim`. |
+| `medidaEm` | string (date-time) | sim | ISO 8601 com offset obrigatório (`Z` ou `±hh:mm`) e até 6 casas nos segundos. Em UTC, deve estar entre os anos 0001 e 9999. Deve ser posterior à última leitura aceita da câmara (`409`) e no máximo 5 minutos à frente do relógio da API (`422`). Devolvido em UTC. |
+| `origem` | string | sim | 1 a 100 caracteres após o `trim`, sem caractere nulo. |
 
 **Fluxo.** A câmara é bloqueada apenas em duas transações curtas, sem lock nem transação durante a chamada ao Go:
 

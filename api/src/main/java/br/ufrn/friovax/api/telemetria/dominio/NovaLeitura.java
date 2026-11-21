@@ -21,6 +21,9 @@ public record NovaLeitura(long camaraId, String idExterno, OffsetDateTime medida
     public static final String CAMPO_MEDIDA = "medidaEm";
 
     public NovaLeitura {
+        if (camaraId < 1) {
+            throw new ValidacaoDeNegocio("camaraId", "deve ser maior que zero");
+        }
         idExterno = Leitura.idExternoValidado(idExterno);
         medidaEm = instante(medidaEm);
         temperatura = Leitura.temperaturaNormalizada(temperatura);
