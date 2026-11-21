@@ -120,7 +120,7 @@ public class DocumentacaoApi extends Application {
 
         **Autenticação e perfis**
 
-        Câmaras e lotes exigem Bearer JWT obtido em `POST /api/auth/login`. Use **Authorize** no Swagger UI.
+        Câmaras, lotes e leituras exigem Bearer JWT obtido em `POST /api/auth/login`. Use **Authorize** no Swagger UI.
         ADMINISTRADOR gerencia cadastros e descarte; OPERADOR consulta, registra baixas e envia leituras; AUDITOR \
         consulta.
         Ausência de Bearer ou token inválido/expirado retorna 401; perfil insuficiente retorna 403 antes da \

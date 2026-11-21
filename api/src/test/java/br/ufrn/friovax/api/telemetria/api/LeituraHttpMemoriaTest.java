@@ -203,6 +203,7 @@ class LeituraHttpMemoriaTest extends HttpEmMemoriaSupport {
         autenticado(Perfil.AUDITOR).get("/api/leituras/999").then().statusCode(404);
 
         assertEquals(2, total());
+        assertEquals(2, go.chamadas.get());
     }
 
     @Test
