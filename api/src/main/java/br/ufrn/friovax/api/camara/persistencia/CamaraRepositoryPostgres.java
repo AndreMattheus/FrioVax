@@ -4,6 +4,7 @@ import br.ufrn.friovax.api.camara.dominio.Camara;
 import br.ufrn.friovax.api.camara.dominio.CamaraFiltro;
 import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
 import br.ufrn.friovax.api.camara.dominio.PoliticaTermica;
+import br.ufrn.friovax.api.camara.dominio.ReferenciaPolitica;
 import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
 import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
@@ -12,15 +13,16 @@ import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceException;
+import org.hibernate.exception.ConstraintViolationException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import org.hibernate.exception.ConstraintViolationException;
 
 @ApplicationScoped
 public class CamaraRepositoryPostgres implements CamaraRepository, PanacheRepositoryBase<CamaraEntity, Long> {
@@ -53,6 +55,28 @@ public class CamaraRepositoryPostgres implements CamaraRepository, PanacheReposi
         }
         gravarPoliticaSeNova(camara.getId(), camara.getPolitica());
         return camara;
+    }
+
+    @Override
+    public Map<ReferenciaPolitica, PoliticaTermica> buscarPoliticas(
+            Set<ReferenciaPolitica> referencias) {
+        if (referencias.isEmpty()) {
+            return Map.of();
+        }
+        var pares = new ArrayList<>(referencias);
+        var predicados = new ArrayList<String>();
+        for (int i = 0; i < pares.size(); i++) {
+            predicados.add("(camaraId = :camara" + i + " and versao = :versao" + i + ")");
+        }
+        var query = getEntityManager().createQuery("from PoliticaTermicaEntity where "
+                + String.join(" or ", predicados), PoliticaTermicaEntity.class);
+        for (int i = 0; i < pares.size(); i++) {
+            query.setParameter("camara" + i, pares.get(i).camaraId());
+            query.setParameter("versao" + i, pares.get(i).versao());
+        }
+        return query.getResultStream().collect(Collectors.toMap(
+                e -> new ReferenciaPolitica(e.camaraId, e.versao),
+                CamaraMapper::politicaParaDominio));
     }
 
     @Override

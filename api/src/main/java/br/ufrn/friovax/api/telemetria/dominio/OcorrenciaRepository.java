@@ -16,6 +16,8 @@ public interface OcorrenciaRepository {
      */
     Ocorrencia salvar(Ocorrencia ocorrencia);
 
+    Pagina<ResumoOcorrencia> listar(OcorrenciaFiltro filtro, Paginacao paginacao);
+
     Optional<Ocorrencia> buscarPorId(long id);
 
     Optional<Ocorrencia> abertaDaCamara(long camaraId);

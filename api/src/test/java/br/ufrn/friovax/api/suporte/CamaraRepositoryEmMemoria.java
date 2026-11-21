@@ -4,6 +4,7 @@ import br.ufrn.friovax.api.camara.dominio.Camara;
 import br.ufrn.friovax.api.camara.dominio.CamaraFiltro;
 import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
 import br.ufrn.friovax.api.camara.dominio.PoliticaTermica;
+import br.ufrn.friovax.api.camara.dominio.ReferenciaPolitica;
 import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
 import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -50,6 +52,17 @@ public class CamaraRepositoryEmMemoria implements CamaraRepository {
             historico.add(camara.getPolitica());
         }
         return camara;
+    }
+
+    @Override
+    public synchronized Map<ReferenciaPolitica, PoliticaTermica>
+            buscarPoliticas(Set<ReferenciaPolitica> referencias) {
+        var resultado = new HashMap<ReferenciaPolitica, PoliticaTermica>();
+        for (var ref : referencias) {
+            historicoDePoliticas(ref.camaraId()).stream().filter(p -> p.getVersao() == ref.versao())
+                    .findFirst().ifPresent(p -> resultado.put(ref, p));
+        }
+        return resultado;
     }
 
     @Override
