@@ -5,8 +5,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.List;
 
-@Schema(description = "Página de resultados ordenada por `id` crescente. Uma página além da última volta com "
-    + "`items` vazio.")
+@Schema(description = "Página de resultados: câmaras e lotes por `id` crescente; leituras por `instante` e `id` "
+    + "decrescentes; ocorrências por `abertaEm` e `id` decrescentes. Uma página além da última volta com `items` vazio.")
 public record PaginaResponse<T>(
         @Schema(description = "Registros da página.")
         List<T> items,

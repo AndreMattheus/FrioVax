@@ -3,8 +3,10 @@ package br.ufrn.friovax.api.suporte;
 import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 import br.ufrn.friovax.api.telemetria.dominio.Ocorrencia;
+import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaFiltro;
 import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaJaAberta;
 import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaRepository;
+import br.ufrn.friovax.api.telemetria.dominio.ResumoOcorrencia;
 
 import java.util.Comparator;
 import java.util.List;
@@ -76,6 +78,17 @@ public class OcorrenciaRepositoryEmMemoria implements OcorrenciaRepository {
                 .sorted(MAIS_RECENTE_PRIMEIRO)
                 .map(OcorrenciaRepositoryEmMemoria::copia)
                 .toList(), paginacao);
+    }
+
+    @Override
+    public synchronized Pagina<ResumoOcorrencia> listar(
+            OcorrenciaFiltro filtro, Paginacao paginacao) {
+        return Paginador.paginar(ocorrencias.values().stream()
+                .filter(o -> filtro.camaraId() == null || o.getCamaraId() == filtro.camaraId())
+                .filter(o -> filtro.periodo().contem(o.getAbertaEm()))
+                .sorted(MAIS_RECENTE_PRIMEIRO)
+                .map(ResumoOcorrencia::de)
+                .filter(o -> filtro.estado() == null || o.estado() == filtro.estado()).toList(), paginacao);
     }
 
     private List<Ocorrencia> daCamara(long camaraId) {

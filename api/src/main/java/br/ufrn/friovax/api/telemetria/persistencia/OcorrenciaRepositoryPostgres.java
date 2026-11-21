@@ -3,10 +3,13 @@ package br.ufrn.friovax.api.telemetria.persistencia;
 import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 import br.ufrn.friovax.api.compartilhado.dominio.PublicadorDeMudancaPersistida;
+import br.ufrn.friovax.api.telemetria.dominio.EstadoOcorrencia;
 import br.ufrn.friovax.api.telemetria.dominio.LoteAfetado;
 import br.ufrn.friovax.api.telemetria.dominio.Ocorrencia;
+import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaFiltro;
 import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaJaAberta;
 import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaRepository;
+import br.ufrn.friovax.api.telemetria.dominio.ResumoOcorrencia;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -128,6 +131,36 @@ public class OcorrenciaRepositoryPostgres implements OcorrenciaRepository, Panac
                         lotes.getOrDefault(e.id, List.of())))
                 .toList();
 
+        return Pagina.de(itens, paginacao, query.count());
+    }
+
+    @Override
+    public Pagina<ResumoOcorrencia> listar(
+            OcorrenciaFiltro filtro, Paginacao paginacao) {
+        var parametros = new HashMap<String, Object>();
+        var condicao = new StringBuilder("1 = 1");
+        if (filtro.camaraId() != null) {
+            condicao.append(" and camaraId = :camara");
+            parametros.put("camara", filtro.camaraId());
+        }
+        if (filtro.estado() != null) {
+            condicao.append(filtro.estado() == EstadoOcorrencia.ABERTA
+                    ? " and resolvidaEm is null" : " and resolvidaEm is not null");
+        }
+        if (filtro.periodo().de() != null) {
+            condicao.append(" and abertaEm >= :de");
+            parametros.put("de", filtro.periodo().de());
+        }
+        if (filtro.periodo().ate() != null) {
+            condicao.append(" and abertaEm < :ate");
+            parametros.put("ate", filtro.periodo().ate());
+        }
+        var query = find(condicao.toString(), Sort.descending("abertaEm", "id"), parametros);
+        List<ResumoOcorrencia> itens =
+                paginacao.deslocamento() > Integer.MAX_VALUE ? List.of()
+                : query.page(paginacao.pagina(), paginacao.tamanho()).list().stream()
+                    .map(e -> new ResumoOcorrencia(e.id, e.camaraId,
+                            e.politicaVersao, e.abertaEm, e.resolvidaEm, e.resolvidaPor, e.justificativa)).toList();
         return Pagina.de(itens, paginacao, query.count());
     }
 
