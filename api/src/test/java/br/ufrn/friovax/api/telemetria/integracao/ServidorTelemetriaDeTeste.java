@@ -38,10 +38,10 @@ import java.util.function.UnaryOperator;
  * analisa as janelas como o contrato descreve; cada teste pode trocar o comportamento para demorar, falhar com um
  * status ou adulterar a resposta. Registra as requisições, a correlação recebida no metadado e os cancelamentos.
  */
-final class ServidorTelemetriaDeTeste implements AutoCloseable {
+public final class ServidorTelemetriaDeTeste implements AutoCloseable {
 
     @FunctionalInterface
-    interface Comportamento {
+    public interface Comportamento {
         void atender(AnalyzeReadingsRequest requisicao, StreamObserver<AnalyzeReadingsResponse> resposta)
                 throws InterruptedException;
     }
@@ -51,11 +51,11 @@ final class ServidorTelemetriaDeTeste implements AutoCloseable {
     private final Server servidor;
     private volatile Comportamento comportamento = analisando(UnaryOperator.identity());
 
-    final List<AnalyzeReadingsRequest> requisicoes = new CopyOnWriteArrayList<>();
-    final List<String> correlacoesNoMetadado = new CopyOnWriteArrayList<>();
-    final AtomicInteger chamadas = new AtomicInteger();
-    volatile CountDownLatch iniciada = new CountDownLatch(1);
-    volatile CountDownLatch cancelada = new CountDownLatch(1);
+    public final List<AnalyzeReadingsRequest> requisicoes = new CopyOnWriteArrayList<>();
+    public final List<String> correlacoesNoMetadado = new CopyOnWriteArrayList<>();
+    public final AtomicInteger chamadas = new AtomicInteger();
+    public volatile CountDownLatch iniciada = new CountDownLatch(1);
+    public volatile CountDownLatch cancelada = new CountDownLatch(1);
 
     ServidorTelemetriaDeTeste() {
         var servico = new TelemetryServiceGrpc.TelemetryServiceImplBase() {
@@ -93,15 +93,15 @@ final class ServidorTelemetriaDeTeste implements AutoCloseable {
         }
     }
 
-    int porta() {
+    public int porta() {
         return servidor.getPort();
     }
 
-    void comportarSe(Comportamento novo) {
+    public void comportarSe(Comportamento novo) {
         comportamento = novo;
     }
 
-    void reiniciarRegistros() {
+    public void reiniciarRegistros() {
         requisicoes.clear();
         correlacoesNoMetadado.clear();
         chamadas.set(0);
@@ -110,28 +110,28 @@ final class ServidorTelemetriaDeTeste implements AutoCloseable {
         comportamento = analisando(UnaryOperator.identity());
     }
 
-    AnalyzeReadingsRequest ultimaRequisicao() {
+    public AnalyzeReadingsRequest ultimaRequisicao() {
         return requisicoes.getLast();
     }
 
-    boolean observouCancelamento(Duration espera) throws InterruptedException {
+    public boolean observouCancelamento(Duration espera) throws InterruptedException {
         return cancelada.await(espera.toMillis(), TimeUnit.MILLISECONDS);
     }
 
     /** Responde com a análise de referência, opcionalmente adulterada pelo teste. */
-    static Comportamento analisando(UnaryOperator<AnalyzeReadingsResponse> adulteracao) {
+    public static Comportamento analisando(UnaryOperator<AnalyzeReadingsResponse> adulteracao) {
         return (requisicao, resposta) -> {
             resposta.onNext(adulteracao.apply(analisar(requisicao)));
             resposta.onCompleted();
         };
     }
 
-    static Comportamento falhando(Status status) {
+    public static Comportamento falhando(Status status) {
         return (requisicao, resposta) -> resposta.onError(status.asRuntimeException());
     }
 
     /** Espera sem responder até o cliente cancelar (prazo ou interrupção) ou o tempo acabar. */
-    static Comportamento demorando(Duration demora) {
+    public static Comportamento demorando(Duration demora) {
         return (requisicao, resposta) -> {
             long limite = System.nanoTime() + demora.toNanos();
             while (!Context.current().isCancelled() && System.nanoTime() < limite) {
@@ -148,7 +148,7 @@ final class ServidorTelemetriaDeTeste implements AutoCloseable {
      * Análise de referência do contrato: faixa inclusiva, sequência insegura limitada a N, sinal ao atingir ou manter
      * N e evidências das últimas inseguras consecutivas. Existe só para o teste ter respostas realistas.
      */
-    static AnalyzeReadingsResponse analisar(AnalyzeReadingsRequest requisicao) {
+    public static AnalyzeReadingsResponse analisar(AnalyzeReadingsRequest requisicao) {
         var resposta = AnalyzeReadingsResponse.newBuilder().setCorrelationId(requisicao.getCorrelationId());
         for (var janela : requisicao.getWindowsList()) {
             resposta.addResults(WindowResult.newBuilder()

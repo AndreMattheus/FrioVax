@@ -5,6 +5,7 @@ import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 //Leitura de temperatura aceita para uma câmara
@@ -15,6 +16,8 @@ public final class Leitura {
     public static final int TAMANHO_MAXIMO_ORIGEM = 100;
 
     private static final int NANOS_POR_MICROSSEGUNDO = 1_000;
+    private static final OffsetDateTime INICIO_INTERVALO_MEDICAO = OffsetDateTime.parse("0001-01-01T00:00:00Z");
+    private static final OffsetDateTime FIM_INTERVALO_MEDICAO = OffsetDateTime.parse("9999-12-31T23:59:59.999999Z");
 
     private static final BigDecimal TEMPERATURA_MINIMA = new BigDecimal("-999.9");
     private static final BigDecimal TEMPERATURA_MAXIMA = new BigDecimal("999.9");
@@ -50,14 +53,14 @@ public final class Leitura {
         }
         return new Leitura(null, camaraId, idExternoValidado(idExterno), instanteNormalizado(instante),
                 temperaturaNormalizada(temperatura), origemNormalizada(origem), politicaVersao,
-                Objects.requireNonNull(resultado, "resultado"), Objects.requireNonNull(aceitaEm, "aceitaEm"));
+                Objects.requireNonNull(resultado, "resultado"), instanteDeAceitacao(aceitaEm));
     }
 
     public static Leitura reconstituir(long id, long camaraId, String idExterno, OffsetDateTime instante,
                                        BigDecimal temperatura, String origem, int politicaVersao,
                                        ResultadoTermico resultado, OffsetDateTime aceitaEm) {
-        return new Leitura(id, camaraId, idExterno, instante, temperatura, origem, politicaVersao, resultado,
-                aceitaEm);
+        return new Leitura(id, camaraId, idExterno, instante.withOffsetSameInstant(ZoneOffset.UTC), temperatura,
+                origem, politicaVersao, resultado, instanteDeAceitacao(aceitaEm));
     }
 
     public boolean temMesmoConteudo(BigDecimal temperatura, OffsetDateTime instante, String origem) {
@@ -86,10 +89,19 @@ public final class Leitura {
             throw new ValidacaoDeNegocio("instante",
                     "deve ter no máximo 6 casas decimais nos segundos (precisão de microssegundos)");
         }
+        if (instante.isBefore(INICIO_INTERVALO_MEDICAO) || instante.isAfter(FIM_INTERVALO_MEDICAO)) {
+            throw new ValidacaoDeNegocio("instante", "deve estar entre os anos 0001 e 9999 em UTC");
+        }
         return instante.withOffsetSameInstant(ZoneOffset.UTC);
     }
 
-    private static String idExternoValidado(String idExterno) {
+    /** Mantém a mesma representação na primeira resposta e após a leitura do TIMESTAMPTZ. */
+    private static OffsetDateTime instanteDeAceitacao(OffsetDateTime aceitaEm) {
+        return Objects.requireNonNull(aceitaEm, "aceitaEm").withOffsetSameInstant(ZoneOffset.UTC)
+                .truncatedTo(ChronoUnit.MICROS);
+    }
+
+    static String idExternoValidado(String idExterno) {
         if (idExterno == null || idExterno.isBlank()) {
             throw new ValidacaoDeNegocio("idExterno", "deve ser informado");
         }
@@ -97,10 +109,13 @@ public final class Leitura {
             throw new ValidacaoDeNegocio("idExterno", "deve ter no máximo " + TAMANHO_MAXIMO_ID_EXTERNO
                     + " caracteres");
         }
+        if (idExterno.indexOf(0) >= 0) {
+            throw new ValidacaoDeNegocio("idExterno", "não pode conter caractere nulo");
+        }
         return idExterno;
     }
 
-    private static String origemNormalizada(String origem) {
+    static String origemNormalizada(String origem) {
         var texto = origem == null ? "" : origem.trim();
         if (texto.isEmpty()) {
             throw new ValidacaoDeNegocio("origem", "deve ser informada");
@@ -108,10 +123,13 @@ public final class Leitura {
         if (texto.length() > TAMANHO_MAXIMO_ORIGEM) {
             throw new ValidacaoDeNegocio("origem", "deve ter no máximo " + TAMANHO_MAXIMO_ORIGEM + " caracteres");
         }
+        if (texto.indexOf(0) >= 0) {
+            throw new ValidacaoDeNegocio("origem", "não pode conter caractere nulo");
+        }
         return texto;
     }
 
-    private static BigDecimal temperaturaNormalizada(BigDecimal temperatura) {
+    static BigDecimal temperaturaNormalizada(BigDecimal temperatura) {
         if (temperatura == null) {
             throw new ValidacaoDeNegocio("temperatura", "deve ser informada");
         }

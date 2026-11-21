@@ -205,6 +205,10 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 | `409` | Capacidade excedida ou redução abaixo da ocupação                                                                                                                                                                                                                      | `/problemas/capacidade-excedida` |
 | `409` | Operação incompatível com o estado atual (registro inativo, câmara em manutenção, câmara com lotes ativos)                                                                                                                                                             | `/problemas/estado-incompativel` |
 | `422` | Body ou campo obrigatório ausente; campo em branco; formato ou regra de entrada violada após desserialização (inclusive validade não futura, temperatura fora do intervalo, precisão térmica excessiva e `temperaturaMinima >= temperaturaMaxima`) | `/problemas/validacao` |
+| `409` | Leitura com chave `(camaraId, idExterno)` já aceita com outro conteúdo (§9) | `/problemas/leitura-conflitante` |
+| `409` | Câmara alterada durante as duas análises de uma leitura; pode reenviar (§9) | `/problemas/alteracao-concorrente` |
+| `502` | Serviço de análise térmica respondeu fora do contrato ou recusou a janela; nada é gravado (§9) | `/problemas/falha-de-integracao` |
+| `503` | Serviço de análise térmica ausente ou sem resposta no prazo; nada é gravado (§9) | `/problemas/analise-indisponivel` |
 | `500` | Falha interna inesperada, com mensagem genérica e detalhes técnicos apenas no log do servidor                                                                                                                                                                          | `/problemas/erro-interno` |
 
 Todo Problem Details contém `type`, `title`, `status`, `detail` e `instance`. O campo `instance` identifica o caminho da requisição com `/` inicial, por exemplo `/api/camaras`. Erros `422` incluem `erros`, uma lista de `{ "campo": string, "mensagem": string }`.
@@ -453,8 +457,83 @@ Os perfis disponíveis são `ADMINISTRADOR`, `OPERADOR` e `AUDITOR`. A autoriza�
 
 ## 8. Autorização por operação (Sprint 2 — #81)
 
-Todas as rotas de câmaras e lotes exigem Bearer JWT validado. Administrador executa todas as operações; operador consulta e registra baixas; auditor consulta. Cadastro, edição, inativação e descarte são exclusivos de administrador. Ausência de token, token expirado ou inválido retorna 401; identidade válida sem perfil permitido retorna 403 antes da execução, sem gravação ou chamada Go. A rejeição de segurança é feita pelo Quarkus e pode retornar corpo vazio; não se exige Problem Details nesses 401/403.
+Todas as rotas de câmaras e lotes exigem Bearer JWT validado. Administrador executa todas as operações; operador consulta, registra baixas e envia leituras (§9); auditor consulta. Cadastro, edição, inativação e descarte são exclusivos de administrador. Ausência de token, token expirado ou inválido retorna 401; identidade válida sem perfil permitido retorna 403 antes da execução, sem gravação ou chamada Go. A rejeição de segurança é feita pelo Quarkus e pode retornar corpo vazio; não se exige Problem Details nesses 401/403.
 
 Saúde, status, OpenAPI e Swagger UI permanecem públicos; isso não permite executar operações protegidas sem Bearer. Login, renovação e logout validam credenciais ou refresh, conforme §7. Perfil e ator nunca são aceitos do body, query ou cabeçalhos auxiliares para autorizar ou atribuir ações.
 
 A [diretriz de autorização](autorizacao.md) define a matriz completa, as guardas reutilizáveis para próximas funcionalidades e o suporte de testes. `quarkus.security.jaxrs.deny-unannotated-endpoints=true` bloqueia toda nova rota REST sem anotação de segurança. Cada operação deve declarar `@PermissionsAllowed` no método e incluir testes de permissão; a regra também integra a Definição de Pronto e o checklist do PR.
+
+## 9. Recepção de leituras (Sprint 2 — #74)
+
+`POST /api/leituras` recebe uma leitura individual, analisa-a no serviço Go e grava a leitura com a versão da política e o resultado térmico confirmado ([ADR 0003](decisoes/0003-servico-go-telemetria.md), seções 3, 5 e 7). Administrador e operador podem enviar; auditor recebe `403` e ausência de autenticação, `401`. `GET /api/leituras/{id}` consulta a leitura aceita (administrador, operador ou auditor).
+
+| Campo | Tipo | Obrigatório | Regra |
+|---|---|---|---|
+| `idExterno` | string | sim | 1 a 100 caracteres, sem caractere nulo. O valor é preservado como enviado. Com `camaraId`, forma a chave de idempotência. |
+| `camaraId` | integer (int64) | sim | ID positivo de câmara existente (`404`), ativa e `OPERACIONAL` (`409`). `EM_ALERTA` não impede o envio. |
+| `temperatura` | number | sim | °C, de `-999.9` a `999.9`, no máximo 1 casa decimal; `8.50` equivale a `8.5`. |
+| `medidaEm` | string (date-time) | sim | ISO 8601 com offset obrigatório (`Z` ou `±hh:mm`) e até 6 casas nos segundos. Em UTC, deve estar entre os anos 0001 e 9999. Deve ser posterior à última leitura aceita da câmara (`409`) e no máximo 5 minutos à frente do relógio da API (`422`). Devolvido em UTC. |
+| `origem` | string | sim | 1 a 100 caracteres após o `trim`, sem caractere nulo. |
+
+**Fluxo.** A câmara é bloqueada apenas em duas transações curtas, sem lock nem transação durante a chamada ao Go:
+
+1. Com a câmara bloqueada, confere a chave, a elegibilidade e a ordem e lê o snapshot: política vigente, última leitura aceita, início do episódio (última resolução) e até N−1 leituras de contexto da política vigente. Encerra sem gravar.
+2. Chama o Go fora de transação, com prazo de 800 ms (`TELEMETRY_DEADLINE`). Alocações e movimentações de lotes na mesma câmara não esperam por essa chamada.
+3. Bloqueia a câmara de novo e revalida: se a chave já foi aceita, devolve o original (`200`) ou `409`; se a câmara saiu de operação, `409`; se a última leitura, a versão da política ou o início do episódio mudaram, refaz os passos 1 a 3 uma única vez e, persistindo a mudança, responde `409` (`/problemas/alteracao-concorrente`). Só grava o resultado calculado para o snapshot confirmado.
+
+Com a nova tentativa, uma requisição pode esperar até duas vezes o prazo no Go, além do trabalho local.
+
+**Respostas.**
+
+- Primeira aceitação: `201`, `Location: /api/leituras/{id}` e a leitura.
+- Reenvio com conteúdo equivalente (temperatura em escala 1, instante em UTC, origem após `trim`): `200` com o registro original, sem nova chamada ao Go. É seguro reenviar depois de perder a resposta HTTP.
+- Mesma chave com outra temperatura, instante ou origem: `409` (`/problemas/leitura-conflitante`). `medidaEm` igual ou anterior à última leitura aceita, câmara inativa ou fora de `OPERACIONAL`: `409` (`/problemas/estado-incompativel`). Nenhum caso grava algo.
+- Go ausente ou lento: `503` no prazo de cada chamada; resposta fora do contrato ou janela recusada: `502`. Nenhuma leitura é confirmada, não há fila nem `202`.
+
+A abertura de ocorrência ao atingir o limiar e a atualização do estado térmico são da S2-11 (#75); a recepção em lote, da S2-36 (#99).
+
+```http
+POST /api/leituras
+Authorization: Bearer <token de OPERADOR>
+Content-Type: application/json
+
+{
+  "idExterno": "sensor-7:000123",
+  "camaraId": 1,
+  "temperatura": 9.4,
+  "medidaEm": "2026-11-20T10:15:00-03:00",
+  "origem": "sensor-7"
+}
+```
+
+```http
+HTTP/1.1 201 Created
+Location: /api/leituras/42
+Content-Type: application/json
+
+{
+  "id": 42,
+  "camaraId": 1,
+  "idExterno": "sensor-7:000123",
+  "temperatura": 9.4,
+  "medidaEm": "2026-11-20T13:15:00Z",
+  "origem": "sensor-7",
+  "politicaVersao": 1,
+  "classificacao": "INSEGURA",
+  "sequencia": 1,
+  "limiarAtingido": false,
+  "aceitaEm": "2026-11-20T13:15:02.120Z"
+}
+```
+
+Reenvio da mesma chave com `"temperatura": 9.5`:
+
+```json
+{
+  "type": "/problemas/leitura-conflitante",
+  "title": "Leitura já registrada com outro conteúdo",
+  "status": 409,
+  "detail": "A leitura sensor-7:000123 da câmara 1 já foi registrada com outra temperatura, instante ou origem.",
+  "instance": "/api/leituras"
+}
+```
