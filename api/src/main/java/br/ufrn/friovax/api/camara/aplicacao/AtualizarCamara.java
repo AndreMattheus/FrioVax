@@ -1,7 +1,10 @@
 package br.ufrn.friovax.api.camara.aplicacao;
 
 import br.ufrn.friovax.api.camara.dominio.Camara;
+import br.ufrn.friovax.api.camara.dominio.EstadoCamara;
 import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
+import br.ufrn.friovax.api.auditoria.dominio.OperacaoAuditada;
+import br.ufrn.friovax.api.auditoria.dominio.RecursoAuditado;
 import br.ufrn.friovax.api.compartilhado.aplicacao.MudancaConfirmada;
 import br.ufrn.friovax.api.compartilhado.aplicacao.PublicadorDeMudancas;
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
@@ -43,6 +46,7 @@ public class AtualizarCamara {
 
         var agora = OffsetDateTime.now(relogio);
         int versaoAnterior = camara.getPolitica().getVersao();
+        var antes = Campos.de(camara);
 
         // Autor ainda nulo. A rota já exige ADMINISTRADOR (#106), mas repassar o usuário autenticado até aqui
         // fica para a auditoria (US10): a versão da política referencia `usuarios(id)`, e o autor precisa ser um
@@ -52,8 +56,18 @@ public class AtualizarCamara {
             ocupacao, possuiLotesAtivos, null, agora);
         camaras.salvar(camara);
 
-        publicador.publicar(new MudancaConfirmada("camara", id, descricao(camara, versaoAnterior), null, agora));
+        if (!Campos.de(camara).equals(antes)) {
+            publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.CAMARA, id, OperacaoAuditada.ATUALIZACAO,
+                descricao(camara, versaoAnterior), agora));
+        }
         return new ConsultarCamara.Resultado(camara, ocupacao);
+    }
+
+    private record Campos(String nome, String unidade, int capacidade, EstadoCamara estado, int versaoDaPolitica) {
+        static Campos de(Camara camara) {
+            return new Campos(camara.getNome(), camara.getUnidade(), camara.getCapacidade(), camara.getEstado(),
+                camara.getPolitica().getVersao());
+        }
     }
 
     private static String descricao(Camara camara, int versaoAnterior) {

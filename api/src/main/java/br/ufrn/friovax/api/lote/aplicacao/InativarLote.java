@@ -2,6 +2,8 @@ package br.ufrn.friovax.api.lote.aplicacao;
 
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
 import br.ufrn.friovax.api.lote.dominio.LoteRepository;
+import br.ufrn.friovax.api.auditoria.dominio.OperacaoAuditada;
+import br.ufrn.friovax.api.auditoria.dominio.RecursoAuditado;
 import br.ufrn.friovax.api.compartilhado.aplicacao.MudancaConfirmada;
 import br.ufrn.friovax.api.compartilhado.aplicacao.PublicadorDeMudancas;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -37,6 +39,7 @@ public class InativarLote {
         // A ocupação é a soma dos lotes ativos; preservar quantidade e vínculo basta para liberar capacidade.
         lote.inativar(OffsetDateTime.now(relogio));
         lotes.salvar(lote);
-        publicador.publicar(new MudancaConfirmada("lote", lote.getId(), "Inativação de lote", null, OffsetDateTime.now(relogio)));
+        publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.LOTE, lote.getId(), OperacaoAuditada.INATIVACAO,
+                "Lote " + lote.getCodigo() + " inativado", OffsetDateTime.now(relogio)));
     }
 }

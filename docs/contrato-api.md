@@ -434,7 +434,7 @@ Content-Type: application/problem+json
 - Entidade e CRUD de Unidade (D2).
 - Reativação de registros inativos.
 - Estados térmicos da câmara e política térmica (US05, US08).
-- Trilha de auditoria de alterações (US10). Autenticação e autorização estão implementadas (§7–8).
+- Auditoria de políticas térmicas e ocorrências: os tipos já existem na trilha (§9), mas os registros chegam com as rotas de política (S2-14) e de ocorrência.
 
 ## 7. Autenticação e sessões (Sprint 2 — #80)
 
@@ -458,3 +458,82 @@ Todas as rotas de câmaras e lotes exigem Bearer JWT validado. Administrador exe
 Saúde, status, OpenAPI e Swagger UI permanecem públicos; isso não permite executar operações protegidas sem Bearer. Login, renovação e logout validam credenciais ou refresh, conforme §7. Perfil e ator nunca são aceitos do body, query ou cabeçalhos auxiliares para autorizar ou atribuir ações.
 
 A [diretriz de autorização](autorizacao.md) define a matriz completa, as guardas reutilizáveis para próximas funcionalidades e o suporte de testes. `quarkus.security.jaxrs.deny-unannotated-endpoints=true` bloqueia toda nova rota REST sem anotação de segurança. Cada operação deve declarar `@PermissionsAllowed` no método e incluir testes de permissão; a regra também integra a Definição de Pronto e o checklist do PR.
+
+## 9. Trilha de auditoria (Sprint 2 — #82)
+
+Toda alteração confirmada de câmara ou lote gera um evento na tabela `eventos_auditoria`, gravado **na mesma transação** da alteração: se a alteração falha ou é desfeita, o evento também some; se o evento não pode ser gravado, a alteração é desfeita. Requisições recusadas (401, 403, 404, 409, 422) não geram evento. Repetições sem efeito também não: um `PUT` com os mesmos valores e um segundo descarte do mesmo lote respondem com sucesso, mas não entram na trilha.
+
+| Recurso | Operação | Quando |
+|---|---|---|
+| `CAMARA` | `CADASTRO`, `ATUALIZACAO`, `INATIVACAO` | `POST`, `PUT` com alguma mudança, `DELETE` de câmara ativa |
+| `LOTE` | `CADASTRO`, `ATUALIZACAO`, `INATIVACAO` | `POST`, `PUT` com alguma mudança, `DELETE` de lote ativo |
+| `LOTE` | `BAIXA`, `DESCARTE` | `POST /baixas`; `POST /descarte` de lote ainda não descartado |
+
+Cada evento guarda:
+
+| Campo | Conteúdo |
+|---|---|
+| `id` | Sequência do banco; define a ordem da trilha |
+| `instante` | Momento oficial da alteração, em UTC (`Z`), com microssegundos |
+| `ator.id`, `ator.login`, `ator.perfil` | `sub`, `upn` e perfil do JWT validado. Alterações sem usuário (tarefas internas) usam `ator.id = null` e `perfil = SISTEMA` |
+| `recurso`, `recursoId` | Tipo e `id` do registro alterado |
+| `operacao` | Uma das operações da tabela acima |
+| `descricao` | Resumo legível, por exemplo `Lote FX2027A atualizado: quantidade 100 → 120` |
+| `correlacaoId` | Correlação da requisição (abaixo) |
+
+O ator **nunca** vem do body, da query ou de cabeçalhos auxiliares (`X-Usuario-Id`, `X-Perfil`); campos assim são ignorados. A trilha não guarda o token nem qualquer parte dele. Os eventos não são alterados nem apagados pela API, e o usuário de execução tem só `SELECT` e `INSERT` na tabela ([`runtime-grants.sql`](scripts/runtime-grants.sql)).
+
+### 9.1 Correlação
+
+Toda resposta traz o cabeçalho `X-Correlation-Id`. Se a requisição envia esse cabeçalho com 1 a 128 caracteres entre `A-Z`, `a-z`, `0-9`, `.`, `_`, `:` e `-`, o mesmo valor é usado; senão o servidor gera um UUID (o valor recebido é descartado, nunca vai para log nem para o banco). A correlação aparece no evento e nas linhas de log da requisição (`[correlacao=...]`).
+
+### 9.2 Consulta
+
+`GET /api/auditoria` — **ADMINISTRADOR** ou **AUDITOR** (`consultar-trilha`); operador recebe 403. Retorna a página da §4.3 com os eventos em ordem de `id` crescente. Consultar não gera evento. Não existe `POST`, `PUT`, `PATCH` nem `DELETE` na trilha (405).
+
+| Parâmetro | Tipo | Comparação |
+|---|---|---|
+| `de` | date-time com offset | `instante >= de` |
+| `ate` | date-time com offset | `instante <= ate`; não pode ser anterior a `de` |
+| `usuarioId` | UUID | Igualdade com `ator.id` |
+| `recurso` | enum (`CAMARA`, `LOTE`, `POLITICA_TERMICA`, `OCORRENCIA`) | Igualdade, em maiúsculas |
+| `recursoId` | int64 > 0 | Igualdade; exige `recurso`, porque câmaras e lotes têm numerações próprias |
+| `page`, `size` | integer | Ver D13 |
+
+Filtros combinados usam **E** lógico e filtro vazio equivale a ausente. Data sem offset, UUID fora do formato canônico, enum desconhecido, `recursoId` sem `recurso` ou `de` depois de `ate` retornam 400 (`/problemas/requisicao-invalida`). Na URL, o `+` do offset deve ir como `%2B`; um `+` sem codificação chega como espaço e também é aceito.
+
+```http
+GET /api/auditoria?recurso=LOTE&recursoId=7&size=2
+Authorization: Bearer <accessToken de AUDITOR>
+```
+
+```json
+{
+  "items": [
+    {
+      "id": 41,
+      "instante": "2026-11-19T17:05:00.123456Z",
+      "ator": { "id": "6f1c0a4e-2b7d-4c55-9a43-0f2d8e1b7c90", "login": "administrador", "perfil": "ADMINISTRADOR" },
+      "recurso": "LOTE",
+      "recursoId": 7,
+      "operacao": "CADASTRO",
+      "descricao": "Lote FX2027A cadastrado na câmara 3 com 100 doses",
+      "correlacaoId": "8c6f2b1e-4a7d-4f3c-9b0e-1d2c3b4a5f60"
+    },
+    {
+      "id": 44,
+      "instante": "2026-11-19T17:20:11.004512Z",
+      "ator": { "id": "0b9e7d52-61c3-4f1a-8e2d-5a7c9b3e1f04", "login": "operador", "perfil": "OPERADOR" },
+      "recurso": "LOTE",
+      "recursoId": 7,
+      "operacao": "BAIXA",
+      "descricao": "Baixa de 5 doses do lote FX2027A (ADMINISTRADA); restam 95",
+      "correlacaoId": "baixa-ubs-centro-0001"
+    }
+  ],
+  "page": 0,
+  "size": 2,
+  "totalElements": 2,
+  "totalPages": 1
+}
+```
