@@ -429,6 +429,33 @@ não registram payload nem descrições arbitrárias de erros. O metadado
 Para executar fora de containers: `mise exec -- go -C services/telemetry run ./cmd/server`.
 Use `grpcurl -plaintext localhost:9090 list` para descobrir os serviços.
 
+## Histórico de leituras e ocorrências
+
+As consultas recuperam dados confirmados no PostgreSQL e funcionam sem o serviço
+Go. Administrador, operador e auditor podem acessá-las com Bearer válido.
+
+| Consulta | Rota GET | Filtros |
+|---|---|---|
+| Leituras de uma câmara | `/api/camaras/{id}/leituras` | `de`, `ate`, `page`, `size` |
+| Ocorrências | `/api/ocorrencias` | `camaraId`, `estado`, `de`, `ate`, `page`, `size` |
+| Detalhe de uma ocorrência | `/api/ocorrencias/{id}` | — |
+
+O período inclui `de` e exclui `ate`; informe instantes ISO 8601 com offset.
+Nas ocorrências, o período considera a abertura. `estado` aceita `ABERTA` ou
+`RESOLVIDA`. A paginação começa em zero, com 20 itens por padrão e máximo de 100.
+As listas apresentam os registros mais recentes primeiro, com desempate por ID.
+
+No Postman, configure **Authorization → Bearer Token** e use a aba **Params**.
+Por exemplo, `GET /api/camaras/1/leituras?size=20` consulta as leituras da câmara
+1; `GET /api/ocorrencias?camaraId=1&estado=RESOLVIDA` lista suas ocorrências
+resolvidas. Use IDs existentes no seu ambiente. Sem registros, as listas ficam
+vazias; um ID inexistente no detalhe retorna 404.
+
+O detalhe inclui as leituras de evidência e a fotografia dos lotes na abertura.
+A política original e essa fotografia são preservadas após alterações de faixa,
+movimentação ou inativação dos cadastros. Os instantes são retornados em UTC (`Z`).
+Veja campos, filtros e erros no [contrato do histórico](docs/contrato-api.md#11-histórico-de-leituras-e-ocorrências).
+
 ## Licença
 
 [MIT](LICENSE).

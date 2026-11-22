@@ -1,4 +1,4 @@
-# Contrato da API — Câmaras e Lotes
+# Contrato da API — Câmaras, Lotes e Histórico
 
 Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). A organização interna do serviço está no [ADR 0002](decisoes/0002-dominio-independente-e-aplicacao-por-interfaces.md), que substitui a proposta do [ADR 0001](decisoes/0001-arquitetura-em-camadas.md).
 
@@ -616,3 +616,75 @@ Reenvio da mesma chave com `"temperatura": 9.5`:
   "instance": "/api/leituras"
 }
 ```
+
+## 11. Histórico de leituras e ocorrências
+
+As consultas leem somente resultados confirmados no PostgreSQL, sem chamar Go ou
+reclassificar leituras. Permanecem disponíveis após inativação de câmaras e lotes,
+movimentação de lotes e alteração de política. Seguem a ADR 0003.
+
+| Rota GET | Filtros | Ordenação fixa |
+|---|---|---|
+| `/api/camaras/{id}/leituras` | `de`, `ate`, `page`, `size` | instante DESC, id DESC |
+| `/api/ocorrencias` | `camaraId`, `estado`, `de`, `ate`, `page`, `size` | abertaEm DESC, id DESC |
+| `/api/ocorrencias/{id}` | — | Evidências na ordem registrada na abertura |
+
+Todas exigem Bearer com permissão `consultar-operacao`: ADMINISTRADOR, OPERADOR
+ou AUDITOR. Token ausente/inválido/expirado retorna 401; identidade autenticada
+sem perfil permitido retorna 403. Erros de consulta usam `application/problem+json`;
+401/403 podem retornar corpo vazio, conforme a política de segurança da §8.
+
+### 11.1 Período, filtros e páginas
+
+- Filtros combinados usam E lógico; omitidos não restringem o resultado.
+- `de` e `ate` são opcionais individualmente e exigem ISO 8601 com offset explícito.
+  O intervalo `[de, ate)` inclui `de` e exclui `ate`. Para leituras, considera
+  `instante`; para ocorrências, `abertaEm`, não sobreposição do episódio.
+- `2026-11-19T10:00:00-03:00` e `2026-11-19T13:00:00Z` são o mesmo instante.
+  As respostas devolvem todos os instantes em UTC com `Z`.
+- `estado` aceita exatamente `ABERTA` ou `RESOLVIDA`; é o estado da ocorrência,
+  independente dos estados operacional e térmico da câmara.
+- `camaraId` deve ser positivo. Câmara inexistente como filtro retorna página
+  vazia (200); câmara inexistente na rota de leituras retorna 404.
+- `page` padrão 0, mínimo 0; `size` padrão 20, entre 1 e 100. Valores inválidos,
+  parâmetros presentes vazios, datas sem offset e `de >= ate` retornam 400.
+- Envelope: `items`, `page`, `size`, `totalElements`, `totalPages`. Os totais
+  consideram os mesmos filtros dos itens. Página além do fim retorna 200 e
+  `items: []`, mantendo os totais. A ordenação é específica da rota, diferentemente
+  da ordem por ID crescente do inventário.
+- Não há filtro implícito por cadastro ativo. Ocorrência inexistente no detalhe
+  retorna 404. Não há exportação, retenção ou consulta global de leituras.
+
+### 11.2 Representações
+
+**Leitura:** `id`, `camaraId`, `idExterno`, `origem`, `temperatura`, `instante`,
+`aceitaEm`, `politica`, `classificacao` (SEGURA/INSEGURA), `sequencia` e
+`limiarAtingido`. `politica` contém `versao`, `temperaturaMinima`,
+`temperaturaMaxima` e `limiar` da versão original, não da vigente.
+
+**Resumo de ocorrência:** `id`, `camaraId`, `estado`, `abertaEm`, `politica`,
+`resolvidaEm`, `resolvidaPor` e `justificativa`. Não carrega evidências nem lotes.
+
+**Detalhe:** os campos do resumo, mais `leituraAberturaId`, `evidencias` (leituras
+completas na ordem persistida), `lotesAfetados` e `leituraResolucaoId`.
+Cada lote afetado traz `loteId`, `codigo`, `imunobiologico` e `quantidade`, copiados
+na abertura. Alterar o cadastro do lote não atualiza essa fotografia.
+
+Exemplo: uma leitura de 9 °C na versão com faixa 2–8 °C permanece INSEGURA
+mesmo após mudar a faixa vigente para 2–10 °C. Um lote com 100 doses na abertura
+continua com 100 doses no snapshot mesmo após movimentação ou baixa.
+
+Ocorrência aberta tem os dados de resolução nulos. `resolvidaPor` é o UUID salvo,
+sem expor login ou credenciais. Registros de resolução sem autor permanecem com
+esse campo nulo; a consulta não infere o responsável a partir do usuário que
+está consultando.
+
+### 11.3 Execução das consultas
+
+Filtros, contagem e paginação são executados no banco. As políticas da página
+são buscadas em conjunto; o detalhe busca as leituras de evidência em conjunto,
+reordenando pelos IDs registrados. Isso evita uma consulta por item (N+1).
+A migração V7 acrescenta índices globais de abertura/ID e estado/abertura/ID,
+sem modificar migrações já aplicadas. A página e a contagem usam o isolamento
+transacional padrão: novas gravações concorrentes podem mudar páginas entre
+requisições; não se promete um snapshot único entre páginas.

@@ -3,6 +3,7 @@ package br.ufrn.friovax.api.telemetria.dominio;
 import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,12 @@ public interface LeituraRepository {
 
     /** Última leitura aceita da câmara, de qualquer versão da política (usada para exigir ordem crescente). */
     Optional<Leitura> ultimaDaCamara(long camaraId);
+
+    /** Busca as evidências em conjunto; a ordem é recomposta conforme a ocorrência. */
+    List<Leitura> buscarPorIds(Collection<Long> ids);
+
+    /** Filtra por instante em [de, ate), ordenando por instante e ID decrescentes. */
+    Pagina<Leitura> listarDaCamara(long camaraId, PeriodoConsulta periodo, Paginacao paginacao);
 
     /**
      * Contexto da janela de análise: as últimas {@code limite} leituras da câmara na versão de política informada,
