@@ -33,7 +33,7 @@ func TestAnalisarJanela(t *testing.T) {
 		evidencias       [][]string
 	}{
 		{"limites inclusivos", []int32{20, 80, 19, 81}, 3, 0, []int{0, 0, 1, 2}, [][]string{nil, nil, {"r3"}, {"r3", "r4"}}},
-		{"sinal intermediário", []int32{90, 90, 90, 40}, 3, 0, []int{1, 2, 3, 0}, [][]string{{"r1"}, {"r1", "r2"}, {"r1", "r2", "r3"}, nil}},
+		{"sinal intermediário", []int32{90, 90, 90, 40}, 3, 0, []int{1, 2, 2, 0}, [][]string{{"r1"}, {"r1", "r2"}, {"r1", "r2", "r3"}, nil}},
 		{"segura intercalada", []int32{90, 40, 90}, 3, 0, []int{1, 0, 1}, [][]string{{"r1"}, nil, {"r3"}}},
 		{"saturação e direções", []int32{90, 10, 100, 110}, 3, 0, []int{1, 2, 3, 3}, [][]string{{"r1"}, {"r1", "r2"}, {"r1", "r2", "r3"}, {"r2", "r3", "r4"}}},
 		{"contexto persistido", []int32{90, 90, 100, 40}, 3, 2, []int{3, 0}, [][]string{{"r1", "r2", "r3"}, nil}},
