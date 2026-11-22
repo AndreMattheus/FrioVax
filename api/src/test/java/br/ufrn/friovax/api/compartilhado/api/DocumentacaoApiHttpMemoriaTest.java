@@ -26,7 +26,8 @@ class DocumentacaoApiHttpMemoriaTest {
         Map<String, Map<String, Map<String, Object>>> paths = spec.getMap("paths");
         int verificadas = 0;
         for (var path : paths.entrySet()) {
-            if (!path.getKey().startsWith("/api/camaras") && !path.getKey().startsWith("/api/lotes")) continue;
+            if (!path.getKey().startsWith("/api/camaras") && !path.getKey().startsWith("/api/lotes")
+                    && !path.getKey().startsWith("/api/ocorrencias")) continue;
             for (var item : path.getValue().entrySet()) {
                 if (!List.of("get", "post", "put", "delete").contains(item.getKey())) continue;
                 verificadas++;
@@ -45,7 +46,7 @@ class DocumentacaoApiHttpMemoriaTest {
                 assertEquals(item.getKey().equals("get"), descricao.contains("AUDITOR"), rota);
             }
         }
-        assertEquals(12, verificadas);
+        assertEquals(15, verificadas);
         assertFalse(paths.get("/api/status").get("get").containsKey("security"));
         for (var rota : List.of("login", "renovar", "logout")) {
             assertFalse(paths.get("/api/auth/" + rota).get("post").containsKey("security"));

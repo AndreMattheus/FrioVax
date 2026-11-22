@@ -6,8 +6,10 @@ import br.ufrn.friovax.api.telemetria.dominio.Leitura;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraForaDeOrdem;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraJaRegistrada;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraRepository;
+import br.ufrn.friovax.api.telemetria.dominio.PeriodoConsulta;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -83,6 +85,18 @@ public class LeituraRepositoryEmMemoria implements LeituraRepository {
     @Override
     public synchronized Pagina<Leitura> listarDaCamara(long camaraId, Paginacao paginacao) {
         return Paginador.paginar(daCamara(camaraId).stream().sorted(MAIS_RECENTE_PRIMEIRO).toList(), paginacao);
+    }
+
+    @Override
+    public synchronized List<Leitura> buscarPorIds(Collection<Long> ids) {
+        return leituras.values().stream().filter(l -> ids.contains(l.getId())).toList();
+    }
+
+    @Override
+    public synchronized Pagina<Leitura> listarDaCamara(long camaraId,
+            PeriodoConsulta periodo, Paginacao paginacao) {
+        return Paginador.paginar(daCamara(camaraId).stream().filter(l -> periodo.contem(l.getInstante()))
+                .sorted(MAIS_RECENTE_PRIMEIRO).toList(), paginacao);
     }
 
     private List<Leitura> daCamara(long camaraId) {

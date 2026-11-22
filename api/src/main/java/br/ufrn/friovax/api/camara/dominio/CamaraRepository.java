@@ -1,10 +1,13 @@
 package br.ufrn.friovax.api.camara.dominio;
 
+import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
 import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Porta de persistência de câmaras. Implementada pelo adaptador PostgreSQL na aplicação e em memória nos testes.
@@ -14,7 +17,7 @@ public interface CamaraRepository {
     /**
      * Insere a câmara (atribuindo o id) ou grava as alterações de uma câmara existente.
      *
-     * @throws br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado se outra câmara já usa o código
+     * @throws CodigoDuplicado se outra câmara já usa o código
      */
     Camara salvar(Camara camara);
 
@@ -28,6 +31,10 @@ public interface CamaraRepository {
 
     /** Considera câmaras ativas e inativas; o código deve estar normalizado. */
     boolean existePorCodigo(String codigo);
+
+    /** Busca somente as versões solicitadas, em conjunto, para compor páginas de histórico. */
+    Map<ReferenciaPolitica, PoliticaTermica> buscarPoliticas(
+            Set<ReferenciaPolitica> referencias);
 
     /**
      * Todas as versões da política térmica da câmara, da mais antiga para a vigente. A vigente também está em

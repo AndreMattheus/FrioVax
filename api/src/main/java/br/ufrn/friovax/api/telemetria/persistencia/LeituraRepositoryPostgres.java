@@ -6,13 +6,16 @@ import br.ufrn.friovax.api.telemetria.dominio.Leitura;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraForaDeOrdem;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraJaRegistrada;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraRepository;
+import br.ufrn.friovax.api.telemetria.dominio.PeriodoConsulta;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.PersistenceException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,7 +93,30 @@ public class LeituraRepositoryPostgres implements LeituraRepository, PanacheRepo
 
     @Override
     public Pagina<Leitura> listarDaCamara(long camaraId, Paginacao paginacao) {
-        var query = find("camaraId = ?1", Sort.descending("instante", "id"), camaraId);
+        return listarDaCamara(camaraId, new PeriodoConsulta(null, null), paginacao);
+    }
+
+    @Override
+    public List<Leitura> buscarPorIds(Collection<Long> ids) {
+        return ids.isEmpty() ? List.of() : find("id in ?1", ids).list().stream()
+                .map(LeituraMapper::paraDominio).toList();
+    }
+
+    @Override
+    public Pagina<Leitura> listarDaCamara(long camaraId,
+            PeriodoConsulta periodo, Paginacao paginacao) {
+        var parametros = new HashMap<String, Object>();
+        parametros.put("camara", camaraId);
+        var condicao = new StringBuilder("camaraId = :camara");
+        if (periodo.de() != null) {
+            condicao.append(" and instante >= :de");
+            parametros.put("de", periodo.de());
+        }
+        if (periodo.ate() != null) {
+            condicao.append(" and instante < :ate");
+            parametros.put("ate", periodo.ate());
+        }
+        var query = find(condicao.toString(), Sort.descending("instante", "id"), parametros);
 
         List<Leitura> itens = paginacao.deslocamento() > Integer.MAX_VALUE
             ? List.of()
