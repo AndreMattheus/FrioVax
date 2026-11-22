@@ -2,7 +2,6 @@ package br.ufrn.friovax.api.telemetria.aplicacao;
 
 import br.ufrn.friovax.api.telemetria.dominio.AnaliseTermica;
 import br.ufrn.friovax.api.telemetria.dominio.FalhaDeIntegracao;
-import br.ufrn.friovax.api.telemetria.dominio.JanelaDeAnalise;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraConcorrente;
 import br.ufrn.friovax.api.telemetria.dominio.NovaLeitura;
 import br.ufrn.friovax.api.telemetria.dominio.ResultadoDaCandidata;
@@ -89,8 +88,7 @@ public class ReceberLeitura {
 
     /** Resultado da candidata com as evidências: a confirmação precisa delas para abrir a ocorrência (S2-11). */
     private ResultadoDaCandidata analisar(NovaLeitura nova, SnapshotDaCamara snapshot, String correlacao) {
-        var janela = new JanelaDeAnalise(snapshot.camaraId(), snapshot.politica(), snapshot.contexto(),
-                List.of(nova.paraAnalise()));
+        var janela = snapshot.janela(List.of(nova));
         var resposta = analise.analisar(SolicitacaoDeAnalise.de(correlacao, janela));
         return switch (resposta.janelas().getFirst()) {
             case ResultadoDaJanela.Analisada analisada -> analisada.candidatas().getFirst();
