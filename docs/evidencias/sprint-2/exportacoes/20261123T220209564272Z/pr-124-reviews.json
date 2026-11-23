@@ -1,0 +1,38 @@
+[
+  {
+    "id": 6025862498,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/124#pullrequestreview-6025862498",
+    "state": "CHANGES_REQUESTED",
+    "submitted_at": "2026-11-23T17:05:00Z",
+    "commit_id": "e62dff8115d93c8cdac3f6696b7d7a2b0a9ec9d1",
+    "author_association": "OWNER",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 6026291349,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/124#pullrequestreview-6026291349",
+    "state": "COMMENTED",
+    "submitted_at": "2026-11-23T17:28:35Z",
+    "commit_id": "e62dff8115d93c8cdac3f6696b7d7a2b0a9ec9d1",
+    "author_association": "COLLABORATOR",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 6028024989,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/124#pullrequestreview-6028024989",
+    "state": "APPROVED",
+    "submitted_at": "2026-11-23T19:23:59Z",
+    "commit_id": "95263e1c26822814388663238a5f65fa7394f71f",
+    "author_association": "OWNER",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  }
+]

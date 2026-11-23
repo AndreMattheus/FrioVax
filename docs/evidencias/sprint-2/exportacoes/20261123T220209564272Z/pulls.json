@@ -1,0 +1,1352 @@
+[
+  {
+    "id": 5456889400,
+    "number": 124,
+    "title": "Feat/78 administrar politica",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/124",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-23T16:23:20Z",
+    "updated_at": "2026-11-23T19:24:14Z",
+    "closed_at": "2026-11-23T19:24:13Z",
+    "merged_at": "2026-11-23T19:24:13Z",
+    "merge_commit_sha": "44e310bc21e89030244294b350a43e57199e92a6",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/78-administrar-politica",
+      "sha": "95263e1c26822814388663238a5f65fa7394f71f"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "291bd729e73293ac2b6cba3cf353a21ace3d1b52"
+    }
+  },
+  {
+    "id": 5443570098,
+    "number": 123,
+    "title": "Feat/86 Evidencia da proteção da main",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/123",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-22T21:27:26Z",
+    "updated_at": "2026-11-23T16:37:49Z",
+    "closed_at": "2026-11-23T16:37:49Z",
+    "merged_at": "2026-11-23T16:37:49Z",
+    "merge_commit_sha": "291bd729e73293ac2b6cba3cf353a21ace3d1b52",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/86-evidencia-protecao-main",
+      "sha": "b39a4a0586dea9836373b9b84b7cfecfcf92c1bc"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "d4125bb24c7e8758838d8028a58b88557dd0d5e3"
+    }
+  },
+  {
+    "id": 5443204666,
+    "number": 122,
+    "title": "test: comprova bloqueio da main com teste falhando",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/122",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-22T20:45:34Z",
+    "updated_at": "2026-11-22T21:05:51Z",
+    "closed_at": "2026-11-22T21:05:51Z",
+    "merged_at": null,
+    "merge_commit_sha": "31792e8f632c4c3ebf36f74ff4d7f679f7ca9aff",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/86-protecao-main",
+      "sha": "750c7729b23631525db8be231024090afe6eea82"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "287e3d9b767f10f971f5d21d15e8b8d1f4370a87"
+    }
+  },
+  {
+    "id": 5422710382,
+    "number": 121,
+    "title": "Feat/77 consultar leituras e ocorrencias paginadas",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/121",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-21T01:08:04Z",
+    "updated_at": "2026-11-22T20:56:44Z",
+    "closed_at": "2026-11-22T20:56:44Z",
+    "merged_at": "2026-11-22T20:56:44Z",
+    "merge_commit_sha": "d4125bb24c7e8758838d8028a58b88557dd0d5e3",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/77-consultar-leituras-e-ocorrencias-paginadas",
+      "sha": "2cebc47727df313a5f98b0877757fb2ce57f00d7"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "287e3d9b767f10f971f5d21d15e8b8d1f4370a87"
+    }
+  },
+  {
+    "id": 5422511527,
+    "number": 120,
+    "title": "feat: receber leituras com ordem e idempotência (#74)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/120",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-21T00:45:01Z",
+    "updated_at": "2026-11-21T14:24:59Z",
+    "closed_at": "2026-11-21T14:24:58Z",
+    "merged_at": "2026-11-21T14:24:58Z",
+    "merge_commit_sha": "b602ba1f1880fde77869ff4f1df79d27ba03b3c7",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/74-receber-leitura",
+      "sha": "4cdadb23535ed6b499953e7fe8cdc4ad24ffd497"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "2b324b0610f7e1fea10dc95f6cb6de5b1e953063"
+    }
+  },
+  {
+    "id": 5406750303,
+    "number": 119,
+    "title": "Feat/s2 18 auditar alteracoes confirmadas",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/119",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-20T02:41:38Z",
+    "updated_at": "2026-11-21T17:17:07Z",
+    "closed_at": "2026-11-21T17:17:07Z",
+    "merged_at": "2026-11-21T17:17:06Z",
+    "merge_commit_sha": "287e3d9b767f10f971f5d21d15e8b8d1f4370a87",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/s2-18-auditar-alteracoes-confirmadas",
+      "sha": "e0afc6ddc549753080fc9d3d230e2a85bee2c262"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "b602ba1f1880fde77869ff4f1df79d27ba03b3c7"
+    }
+  },
+  {
+    "id": 5379281678,
+    "number": 118,
+    "title": "feat: completar containers, saúde e clone limpo (#84)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/118",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-18T15:51:51Z",
+    "updated_at": "2026-11-18T18:16:31Z",
+    "closed_at": "2026-11-18T18:16:31Z",
+    "merged_at": "2026-11-18T18:16:31Z",
+    "merge_commit_sha": "12010998f20bc2893bd01fa008c8822998f22d6c",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/84-containers-saude-clone",
+      "sha": "6c73329a2e01b20f96d8d41fa1fe349e5490ed2f"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "89ed2539ec6e4c089c9053a515446224e0891e36"
+    }
+  },
+  {
+    "id": 5362922418,
+    "number": 117,
+    "title": "Feat/72 expor análise por grpc e testar servidor",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/117",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-17T18:46:08Z",
+    "updated_at": "2026-11-18T14:43:39Z",
+    "closed_at": "2026-11-18T14:43:39Z",
+    "merged_at": "2026-11-18T14:43:39Z",
+    "merge_commit_sha": "89ed2539ec6e4c089c9053a515446224e0891e36",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/72-expor-análise-por-grpc-e-testar-servidor",
+      "sha": "235c4590188e81fceffb5de80a0bcc6903cb831d"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "1cf80c4f0e7d872bec404ea2af21c3812a1143ea"
+    }
+  },
+  {
+    "id": 5362678543,
+    "number": 116,
+    "title": "docs: registrar experimento das duplas de revisão (#92)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/116",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-17T18:29:17Z",
+    "updated_at": "2026-11-20T03:37:24Z",
+    "closed_at": "2026-11-20T03:37:23Z",
+    "merged_at": "2026-11-20T03:37:23Z",
+    "merge_commit_sha": "2b324b0610f7e1fea10dc95f6cb6de5b1e953063",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/92-comparar-revisao",
+      "sha": "5e777181981476c02f88a782afc5f532ee73a272"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "1cf80c4f0e7d872bec404ea2af21c3812a1143ea"
+    }
+  },
+  {
+    "id": 5358897940,
+    "number": 115,
+    "title": "Feat/71 implementar analise termica pura em go",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/115",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-17T14:38:33Z",
+    "updated_at": "2026-11-17T16:33:19Z",
+    "closed_at": "2026-11-17T16:33:19Z",
+    "merged_at": "2026-11-17T16:33:19Z",
+    "merge_commit_sha": "b554623b7acba1463b3453c6705d4eaf3d4506e6",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/71-implementar-analise-termica-pura-em-go",
+      "sha": "10ed4862ab9c6056d57d2c907fda2bcda5ad3a2d"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "33e7cb67c0f811ef56553c7a3a30cb81a3862eb3"
+    }
+  },
+  {
+    "id": 5349787438,
+    "number": 114,
+    "title": "docs: medir fluxo de valor de três itens e gargalo (#91)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/114",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-17T03:09:18Z",
+    "updated_at": "2026-11-17T16:41:03Z",
+    "closed_at": "2026-11-17T16:41:03Z",
+    "merged_at": "2026-11-17T16:41:03Z",
+    "merge_commit_sha": "1cf80c4f0e7d872bec404ea2af21c3812a1143ea",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/91-fluxo-de-valor",
+      "sha": "311827e0ba93ff067522b867639e464b5c46da0a"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "33e7cb67c0f811ef56553c7a3a30cb81a3862eb3"
+    }
+  },
+  {
+    "id": 5325309192,
+    "number": 113,
+    "title": "feat: implementar resumo operacional com cache e métricas (#79)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/113",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-15T17:34:18Z",
+    "updated_at": "2026-11-15T23:47:58Z",
+    "closed_at": "2026-11-15T23:47:58Z",
+    "merged_at": "2026-11-15T23:47:58Z",
+    "merge_commit_sha": "33e7cb67c0f811ef56553c7a3a30cb81a3862eb3",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/79-resumo-cache-hit/miss",
+      "sha": "6706097740f2ce7645875798e50ca2b780a49c7c"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "1236585cf6fce93def1a613588ce2f8d8b8e1311"
+    }
+  },
+  {
+    "id": 5318339000,
+    "number": 112,
+    "title": "feat: integrar cliente gRPC Java por porta (#73)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/112",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-15T01:35:44Z",
+    "updated_at": "2026-11-15T14:05:54Z",
+    "closed_at": "2026-11-15T14:05:54Z",
+    "merged_at": "2026-11-15T14:05:54Z",
+    "merge_commit_sha": "1236585cf6fce93def1a613588ce2f8d8b8e1311",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/73-cliente-grpc-java-porta",
+      "sha": "e26655c825677fcf62709412f8416a6c9682b2e4"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "16ead1abbcbc589ced7f91f534ad6f7fcd5cd3a1"
+    }
+  },
+  {
+    "id": 5301261656,
+    "number": 111,
+    "title": "ci: concluir implantação com deploy automático e backup opcional (#88)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/111",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-13T19:03:41Z",
+    "updated_at": "2026-11-15T00:25:55Z",
+    "closed_at": "2026-11-15T00:25:55Z",
+    "merged_at": "2026-11-15T00:25:55Z",
+    "merge_commit_sha": "16ead1abbcbc589ced7f91f534ad6f7fcd5cd3a1",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/88-evidencias-implantacao",
+      "sha": "1ad7f3fa34a0dfe9aa4e2ad1ebdc468dd16516d1"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "e7cc742a9c501ec40f1cb32944e8762c23467368"
+    }
+  },
+  {
+    "id": 5300454778,
+    "number": 110,
+    "title": "Feat/70 persistir leituras ocorrencias e evidencias",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/110",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-13T18:03:58Z",
+    "updated_at": "2026-11-14T15:32:58Z",
+    "closed_at": "2026-11-14T15:32:57Z",
+    "merged_at": "2026-11-14T15:32:57Z",
+    "merge_commit_sha": "e7cc742a9c501ec40f1cb32944e8762c23467368",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+      "sha": "d596cd0136c639734cd177a7c9a51200281a2442"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "c51e2981773fed0a40fb85264c1bc5201b63269b"
+    }
+  },
+  {
+    "id": 5248686945,
+    "number": 109,
+    "title": "feat: preparar deploy da API no Render com migração pelo CI (#88)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/109",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-10T20:51:21Z",
+    "updated_at": "2026-11-11T15:56:20Z",
+    "closed_at": "2026-11-11T15:38:56Z",
+    "merged_at": "2026-11-11T15:38:56Z",
+    "merge_commit_sha": "c51e2981773fed0a40fb85264c1bc5201b63269b",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/88-deploy-render-neon",
+      "sha": "30c99f5b6d68709210396a958a982176a48fef16"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "ad16ffa6c4a1edf194b9a53b63a809c6786e9807"
+    }
+  },
+  {
+    "id": 5227422314,
+    "number": 108,
+    "title": "docs: registrar revisão e merge da S2-05 (#69)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/108",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-09T16:36:38Z",
+    "updated_at": "2026-11-09T23:20:05Z",
+    "closed_at": "2026-11-09T23:20:05Z",
+    "merged_at": "2026-11-09T23:20:05Z",
+    "merge_commit_sha": "ad16ffa6c4a1edf194b9a53b63a809c6786e9807",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/69-eventos-medicao",
+      "sha": "68df971405ca079acc629dd6429889bddae29e7e"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "c4998153b15f5d44a7668458d497001806950282"
+    }
+  },
+  {
+    "id": 5213548873,
+    "number": 107,
+    "title": "Feat/69 versionar política e migrar câmaras existentes",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/107",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-08T17:39:01Z",
+    "updated_at": "2026-11-09T03:52:31Z",
+    "closed_at": "2026-11-09T03:52:31Z",
+    "merged_at": "2026-11-09T03:52:31Z",
+    "merge_commit_sha": "c4998153b15f5d44a7668458d497001806950282",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/69-versionar-política-e-migrar-câmaras-existentes",
+      "sha": "f8869c5ed2d57878c8993b698782bf8c2c45725e"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "496b3998dc3bd9334f7d7d8eb9dc2787bcb8ee62"
+    }
+  },
+  {
+    "id": 5212920883,
+    "number": 106,
+    "title": "feat: aplicar perfis e permissões em todas as rotas (#81)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/106",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-08T16:15:39Z",
+    "updated_at": "2026-11-08T17:05:18Z",
+    "closed_at": "2026-11-08T17:05:18Z",
+    "merged_at": "2026-11-08T17:05:18Z",
+    "merge_commit_sha": "496b3998dc3bd9334f7d7d8eb9dc2787bcb8ee62",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/81-perfis-em-todas-as-rotas",
+      "sha": "442a646503d58dc06edc979deda90ba3d3304be3"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "7406956ee2e00dac55bf76eca46dd6e3095b262f"
+    }
+  },
+  {
+    "id": 5210940337,
+    "number": 105,
+    "title": "Feat/68 definir protobuf buf e geracao",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/105",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-08T11:31:14Z",
+    "updated_at": "2026-11-08T14:47:03Z",
+    "closed_at": "2026-11-08T14:47:03Z",
+    "merged_at": "2026-11-08T14:47:03Z",
+    "merge_commit_sha": "7406956ee2e00dac55bf76eca46dd6e3095b262f",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/68-definir-protobuf-buf-e-geracao",
+      "sha": "0b9140df4ad1add1ed4b3d574c2772ded7a795aa"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "ad0e706499d675df3ab87518c88085f746deb45b"
+    }
+  },
+  {
+    "id": 5162894938,
+    "number": 104,
+    "title": "docs: definir implantação e recuperação da API (#87)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/104",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-04T22:50:26Z",
+    "updated_at": "2026-11-06T17:50:18Z",
+    "closed_at": "2026-11-06T17:49:56Z",
+    "merged_at": "2026-11-06T17:49:56Z",
+    "merge_commit_sha": "ad0e706499d675df3ab87518c88085f746deb45b",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/87-definir-implantacao",
+      "sha": "c47022cb35c0ab59182277b001a820fcd58394a2"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "b166cf4e364b6a036632f6057089eaf9062128c8"
+    }
+  },
+  {
+    "id": 5161938232,
+    "number": 103,
+    "title": "feat: autenticar usuários e gerenciar sessões (#80)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/103",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-04T21:30:51Z",
+    "updated_at": "2026-11-06T15:43:59Z",
+    "closed_at": "2026-11-06T15:43:58Z",
+    "merged_at": "2026-11-06T15:43:58Z",
+    "merge_commit_sha": "b166cf4e364b6a036632f6057089eaf9062128c8",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/80-autenticacao-sessoes",
+      "sha": "9108a83b12c8ca36d4cc7e6949208c1ce22d46aa"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "66a76edebd377ac154e5ce88d9f6cbb0f7de2aac"
+    }
+  },
+  {
+    "id": 5154910433,
+    "number": 102,
+    "title": "Feat/67 registrar servico go e regras termicas",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/102",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-04T13:16:16Z",
+    "updated_at": "2026-11-05T01:25:38Z",
+    "closed_at": "2026-11-05T01:25:38Z",
+    "merged_at": "2026-11-05T01:25:38Z",
+    "merge_commit_sha": "66a76edebd377ac154e5ce88d9f6cbb0f7de2aac",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/67-registrar-servico-go-e-regras-termicas",
+      "sha": "16fa4d07db434a2b396f38139c23f137a3fa8008"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "f43749b7f935342a34d5536b88d8036a4c724514"
+    }
+  },
+  {
+    "id": 5143290855,
+    "number": 101,
+    "title": "Instrumentar datas, trabalho e implantacao da Sprint 2 (#66)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/101",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-03T19:29:38Z",
+    "updated_at": "2026-11-03T21:18:56Z",
+    "closed_at": "2026-11-03T21:18:56Z",
+    "merged_at": "2026-11-03T21:18:56Z",
+    "merge_commit_sha": "f43749b7f935342a34d5536b88d8036a4c724514",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/66-medicao-sprint-2",
+      "sha": "07b901383085ea4904d2151827a612ad0840f96e"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "f64c5252f51b42a6ac62791fc0bc378250fef03d"
+    }
+  },
+  {
+    "id": 5143013018,
+    "number": 100,
+    "title": "docs: registrar planning e acordo da Sprint 2 (#65)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/100",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-11-03T19:09:12Z",
+    "updated_at": "2026-11-03T19:58:34Z",
+    "closed_at": "2026-11-03T19:58:33Z",
+    "merged_at": "2026-11-03T19:58:33Z",
+    "merge_commit_sha": "fd5fef2c9091ca706b34151e6fa36fbb52758854",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/65-planning-sprint-2",
+      "sha": "ab105b44226a937a4be3e5f6923cad2e30c50d9c"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "f64c5252f51b42a6ac62791fc0bc378250fef03d"
+    }
+  },
+  {
+    "id": 4865008437,
+    "number": 64,
+    "title": "docs: verificar documentação da Sprint 1 (#34)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/64",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-14T21:47:58Z",
+    "updated_at": "2026-10-14T22:04:49Z",
+    "closed_at": "2026-10-14T22:04:49Z",
+    "merged_at": "2026-10-14T22:04:49Z",
+    "merge_commit_sha": "96fb7222fdb34ca22659da27a923709f8d32ae5a",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/34-verificar-documentacao",
+      "sha": "38897755317da11f986a3aa3b70d10da1a7647ba"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "048dce6de47f122edfa513eec40553afaa4245c6"
+    }
+  },
+  {
+    "id": 4864820892,
+    "number": 63,
+    "title": "docs: verificar documentação da Sprint 1 (#34)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/63",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-14T21:31:34Z",
+    "updated_at": "2026-10-14T21:47:52Z",
+    "closed_at": "2026-10-14T21:47:52Z",
+    "merged_at": null,
+    "merge_commit_sha": "b4caa39f07db7a8ce9762f5a3a6f0f8ea8c6fc86",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/34-verificar-documentacao",
+      "sha": "38897755317da11f986a3aa3b70d10da1a7647ba"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "048dce6de47f122edfa513eec40553afaa4245c6"
+    }
+  },
+  {
+    "id": 4863966373,
+    "number": 62,
+    "title": "docs: retrospectiva e métricas da Sprint 1",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/62",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-14T20:19:07Z",
+    "updated_at": "2026-10-16T22:56:10Z",
+    "closed_at": "2026-10-16T22:56:10Z",
+    "merged_at": "2026-10-16T22:56:10Z",
+    "merge_commit_sha": "f64c5252f51b42a6ac62791fc0bc378250fef03d",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/s1-entregaveis",
+      "sha": "feac4bdda0c65e60280078fc0733caffe3a3ea92"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "96fb7222fdb34ca22659da27a923709f8d32ae5a"
+    }
+  },
+  {
+    "id": 4849578858,
+    "number": 60,
+    "title": "ci: executar a suíte completa de testes da Sprint 1",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/60",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-13T21:16:11Z",
+    "updated_at": "2026-10-14T12:38:08Z",
+    "closed_at": "2026-10-14T12:38:08Z",
+    "merged_at": "2026-10-14T12:38:08Z",
+    "merge_commit_sha": "048dce6de47f122edfa513eec40553afaa4245c6",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "s1-21-executar-suite",
+      "sha": "8eab97ffeeceef4778c77dd226edec1623c33837"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "ef32580d0576725c955fb398fbfa3faf41fdb9c8"
+    }
+  },
+  {
+    "id": 4848944744,
+    "number": 59,
+    "title": "test: Validar migrações e operações com PostgreSQL real",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/59",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-13T20:17:46Z",
+    "updated_at": "2026-10-13T22:19:01Z",
+    "closed_at": "2026-10-13T22:19:00Z",
+    "merged_at": "2026-10-13T22:19:00Z",
+    "merge_commit_sha": "ef32580d0576725c955fb398fbfa3faf41fdb9c8",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/31-testar-migracoes-postgres",
+      "sha": "d82c875489513f97b2767dac79587822660617ca"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "87eddc1092f1a80c63b52be51c656e8ecb971617"
+    }
+  },
+  {
+    "id": 4848499613,
+    "number": 58,
+    "title": "Feat/30 Testes http em memória",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/58",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-13T19:39:04Z",
+    "updated_at": "2026-10-13T20:15:12Z",
+    "closed_at": "2026-10-13T20:15:12Z",
+    "merged_at": "2026-10-13T20:15:12Z",
+    "merge_commit_sha": "87eddc1092f1a80c63b52be51c656e8ecb971617",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/30-testes-http-em-memória",
+      "sha": "163f7290b48e684cb1cc5643d2c88cc6c7829da8"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "d596b2006f7e5230364a1e5bbe899707cd48bf95"
+    }
+  },
+  {
+    "id": 4830933165,
+    "number": 57,
+    "title": "feat: registrar baixa e descarte de lote",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/57",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-12T14:37:14Z",
+    "updated_at": "2026-10-14T22:00:30Z",
+    "closed_at": "2026-10-12T19:59:35Z",
+    "merged_at": "2026-10-12T19:59:35Z",
+    "merge_commit_sha": "d596b2006f7e5230364a1e5bbe899707cd48bf95",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/54-registrar-baixa-e-descarte-de-lote",
+      "sha": "557c902b4d61277aa1dea8fd6cfae1c0ff03631b"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "54c7f28b49077946612783436721dd67d7197817"
+    }
+  },
+  {
+    "id": 4814880653,
+    "number": 56,
+    "title": "Feat/18 Cobrir regras com testes sem banco",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/56",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-10T22:27:36Z",
+    "updated_at": "2026-10-11T01:01:32Z",
+    "closed_at": "2026-10-11T01:01:31Z",
+    "merged_at": "2026-10-11T01:01:30Z",
+    "merge_commit_sha": "22b74df7580c027a198c6b9c5da58a2533c65197",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/18-cobrir-regras-com-testes-sem-banco",
+      "sha": "e52ef8ea155212dcb3e0a78106f5e131f5832915"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "43b39d9931d4a009d5cf6e0c9b556f0e86c76089"
+    }
+  },
+  {
+    "id": 4808765828,
+    "number": 55,
+    "title": "Feat/33 Publicar OpenAPI e Swagger UI",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/55",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-10T04:44:21Z",
+    "updated_at": "2026-10-12T18:49:19Z",
+    "closed_at": "2026-10-12T18:49:19Z",
+    "merged_at": "2026-10-12T18:49:19Z",
+    "merge_commit_sha": "54c7f28b49077946612783436721dd67d7197817",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/33-openapi-swagger",
+      "sha": "44bdfdf5fb3c6e31f104238634c423e82cb45fbf"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "43b39d9931d4a009d5cf6e0c9b556f0e86c76089"
+    }
+  },
+  {
+    "id": 4772455833,
+    "number": 53,
+    "title": "feat: atualizar lote e revalidar alocação",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/53",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-07T12:14:15Z",
+    "updated_at": "2026-10-09T17:18:01Z",
+    "closed_at": "2026-10-09T17:18:01Z",
+    "merged_at": "2026-10-09T17:18:01Z",
+    "merge_commit_sha": "43b39d9931d4a009d5cf6e0c9b556f0e86c76089",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/24-atualizar-lote",
+      "sha": "01505f6b1965b871cd1ee7c001a63c03928c0697"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "a667aeb179809c0e2916a59fef7632557a07ed13"
+    }
+  },
+  {
+    "id": 4730278299,
+    "number": 52,
+    "title": "Feat/22 Cadastrar lote",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/52",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-03T22:44:59Z",
+    "updated_at": "2026-10-04T02:39:59Z",
+    "closed_at": "2026-10-04T02:39:59Z",
+    "merged_at": "2026-10-04T02:39:59Z",
+    "merge_commit_sha": "bfed26b5e4c777b209cf368a0bf4af11babea14e",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/22-cadastrar-lote",
+      "sha": "fc881078848be19636473e5738291c495bf343d5"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "8cb003db29a5bbee61fd1cace9be9640ae950dd7"
+    }
+  },
+  {
+    "id": 4723685351,
+    "number": 51,
+    "title": "Feat/27 Listagem de lotes com filtros e paginação",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/51",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-03T03:12:42Z",
+    "updated_at": "2026-10-03T13:44:25Z",
+    "closed_at": "2026-10-03T13:44:25Z",
+    "merged_at": "2026-10-03T13:44:25Z",
+    "merge_commit_sha": "8cb003db29a5bbee61fd1cace9be9640ae950dd7",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/27-listar-lotes",
+      "sha": "b353d3b56215211d7c7bfc0fb62949c72dd83905"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "93a0106909f6d87680ee3ca4b567e01782cf773f"
+    }
+  },
+  {
+    "id": 4719968904,
+    "number": 50,
+    "title": "test: adiciona ArchUnit para verificar domínio e dependências entre camadas",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/50",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-02T18:27:00Z",
+    "updated_at": "2026-10-02T19:27:13Z",
+    "closed_at": "2026-10-02T19:27:13Z",
+    "merged_at": "2026-10-02T19:27:13Z",
+    "merge_commit_sha": "93a0106909f6d87680ee3ca4b567e01782cf773f",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "s1-17-verificar-dependencias",
+      "sha": "e034639d5a3ec93551c2c4d9906926f50c2b98bd"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "9eb9623acdc5df2bc22e1f21676e8e0b3fced4e3"
+    }
+  },
+  {
+    "id": 4718983204,
+    "number": 49,
+    "title": "feat: implementar inativação de lotes",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/49",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-02T16:41:27Z",
+    "updated_at": "2026-10-02T17:41:11Z",
+    "closed_at": "2026-10-02T17:41:11Z",
+    "merged_at": "2026-10-02T17:41:11Z",
+    "merge_commit_sha": "9eb9623acdc5df2bc22e1f21676e8e0b3fced4e3",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "s1-14-inativar-lote",
+      "sha": "5ea7ec146feca46defbbb36f4128320d25c8456b"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "2bcc8fdaee864b9d6b3c2a11c4461585091692e0"
+    }
+  },
+  {
+    "id": 4718462693,
+    "number": 48,
+    "title": "feat: listar câmaras com filtros e paginação",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/48",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-02T15:47:51Z",
+    "updated_at": "2026-10-02T17:33:56Z",
+    "closed_at": "2026-10-02T17:33:56Z",
+    "merged_at": "2026-10-02T17:33:55Z",
+    "merge_commit_sha": "aac4d8848679c8ccdf7c3f76789657b1fe1880c8",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "s1-15-listar-camaras",
+      "sha": "3420d2b27abd99674a235b188927fc87e2db5d22"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "f89a7b1c5d30224ceb788c82bf37236fa069d990"
+    }
+  },
+  {
+    "id": 4717237032,
+    "number": 47,
+    "title": "feat: atualizar camara",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/47",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-02T13:50:08Z",
+    "updated_at": "2026-10-07T02:46:58Z",
+    "closed_at": "2026-10-07T02:46:58Z",
+    "merged_at": "2026-10-07T02:46:58Z",
+    "merge_commit_sha": "a667aeb179809c0e2916a59fef7632557a07ed13",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/20-atualizar-câmara-e-proteger-sua-capacidade",
+      "sha": "4a0c1f03c2704a976649178e8fc3a7cfd65b6db3"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "f89a7b1c5d30224ceb788c82bf37236fa069d990"
+    }
+  },
+  {
+    "id": 4709494079,
+    "number": 46,
+    "title": "Feat/23 Consultar lote",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/46",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-01T20:55:51Z",
+    "updated_at": "2026-10-02T16:58:46Z",
+    "closed_at": "2026-10-02T16:58:46Z",
+    "merged_at": "2026-10-02T16:58:46Z",
+    "merge_commit_sha": "2bcc8fdaee864b9d6b3c2a11c4461585091692e0",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/23-consultar-lote",
+      "sha": "04b82428f29febedcbb11184d2aae053fcde6e5f"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "f89a7b1c5d30224ceb788c82bf37236fa069d990"
+    }
+  },
+  {
+    "id": 4698622755,
+    "number": 45,
+    "title": "Feat/21 Inativar câmara",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/45",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-10-01T02:55:00Z",
+    "updated_at": "2026-10-01T20:51:40Z",
+    "closed_at": "2026-10-01T20:51:40Z",
+    "merged_at": "2026-10-01T20:51:40Z",
+    "merge_commit_sha": "f89a7b1c5d30224ceb788c82bf37236fa069d990",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/21-inativar-camara",
+      "sha": "f200e9b3b4e78e0a60a45831db6c5b46c2aacfca"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "a8ef0e1d2afac74c2a70e207ada37a5359ac611b"
+    }
+  },
+  {
+    "id": 4683462192,
+    "number": 44,
+    "title": "Feat/18 Cadastrar câmara",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/44",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-29T22:43:56Z",
+    "updated_at": "2026-10-01T02:57:40Z",
+    "closed_at": "2026-09-30T20:27:11Z",
+    "merged_at": "2026-09-30T20:27:11Z",
+    "merge_commit_sha": "39a3993d45614a5893737f442c55239719af60e2",
+    "user": {
+      "login": "AndreMattheus",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/18-cadastrar-câmara",
+      "sha": "2841e6c0855ba74ced865b07452e818795296a1e"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "f83c70de88d821d2ee525e6bb6d10f826d865f22"
+    }
+  },
+  {
+    "id": 4682192051,
+    "number": 43,
+    "title": "feat: consulta camara por ID com ocupacao e DTO",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/43",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-29T20:25:21Z",
+    "updated_at": "2026-10-01T02:57:20Z",
+    "closed_at": "2026-09-30T20:37:04Z",
+    "merged_at": "2026-09-30T20:37:04Z",
+    "merge_commit_sha": "a8ef0e1d2afac74c2a70e207ada37a5359ac611b",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/s1-08-consultar-camara",
+      "sha": "e0feb64e0422000a980c93b61643904d98c6cb52"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "f83c70de88d821d2ee525e6bb6d10f826d865f22"
+    }
+  },
+  {
+    "id": 4665060627,
+    "number": 42,
+    "title": "Feat/16 persistir lotes",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/42",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-28T14:27:50Z",
+    "updated_at": "2026-09-28T21:07:19Z",
+    "closed_at": "2026-09-28T21:07:19Z",
+    "merged_at": "2026-09-28T21:07:19Z",
+    "merge_commit_sha": "f83c70de88d821d2ee525e6bb6d10f826d865f22",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/16-persistir-lotes",
+      "sha": "3cde88e964d61d366ffb1ce5e02498dcaf8c3945"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "7d74817866bfa622e8b3c1473be87375748dbdf0"
+    }
+  },
+  {
+    "id": 4650005620,
+    "number": 41,
+    "title": "Feat/04 Persistir câmaras, migração, repositório",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/41",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-26T22:08:41Z",
+    "updated_at": "2026-09-27T19:30:43Z",
+    "closed_at": "2026-09-27T19:30:43Z",
+    "merged_at": "2026-09-27T19:30:43Z",
+    "merge_commit_sha": "8de81a8c4ce7c4906a3c6b9a6dfe98947b56e7aa",
+    "user": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feature/s1-04-tabela-camaras-panache",
+      "sha": "5578cb9f2057ea85997ddc9d80f5ec5f16446612"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "2497e23045c3cc55140ca587624c0090d7e41a45"
+    }
+  },
+  {
+    "id": 4648258331,
+    "number": 40,
+    "title": "feat: Bean Validation e Problem Details centralizado (S1-06)",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/40",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-26T16:34:29Z",
+    "updated_at": "2026-09-28T18:11:51Z",
+    "closed_at": "2026-09-28T18:11:51Z",
+    "merged_at": "2026-09-28T18:11:51Z",
+    "merge_commit_sha": "7d74817866bfa622e8b3c1473be87375748dbdf0",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feature/17-padronizar-validações-e-respostas-problem-details",
+      "sha": "7d048bee4c6a6223b722f1e95978632524c630c6"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "8de81a8c4ce7c4906a3c6b9a6dfe98947b56e7aa"
+    }
+  },
+  {
+    "id": 4647890222,
+    "number": 39,
+    "title": "Feat/14 dominio portas memoria",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/39",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-26T15:24:13Z",
+    "updated_at": "2026-10-02T17:19:23Z",
+    "closed_at": "2026-09-26T18:02:06Z",
+    "merged_at": "2026-09-26T18:02:06Z",
+    "merge_commit_sha": "150f6a673a2da7761ab2da96b879aeb0605333e0",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/14-dominio-portas-memoria",
+      "sha": "b78490e56967dde4b747cffa9a080bf026fcbb81"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "5cfb154944991509e9269803601acf8e5498d9fc"
+    }
+  },
+  {
+    "id": 4647888841,
+    "number": 38,
+    "title": "Feat/13 postgres flyway",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/38",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-26T15:23:57Z",
+    "updated_at": "2026-09-27T17:10:37Z",
+    "closed_at": "2026-09-27T17:10:37Z",
+    "merged_at": "2026-09-27T17:10:37Z",
+    "merge_commit_sha": "2497e23045c3cc55140ca587624c0090d7e41a45",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "feat/13-postgres-flyway",
+      "sha": "503487886e165aed721e3e90ac0eeec203db89d3"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "5cfb154944991509e9269803601acf8e5498d9fc"
+    }
+  },
+  {
+    "id": 4647356959,
+    "number": 37,
+    "title": "docs: remove regra antiga de manutencao e corrige rota /uso para /baixas",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/37",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-26T13:40:24Z",
+    "updated_at": "2026-09-26T21:56:13Z",
+    "closed_at": "2026-09-26T13:55:19Z",
+    "merged_at": "2026-09-26T13:55:19Z",
+    "merge_commit_sha": "5cfb154944991509e9269803601acf8e5498d9fc",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/corrige-manutencao-e-rota-baixa",
+      "sha": "fa73162edbb93bd350a88d51b5223696dfe0ad18"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "ba15f7b0a3338ba2c132dce39d46661385de85c0"
+    }
+  },
+  {
+    "id": 4630238380,
+    "number": 36,
+    "title": "Docs/12 contratos regras arquitetura",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/36",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-24T19:37:19Z",
+    "updated_at": "2026-09-26T21:56:15Z",
+    "closed_at": "2026-09-25T01:27:50Z",
+    "merged_at": "2026-09-25T01:27:50Z",
+    "merge_commit_sha": "ba15f7b0a3338ba2c132dce39d46661385de85c0",
+    "user": {
+      "login": "biancammedeiros",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/12-contratos-regras-arquitetura",
+      "sha": "bacb639dd6c563e4dfc58340e667c6dcd7959a7b"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "e5d59dc0ddb2ddedda15d8605fdfb7ce96d38a17"
+    }
+  },
+  {
+    "id": 4618214258,
+    "number": 35,
+    "title": "[S1-01] Define contratos, regras e arquitetura",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/35",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-23T20:16:20Z",
+    "updated_at": "2026-09-23T20:17:26Z",
+    "closed_at": "2026-09-23T20:17:24Z",
+    "merged_at": null,
+    "merge_commit_sha": "880d78ec3b0db0001d3b4ad534336a9fcc3c815f",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "docs/12-contratos-regras-arquitetura",
+      "sha": "7f2a49ec3dd9844cb05b820ec9b44ed748c3a890"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "e5d59dc0ddb2ddedda15d8605fdfb7ce96d38a17"
+    }
+  },
+  {
+    "id": 4543495112,
+    "number": 11,
+    "title": "Update GitHub links in README.md",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/pull/11",
+    "state": "closed",
+    "draft": false,
+    "created_at": "2026-09-16T02:53:10Z",
+    "updated_at": "2026-09-26T21:56:15Z",
+    "closed_at": "2026-09-16T17:19:12Z",
+    "merged_at": "2026-09-16T17:19:12Z",
+    "merge_commit_sha": "e5d59dc0ddb2ddedda15d8605fdfb7ce96d38a17",
+    "user": {
+      "login": "leonardonadson",
+      "type": "User"
+    },
+    "head": {
+      "ref": "chore/atualizacao-readme",
+      "sha": "06d9f3150cc2e488d41b0e694b87ff598a89c395"
+    },
+    "base": {
+      "ref": "main",
+      "sha": "b2a1f602db8b87bb158181b87f36961468cfb416"
+    }
+  }
+]

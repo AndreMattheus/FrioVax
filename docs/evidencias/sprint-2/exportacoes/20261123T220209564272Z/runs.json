@@ -1,0 +1,5906 @@
+[
+  {
+    "id": 45255993419,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "44e310bc21e89030244294b350a43e57199e92a6",
+    "head_branch": "feat/85-ampliar-ci-e-checks-obrigatorios-estaveis",
+    "created_at": "2026-11-23T20:07:10Z",
+    "updated_at": "2026-11-23T20:10:13Z",
+    "run_started_at": "2026-11-23T20:07:10Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45255993419",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45249139211,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "44e310bc21e89030244294b350a43e57199e92a6",
+    "head_branch": "main",
+    "created_at": "2026-11-23T19:27:29Z",
+    "updated_at": "2026-11-23T19:30:48Z",
+    "run_started_at": "2026-11-23T19:27:29Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45249139211",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45248582125,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "44e310bc21e89030244294b350a43e57199e92a6",
+    "head_branch": "main",
+    "created_at": "2026-11-23T19:24:17Z",
+    "updated_at": "2026-11-23T19:27:25Z",
+    "run_started_at": "2026-11-23T19:24:17Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45248582125",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45227820952,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "95263e1c26822814388663238a5f65fa7394f71f",
+    "head_branch": "feat/78-administrar-politica",
+    "created_at": "2026-11-23T17:27:11Z",
+    "updated_at": "2026-11-23T17:30:19Z",
+    "run_started_at": "2026-11-23T17:27:11Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45227820952",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45227807346,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "95263e1c26822814388663238a5f65fa7394f71f",
+    "head_branch": "feat/78-administrar-politica",
+    "created_at": "2026-11-23T17:27:07Z",
+    "updated_at": "2026-11-23T17:29:55Z",
+    "run_started_at": "2026-11-23T17:27:07Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45227807346",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45220137662,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e62dff8115d93c8cdac3f6696b7d7a2b0a9ec9d1",
+    "head_branch": "feat/78-administrar-politica",
+    "created_at": "2026-11-23T16:45:47Z",
+    "updated_at": "2026-11-23T16:48:11Z",
+    "run_started_at": "2026-11-23T16:45:47Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45220137662",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45220118447,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e62dff8115d93c8cdac3f6696b7d7a2b0a9ec9d1",
+    "head_branch": "feat/78-administrar-politica",
+    "created_at": "2026-11-23T16:45:41Z",
+    "updated_at": "2026-11-23T16:48:38Z",
+    "run_started_at": "2026-11-23T16:45:41Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45220118447",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45219212171,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "291bd729e73293ac2b6cba3cf353a21ace3d1b52",
+    "head_branch": "main",
+    "created_at": "2026-11-23T16:40:48Z",
+    "updated_at": "2026-11-23T16:43:49Z",
+    "run_started_at": "2026-11-23T16:40:48Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45219212171",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45218671099,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "291bd729e73293ac2b6cba3cf353a21ace3d1b52",
+    "head_branch": "main",
+    "created_at": "2026-11-23T16:37:52Z",
+    "updated_at": "2026-11-23T16:40:44Z",
+    "run_started_at": "2026-11-23T16:37:52Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45218671099",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45217182880,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b39a4a0586dea9836373b9b84b7cfecfcf92c1bc",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-23T16:29:58Z",
+    "updated_at": "2026-11-23T16:32:28Z",
+    "run_started_at": "2026-11-23T16:29:58Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45217182880",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45217170461,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b39a4a0586dea9836373b9b84b7cfecfcf92c1bc",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-23T16:29:54Z",
+    "updated_at": "2026-11-23T16:32:34Z",
+    "run_started_at": "2026-11-23T16:29:54Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45217170461",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45216773023,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "4fbb71802daaad3759c61cb97546bc6c746d4866",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-23T16:27:44Z",
+    "updated_at": "2026-11-23T16:30:40Z",
+    "run_started_at": "2026-11-23T16:27:44Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45216773023",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45216755590,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "4fbb71802daaad3759c61cb97546bc6c746d4866",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-23T16:27:39Z",
+    "updated_at": "2026-11-23T16:30:11Z",
+    "run_started_at": "2026-11-23T16:27:39Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45216755590",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45216660212,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "0b7e2adf6ef215667dbaa6adf1206a9b62b315b1",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-23T16:27:09Z",
+    "updated_at": "2026-11-23T16:29:38Z",
+    "run_started_at": "2026-11-23T16:27:09Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45216660212",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45216639728,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "0b7e2adf6ef215667dbaa6adf1206a9b62b315b1",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-23T16:27:02Z",
+    "updated_at": "2026-11-23T16:29:53Z",
+    "run_started_at": "2026-11-23T16:27:02Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45216639728",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45216319379,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8ed21c85ba56550bba1ff83fc9f68ae5924e5f23",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-23T16:25:23Z",
+    "updated_at": "2026-11-23T16:27:42Z",
+    "run_started_at": "2026-11-23T16:25:23Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45216319379",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45216305693,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8ed21c85ba56550bba1ff83fc9f68ae5924e5f23",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-23T16:25:19Z",
+    "updated_at": "2026-11-23T16:28:14Z",
+    "run_started_at": "2026-11-23T16:25:19Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45216305693",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45215950113,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f0cee95f774bc360499c6520a60583da1f69c549",
+    "head_branch": "feat/78-administrar-politica",
+    "created_at": "2026-11-23T16:23:26Z",
+    "updated_at": "2026-11-23T16:25:35Z",
+    "run_started_at": "2026-11-23T16:23:26Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45215950113",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45215683718,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f0cee95f774bc360499c6520a60583da1f69c549",
+    "head_branch": "feat/78-administrar-politica",
+    "created_at": "2026-11-23T16:22:03Z",
+    "updated_at": "2026-11-23T16:24:56Z",
+    "run_started_at": "2026-11-23T16:22:03Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45215683718",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45205812656,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d4125bb24c7e8758838d8028a58b88557dd0d5e3",
+    "head_branch": "feat/78-administrar-politica",
+    "created_at": "2026-11-23T15:29:30Z",
+    "updated_at": "2026-11-23T15:32:31Z",
+    "run_started_at": "2026-11-23T15:29:30Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45205812656",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45072202283,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "19c5386bb775fac713304240abb1677cdf7404e5",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-22T21:27:31Z",
+    "updated_at": "2026-11-22T21:29:54Z",
+    "run_started_at": "2026-11-22T21:27:31Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45072202283",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45071797673,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "19c5386bb775fac713304240abb1677cdf7404e5",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-22T21:23:01Z",
+    "updated_at": "2026-11-22T21:25:53Z",
+    "run_started_at": "2026-11-22T21:23:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45071797673",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45071750540,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "5bb9f5948d98b63ce9bb433cc179887a87a009e2",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-22T21:22:31Z",
+    "updated_at": "2026-11-22T21:25:07Z",
+    "run_started_at": "2026-11-22T21:22:31Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45071750540",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45069476786,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d4125bb24c7e8758838d8028a58b88557dd0d5e3",
+    "head_branch": "main",
+    "created_at": "2026-11-22T20:59:08Z",
+    "updated_at": "2026-11-22T21:03:10Z",
+    "run_started_at": "2026-11-22T20:59:08Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45069476786",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45069271370,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d4125bb24c7e8758838d8028a58b88557dd0d5e3",
+    "head_branch": "main",
+    "created_at": "2026-11-22T20:56:46Z",
+    "updated_at": "2026-11-22T20:59:05Z",
+    "run_started_at": "2026-11-22T20:56:46Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45069271370",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45069024092,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "287e3d9b767f10f971f5d21d15e8b8d1f4370a87",
+    "head_branch": "feat/86-evidencia-protecao-main",
+    "created_at": "2026-11-22T20:54:01Z",
+    "updated_at": "2026-11-22T20:56:11Z",
+    "run_started_at": "2026-11-22T20:54:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45069024092",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45068250852,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "750c7729b23631525db8be231024090afe6eea82",
+    "head_branch": "feat/86-protecao-main",
+    "created_at": "2026-11-22T20:45:39Z",
+    "updated_at": "2026-11-22T20:48:18Z",
+    "run_started_at": "2026-11-22T20:45:39Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45068250852",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45068005312,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "750c7729b23631525db8be231024090afe6eea82",
+    "head_branch": "feat/86-protecao-main",
+    "created_at": "2026-11-22T20:43:04Z",
+    "updated_at": "2026-11-22T20:45:42Z",
+    "run_started_at": "2026-11-22T20:43:04Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45068005312",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 45066300816,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "287e3d9b767f10f971f5d21d15e8b8d1f4370a87",
+    "head_branch": "feat/86-protecao-main",
+    "created_at": "2026-11-22T20:24:54Z",
+    "updated_at": "2026-11-22T20:27:36Z",
+    "run_started_at": "2026-11-22T20:24:54Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45066300816",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44930206533,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2cebc47727df313a5f98b0877757fb2ce57f00d7",
+    "head_branch": "feat/77-consultar-leituras-e-ocorrencias-paginadas",
+    "created_at": "2026-11-21T17:28:12Z",
+    "updated_at": "2026-11-21T17:30:28Z",
+    "run_started_at": "2026-11-21T17:28:12Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44930206533",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44930200824,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2cebc47727df313a5f98b0877757fb2ce57f00d7",
+    "head_branch": "feat/77-consultar-leituras-e-ocorrencias-paginadas",
+    "created_at": "2026-11-21T17:28:08Z",
+    "updated_at": "2026-11-21T17:30:16Z",
+    "run_started_at": "2026-11-21T17:28:08Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44930200824",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44929428552,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "287e3d9b767f10f971f5d21d15e8b8d1f4370a87",
+    "head_branch": "main",
+    "created_at": "2026-11-21T17:19:45Z",
+    "updated_at": "2026-11-21T17:23:13Z",
+    "run_started_at": "2026-11-21T17:19:45Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44929428552",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44929193000,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "287e3d9b767f10f971f5d21d15e8b8d1f4370a87",
+    "head_branch": "main",
+    "created_at": "2026-11-21T17:17:09Z",
+    "updated_at": "2026-11-21T17:19:41Z",
+    "run_started_at": "2026-11-21T17:17:09Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44929193000",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44928872604,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e0afc6ddc549753080fc9d3d230e2a85bee2c262",
+    "head_branch": "feat/s2-18-auditar-alteracoes-confirmadas",
+    "created_at": "2026-11-21T17:13:37Z",
+    "updated_at": "2026-11-21T17:16:14Z",
+    "run_started_at": "2026-11-21T17:13:37Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44928872604",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44928867695,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e0afc6ddc549753080fc9d3d230e2a85bee2c262",
+    "head_branch": "feat/s2-18-auditar-alteracoes-confirmadas",
+    "created_at": "2026-11-21T17:13:33Z",
+    "updated_at": "2026-11-21T17:16:20Z",
+    "run_started_at": "2026-11-21T17:13:33Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44928867695",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44914026208,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b602ba1f1880fde77869ff4f1df79d27ba03b3c7",
+    "head_branch": "main",
+    "created_at": "2026-11-21T14:27:30Z",
+    "updated_at": "2026-11-21T14:31:03Z",
+    "run_started_at": "2026-11-21T14:27:30Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44914026208",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44913813532,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b602ba1f1880fde77869ff4f1df79d27ba03b3c7",
+    "head_branch": "main",
+    "created_at": "2026-11-21T14:25:01Z",
+    "updated_at": "2026-11-21T14:27:23Z",
+    "run_started_at": "2026-11-21T14:25:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44913813532",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44848306881,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8277cc3ed37c625546fa81f000baa6658e9f0626",
+    "head_branch": "feat/77-consultar-leituras-e-ocorrencias-paginadas",
+    "created_at": "2026-11-21T01:08:11Z",
+    "updated_at": "2026-11-21T01:10:24Z",
+    "run_started_at": "2026-11-21T01:08:11Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44848306881",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44848006279,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8277cc3ed37c625546fa81f000baa6658e9f0626",
+    "head_branch": "feat/77-consultar-leituras-e-ocorrencias-paginadas",
+    "created_at": "2026-11-21T01:05:16Z",
+    "updated_at": "2026-11-21T01:08:19Z",
+    "run_started_at": "2026-11-21T01:05:16Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44848006279",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44845876642,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "4cdadb23535ed6b499953e7fe8cdc4ad24ffd497",
+    "head_branch": "feat/74-receber-leitura",
+    "created_at": "2026-11-21T00:45:05Z",
+    "updated_at": "2026-11-21T00:47:34Z",
+    "run_started_at": "2026-11-21T00:45:05Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44845876642",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44845786155,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "4cdadb23535ed6b499953e7fe8cdc4ad24ffd497",
+    "head_branch": "feat/74-receber-leitura",
+    "created_at": "2026-11-21T00:44:13Z",
+    "updated_at": "2026-11-21T00:46:31Z",
+    "run_started_at": "2026-11-21T00:44:13Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44845786155",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44845398343,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d6aa4a6b0d4ae5a78ead79ed6eb48a96fabaa320",
+    "head_branch": "feat/77-consultar-leituras-e-ocorrencias-paginadas",
+    "created_at": "2026-11-21T00:40:36Z",
+    "updated_at": "2026-11-21T00:43:10Z",
+    "run_started_at": "2026-11-21T00:40:36Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44845398343",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44843052133,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2b324b0610f7e1fea10dc95f6cb6de5b1e953063",
+    "head_branch": "feat/77-consultar-leituras-e-ocorrencias-paginadas",
+    "created_at": "2026-11-21T00:19:31Z",
+    "updated_at": "2026-11-21T00:21:52Z",
+    "run_started_at": "2026-11-21T00:19:31Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44843052133",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44669210609,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2b324b0610f7e1fea10dc95f6cb6de5b1e953063",
+    "head_branch": "main",
+    "created_at": "2026-11-20T03:39:31Z",
+    "updated_at": "2026-11-20T03:42:26Z",
+    "run_started_at": "2026-11-20T03:39:31Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44669210609",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44668984330,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2b324b0610f7e1fea10dc95f6cb6de5b1e953063",
+    "head_branch": "main",
+    "created_at": "2026-11-20T03:37:26Z",
+    "updated_at": "2026-11-20T03:39:27Z",
+    "run_started_at": "2026-11-20T03:37:26Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44668984330",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44662617128,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "eadcaf54765131bc868ce6c9c61c162a5152c740",
+    "head_branch": "feat/s2-18-auditar-alteracoes-confirmadas",
+    "created_at": "2026-11-20T02:41:44Z",
+    "updated_at": "2026-11-20T02:43:27Z",
+    "run_started_at": "2026-11-20T02:41:44Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44662617128",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44662215150,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "eadcaf54765131bc868ce6c9c61c162a5152c740",
+    "head_branch": "feat/s2-18-auditar-alteracoes-confirmadas",
+    "created_at": "2026-11-20T02:38:15Z",
+    "updated_at": "2026-11-20T02:40:38Z",
+    "run_started_at": "2026-11-20T02:38:15Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44662215150",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44658738234,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2a7aea4960245671b8f34e376db89ae23dfdc35f",
+    "head_branch": "feat/s2-18-auditar-alteracoes-confirmadas",
+    "created_at": "2026-11-20T02:09:14Z",
+    "updated_at": "2026-11-20T02:11:15Z",
+    "run_started_at": "2026-11-20T02:09:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44658738234",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44657655132,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "14d0e4032863a8340741b250ab6aba6cb582d7e5",
+    "head_branch": "feat/s2-18-auditar-alteracoes-confirmadas",
+    "created_at": "2026-11-20T02:00:19Z",
+    "updated_at": "2026-11-20T02:02:11Z",
+    "run_started_at": "2026-11-20T02:00:19Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44657655132",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44657491778,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "daf1dda6fcb60021183d503a51ac3637ac10f386",
+    "head_branch": "feat/s2-18-auditar-alteracoes-confirmadas",
+    "created_at": "2026-11-20T01:58:55Z",
+    "updated_at": "2026-11-20T02:00:59Z",
+    "run_started_at": "2026-11-20T01:58:55Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44657491778",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44640307388,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "12010998f20bc2893bd01fa008c8822998f22d6c",
+    "head_branch": "feat/77-consultar-leituras-e-ocorrencias-paginadas",
+    "created_at": "2026-11-19T23:45:30Z",
+    "updated_at": "2026-11-19T23:47:29Z",
+    "run_started_at": "2026-11-19T23:45:30Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44640307388",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44368322350,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "12010998f20bc2893bd01fa008c8822998f22d6c",
+    "head_branch": "main",
+    "created_at": "2026-11-18T18:18:50Z",
+    "updated_at": "2026-11-18T18:21:32Z",
+    "run_started_at": "2026-11-18T18:18:50Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44368322350",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44367905229,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "12010998f20bc2893bd01fa008c8822998f22d6c",
+    "head_branch": "main",
+    "created_at": "2026-11-18T18:16:34Z",
+    "updated_at": "2026-11-18T18:18:45Z",
+    "run_started_at": "2026-11-18T18:16:34Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44367905229",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44340589822,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6c73329a2e01b20f96d8d41fa1fe349e5490ed2f",
+    "head_branch": "feat/84-containers-saude-clone",
+    "created_at": "2026-11-18T15:52:14Z",
+    "updated_at": "2026-11-18T15:54:21Z",
+    "run_started_at": "2026-11-18T15:52:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44340589822",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44340479946,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6c73329a2e01b20f96d8d41fa1fe349e5490ed2f",
+    "head_branch": "feat/84-containers-saude-clone",
+    "created_at": "2026-11-18T15:51:40Z",
+    "updated_at": "2026-11-18T15:53:51Z",
+    "run_started_at": "2026-11-18T15:51:40Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44340479946",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44327893740,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "89ed2539ec6e4c089c9053a515446224e0891e36",
+    "head_branch": "main",
+    "created_at": "2026-11-18T14:46:06Z",
+    "updated_at": "2026-11-18T14:49:41Z",
+    "run_started_at": "2026-11-18T14:46:06Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44327893740",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44327841409,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "89ed2539ec6e4c089c9053a515446224e0891e36",
+    "head_branch": "feat/s2-18-auditar-alteracoes-confirmadas",
+    "created_at": "2026-11-18T14:45:49Z",
+    "updated_at": "2026-11-18T14:48:21Z",
+    "run_started_at": "2026-11-18T14:45:49Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44327841409",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44327437113,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "89ed2539ec6e4c089c9053a515446224e0891e36",
+    "head_branch": "main",
+    "created_at": "2026-11-18T14:43:42Z",
+    "updated_at": "2026-11-18T14:46:03Z",
+    "run_started_at": "2026-11-18T14:43:42Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44327437113",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44151406804,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "235c4590188e81fceffb5de80a0bcc6903cb831d",
+    "head_branch": "feat/72-expor-análise-por-grpc-e-testar-servidor",
+    "created_at": "2026-11-17T18:46:14Z",
+    "updated_at": "2026-11-17T18:48:30Z",
+    "run_started_at": "2026-11-17T18:46:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44151406804",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44150497754,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "235c4590188e81fceffb5de80a0bcc6903cb831d",
+    "head_branch": "feat/72-expor-análise-por-grpc-e-testar-servidor",
+    "created_at": "2026-11-17T18:41:05Z",
+    "updated_at": "2026-11-17T18:43:13Z",
+    "run_started_at": "2026-11-17T18:41:05Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44150497754",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44148380158,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "5e777181981476c02f88a782afc5f532ee73a272",
+    "head_branch": "feat/92-comparar-revisao",
+    "created_at": "2026-11-17T18:29:24Z",
+    "updated_at": "2026-11-17T18:31:27Z",
+    "run_started_at": "2026-11-17T18:29:24Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44148380158",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44147959728,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "5e777181981476c02f88a782afc5f532ee73a272",
+    "head_branch": "feat/92-comparar-revisao",
+    "created_at": "2026-11-17T18:27:03Z",
+    "updated_at": "2026-11-17T18:29:22Z",
+    "run_started_at": "2026-11-17T18:27:03Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44147959728",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44144865321,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1cf80c4f0e7d872bec404ea2af21c3812a1143ea",
+    "head_branch": "feat/92-comparar-revisao",
+    "created_at": "2026-11-17T18:09:57Z",
+    "updated_at": "2026-11-17T18:11:59Z",
+    "run_started_at": "2026-11-17T18:09:57Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44144865321",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44142808476,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "4e44ce7efb6450550a6b9a0c0a718e6a73fa9e2e",
+    "head_branch": "feat/72-expor-análise-por-grpc-e-testar-servidor",
+    "created_at": "2026-11-17T17:58:35Z",
+    "updated_at": "2026-11-17T18:00:35Z",
+    "run_started_at": "2026-11-17T17:58:35Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44142808476",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44141997688,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1cf80c4f0e7d872bec404ea2af21c3812a1143ea",
+    "head_branch": "feat/72-expor-análise-por-grpc-e-testar-servidor",
+    "created_at": "2026-11-17T17:53:59Z",
+    "updated_at": "2026-11-17T17:55:34Z",
+    "run_started_at": "2026-11-17T17:53:59Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44141997688",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44128941726,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1cf80c4f0e7d872bec404ea2af21c3812a1143ea",
+    "head_branch": "main",
+    "created_at": "2026-11-17T16:43:10Z",
+    "updated_at": "2026-11-17T16:45:49Z",
+    "run_started_at": "2026-11-17T16:43:10Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44128941726",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44128555572,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1cf80c4f0e7d872bec404ea2af21c3812a1143ea",
+    "head_branch": "main",
+    "created_at": "2026-11-17T16:41:06Z",
+    "updated_at": "2026-11-17T16:43:05Z",
+    "run_started_at": "2026-11-17T16:41:06Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44128555572",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44127464969,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b554623b7acba1463b3453c6705d4eaf3d4506e6",
+    "head_branch": "main",
+    "created_at": "2026-11-17T16:35:18Z",
+    "updated_at": "2026-11-17T16:38:08Z",
+    "run_started_at": "2026-11-17T16:35:18Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44127464969",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44127096822,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b554623b7acba1463b3453c6705d4eaf3d4506e6",
+    "head_branch": "main",
+    "created_at": "2026-11-17T16:33:21Z",
+    "updated_at": "2026-11-17T16:35:13Z",
+    "run_started_at": "2026-11-17T16:33:21Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44127096822",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44105359962,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "10ed4862ab9c6056d57d2c907fda2bcda5ad3a2d",
+    "head_branch": "feat/71-implementar-analise-termica-pura-em-go",
+    "created_at": "2026-11-17T14:38:38Z",
+    "updated_at": "2026-11-17T14:40:50Z",
+    "run_started_at": "2026-11-17T14:38:38Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44105359962",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44104854268,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "10ed4862ab9c6056d57d2c907fda2bcda5ad3a2d",
+    "head_branch": "feat/71-implementar-analise-termica-pura-em-go",
+    "created_at": "2026-11-17T14:35:51Z",
+    "updated_at": "2026-11-17T14:38:11Z",
+    "run_started_at": "2026-11-17T14:35:51Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44104854268",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44102282962,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "dc87d8ff23c8c50f16165e61dc1281a9cda1453f",
+    "head_branch": "feat/71-implementar-analise-termica-pura-em-go",
+    "created_at": "2026-11-17T14:21:52Z",
+    "updated_at": "2026-11-17T14:23:48Z",
+    "run_started_at": "2026-11-17T14:21:52Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44102282962",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44099186796,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "33e7cb67c0f811ef56553c7a3a30cb81a3862eb3",
+    "head_branch": "feat/71-implementar-analise-termica-pura-em-go",
+    "created_at": "2026-11-17T14:04:41Z",
+    "updated_at": "2026-11-17T14:06:51Z",
+    "run_started_at": "2026-11-17T14:04:41Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44099186796",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44008155742,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "311827e0ba93ff067522b867639e464b5c46da0a",
+    "head_branch": "docs/91-fluxo-de-valor",
+    "created_at": "2026-11-17T03:09:22Z",
+    "updated_at": "2026-11-17T03:11:34Z",
+    "run_started_at": "2026-11-17T03:09:22Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44008155742",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 44008065730,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "311827e0ba93ff067522b867639e464b5c46da0a",
+    "head_branch": "docs/91-fluxo-de-valor",
+    "created_at": "2026-11-17T03:08:36Z",
+    "updated_at": "2026-11-17T03:10:58Z",
+    "run_started_at": "2026-11-17T03:08:36Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/44008065730",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43776998423,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "33e7cb67c0f811ef56553c7a3a30cb81a3862eb3",
+    "head_branch": "main",
+    "created_at": "2026-11-15T23:50:51Z",
+    "updated_at": "2026-11-15T23:54:41Z",
+    "run_started_at": "2026-11-15T23:50:51Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43776998423",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43776750679,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "33e7cb67c0f811ef56553c7a3a30cb81a3862eb3",
+    "head_branch": "main",
+    "created_at": "2026-11-15T23:48:00Z",
+    "updated_at": "2026-11-15T23:50:48Z",
+    "run_started_at": "2026-11-15T23:48:00Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43776750679",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43741860581,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6706097740f2ce7645875798e50ca2b780a49c7c",
+    "head_branch": "feat/79-resumo-cache-hit/miss",
+    "created_at": "2026-11-15T17:34:21Z",
+    "updated_at": "2026-11-15T17:36:59Z",
+    "run_started_at": "2026-11-15T17:34:21Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43741860581",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43741854619,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6706097740f2ce7645875798e50ca2b780a49c7c",
+    "head_branch": "feat/79-resumo-cache-hit/miss",
+    "created_at": "2026-11-15T17:34:18Z",
+    "updated_at": "2026-11-15T17:36:55Z",
+    "run_started_at": "2026-11-15T17:34:18Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43741854619",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43722642492,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1236585cf6fce93def1a613588ce2f8d8b8e1311",
+    "head_branch": "main",
+    "created_at": "2026-11-15T14:07:44Z",
+    "updated_at": "2026-11-15T14:10:56Z",
+    "run_started_at": "2026-11-15T14:07:44Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43722642492",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43722475470,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1236585cf6fce93def1a613588ce2f8d8b8e1311",
+    "head_branch": "main",
+    "created_at": "2026-11-15T14:05:56Z",
+    "updated_at": "2026-11-15T14:07:41Z",
+    "run_started_at": "2026-11-15T14:05:56Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43722475470",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43673823908,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e26655c825677fcf62709412f8416a6c9682b2e4",
+    "head_branch": "feat/73-cliente-grpc-java-porta",
+    "created_at": "2026-11-15T03:46:07Z",
+    "updated_at": "2026-11-15T03:48:00Z",
+    "run_started_at": "2026-11-15T03:46:07Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43673823908",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43673819395,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e26655c825677fcf62709412f8416a6c9682b2e4",
+    "head_branch": "feat/73-cliente-grpc-java-porta",
+    "created_at": "2026-11-15T03:46:04Z",
+    "updated_at": "2026-11-15T03:47:50Z",
+    "run_started_at": "2026-11-15T03:46:04Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43673819395",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43663829826,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3afc8fbd5eda9c4d6c6ded75a118dd0a9a3df246",
+    "head_branch": "feat/73-cliente-grpc-java-porta",
+    "created_at": "2026-11-15T01:35:47Z",
+    "updated_at": "2026-11-15T01:38:07Z",
+    "run_started_at": "2026-11-15T01:35:47Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43663829826",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43663826008,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3afc8fbd5eda9c4d6c6ded75a118dd0a9a3df246",
+    "head_branch": "feat/73-cliente-grpc-java-porta",
+    "created_at": "2026-11-15T01:35:44Z",
+    "updated_at": "2026-11-15T01:38:00Z",
+    "run_started_at": "2026-11-15T01:35:44Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43663826008",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43658303169,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "16ead1abbcbc589ced7f91f534ad6f7fcd5cd3a1",
+    "head_branch": "main",
+    "created_at": "2026-11-15T00:28:05Z",
+    "updated_at": "2026-11-15T00:30:49Z",
+    "run_started_at": "2026-11-15T00:28:05Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43658303169",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43658133577,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "16ead1abbcbc589ced7f91f534ad6f7fcd5cd3a1",
+    "head_branch": "main",
+    "created_at": "2026-11-15T00:25:57Z",
+    "updated_at": "2026-11-15T00:28:02Z",
+    "run_started_at": "2026-11-15T00:25:57Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43658133577",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43632101127,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1ad7f3fa34a0dfe9aa4e2ad1ebdc468dd16516d1",
+    "head_branch": "docs/88-evidencias-implantacao",
+    "created_at": "2026-11-14T19:26:29Z",
+    "updated_at": "2026-11-14T19:28:35Z",
+    "run_started_at": "2026-11-14T19:26:29Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43632101127",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43632095621,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1ad7f3fa34a0dfe9aa4e2ad1ebdc468dd16516d1",
+    "head_branch": "docs/88-evidencias-implantacao",
+    "created_at": "2026-11-14T19:26:26Z",
+    "updated_at": "2026-11-14T19:28:05Z",
+    "run_started_at": "2026-11-14T19:26:26Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43632095621",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43625433576,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d2a4bfd0735ab05ca75eb25208032a6b526a518a",
+    "head_branch": "docs/88-evidencias-implantacao",
+    "created_at": "2026-11-14T18:14:00Z",
+    "updated_at": "2026-11-14T18:15:52Z",
+    "run_started_at": "2026-11-14T18:14:00Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43625433576",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43625429352,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d2a4bfd0735ab05ca75eb25208032a6b526a518a",
+    "head_branch": "docs/88-evidencias-implantacao",
+    "created_at": "2026-11-14T18:13:57Z",
+    "updated_at": "2026-11-14T18:15:44Z",
+    "run_started_at": "2026-11-14T18:13:57Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43625429352",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43624689845,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a112003c8b3892e297ded608fc26c03b6f817886",
+    "head_branch": "docs/88-evidencias-implantacao",
+    "created_at": "2026-11-14T18:06:04Z",
+    "updated_at": "2026-11-14T18:08:02Z",
+    "run_started_at": "2026-11-14T18:06:04Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43624689845",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43624685200,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a112003c8b3892e297ded608fc26c03b6f817886",
+    "head_branch": "docs/88-evidencias-implantacao",
+    "created_at": "2026-11-14T18:06:01Z",
+    "updated_at": "2026-11-14T18:07:48Z",
+    "run_started_at": "2026-11-14T18:06:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43624685200",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43619720406,
+    "workflow_id": 414850679,
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e7cc742a9c501ec40f1cb32944e8762c23467368",
+    "head_branch": "main",
+    "created_at": "2026-11-14T17:11:10Z",
+    "updated_at": "2026-11-14T17:14:38Z",
+    "run_started_at": "2026-11-14T17:11:10Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43619720406",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43610990580,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "e7cc742a9c501ec40f1cb32944e8762c23467368",
+    "head_branch": "main",
+    "created_at": "2026-11-14T15:35:22Z",
+    "updated_at": "2026-11-14T15:35:33Z",
+    "run_started_at": "2026-11-14T15:35:22Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43610990580",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43610776087,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e7cc742a9c501ec40f1cb32944e8762c23467368",
+    "head_branch": "main",
+    "created_at": "2026-11-14T15:33:00Z",
+    "updated_at": "2026-11-14T15:35:20Z",
+    "run_started_at": "2026-11-14T15:33:00Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43610776087",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43609751735,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d596cd0136c639734cd177a7c9a51200281a2442",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-14T15:21:32Z",
+    "updated_at": "2026-11-14T15:23:39Z",
+    "run_started_at": "2026-11-14T15:21:32Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43609751735",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43609745149,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d596cd0136c639734cd177a7c9a51200281a2442",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-14T15:21:28Z",
+    "updated_at": "2026-11-14T15:23:37Z",
+    "run_started_at": "2026-11-14T15:21:28Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43609745149",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43608065929,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "05379ddee3605510669bc7a627c45fce40cf6c01",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-14T15:03:14Z",
+    "updated_at": "2026-11-14T15:05:06Z",
+    "run_started_at": "2026-11-14T15:03:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43608065929",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43608063388,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "05379ddee3605510669bc7a627c45fce40cf6c01",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-14T15:03:12Z",
+    "updated_at": "2026-11-14T15:04:43Z",
+    "run_started_at": "2026-11-14T15:03:12Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43608063388",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43606550027,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "42e39985581a6051bfd650767b4ec36cdb7ef890",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-14T14:45:50Z",
+    "updated_at": "2026-11-14T14:47:46Z",
+    "run_started_at": "2026-11-14T14:45:50Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43606550027",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43606544705,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "42e39985581a6051bfd650767b4ec36cdb7ef890",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-14T14:45:46Z",
+    "updated_at": "2026-11-14T14:47:42Z",
+    "run_started_at": "2026-11-14T14:45:46Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43606544705",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43488590889,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f14ee0dd36699e215f65a0fdb06693ff5900091e",
+    "head_branch": "docs/88-evidencias-implantacao",
+    "created_at": "2026-11-13T19:03:46Z",
+    "updated_at": "2026-11-13T19:05:40Z",
+    "run_started_at": "2026-11-13T19:03:46Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43488590889",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43487760225,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f14ee0dd36699e215f65a0fdb06693ff5900091e",
+    "head_branch": "docs/88-evidencias-implantacao",
+    "created_at": "2026-11-13T18:58:38Z",
+    "updated_at": "2026-11-13T19:00:53Z",
+    "run_started_at": "2026-11-13T18:58:38Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43487760225",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43484767266,
+    "workflow_id": 414850679,
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c51e2981773fed0a40fb85264c1bc5201b63269b",
+    "head_branch": "main",
+    "created_at": "2026-11-13T18:39:35Z",
+    "updated_at": "2026-11-13T18:42:21Z",
+    "run_started_at": "2026-11-13T18:39:35Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43484767266",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43483224086,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "4ff40e937f8ca50eada462eb188acc035b27e178",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-13T18:30:06Z",
+    "updated_at": "2026-11-13T18:32:01Z",
+    "run_started_at": "2026-11-13T18:30:06Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43483224086",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43483210140,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "4ff40e937f8ca50eada462eb188acc035b27e178",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-13T18:30:02Z",
+    "updated_at": "2026-11-13T18:31:42Z",
+    "run_started_at": "2026-11-13T18:30:02Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43483210140",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43478952365,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ca5c160d78b24a607eec0379c9868d5a8ff713ad",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-13T18:04:05Z",
+    "updated_at": "2026-11-13T18:05:42Z",
+    "run_started_at": "2026-11-13T18:04:05Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43478952365",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43478668407,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ca5c160d78b24a607eec0379c9868d5a8ff713ad",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-13T18:02:22Z",
+    "updated_at": "2026-11-13T18:04:13Z",
+    "run_started_at": "2026-11-13T18:02:22Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43478668407",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43476705265,
+    "workflow_id": 414850679,
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c51e2981773fed0a40fb85264c1bc5201b63269b",
+    "head_branch": "main",
+    "created_at": "2026-11-13T17:50:07Z",
+    "updated_at": "2026-11-13T17:53:54Z",
+    "run_started_at": "2026-11-13T17:50:07Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43476705265",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43473388886,
+    "workflow_id": 414850679,
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "c51e2981773fed0a40fb85264c1bc5201b63269b",
+    "head_branch": "main",
+    "created_at": "2026-11-13T17:30:03Z",
+    "updated_at": "2026-11-13T17:31:38Z",
+    "run_started_at": "2026-11-13T17:30:03Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43473388886",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43473041460,
+    "workflow_id": 414850679,
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "c51e2981773fed0a40fb85264c1bc5201b63269b",
+    "head_branch": "main",
+    "created_at": "2026-11-13T17:27:53Z",
+    "updated_at": "2026-11-13T17:28:07Z",
+    "run_started_at": "2026-11-13T17:27:53Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43473041460",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43050784665,
+    "workflow_id": 414850679,
+    "event": "workflow_run",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "c51e2981773fed0a40fb85264c1bc5201b63269b",
+    "head_branch": "main",
+    "created_at": "2026-11-11T15:40:57Z",
+    "updated_at": "2026-11-11T15:41:10Z",
+    "run_started_at": "2026-11-11T15:40:57Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43050784665",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43050460777,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c51e2981773fed0a40fb85264c1bc5201b63269b",
+    "head_branch": "main",
+    "created_at": "2026-11-11T15:38:58Z",
+    "updated_at": "2026-11-11T15:40:53Z",
+    "run_started_at": "2026-11-11T15:38:58Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43050460777",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43040470408,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "30c99f5b6d68709210396a958a982176a48fef16",
+    "head_branch": "feat/88-deploy-render-neon",
+    "created_at": "2026-11-11T14:38:48Z",
+    "updated_at": "2026-11-11T14:40:21Z",
+    "run_started_at": "2026-11-11T14:38:48Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43040470408",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 43040459839,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "30c99f5b6d68709210396a958a982176a48fef16",
+    "head_branch": "feat/88-deploy-render-neon",
+    "created_at": "2026-11-11T14:38:44Z",
+    "updated_at": "2026-11-11T14:40:23Z",
+    "run_started_at": "2026-11-11T14:38:44Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43040459839",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42900555412,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e66c80de7ef259bd6135d67e58c444e9355741d2",
+    "head_branch": "feat/88-deploy-render-neon",
+    "created_at": "2026-11-10T20:59:12Z",
+    "updated_at": "2026-11-10T21:01:09Z",
+    "run_started_at": "2026-11-10T20:59:12Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42900555412",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42900224740,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e66c80de7ef259bd6135d67e58c444e9355741d2",
+    "head_branch": "feat/88-deploy-render-neon",
+    "created_at": "2026-11-10T20:57:04Z",
+    "updated_at": "2026-11-10T20:58:44Z",
+    "run_started_at": "2026-11-10T20:57:04Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42900224740",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42900216683,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e66c80de7ef259bd6135d67e58c444e9355741d2",
+    "head_branch": "feat/88-deploy-render-neon",
+    "created_at": "2026-11-10T20:57:00Z",
+    "updated_at": "2026-11-10T20:58:38Z",
+    "run_started_at": "2026-11-10T20:57:00Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42900216683",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42899339650,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "9329f67060287b82f57077bb67686f7ab68a78a2",
+    "head_branch": "feat/88-deploy-render-neon",
+    "created_at": "2026-11-10T20:51:26Z",
+    "updated_at": "2026-11-10T20:53:07Z",
+    "run_started_at": "2026-11-10T20:51:26Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42899339650",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42899253280,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "9329f67060287b82f57077bb67686f7ab68a78a2",
+    "head_branch": "feat/88-deploy-render-neon",
+    "created_at": "2026-11-10T20:50:54Z",
+    "updated_at": "2026-11-10T20:52:29Z",
+    "run_started_at": "2026-11-10T20:50:54Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42899253280",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42719609229,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ad16ffa6c4a1edf194b9a53b63a809c6786e9807",
+    "head_branch": "main",
+    "created_at": "2026-11-09T23:20:09Z",
+    "updated_at": "2026-11-09T23:21:48Z",
+    "run_started_at": "2026-11-09T23:20:09Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42719609229",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42657377979,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c4998153b15f5d44a7668458d497001806950282",
+    "head_branch": "feat/70-persistir-leituras-ocorrencias-e-evidencias",
+    "created_at": "2026-11-09T16:41:52Z",
+    "updated_at": "2026-11-09T16:43:49Z",
+    "run_started_at": "2026-11-09T16:41:52Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42657377979",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42656536168,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "68df971405ca079acc629dd6429889bddae29e7e",
+    "head_branch": "docs/69-eventos-medicao",
+    "created_at": "2026-11-09T16:36:45Z",
+    "updated_at": "2026-11-09T16:38:34Z",
+    "run_started_at": "2026-11-09T16:36:45Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42656536168",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42656302686,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "68df971405ca079acc629dd6429889bddae29e7e",
+    "head_branch": "docs/69-eventos-medicao",
+    "created_at": "2026-11-09T16:35:24Z",
+    "updated_at": "2026-11-09T16:37:11Z",
+    "run_started_at": "2026-11-09T16:35:24Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42656302686",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42558729973,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c4998153b15f5d44a7668458d497001806950282",
+    "head_branch": "main",
+    "created_at": "2026-11-09T03:52:34Z",
+    "updated_at": "2026-11-09T03:54:20Z",
+    "run_started_at": "2026-11-09T03:52:34Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42558729973",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42507066353,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f8869c5ed2d57878c8993b698782bf8c2c45725e",
+    "head_branch": "feat/69-versionar-política-e-migrar-câmaras-existentes",
+    "created_at": "2026-11-08T17:51:49Z",
+    "updated_at": "2026-11-08T17:53:36Z",
+    "run_started_at": "2026-11-08T17:51:49Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42507066353",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42507061942,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f8869c5ed2d57878c8993b698782bf8c2c45725e",
+    "head_branch": "feat/69-versionar-política-e-migrar-câmaras-existentes",
+    "created_at": "2026-11-08T17:51:46Z",
+    "updated_at": "2026-11-08T17:53:37Z",
+    "run_started_at": "2026-11-08T17:51:46Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42507061942",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42506017441,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "dbd4273269e61737e6919b886dcf79b4db98d9ec",
+    "head_branch": "feat/69-versionar-política-e-migrar-câmaras-existentes",
+    "created_at": "2026-11-08T17:39:06Z",
+    "updated_at": "2026-11-08T17:40:39Z",
+    "run_started_at": "2026-11-08T17:39:06Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42506017441",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42505843806,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "dbd4273269e61737e6919b886dcf79b4db98d9ec",
+    "head_branch": "feat/69-versionar-política-e-migrar-câmaras-existentes",
+    "created_at": "2026-11-08T17:36:56Z",
+    "updated_at": "2026-11-08T17:38:18Z",
+    "run_started_at": "2026-11-08T17:36:56Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42505843806",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42503173351,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "496b3998dc3bd9334f7d7d8eb9dc2787bcb8ee62",
+    "head_branch": "main",
+    "created_at": "2026-11-08T17:05:20Z",
+    "updated_at": "2026-11-08T17:06:56Z",
+    "run_started_at": "2026-11-08T17:05:20Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42503173351",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42498979786,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "442a646503d58dc06edc979deda90ba3d3304be3",
+    "head_branch": "feat/81-perfis-em-todas-as-rotas",
+    "created_at": "2026-11-08T16:15:43Z",
+    "updated_at": "2026-11-08T16:17:37Z",
+    "run_started_at": "2026-11-08T16:15:43Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42498979786",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42498812458,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "442a646503d58dc06edc979deda90ba3d3304be3",
+    "head_branch": "feat/81-perfis-em-todas-as-rotas",
+    "created_at": "2026-11-08T16:13:45Z",
+    "updated_at": "2026-11-08T16:15:34Z",
+    "run_started_at": "2026-11-08T16:13:45Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42498812458",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42498166002,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "578c3b1b90c3175a2b7a5d3bc150eeb96e846363",
+    "head_branch": "feat/81-perfis-em-todas-as-rotas",
+    "created_at": "2026-11-08T16:06:17Z",
+    "updated_at": "2026-11-08T16:08:08Z",
+    "run_started_at": "2026-11-08T16:06:17Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42498166002",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42491496959,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "7406956ee2e00dac55bf76eca46dd6e3095b262f",
+    "head_branch": "main",
+    "created_at": "2026-11-08T14:47:06Z",
+    "updated_at": "2026-11-08T14:48:55Z",
+    "run_started_at": "2026-11-08T14:47:06Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42491496959",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42476111280,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "0b9140df4ad1add1ed4b3d574c2772ded7a795aa",
+    "head_branch": "feat/68-definir-protobuf-buf-e-geracao",
+    "created_at": "2026-11-08T11:31:19Z",
+    "updated_at": "2026-11-08T11:33:30Z",
+    "run_started_at": "2026-11-08T11:31:19Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42476111280",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42475830777,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "0b9140df4ad1add1ed4b3d574c2772ded7a795aa",
+    "head_branch": "feat/68-definir-protobuf-buf-e-geracao",
+    "created_at": "2026-11-08T11:27:35Z",
+    "updated_at": "2026-11-08T11:29:14Z",
+    "run_started_at": "2026-11-08T11:27:35Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42475830777",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42436889201,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ad0e706499d675df3ab87518c88085f746deb45b",
+    "head_branch": "feat/69-versionar-política-e-migrar-câmaras-existentes",
+    "created_at": "2026-11-08T02:03:39Z",
+    "updated_at": "2026-11-08T02:05:14Z",
+    "run_started_at": "2026-11-08T02:03:39Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42436889201",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42400392503,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "0be569ea7b95b00295f291646f357bd1fcfcf7e8",
+    "head_branch": "feat/68-definir-protobuf-buf-e-geracao",
+    "created_at": "2026-11-07T18:15:41Z",
+    "updated_at": "2026-11-07T18:17:17Z",
+    "run_started_at": "2026-11-07T18:15:41Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42400392503",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42399443262,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "bd3c7a2fb071f43e59590bfb765d3d71d0bf955f",
+    "head_branch": "feat/68-definir-protobuf-buf-e-geracao",
+    "created_at": "2026-11-07T18:04:40Z",
+    "updated_at": "2026-11-07T18:06:45Z",
+    "run_started_at": "2026-11-07T18:04:40Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42399443262",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42398855388,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d9f3ca13f44049a379080ba4d4116cd3a0f8299e",
+    "head_branch": "feat/68-definir-protobuf-buf-e-geracao",
+    "created_at": "2026-11-07T17:57:40Z",
+    "updated_at": "2026-11-07T17:58:48Z",
+    "run_started_at": "2026-11-07T17:57:40Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42398855388",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42397468735,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "787ad4764cb8f95ab66ae7581e394e8eeae35957",
+    "head_branch": "feat/68-definir-protobuf-buf-e-geracao",
+    "created_at": "2026-11-07T17:40:32Z",
+    "updated_at": "2026-11-07T17:42:07Z",
+    "run_started_at": "2026-11-07T17:40:32Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42397468735",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42265215925,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ad0e706499d675df3ab87518c88085f746deb45b",
+    "head_branch": "main",
+    "created_at": "2026-11-06T17:49:59Z",
+    "updated_at": "2026-11-06T17:51:14Z",
+    "run_started_at": "2026-11-06T17:49:59Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42265215925",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42263321772,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c47022cb35c0ab59182277b001a820fcd58394a2",
+    "head_branch": "docs/87-definir-implantacao",
+    "created_at": "2026-11-06T17:37:22Z",
+    "updated_at": "2026-11-06T17:38:54Z",
+    "run_started_at": "2026-11-06T17:37:22Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42263321772",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42263313411,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c47022cb35c0ab59182277b001a820fcd58394a2",
+    "head_branch": "docs/87-definir-implantacao",
+    "created_at": "2026-11-06T17:37:18Z",
+    "updated_at": "2026-11-06T17:38:26Z",
+    "run_started_at": "2026-11-06T17:37:18Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42263313411",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42262806370,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b70fb12b83fca6b609992b0a87c2d3dd07bf05c0",
+    "head_branch": "feat/68-definir-protobuf-buf-e-geracao",
+    "created_at": "2026-11-06T17:34:00Z",
+    "updated_at": "2026-11-06T17:35:24Z",
+    "run_started_at": "2026-11-06T17:34:00Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42262806370",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42262542357,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a2bd0dd4558b6f535bcac38b9c340b24fffe8d05",
+    "head_branch": "docs/87-definir-implantacao",
+    "created_at": "2026-11-06T17:32:18Z",
+    "updated_at": "2026-11-06T17:33:19Z",
+    "run_started_at": "2026-11-06T17:32:18Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42262542357",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42245773628,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b166cf4e364b6a036632f6057089eaf9062128c8",
+    "head_branch": "main",
+    "created_at": "2026-11-06T15:44:01Z",
+    "updated_at": "2026-11-06T15:45:45Z",
+    "run_started_at": "2026-11-06T15:44:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42245773628",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42131489612,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "66a76edebd377ac154e5ce88d9f6cbb0f7de2aac",
+    "head_branch": "feat/68-definir-protobuf-buf-e-geracao",
+    "created_at": "2026-11-05T23:42:57Z",
+    "updated_at": "2026-11-05T23:44:06Z",
+    "run_started_at": "2026-11-05T23:42:57Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42131489612",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 42045730652,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "4d66b492bd55a941b20e61cbdfb7b176d48408b8",
+    "head_branch": "docs/87-definir-implantacao",
+    "created_at": "2026-11-05T14:30:51Z",
+    "updated_at": "2026-11-05T14:31:59Z",
+    "run_started_at": "2026-11-05T14:30:51Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/42045730652",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41949212248,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "9108a83b12c8ca36d4cc7e6949208c1ce22d46aa",
+    "head_branch": "feat/80-autenticacao-sessoes",
+    "created_at": "2026-11-05T01:32:30Z",
+    "updated_at": "2026-11-05T01:34:00Z",
+    "run_started_at": "2026-11-05T01:32:30Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41949212248",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41949206520,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "9108a83b12c8ca36d4cc7e6949208c1ce22d46aa",
+    "head_branch": "feat/80-autenticacao-sessoes",
+    "created_at": "2026-11-05T01:32:27Z",
+    "updated_at": "2026-11-05T01:33:53Z",
+    "run_started_at": "2026-11-05T01:32:27Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41949206520",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41949119837,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e8d949dca57ce3c377fa91fe8dfe44d7dae46f39",
+    "head_branch": "feat/80-autenticacao-sessoes",
+    "created_at": "2026-11-05T01:31:40Z",
+    "updated_at": "2026-11-05T01:33:10Z",
+    "run_started_at": "2026-11-05T01:31:40Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41949119837",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41948447254,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "66a76edebd377ac154e5ce88d9f6cbb0f7de2aac",
+    "head_branch": "main",
+    "created_at": "2026-11-05T01:25:40Z",
+    "updated_at": "2026-11-05T01:26:54Z",
+    "run_started_at": "2026-11-05T01:25:40Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41948447254",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41929923005,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ad2829989c9f4e62ae23fa9d90b2534086fdc787",
+    "head_branch": "docs/87-definir-implantacao",
+    "created_at": "2026-11-04T22:58:56Z",
+    "updated_at": "2026-11-04T22:59:57Z",
+    "run_started_at": "2026-11-04T22:58:56Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41929923005",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41929916239,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ad2829989c9f4e62ae23fa9d90b2534086fdc787",
+    "head_branch": "docs/87-definir-implantacao",
+    "created_at": "2026-11-04T22:58:53Z",
+    "updated_at": "2026-11-04T23:00:12Z",
+    "run_started_at": "2026-11-04T22:58:53Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41929916239",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41928745519,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6893583239ebc7589cde8c2cd0113032232f2dbb",
+    "head_branch": "docs/87-definir-implantacao",
+    "created_at": "2026-11-04T22:50:29Z",
+    "updated_at": "2026-11-04T22:51:49Z",
+    "run_started_at": "2026-11-04T22:50:29Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41928745519",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41928688153,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6893583239ebc7589cde8c2cd0113032232f2dbb",
+    "head_branch": "docs/87-definir-implantacao",
+    "created_at": "2026-11-04T22:50:06Z",
+    "updated_at": "2026-11-04T22:51:35Z",
+    "run_started_at": "2026-11-04T22:50:06Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41928688153",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41927427857,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "7c881c7462c7a9016cd3cd05c1e08a7724ad820a",
+    "head_branch": "feat/80-autenticacao-sessoes",
+    "created_at": "2026-11-04T22:41:12Z",
+    "updated_at": "2026-11-04T22:42:48Z",
+    "run_started_at": "2026-11-04T22:41:12Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41927427857",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41927417232,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "7c881c7462c7a9016cd3cd05c1e08a7724ad820a",
+    "head_branch": "feat/80-autenticacao-sessoes",
+    "created_at": "2026-11-04T22:41:07Z",
+    "updated_at": "2026-11-04T22:42:27Z",
+    "run_started_at": "2026-11-04T22:41:07Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41927417232",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41916798425,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ca23d9b02a337861227cfa8c2b95b72eaa276700",
+    "head_branch": "feat/80-autenticacao-sessoes",
+    "created_at": "2026-11-04T21:30:56Z",
+    "updated_at": "2026-11-04T21:32:58Z",
+    "run_started_at": "2026-11-04T21:30:56Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41916798425",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41916402088,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ca23d9b02a337861227cfa8c2b95b72eaa276700",
+    "head_branch": "feat/80-autenticacao-sessoes",
+    "created_at": "2026-11-04T21:28:24Z",
+    "updated_at": "2026-11-04T21:30:18Z",
+    "run_started_at": "2026-11-04T21:28:24Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41916402088",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41913389420,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "16fa4d07db434a2b396f38139c23f137a3fa8008",
+    "head_branch": "feat/67-registrar-servico-go-e-regras-termicas",
+    "created_at": "2026-11-04T21:09:22Z",
+    "updated_at": "2026-11-04T21:10:45Z",
+    "run_started_at": "2026-11-04T21:09:22Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41913389420",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41913378295,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "16fa4d07db434a2b396f38139c23f137a3fa8008",
+    "head_branch": "feat/67-registrar-servico-go-e-regras-termicas",
+    "created_at": "2026-11-04T21:09:17Z",
+    "updated_at": "2026-11-04T21:10:37Z",
+    "run_started_at": "2026-11-04T21:09:17Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41913378295",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41836582394,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8d8b0222f02ca4a9be9e887e6e6e6bdf593574fb",
+    "head_branch": "feat/67-registrar-servico-go-e-regras-termicas",
+    "created_at": "2026-11-04T13:16:20Z",
+    "updated_at": "2026-11-04T13:17:29Z",
+    "run_started_at": "2026-11-04T13:16:20Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41836582394",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41835782833,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8d8b0222f02ca4a9be9e887e6e6e6bdf593574fb",
+    "head_branch": "feat/67-registrar-servico-go-e-regras-termicas",
+    "created_at": "2026-11-04T13:11:05Z",
+    "updated_at": "2026-11-04T13:12:07Z",
+    "run_started_at": "2026-11-04T13:11:05Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41835782833",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41826038537,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a088628cef93425de597bac0c5b577b5b3d0f369",
+    "head_branch": "feat/67-registrar-servico-go-e-regras-termicas",
+    "created_at": "2026-11-04T12:03:53Z",
+    "updated_at": "2026-11-04T12:04:49Z",
+    "run_started_at": "2026-11-04T12:03:53Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41826038537",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41819050663,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f43749b7f935342a34d5536b88d8036a4c724514",
+    "head_branch": "feat/67-registrar-servico-go-e-regras-termicas",
+    "created_at": "2026-11-04T11:10:00Z",
+    "updated_at": "2026-11-04T11:11:04Z",
+    "run_started_at": "2026-11-04T11:10:00Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41819050663",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41720675455,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f43749b7f935342a34d5536b88d8036a4c724514",
+    "head_branch": "main",
+    "created_at": "2026-11-03T21:18:59Z",
+    "updated_at": "2026-11-03T21:19:58Z",
+    "run_started_at": "2026-11-03T21:18:59Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41720675455",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41716776801,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "07b901383085ea4904d2151827a612ad0840f96e",
+    "head_branch": "docs/66-medicao-sprint-2",
+    "created_at": "2026-11-03T20:53:54Z",
+    "updated_at": "2026-11-03T20:55:08Z",
+    "run_started_at": "2026-11-03T20:53:54Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41716776801",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41716768367,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "07b901383085ea4904d2151827a612ad0840f96e",
+    "head_branch": "docs/66-medicao-sprint-2",
+    "created_at": "2026-11-03T20:53:51Z",
+    "updated_at": "2026-11-03T20:54:48Z",
+    "run_started_at": "2026-11-03T20:53:51Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41716768367",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41708251664,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "fd5fef2c9091ca706b34151e6fa36fbb52758854",
+    "head_branch": "main",
+    "created_at": "2026-11-03T19:58:36Z",
+    "updated_at": "2026-11-03T20:00:48Z",
+    "run_started_at": "2026-11-03T19:58:36Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41708251664",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41703760611,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3296aa97a1d21c137721499cbc9594ab76b70d61",
+    "head_branch": "docs/66-medicao-sprint-2",
+    "created_at": "2026-11-03T19:29:41Z",
+    "updated_at": "2026-11-03T19:32:09Z",
+    "run_started_at": "2026-11-03T19:29:41Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41703760611",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41703750696,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3296aa97a1d21c137721499cbc9594ab76b70d61",
+    "head_branch": "docs/66-medicao-sprint-2",
+    "created_at": "2026-11-03T19:29:37Z",
+    "updated_at": "2026-11-03T19:31:38Z",
+    "run_started_at": "2026-11-03T19:29:37Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41703750696",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41700583786,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ab105b44226a937a4be3e5f6923cad2e30c50d9c",
+    "head_branch": "docs/65-planning-sprint-2",
+    "created_at": "2026-11-03T19:09:17Z",
+    "updated_at": "2026-11-03T19:10:50Z",
+    "run_started_at": "2026-11-03T19:09:17Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41700583786",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 41700563504,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ab105b44226a937a4be3e5f6923cad2e30c50d9c",
+    "head_branch": "docs/65-planning-sprint-2",
+    "created_at": "2026-11-03T19:09:09Z",
+    "updated_at": "2026-11-03T19:11:08Z",
+    "run_started_at": "2026-11-03T19:09:09Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41700563504",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38978645194,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f64c5252f51b42a6ac62791fc0bc378250fef03d",
+    "head_branch": "main",
+    "created_at": "2026-10-16T22:56:12Z",
+    "updated_at": "2026-10-16T22:57:26Z",
+    "run_started_at": "2026-10-16T22:56:12Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38978645194",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38978333262,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "feac4bdda0c65e60280078fc0733caffe3a3ea92",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-16T22:52:50Z",
+    "updated_at": "2026-10-16T22:54:15Z",
+    "run_started_at": "2026-10-16T22:52:50Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38978333262",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38978329260,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "feac4bdda0c65e60280078fc0733caffe3a3ea92",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-16T22:52:48Z",
+    "updated_at": "2026-10-16T22:54:03Z",
+    "run_started_at": "2026-10-16T22:52:48Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38978329260",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38977517680,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "7ebd9d4dc6a0b6c88fd1254dd062a896e459003f",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-16T22:44:19Z",
+    "updated_at": "2026-10-16T22:45:39Z",
+    "run_started_at": "2026-10-16T22:44:19Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38977517680",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38977514153,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "7ebd9d4dc6a0b6c88fd1254dd062a896e459003f",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-16T22:44:17Z",
+    "updated_at": "2026-10-16T22:45:40Z",
+    "run_started_at": "2026-10-16T22:44:17Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38977514153",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38843935005,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "87c959a4c9d626cc310c62329f239b504568a604",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-16T03:07:29Z",
+    "updated_at": "2026-10-16T03:08:50Z",
+    "run_started_at": "2026-10-16T03:07:29Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38843935005",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38843930820,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "87c959a4c9d626cc310c62329f239b504568a604",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-16T03:07:26Z",
+    "updated_at": "2026-10-16T03:08:24Z",
+    "run_started_at": "2026-10-16T03:07:26Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38843930820",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38806169720,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "db5881bcd84f41cbe907f72be244a04a8b2efe01",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-15T20:57:57Z",
+    "updated_at": "2026-10-15T20:59:16Z",
+    "run_started_at": "2026-10-15T20:57:57Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38806169720",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38806163001,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "db5881bcd84f41cbe907f72be244a04a8b2efe01",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-15T20:57:54Z",
+    "updated_at": "2026-10-15T20:59:09Z",
+    "run_started_at": "2026-10-15T20:57:54Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38806163001",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38805208901,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6bae09a7eef295fa22b9a1527cef6a967be1b37f",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-15T20:50:40Z",
+    "updated_at": "2026-10-15T20:52:13Z",
+    "run_started_at": "2026-10-15T20:50:40Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38805208901",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38805201748,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6bae09a7eef295fa22b9a1527cef6a967be1b37f",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-15T20:50:37Z",
+    "updated_at": "2026-10-15T20:52:28Z",
+    "run_started_at": "2026-10-15T20:50:37Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38805201748",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38645086085,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "96fb7222fdb34ca22659da27a923709f8d32ae5a",
+    "head_branch": "main",
+    "created_at": "2026-10-14T22:04:52Z",
+    "updated_at": "2026-10-14T22:06:16Z",
+    "run_started_at": "2026-10-14T22:04:52Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38645086085",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38643012350,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "38897755317da11f986a3aa3b70d10da1a7647ba",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:48:02Z",
+    "updated_at": "2026-10-14T21:49:22Z",
+    "run_started_at": "2026-10-14T21:48:02Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38643012350",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38642792432,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "38897755317da11f986a3aa3b70d10da1a7647ba",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:46:15Z",
+    "updated_at": "2026-10-14T21:47:49Z",
+    "run_started_at": "2026-10-14T21:46:15Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38642792432",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38642785969,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "38897755317da11f986a3aa3b70d10da1a7647ba",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:46:12Z",
+    "updated_at": "2026-10-14T21:47:26Z",
+    "run_started_at": "2026-10-14T21:46:12Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38642785969",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38642158035,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3647cea7ae7e4096b7438717df6ae178ef540e35",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:41:18Z",
+    "updated_at": "2026-10-14T21:42:31Z",
+    "run_started_at": "2026-10-14T21:41:18Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38642158035",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38642148683,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3647cea7ae7e4096b7438717df6ae178ef540e35",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:41:14Z",
+    "updated_at": "2026-10-14T21:42:16Z",
+    "run_started_at": "2026-10-14T21:41:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38642148683",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38641810225,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2f453bb9e51d4494f2d61622c031b38ef9836227",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:38:31Z",
+    "updated_at": "2026-10-14T21:39:53Z",
+    "run_started_at": "2026-10-14T21:38:31Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38641810225",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38641804176,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2f453bb9e51d4494f2d61622c031b38ef9836227",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:38:29Z",
+    "updated_at": "2026-10-14T21:39:30Z",
+    "run_started_at": "2026-10-14T21:38:29Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38641804176",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38641503699,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "30524a181c0a4269e1de9cd3239c1f4a8738e0e0",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:36:03Z",
+    "updated_at": "2026-10-14T21:37:06Z",
+    "run_started_at": "2026-10-14T21:36:03Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38641503699",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38641491321,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "30524a181c0a4269e1de9cd3239c1f4a8738e0e0",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:35:58Z",
+    "updated_at": "2026-10-14T21:37:29Z",
+    "run_started_at": "2026-10-14T21:35:58Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38641491321",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38640943275,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c5517a9b142e3916524446f409f6e146da8c2c07",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:31:38Z",
+    "updated_at": "2026-10-14T21:33:03Z",
+    "run_started_at": "2026-10-14T21:31:38Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38640943275",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38640916831,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c5517a9b142e3916524446f409f6e146da8c2c07",
+    "head_branch": "docs/34-verificar-documentacao",
+    "created_at": "2026-10-14T21:31:25Z",
+    "updated_at": "2026-10-14T21:32:40Z",
+    "run_started_at": "2026-10-14T21:31:25Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38640916831",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38631116241,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1ce9e98a040fa6799be74de6d7a5d05c0b2de0e2",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-14T20:19:43Z",
+    "updated_at": "2026-10-14T20:20:59Z",
+    "run_started_at": "2026-10-14T20:19:43Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38631116241",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38631106594,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "1ce9e98a040fa6799be74de6d7a5d05c0b2de0e2",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-14T20:19:38Z",
+    "updated_at": "2026-10-14T20:20:55Z",
+    "run_started_at": "2026-10-14T20:19:38Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38631106594",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38631041739,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a3eb1b888894e2c87c9b37feead1b3ab3c6c20fb",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-14T20:19:11Z",
+    "updated_at": "2026-10-14T20:20:37Z",
+    "run_started_at": "2026-10-14T20:19:11Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38631041739",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38631012552,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a3eb1b888894e2c87c9b37feead1b3ab3c6c20fb",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-14T20:18:58Z",
+    "updated_at": "2026-10-14T20:20:04Z",
+    "run_started_at": "2026-10-14T20:18:58Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38631012552",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38630084368,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d197585d137befdc2d7898027fd9203cf0ab21c0",
+    "head_branch": "docs/s1-entregaveis",
+    "created_at": "2026-10-14T20:12:25Z",
+    "updated_at": "2026-10-14T20:13:41Z",
+    "run_started_at": "2026-10-14T20:12:25Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38630084368",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38565319390,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "048dce6de47f122edfa513eec40553afaa4245c6",
+    "head_branch": "main",
+    "created_at": "2026-10-14T12:38:11Z",
+    "updated_at": "2026-10-14T12:39:47Z",
+    "run_started_at": "2026-10-14T12:38:11Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38565319390",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38481323470,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8eab97ffeeceef4778c77dd226edec1623c33837",
+    "head_branch": "s1-21-executar-suite",
+    "created_at": "2026-10-13T22:58:48Z",
+    "updated_at": "2026-10-13T23:00:17Z",
+    "run_started_at": "2026-10-13T22:58:48Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38481323470",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38481320007,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8eab97ffeeceef4778c77dd226edec1623c33837",
+    "head_branch": "s1-21-executar-suite",
+    "created_at": "2026-10-13T22:58:46Z",
+    "updated_at": "2026-10-13T23:00:13Z",
+    "run_started_at": "2026-10-13T22:58:46Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38481320007",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38476958959,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ef32580d0576725c955fb398fbfa3faf41fdb9c8",
+    "head_branch": "main",
+    "created_at": "2026-10-13T22:19:03Z",
+    "updated_at": "2026-10-13T22:20:10Z",
+    "run_started_at": "2026-10-13T22:19:03Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38476958959",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38468378891,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "bba6550aae5097fe3c6f6376536da0dd2e54e1fe",
+    "head_branch": "s1-21-executar-suite",
+    "created_at": "2026-10-13T21:08:59Z",
+    "updated_at": "2026-10-13T21:10:54Z",
+    "run_started_at": "2026-10-13T21:08:59Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38468378891",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38461688166,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d82c875489513f97b2767dac79587822660617ca",
+    "head_branch": "feat/31-testar-migracoes-postgres",
+    "created_at": "2026-10-13T20:17:49Z",
+    "updated_at": "2026-10-13T20:19:15Z",
+    "run_started_at": "2026-10-13T20:17:49Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38461688166",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38461628300,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d82c875489513f97b2767dac79587822660617ca",
+    "head_branch": "feat/31-testar-migracoes-postgres",
+    "created_at": "2026-10-13T20:17:22Z",
+    "updated_at": "2026-10-13T20:18:31Z",
+    "run_started_at": "2026-10-13T20:17:22Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38461628300",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38461342073,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "87eddc1092f1a80c63b52be51c656e8ecb971617",
+    "head_branch": "main",
+    "created_at": "2026-10-13T20:15:15Z",
+    "updated_at": "2026-10-13T20:16:30Z",
+    "run_started_at": "2026-10-13T20:15:15Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38461342073",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38456531851,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "163f7290b48e684cb1cc5643d2c88cc6c7829da8",
+    "head_branch": "feat/30-testes-http-em-memória",
+    "created_at": "2026-10-13T19:39:11Z",
+    "updated_at": "2026-10-13T19:40:28Z",
+    "run_started_at": "2026-10-13T19:39:11Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38456531851",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38456170525,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "163f7290b48e684cb1cc5643d2c88cc6c7829da8",
+    "head_branch": "feat/30-testes-http-em-memória",
+    "created_at": "2026-10-13T19:36:25Z",
+    "updated_at": "2026-10-13T19:37:42Z",
+    "run_started_at": "2026-10-13T19:36:25Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38456170525",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38436461263,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "9fb69c7bf789d10ad72b0edecc039de6fb32b024",
+    "head_branch": "feat/30-testes-http-em-memória",
+    "created_at": "2026-10-13T17:10:08Z",
+    "updated_at": "2026-10-13T17:11:06Z",
+    "run_started_at": "2026-10-13T17:10:08Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38436461263",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38421084295,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2fdd6505e615e2366aedb6b55556783d54737a86",
+    "head_branch": "feat/30-testes-http-em-memória",
+    "created_at": "2026-10-13T15:19:36Z",
+    "updated_at": "2026-10-13T15:20:43Z",
+    "run_started_at": "2026-10-13T15:19:36Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38421084295",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38412198216,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d596b2006f7e5230364a1e5bbe899707cd48bf95",
+    "head_branch": "feat/30-testes-http-em-memória",
+    "created_at": "2026-10-13T14:18:18Z",
+    "updated_at": "2026-10-13T14:19:28Z",
+    "run_started_at": "2026-10-13T14:18:18Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38412198216",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38301291939,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d596b2006f7e5230364a1e5bbe899707cd48bf95",
+    "head_branch": "main",
+    "created_at": "2026-10-12T19:59:38Z",
+    "updated_at": "2026-10-12T20:00:28Z",
+    "run_started_at": "2026-10-12T19:59:38Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38301291939",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38296236316,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "557c902b4d61277aa1dea8fd6cfae1c0ff03631b",
+    "head_branch": "feat/54-registrar-baixa-e-descarte-de-lote",
+    "created_at": "2026-10-12T19:13:45Z",
+    "updated_at": "2026-10-12T19:14:49Z",
+    "run_started_at": "2026-10-12T19:13:45Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38296236316",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38296231295,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "557c902b4d61277aa1dea8fd6cfae1c0ff03631b",
+    "head_branch": "feat/54-registrar-baixa-e-descarte-de-lote",
+    "created_at": "2026-10-12T19:13:43Z",
+    "updated_at": "2026-10-12T19:14:35Z",
+    "run_started_at": "2026-10-12T19:13:43Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38296231295",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38293496033,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "54c7f28b49077946612783436721dd67d7197817",
+    "head_branch": "main",
+    "created_at": "2026-10-12T18:49:21Z",
+    "updated_at": "2026-10-12T18:50:31Z",
+    "run_started_at": "2026-10-12T18:49:21Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38293496033",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38264254701,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ec00ab967951f37286c57e6d260b885dc1c2902b",
+    "head_branch": "feat/54-registrar-baixa-e-descarte-de-lote",
+    "created_at": "2026-10-12T14:37:19Z",
+    "updated_at": "2026-10-12T14:38:30Z",
+    "run_started_at": "2026-10-12T14:37:19Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38264254701",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38263759734,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ec00ab967951f37286c57e6d260b885dc1c2902b",
+    "head_branch": "feat/54-registrar-baixa-e-descarte-de-lote",
+    "created_at": "2026-10-12T14:33:14Z",
+    "updated_at": "2026-10-12T14:34:23Z",
+    "run_started_at": "2026-10-12T14:33:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38263759734",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38258597390,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "22b74df7580c027a198c6b9c5da58a2533c65197",
+    "head_branch": "feat/54-registrar-baixa-e-descarte-de-lote",
+    "created_at": "2026-10-12T13:50:59Z",
+    "updated_at": "2026-10-12T13:52:38Z",
+    "run_started_at": "2026-10-12T13:50:59Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38258597390",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38176080348,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "22b74df7580c027a198c6b9c5da58a2533c65197",
+    "head_branch": "feat/30-testes-http-em-memória",
+    "created_at": "2026-10-11T21:22:14Z",
+    "updated_at": "2026-10-11T21:23:27Z",
+    "run_started_at": "2026-10-11T21:22:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38176080348",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38100422538,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "22b74df7580c027a198c6b9c5da58a2533c65197",
+    "head_branch": "main",
+    "created_at": "2026-10-11T01:01:34Z",
+    "updated_at": "2026-10-11T01:02:38Z",
+    "run_started_at": "2026-10-11T01:01:34Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38100422538",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38091501565,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e52ef8ea155212dcb3e0a78106f5e131f5832915",
+    "head_branch": "feat/18-cobrir-regras-com-testes-sem-banco",
+    "created_at": "2026-10-10T22:27:41Z",
+    "updated_at": "2026-10-10T22:28:48Z",
+    "run_started_at": "2026-10-10T22:27:41Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38091501565",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38091071189,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e52ef8ea155212dcb3e0a78106f5e131f5832915",
+    "head_branch": "feat/18-cobrir-regras-com-testes-sem-banco",
+    "created_at": "2026-10-10T22:20:42Z",
+    "updated_at": "2026-10-10T22:21:42Z",
+    "run_started_at": "2026-10-10T22:20:42Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38091071189",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38090190843,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6ee0b4cedde57f2119846ad07017f4fa55ae9827",
+    "head_branch": "feat/18-cobrir-regras-com-testes-sem-banco",
+    "created_at": "2026-10-10T22:06:54Z",
+    "updated_at": "2026-10-10T22:07:43Z",
+    "run_started_at": "2026-10-10T22:06:54Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38090190843",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38025108404,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "44bdfdf5fb3c6e31f104238634c423e82cb45fbf",
+    "head_branch": "feat/33-openapi-swagger",
+    "created_at": "2026-10-10T04:44:24Z",
+    "updated_at": "2026-10-10T04:45:28Z",
+    "run_started_at": "2026-10-10T04:44:24Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38025108404",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 38025105519,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "44bdfdf5fb3c6e31f104238634c423e82cb45fbf",
+    "head_branch": "feat/33-openapi-swagger",
+    "created_at": "2026-10-10T04:44:21Z",
+    "updated_at": "2026-10-10T04:45:35Z",
+    "run_started_at": "2026-10-10T04:44:21Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/38025105519",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37974458798,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "9a99268407e7b6c36a7c4f7d34d0865bd7c94d20",
+    "head_branch": "feat/18-cobrir-regras-com-testes-sem-banco",
+    "created_at": "2026-10-09T18:36:30Z",
+    "updated_at": "2026-10-09T18:37:31Z",
+    "run_started_at": "2026-10-09T18:36:30Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37974458798",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37965535353,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "43b39d9931d4a009d5cf6e0c9b556f0e86c76089",
+    "head_branch": "feat/18-cobrir-regras-com-testes-sem-banco",
+    "created_at": "2026-10-09T17:20:14Z",
+    "updated_at": "2026-10-09T17:21:14Z",
+    "run_started_at": "2026-10-09T17:20:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37965535353",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37965283568,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "43b39d9931d4a009d5cf6e0c9b556f0e86c76089",
+    "head_branch": "main",
+    "created_at": "2026-10-09T17:18:04Z",
+    "updated_at": "2026-10-09T17:19:03Z",
+    "run_started_at": "2026-10-09T17:18:04Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37965283568",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37619570086,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "01505f6b1965b871cd1ee7c001a63c03928c0697",
+    "head_branch": "feat/24-atualizar-lote",
+    "created_at": "2026-10-07T12:14:18Z",
+    "updated_at": "2026-10-07T12:15:00Z",
+    "run_started_at": "2026-10-07T12:14:18Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37619570086",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37619552302,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "01505f6b1965b871cd1ee7c001a63c03928c0697",
+    "head_branch": "feat/24-atualizar-lote",
+    "created_at": "2026-10-07T12:14:09Z",
+    "updated_at": "2026-10-07T12:15:08Z",
+    "run_started_at": "2026-10-07T12:14:09Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37619552302",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37563626829,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a667aeb179809c0e2916a59fef7632557a07ed13",
+    "head_branch": "main",
+    "created_at": "2026-10-07T02:47:01Z",
+    "updated_at": "2026-10-07T02:48:15Z",
+    "run_started_at": "2026-10-07T02:47:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37563626829",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37358304795,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "4a0c1f03c2704a976649178e8fc3a7cfd65b6db3",
+    "head_branch": "feat/20-atualizar-câmara-e-proteger-sua-capacidade",
+    "created_at": "2026-10-05T18:45:05Z",
+    "updated_at": "2026-10-05T18:46:04Z",
+    "run_started_at": "2026-10-05T18:45:05Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37358304795",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37358298566,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "4a0c1f03c2704a976649178e8fc3a7cfd65b6db3",
+    "head_branch": "feat/20-atualizar-câmara-e-proteger-sua-capacidade",
+    "created_at": "2026-10-05T18:45:02Z",
+    "updated_at": "2026-10-05T18:45:55Z",
+    "run_started_at": "2026-10-05T18:45:02Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37358298566",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37171752106,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "bfed26b5e4c777b209cf368a0bf4af11babea14e",
+    "head_branch": "main",
+    "created_at": "2026-10-04T02:40:01Z",
+    "updated_at": "2026-10-04T02:40:56Z",
+    "run_started_at": "2026-10-04T02:40:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37171752106",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37159486987,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "fc881078848be19636473e5738291c495bf343d5",
+    "head_branch": "feat/22-cadastrar-lote",
+    "created_at": "2026-10-03T22:45:03Z",
+    "updated_at": "2026-10-03T22:45:42Z",
+    "run_started_at": "2026-10-03T22:45:03Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37159486987",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37159482881,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "fc881078848be19636473e5738291c495bf343d5",
+    "head_branch": "feat/22-cadastrar-lote",
+    "created_at": "2026-10-03T22:44:59Z",
+    "updated_at": "2026-10-03T22:45:50Z",
+    "run_started_at": "2026-10-03T22:44:59Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37159482881",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37127203990,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8cb003db29a5bbee61fd1cace9be9640ae950dd7",
+    "head_branch": "main",
+    "created_at": "2026-10-03T13:44:28Z",
+    "updated_at": "2026-10-03T13:45:27Z",
+    "run_started_at": "2026-10-03T13:44:28Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37127203990",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37092443327,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b353d3b56215211d7c7bfc0fb62949c72dd83905",
+    "head_branch": "feat/27-listar-lotes",
+    "created_at": "2026-10-03T03:12:48Z",
+    "updated_at": "2026-10-03T03:13:37Z",
+    "run_started_at": "2026-10-03T03:12:48Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37092443327",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37089154833,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b353d3b56215211d7c7bfc0fb62949c72dd83905",
+    "head_branch": "feat/27-listar-lotes",
+    "created_at": "2026-10-03T02:15:20Z",
+    "updated_at": "2026-10-03T02:16:10Z",
+    "run_started_at": "2026-10-03T02:15:20Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37089154833",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37086622082,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "93a0106909f6d87680ee3ca4b567e01782cf773f",
+    "head_branch": "feat/27-listar-lotes",
+    "created_at": "2026-10-03T01:34:41Z",
+    "updated_at": "2026-10-03T01:35:34Z",
+    "run_started_at": "2026-10-03T01:34:41Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37086622082",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37054210392,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "93a0106909f6d87680ee3ca4b567e01782cf773f",
+    "head_branch": "main",
+    "created_at": "2026-10-02T19:27:16Z",
+    "updated_at": "2026-10-02T19:28:46Z",
+    "run_started_at": "2026-10-02T19:27:16Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37054210392",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37052512265,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e034639d5a3ec93551c2c4d9906926f50c2b98bd",
+    "head_branch": "s1-17-verificar-dependencias",
+    "created_at": "2026-10-02T19:11:49Z",
+    "updated_at": "2026-10-02T19:13:14Z",
+    "run_started_at": "2026-10-02T19:11:49Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37052512265",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37052505140,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e034639d5a3ec93551c2c4d9906926f50c2b98bd",
+    "head_branch": "s1-17-verificar-dependencias",
+    "created_at": "2026-10-02T19:11:45Z",
+    "updated_at": "2026-10-02T19:12:55Z",
+    "run_started_at": "2026-10-02T19:11:45Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37052505140",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37047514271,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d46f0d44bfdaad62177391f49647535cda7b2b07",
+    "head_branch": "s1-17-verificar-dependencias",
+    "created_at": "2026-10-02T18:27:07Z",
+    "updated_at": "2026-10-02T18:29:08Z",
+    "run_started_at": "2026-10-02T18:27:07Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37047514271",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37047302238,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "d46f0d44bfdaad62177391f49647535cda7b2b07",
+    "head_branch": "s1-17-verificar-dependencias",
+    "created_at": "2026-10-02T18:25:14Z",
+    "updated_at": "2026-10-02T18:26:42Z",
+    "run_started_at": "2026-10-02T18:25:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37047302238",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37042397696,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "9eb9623acdc5df2bc22e1f21676e8e0b3fced4e3",
+    "head_branch": "main",
+    "created_at": "2026-10-02T17:41:13Z",
+    "updated_at": "2026-10-02T17:42:11Z",
+    "run_started_at": "2026-10-02T17:41:13Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37042397696",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37041561307,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "aac4d8848679c8ccdf7c3f76789657b1fe1880c8",
+    "head_branch": "main",
+    "created_at": "2026-10-02T17:33:58Z",
+    "updated_at": "2026-10-02T17:34:52Z",
+    "run_started_at": "2026-10-02T17:33:58Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37041561307",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37039846594,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "5ea7ec146feca46defbbb36f4128320d25c8456b",
+    "head_branch": "s1-14-inativar-lote",
+    "created_at": "2026-10-02T17:18:45Z",
+    "updated_at": "2026-10-02T17:19:34Z",
+    "run_started_at": "2026-10-02T17:18:45Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37039846594",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37039841638,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "5ea7ec146feca46defbbb36f4128320d25c8456b",
+    "head_branch": "s1-14-inativar-lote",
+    "created_at": "2026-10-02T17:18:42Z",
+    "updated_at": "2026-10-02T17:19:35Z",
+    "run_started_at": "2026-10-02T17:18:42Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37039841638",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37037593354,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2bcc8fdaee864b9d6b3c2a11c4461585091692e0",
+    "head_branch": "main",
+    "created_at": "2026-10-02T16:58:48Z",
+    "updated_at": "2026-10-02T16:59:40Z",
+    "run_started_at": "2026-10-02T16:58:48Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37037593354",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37035637228,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "016cf4e6113060753c561b82cf534677a2bd15e5",
+    "head_branch": "s1-14-inativar-lote",
+    "created_at": "2026-10-02T16:41:33Z",
+    "updated_at": "2026-10-02T16:42:21Z",
+    "run_started_at": "2026-10-02T16:41:33Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37035637228",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37035528192,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "016cf4e6113060753c561b82cf534677a2bd15e5",
+    "head_branch": "s1-14-inativar-lote",
+    "created_at": "2026-10-02T16:40:33Z",
+    "updated_at": "2026-10-02T16:41:35Z",
+    "run_started_at": "2026-10-02T16:40:33Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37035528192",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37029501656,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3420d2b27abd99674a235b188927fc87e2db5d22",
+    "head_branch": "s1-15-listar-camaras",
+    "created_at": "2026-10-02T15:47:57Z",
+    "updated_at": "2026-10-02T15:48:55Z",
+    "run_started_at": "2026-10-02T15:47:57Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37029501656",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37029274317,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3420d2b27abd99674a235b188927fc87e2db5d22",
+    "head_branch": "s1-15-listar-camaras",
+    "created_at": "2026-10-02T15:45:58Z",
+    "updated_at": "2026-10-02T15:46:57Z",
+    "run_started_at": "2026-10-02T15:45:58Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37029274317",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37015666122,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c8f73193153c9b98358384abd226d4eb02a028d3",
+    "head_branch": "feat/20-atualizar-câmara-e-proteger-sua-capacidade",
+    "created_at": "2026-10-02T13:50:14Z",
+    "updated_at": "2026-10-02T13:51:03Z",
+    "run_started_at": "2026-10-02T13:50:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37015666122",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37014941454,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c8f73193153c9b98358384abd226d4eb02a028d3",
+    "head_branch": "feat/20-atualizar-câmara-e-proteger-sua-capacidade",
+    "created_at": "2026-10-02T13:43:53Z",
+    "updated_at": "2026-10-02T13:44:43Z",
+    "run_started_at": "2026-10-02T13:43:53Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37014941454",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 37009296323,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f89a7b1c5d30224ceb788c82bf37236fa069d990",
+    "head_branch": "feat/20-atualizar-câmara-e-proteger-sua-capacidade",
+    "created_at": "2026-10-02T12:52:02Z",
+    "updated_at": "2026-10-02T12:52:48Z",
+    "run_started_at": "2026-10-02T12:52:02Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/37009296323",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36925162364,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "04b82428f29febedcbb11184d2aae053fcde6e5f",
+    "head_branch": "feat/23-consultar-lote",
+    "created_at": "2026-10-01T20:55:54Z",
+    "updated_at": "2026-10-01T20:56:45Z",
+    "run_started_at": "2026-10-01T20:55:54Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36925162364",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36925032629,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "04b82428f29febedcbb11184d2aae053fcde6e5f",
+    "head_branch": "feat/23-consultar-lote",
+    "created_at": "2026-10-01T20:54:49Z",
+    "updated_at": "2026-10-01T20:55:36Z",
+    "run_started_at": "2026-10-01T20:54:49Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36925032629",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36924662644,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f89a7b1c5d30224ceb788c82bf37236fa069d990",
+    "head_branch": "main",
+    "created_at": "2026-10-01T20:51:43Z",
+    "updated_at": "2026-10-01T20:52:44Z",
+    "run_started_at": "2026-10-01T20:51:43Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36924662644",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36808069638,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f200e9b3b4e78e0a60a45831db6c5b46c2aacfca",
+    "head_branch": "feat/21-inativar-camara",
+    "created_at": "2026-10-01T02:55:03Z",
+    "updated_at": "2026-10-01T02:56:35Z",
+    "run_started_at": "2026-10-01T02:55:03Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36808069638",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36808032598,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f200e9b3b4e78e0a60a45831db6c5b46c2aacfca",
+    "head_branch": "feat/21-inativar-camara",
+    "created_at": "2026-10-01T02:54:33Z",
+    "updated_at": "2026-10-01T02:55:31Z",
+    "run_started_at": "2026-10-01T02:54:33Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36808032598",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36773884618,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a8ef0e1d2afac74c2a70e207ada37a5359ac611b",
+    "head_branch": "main",
+    "created_at": "2026-09-30T20:37:07Z",
+    "updated_at": "2026-09-30T20:37:54Z",
+    "run_started_at": "2026-09-30T20:37:07Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36773884618",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36773391777,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e0feb64e0422000a980c93b61643904d98c6cb52",
+    "head_branch": "feat/s1-08-consultar-camara",
+    "created_at": "2026-09-30T20:32:52Z",
+    "updated_at": "2026-09-30T20:33:51Z",
+    "run_started_at": "2026-09-30T20:32:52Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36773391777",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36773384110,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e0feb64e0422000a980c93b61643904d98c6cb52",
+    "head_branch": "feat/s1-08-consultar-camara",
+    "created_at": "2026-09-30T20:32:48Z",
+    "updated_at": "2026-09-30T20:33:44Z",
+    "run_started_at": "2026-09-30T20:32:48Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36773384110",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36772726137,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "39a3993d45614a5893737f442c55239719af60e2",
+    "head_branch": "main",
+    "created_at": "2026-09-30T20:27:14Z",
+    "updated_at": "2026-09-30T20:28:19Z",
+    "run_started_at": "2026-09-30T20:27:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36772726137",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36641286771,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2841e6c0855ba74ced865b07452e818795296a1e",
+    "head_branch": "feat/18-cadastrar-câmara",
+    "created_at": "2026-09-29T22:44:01Z",
+    "updated_at": "2026-09-29T22:45:25Z",
+    "run_started_at": "2026-09-29T22:44:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36641286771",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36640775628,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2841e6c0855ba74ced865b07452e818795296a1e",
+    "head_branch": "feat/18-cadastrar-câmara",
+    "created_at": "2026-09-29T22:38:38Z",
+    "updated_at": "2026-09-29T22:39:23Z",
+    "run_started_at": "2026-09-29T22:38:38Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36640775628",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36638577509,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "17cc19c9c79f17f9f60e487372095e924cb9478a",
+    "head_branch": "feat/18-cadastrar-câmara",
+    "created_at": "2026-09-29T22:16:25Z",
+    "updated_at": "2026-09-29T22:17:41Z",
+    "run_started_at": "2026-09-29T22:16:25Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36638577509",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36626237170,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "0203e32c1a58bdf92788a24dac7d3ad60270b51e",
+    "head_branch": "feat/s1-08-consultar-camara",
+    "created_at": "2026-09-29T20:25:27Z",
+    "updated_at": "2026-09-29T20:26:15Z",
+    "run_started_at": "2026-09-29T20:25:27Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36626237170",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36625951736,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "0203e32c1a58bdf92788a24dac7d3ad60270b51e",
+    "head_branch": "feat/s1-08-consultar-camara",
+    "created_at": "2026-09-29T20:23:01Z",
+    "updated_at": "2026-09-29T20:24:03Z",
+    "run_started_at": "2026-09-29T20:23:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36625951736",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36616288068,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b99f5aec8ca0e71cfbcb2a790245c9290d4cbc72",
+    "head_branch": "feat/18-cadastrar-câmara",
+    "created_at": "2026-09-29T19:01:37Z",
+    "updated_at": "2026-09-29T19:02:25Z",
+    "run_started_at": "2026-09-29T19:01:37Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36616288068",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36599205004,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "85094a864765a39797cd6c4b89b9f4a2a641ecab",
+    "head_branch": "feat/18-cadastrar-câmara",
+    "created_at": "2026-09-29T16:38:33Z",
+    "updated_at": "2026-09-29T16:39:20Z",
+    "run_started_at": "2026-09-29T16:38:33Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36599205004",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36566536628,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6b05418f7f7e224d8802d7a6ad7cd97bcc111b70",
+    "head_branch": "feat/18-cadastrar-câmara",
+    "created_at": "2026-09-29T12:11:59Z",
+    "updated_at": "2026-09-29T12:12:44Z",
+    "run_started_at": "2026-09-29T12:11:59Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36566536628",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36557611224,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f83c70de88d821d2ee525e6bb6d10f826d865f22",
+    "head_branch": "feat/18-cadastrar-câmara",
+    "created_at": "2026-09-29T10:46:13Z",
+    "updated_at": "2026-09-29T10:47:00Z",
+    "run_started_at": "2026-09-29T10:46:13Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36557611224",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36483950949,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f83c70de88d821d2ee525e6bb6d10f826d865f22",
+    "head_branch": "main",
+    "created_at": "2026-09-28T21:07:21Z",
+    "updated_at": "2026-09-28T21:08:11Z",
+    "run_started_at": "2026-09-28T21:07:21Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36483950949",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36463796416,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3cde88e964d61d366ffb1ce5e02498dcaf8c3945",
+    "head_branch": "feat/16-persistir-lotes",
+    "created_at": "2026-09-28T18:14:32Z",
+    "updated_at": "2026-09-28T18:15:20Z",
+    "run_started_at": "2026-09-28T18:14:32Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36463796416",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36463789213,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "3cde88e964d61d366ffb1ce5e02498dcaf8c3945",
+    "head_branch": "feat/16-persistir-lotes",
+    "created_at": "2026-09-28T18:14:28Z",
+    "updated_at": "2026-09-28T18:15:30Z",
+    "run_started_at": "2026-09-28T18:14:28Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36463789213",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36463486358,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "7d74817866bfa622e8b3c1473be87375748dbdf0",
+    "head_branch": "main",
+    "created_at": "2026-09-28T18:11:54Z",
+    "updated_at": "2026-09-28T18:13:33Z",
+    "run_started_at": "2026-09-28T18:11:54Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36463486358",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36451956299,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "7d048bee4c6a6223b722f1e95978632524c630c6",
+    "head_branch": "feature/17-padronizar-validações-e-respostas-problem-details",
+    "created_at": "2026-09-28T16:33:59Z",
+    "updated_at": "2026-09-28T16:35:25Z",
+    "run_started_at": "2026-09-28T16:33:59Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36451956299",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36451949894,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "7d048bee4c6a6223b722f1e95978632524c630c6",
+    "head_branch": "feature/17-padronizar-validações-e-respostas-problem-details",
+    "created_at": "2026-09-28T16:33:55Z",
+    "updated_at": "2026-09-28T16:35:04Z",
+    "run_started_at": "2026-09-28T16:33:55Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36451949894",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36436166815,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "270a56c781e68a15a8ae7f0f3828c5af88e822a9",
+    "head_branch": "feat/16-persistir-lotes",
+    "created_at": "2026-09-28T14:27:54Z",
+    "updated_at": "2026-09-28T14:28:37Z",
+    "run_started_at": "2026-09-28T14:27:54Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36436166815",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36436094868,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "270a56c781e68a15a8ae7f0f3828c5af88e822a9",
+    "head_branch": "feat/16-persistir-lotes",
+    "created_at": "2026-09-28T14:27:19Z",
+    "updated_at": "2026-09-28T14:28:01Z",
+    "run_started_at": "2026-09-28T14:27:19Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36436094868",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36344615617,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8de81a8c4ce7c4906a3c6b9a6dfe98947b56e7aa",
+    "head_branch": "main",
+    "created_at": "2026-09-27T19:30:45Z",
+    "updated_at": "2026-09-27T19:31:27Z",
+    "run_started_at": "2026-09-27T19:30:45Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36344615617",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36344097147,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "5578cb9f2057ea85997ddc9d80f5ec5f16446612",
+    "head_branch": "feature/s1-04-tabela-camaras-panache",
+    "created_at": "2026-09-27T19:22:14Z",
+    "updated_at": "2026-09-27T19:22:52Z",
+    "run_started_at": "2026-09-27T19:22:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36344097147",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36344093737,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "5578cb9f2057ea85997ddc9d80f5ec5f16446612",
+    "head_branch": "feature/s1-04-tabela-camaras-panache",
+    "created_at": "2026-09-27T19:22:11Z",
+    "updated_at": "2026-09-27T19:22:52Z",
+    "run_started_at": "2026-09-27T19:22:11Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36344093737",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36337367466,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "532108cf38261ab66dc49a5fe34cfd94161c74b0",
+    "head_branch": "feature/s1-04-tabela-camaras-panache",
+    "created_at": "2026-09-27T17:33:11Z",
+    "updated_at": "2026-09-27T17:33:52Z",
+    "run_started_at": "2026-09-27T17:33:11Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36337367466",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36337364259,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "532108cf38261ab66dc49a5fe34cfd94161c74b0",
+    "head_branch": "feature/s1-04-tabela-camaras-panache",
+    "created_at": "2026-09-27T17:33:08Z",
+    "updated_at": "2026-09-27T17:33:47Z",
+    "run_started_at": "2026-09-27T17:33:08Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36337364259",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36335956596,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "2497e23045c3cc55140ca587624c0090d7e41a45",
+    "head_branch": "main",
+    "created_at": "2026-09-27T17:10:39Z",
+    "updated_at": "2026-09-27T17:11:56Z",
+    "run_started_at": "2026-09-27T17:10:39Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36335956596",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36335311780,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6d19baca0d8cbced1c4dfbf14e95c1b279b30c2b",
+    "head_branch": "feature/s1-04-tabela-camaras-panache",
+    "created_at": "2026-09-27T17:00:29Z",
+    "updated_at": "2026-09-27T17:01:29Z",
+    "run_started_at": "2026-09-27T17:00:29Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36335311780",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36335309189,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "6d19baca0d8cbced1c4dfbf14e95c1b279b30c2b",
+    "head_branch": "feature/s1-04-tabela-camaras-panache",
+    "created_at": "2026-09-27T17:00:27Z",
+    "updated_at": "2026-09-27T17:01:43Z",
+    "run_started_at": "2026-09-27T17:00:27Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36335309189",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36275303730,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "81cce312e7f45be49cf06792e802a7fe111f6976",
+    "head_branch": "feature/s1-04-tabela-camaras-panache",
+    "created_at": "2026-09-26T22:08:45Z",
+    "updated_at": "2026-09-26T22:09:31Z",
+    "run_started_at": "2026-09-26T22:08:45Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36275303730",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36274609097,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "06d9f3150cc2e488d41b0e694b87ff598a89c395",
+    "head_branch": "chore/atualizacao-readme",
+    "created_at": "2026-09-26T21:56:17Z",
+    "updated_at": "2026-09-26T21:56:42Z",
+    "run_started_at": "2026-09-26T21:56:17Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36274609097",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36274608703,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "bacb639dd6c563e4dfc58340e667c6dcd7959a7b",
+    "head_branch": "docs/12-contratos-regras-arquitetura",
+    "created_at": "2026-09-26T21:56:16Z",
+    "updated_at": "2026-09-26T21:56:41Z",
+    "run_started_at": "2026-09-26T21:56:16Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36274608703",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36274607286,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b78490e56967dde4b747cffa9a080bf026fcbb81",
+    "head_branch": "feat/14-dominio-portas-memoria",
+    "created_at": "2026-09-26T21:56:15Z",
+    "updated_at": "2026-09-26T21:56:34Z",
+    "run_started_at": "2026-09-26T21:56:15Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36274607286",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36274607169,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "fa73162edbb93bd350a88d51b5223696dfe0ad18",
+    "head_branch": "docs/corrige-manutencao-e-rota-baixa",
+    "created_at": "2026-09-26T21:56:15Z",
+    "updated_at": "2026-09-26T21:56:38Z",
+    "run_started_at": "2026-09-26T21:56:15Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36274607169",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36274372945,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "81cce312e7f45be49cf06792e802a7fe111f6976",
+    "head_branch": "feature/s1-04-tabela-camaras-panache",
+    "created_at": "2026-09-26T21:51:54Z",
+    "updated_at": "2026-09-26T21:52:57Z",
+    "run_started_at": "2026-09-26T21:51:54Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36274372945",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36261119361,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "150f6a673a2da7761ab2da96b879aeb0605333e0",
+    "head_branch": "main",
+    "created_at": "2026-09-26T18:02:08Z",
+    "updated_at": "2026-09-26T18:02:31Z",
+    "run_started_at": "2026-09-26T18:02:08Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36261119361",
+    "actor": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36255944339,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8e8762feadbcbc98eb262506446efb68419956b0",
+    "head_branch": "feature/17-padronizar-validações-e-respostas-problem-details",
+    "created_at": "2026-09-26T16:34:33Z",
+    "updated_at": "2026-09-26T16:35:18Z",
+    "run_started_at": "2026-09-26T16:34:33Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36255944339",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36255615447,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "8e8762feadbcbc98eb262506446efb68419956b0",
+    "head_branch": "feature/17-padronizar-validações-e-respostas-problem-details",
+    "created_at": "2026-09-26T16:29:09Z",
+    "updated_at": "2026-09-26T16:29:54Z",
+    "run_started_at": "2026-09-26T16:29:09Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36255615447",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36251815191,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b78490e56967dde4b747cffa9a080bf026fcbb81",
+    "head_branch": "feat/14-dominio-portas-memoria",
+    "created_at": "2026-09-26T15:24:17Z",
+    "updated_at": "2026-09-26T15:24:45Z",
+    "run_started_at": "2026-09-26T15:24:17Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36251815191",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36251798199,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "503487886e165aed721e3e90ac0eeec203db89d3",
+    "head_branch": "feat/13-postgres-flyway",
+    "created_at": "2026-09-26T15:24:01Z",
+    "updated_at": "2026-09-26T15:25:01Z",
+    "run_started_at": "2026-09-26T15:24:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36251798199",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36251699106,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "503487886e165aed721e3e90ac0eeec203db89d3",
+    "head_branch": "feat/13-postgres-flyway",
+    "created_at": "2026-09-26T15:22:16Z",
+    "updated_at": "2026-09-26T15:22:51Z",
+    "run_started_at": "2026-09-26T15:22:16Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36251699106",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36251673207,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b78490e56967dde4b747cffa9a080bf026fcbb81",
+    "head_branch": "feat/14-dominio-portas-memoria",
+    "created_at": "2026-09-26T15:21:50Z",
+    "updated_at": "2026-09-26T15:22:16Z",
+    "run_started_at": "2026-09-26T15:21:50Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36251673207",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36247334804,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "5cfb154944991509e9269803601acf8e5498d9fc",
+    "head_branch": "feature/17-padronizar-validações-e-respostas-problem-details",
+    "created_at": "2026-09-26T14:05:43Z",
+    "updated_at": "2026-09-26T14:06:07Z",
+    "run_started_at": "2026-09-26T14:05:43Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36247334804",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36246761770,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "5cfb154944991509e9269803601acf8e5498d9fc",
+    "head_branch": "main",
+    "created_at": "2026-09-26T13:55:22Z",
+    "updated_at": "2026-09-26T13:56:01Z",
+    "run_started_at": "2026-09-26T13:55:22Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36246761770",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36245952505,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "fa73162edbb93bd350a88d51b5223696dfe0ad18",
+    "head_branch": "docs/corrige-manutencao-e-rota-baixa",
+    "created_at": "2026-09-26T13:40:30Z",
+    "updated_at": "2026-09-26T13:40:57Z",
+    "run_started_at": "2026-09-26T13:40:30Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36245952505",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36245787623,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "fa73162edbb93bd350a88d51b5223696dfe0ad18",
+    "head_branch": "docs/corrige-manutencao-e-rota-baixa",
+    "created_at": "2026-09-26T13:37:30Z",
+    "updated_at": "2026-09-26T13:37:57Z",
+    "run_started_at": "2026-09-26T13:37:30Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36245787623",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36084395777,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "0072187d486b530347db783b28284d919ed134e1",
+    "head_branch": "feat/13-postgres-flyway",
+    "created_at": "2026-09-25T01:59:55Z",
+    "updated_at": "2026-09-25T02:00:34Z",
+    "run_started_at": "2026-09-25T01:59:55Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36084395777",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36082120883,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ba15f7b0a3338ba2c132dce39d46661385de85c0",
+    "head_branch": "main",
+    "created_at": "2026-09-25T01:27:53Z",
+    "updated_at": "2026-09-25T01:28:19Z",
+    "run_started_at": "2026-09-25T01:27:53Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36082120883",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36049402655,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "bacb639dd6c563e4dfc58340e667c6dcd7959a7b",
+    "head_branch": "docs/12-contratos-regras-arquitetura",
+    "created_at": "2026-09-24T19:37:27Z",
+    "updated_at": "2026-09-24T19:38:02Z",
+    "run_started_at": "2026-09-24T19:37:27Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36049402655",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36048624839,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "bacb639dd6c563e4dfc58340e667c6dcd7959a7b",
+    "head_branch": "docs/12-contratos-regras-arquitetura",
+    "created_at": "2026-09-24T19:30:34Z",
+    "updated_at": "2026-09-24T19:31:04Z",
+    "run_started_at": "2026-09-24T19:30:34Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36048624839",
+    "actor": {
+      "login": "biancammedeiros",
+      "type": "User"
+    }
+  },
+  {
+    "id": 36030535148,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c7a4c5dd9df7570d8d6cf83ec870c77bbff2a2bf",
+    "head_branch": "feat/13-postgres-flyway",
+    "created_at": "2026-09-24T16:53:53Z",
+    "updated_at": "2026-09-24T16:54:56Z",
+    "run_started_at": "2026-09-24T16:53:53Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/36030535148",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 35915325417,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "ca281768888884bd70c6ba1718882e749a67aed6",
+    "head_branch": "docs/12-contratos-regras-arquitetura",
+    "created_at": "2026-09-23T20:20:55Z",
+    "updated_at": "2026-09-23T20:21:20Z",
+    "run_started_at": "2026-09-23T20:20:55Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/35915325417",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 35914826107,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "7f2a49ec3dd9844cb05b820ec9b44ed748c3a890",
+    "head_branch": "docs/12-contratos-regras-arquitetura",
+    "created_at": "2026-09-23T20:16:24Z",
+    "updated_at": "2026-09-23T20:17:01Z",
+    "run_started_at": "2026-09-23T20:16:24Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/35914826107",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 35914800598,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "7f2a49ec3dd9844cb05b820ec9b44ed748c3a890",
+    "head_branch": "docs/12-contratos-regras-arquitetura",
+    "created_at": "2026-09-23T20:16:10Z",
+    "updated_at": "2026-09-23T20:16:39Z",
+    "run_started_at": "2026-09-23T20:16:10Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/35914800598",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 35127442905,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "e5d59dc0ddb2ddedda15d8605fdfb7ce96d38a17",
+    "head_branch": "main",
+    "created_at": "2026-09-16T17:19:14Z",
+    "updated_at": "2026-09-16T17:20:04Z",
+    "run_started_at": "2026-09-16T17:19:14Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/35127442905",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 35049701502,
+    "workflow_id": 350478328,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "06d9f3150cc2e488d41b0e694b87ff598a89c395",
+    "head_branch": "chore/atualizacao-readme",
+    "created_at": "2026-09-16T02:53:15Z",
+    "updated_at": "2026-09-16T02:53:58Z",
+    "run_started_at": "2026-09-16T02:53:15Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/35049701502",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 35049686365,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "06d9f3150cc2e488d41b0e694b87ff598a89c395",
+    "head_branch": "chore/atualizacao-readme",
+    "created_at": "2026-09-16T02:53:01Z",
+    "updated_at": "2026-09-16T02:53:48Z",
+    "run_started_at": "2026-09-16T02:53:01Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/35049686365",
+    "actor": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 33926817990,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "b2a1f602db8b87bb158181b87f36961468cfb416",
+    "head_branch": "main",
+    "created_at": "2026-09-04T22:45:15Z",
+    "updated_at": "2026-09-04T22:45:43Z",
+    "run_started_at": "2026-09-04T22:45:15Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/33926817990",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 33920596260,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a64f659f8ed47896c58c34f3f47c062f50f39f14",
+    "head_branch": "main",
+    "created_at": "2026-09-04T21:19:58Z",
+    "updated_at": "2026-09-04T21:20:45Z",
+    "run_started_at": "2026-09-04T21:19:58Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/33920596260",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  },
+  {
+    "id": 33913950533,
+    "workflow_id": 350478328,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "55cfb0815d0b36b5fc70f17f24c1b570b2385369",
+    "head_branch": "main",
+    "created_at": "2026-09-04T19:59:22Z",
+    "updated_at": "2026-09-04T19:59:58Z",
+    "run_started_at": "2026-09-04T19:59:22Z",
+    "run_attempt": 1,
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/33913950533",
+    "actor": {
+      "login": "AndreMattheus",
+      "type": "User"
+    }
+  }
+]

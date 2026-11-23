@@ -1,0 +1,92 @@
+[
+  {
+    "__typename": "AddedToProjectV2Event",
+    "id": "ATPVTE_lADOUOpn_88AAAABPxY5fc8AAAAHHu-uWA",
+    "createdAt": "2026-09-04T21:47:35Z",
+    "actor": {
+      "login": "AndreMattheus"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABPxY5fc8AAAAHHu-uxQ",
+    "createdAt": "2026-09-04T21:47:35Z",
+    "actor": {
+      "login": "AndreMattheus"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "",
+    "status": "Backlog",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABPxY5fc8AAAAIKaTy_w",
+    "createdAt": "2026-11-03T19:44:39Z",
+    "actor": {
+      "login": "leonardonadson"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Backlog",
+    "status": "Sprint Backlog",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABPxY5fc8AAAAIKfbtHg",
+    "createdAt": "2026-11-03T20:49:58Z",
+    "actor": {
+      "login": "arthurFeijo"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Sprint Backlog",
+    "status": "Em Progresso",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABPxY5fc8AAAAIMK6MVw",
+    "createdAt": "2026-11-04T21:21:59Z",
+    "actor": {
+      "login": "arthurFeijo"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Em Progresso",
+    "status": "Sprint Backlog",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABPxY5fc8AAAAIe3gCNw",
+    "createdAt": "2026-11-17T16:50:19Z",
+    "actor": {
+      "login": "AndreMattheus"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Sprint Backlog",
+    "status": "Pronto",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ClosedEvent",
+    "id": "CE_lADOUOpn_88AAAABPxY5fc8AAAAIe3gCZA",
+    "createdAt": "2026-11-17T16:50:20Z",
+    "actor": {
+      "login": "AndreMattheus"
+    }
+  }
+]

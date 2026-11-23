@@ -1,0 +1,14 @@
+{
+  "coletado_em": "2026-11-23T22:04:01.765651Z",
+  "sha256": {
+    "incidentes.csv": "9058cfc399f59d1fdc41157493d7159721de4d2d0e64c75684424a1c1e2eae57",
+    "monitoramento.csv": "83c263b933e4156698385c4a13ea41767db7c6928118e05d448a336005c742b2",
+    "implantacoes.csv": "ccc4ca7bd5932efd08c059a79b1a214ca9cf5248399a28f9c4898b513ef2b83a"
+  },
+  "comando": [
+    "python",
+    "docs/scripts/coletar-medicao-sprint-2.py",
+    "--preservar-fontes",
+    "docs/evidencias/sprint-2/metricas-02/fontes-20261123"
+  ]
+}
