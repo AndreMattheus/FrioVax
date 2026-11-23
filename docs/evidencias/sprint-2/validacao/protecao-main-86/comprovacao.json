@@ -1,0 +1,121 @@
+{
+  "protecao": {
+    "coletado_em_utc": "2026-11-22T21:10:05.3083582+00:00",
+    "argumentos_gh": [
+      "api",
+      "repos/AndreMattheus/FrioVax/branches/main/protection",
+      "--jq",
+      "{required_status_checks,required_pull_request_reviews,enforce_admins,allow_force_pushes,allow_deletions}"
+    ],
+    "arquivo": "protecao-main.json"
+  },
+  "pr": {
+    "coletado_em_utc": "2026-11-22T21:10:06.0065726+00:00",
+    "argumentos_gh": [
+      "pr",
+      "view",
+      "122",
+      "--repo",
+      "AndreMattheus/FrioVax",
+      "--json",
+      "number,url,state,closedAt,mergedAt,headRefOid,statusCheckRollup",
+      "--jq",
+      "{number,url,state,closedAt,mergedAt,headRefOid,checks:[.statusCheckRollup[]|select(.name == \"Go / Telemetria\" or .name == \"Java / Quarkus\")|{name,conclusion,detailsUrl}]}"
+    ],
+    "resultado": {
+      "checks": [
+        {
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45068250852/job/137349160556",
+          "name": "Java / Quarkus"
+        },
+        {
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45068005312/job/137348401404",
+          "name": "Java / Quarkus"
+        },
+        {
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45068250852/job/137349160507",
+          "name": "Go / Telemetria"
+        },
+        {
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45068005312/job/137348401420",
+          "name": "Go / Telemetria"
+        }
+      ],
+      "closedAt": "2026-11-22T21:05:51Z",
+      "headRefOid": "750c7729b23631525db8be231024090afe6eea82",
+      "mergedAt": null,
+      "number": 122,
+      "state": "CLOSED",
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/122"
+    }
+  },
+  "aprovacoes": {
+    "coletado_em_utc": "2026-11-22T21:10:06.6579216+00:00",
+    "argumentos_gh": [
+      "api",
+      "repos/AndreMattheus/FrioVax/pulls/122/reviews",
+      "--jq",
+      "map(select(.state == \"APPROVED\")|{login:.user.login,state,submitted_at,html_url})"
+    ],
+    "resultado": {
+      "html_url": "https://github.com/AndreMattheus/FrioVax/pull/122#pullrequestreview-6014517137",
+      "login": "biancammedeiros",
+      "state": "APPROVED",
+      "submitted_at": "2026-11-22T21:02:11Z"
+    }
+  },
+  "main": {
+    "coletado_em_utc": "2026-11-22T21:10:07.2060452+00:00",
+    "argumentos_gh": [
+      "api",
+      "repos/AndreMattheus/FrioVax/branches/main",
+      "--jq",
+      "{name,protected,sha:.commit.sha}"
+    ],
+    "resultado": {
+      "name": "main",
+      "protected": true,
+      "sha": "d4125bb24c7e8758838d8028a58b88557dd0d5e3"
+    }
+  },
+  "ci_main": {
+    "coletado_em_utc": "2026-11-22T21:10:08.0660569+00:00",
+    "argumentos_gh": [
+      "run",
+      "view",
+      "45069271370",
+      "--repo",
+      "AndreMattheus/FrioVax",
+      "--json",
+      "databaseId,url,event,headSha,headBranch,status,conclusion,updatedAt"
+    ],
+    "resultado": {
+      "conclusion": "success",
+      "databaseId": 45069271370,
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "d4125bb24c7e8758838d8028a58b88557dd0d5e3",
+      "status": "completed",
+      "updatedAt": "2026-11-22T20:59:05Z",
+      "url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45069271370"
+    }
+  },
+  "administrador": {
+    "coletado_em_utc": "2026-11-22T21:10:08.5433309+00:00",
+    "argumentos_gh": [
+      "api",
+      "repos/AndreMattheus/FrioVax/collaborators/AndreMattheus/permission",
+      "--jq",
+      "{permission,role_name,login:.user.login}"
+    ],
+    "resultado": {
+      "login": "AndreMattheus",
+      "permission": "admin",
+      "role_name": "admin"
+    }
+  }
+}

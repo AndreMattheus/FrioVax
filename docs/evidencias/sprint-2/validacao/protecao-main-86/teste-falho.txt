@@ -1,0 +1,5 @@
+Go / Telemetria	UNKNOWN STEP	2026-11-22T20:45:53.2690091Z --- FAIL: TestAnalisarJanela (0.00s)
+Go / Telemetria	UNKNOWN STEP	2026-11-22T20:45:53.2712142Z     --- FAIL: TestAnalisarJanela/sinal_intermediário (0.00s)
+Go / Telemetria	UNKNOWN STEP	2026-11-22T20:45:53.2764521Z         janela_test.go:62: candidata 2: {IDExterno:r3 Classificacao:INSEGURA Sequencia:3 LimiarAtingido:true Evidencias:[r1 r2 r3]}; sequência 2, evidências [r1 r2 r3]
+Go / Telemetria	UNKNOWN STEP	2026-11-22T20:45:53.2775009Z FAIL	github.com/AndreMattheus/FrioVax/services/telemetry/internal/dominio	0.008s
+Go / Telemetria	UNKNOWN STEP	2026-11-22T20:45:54.4080493Z ##[error]Process completed with exit code 1.
