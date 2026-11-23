@@ -90,6 +90,6 @@ class AtualizarCamaraMudancaTest {
 
     private static AtualizarCamaraDTO dados(String minima, String maxima, int capacidade) {
         return new AtualizarCamaraDTO("Câmara", "UBS Centro", capacidade, new BigDecimal(minima),
-                new BigDecimal(maxima), EstadoCamara.OPERACIONAL);
+                new BigDecimal(maxima), EstadoCamara.OPERACIONAL, 1);
     }
 }

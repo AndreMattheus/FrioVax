@@ -173,7 +173,7 @@ class RecepcaoDeLeituraPostgresTest {
             if (primeira.getAndSet(false)) {
                 // Roda noutra thread e noutra transação: se a recepção retivesse o lock, ficaria esperando.
                 atualizarCamara.atualizar(camaraId, new AtualizarCamaraDTO("Câmara", "UBS recepção", 1000,
-                        new BigDecimal("0.0"), new BigDecimal("10.0"), EstadoCamara.OPERACIONAL));
+                        new BigDecimal("0.0"), new BigDecimal("10.0"), EstadoCamara.OPERACIONAL, 1));
             }
             resposta.onNext(ServidorTelemetriaDeTeste.analisar(requisicao));
             resposta.onCompleted();

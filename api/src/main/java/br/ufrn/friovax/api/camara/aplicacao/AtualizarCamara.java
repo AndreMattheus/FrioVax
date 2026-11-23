@@ -50,9 +50,7 @@ public class AtualizarCamara {
     public ConsultarCamara.Resultado atualizar(long id, AtualizarCamaraDTO dados) {
         Camara camara = camaras.buscarPorIdParaAlteracao(id)
             .orElseThrow(() -> new RecursoNaoEncontrado("Câmara", id));
-        if (dados.versaoEsperada() != null) {
-            camara.exigirVersaoDaPolitica(dados.versaoEsperada());
-        }
+        camara.exigirVersaoParaFaixa(dados.versaoEsperada(), dados.temperaturaMinima(), dados.temperaturaMaxima());
 
         long ocupacao = lotes.ocupacaoDaCamara(id);
         boolean possuiLotesAtivos = lotes.existeLoteAtivoNaCamara(id);

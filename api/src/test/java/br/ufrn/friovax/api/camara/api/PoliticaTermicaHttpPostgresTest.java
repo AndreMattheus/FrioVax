@@ -154,6 +154,38 @@ class PoliticaTermicaHttpPostgresTest {
     }
 
     @Test
+    void edicaoAntigaDaCamaraSemVersaoNaoSobrescreveAFaixaNova() {
+        // Ana muda a faixa pela rota de política; Bruno ainda está com a tela da câmara aberta na versão 1.
+        admin(ana).body(politica(1, 3.0, 7.0, 3)).put(POLITICA, id).then().statusCode(200).body("versao", equalTo(2));
+
+        var antiga = new HashMap<String, Object>(Map.of("nome", "Câmara de Bruno", "unidade", "UBS política",
+                "capacidade", 1000, "temperaturaMinima", 2.0, "temperaturaMaxima", 8.0, "estado", "OPERACIONAL"));
+        admin(bruno).body(antiga).put("/api/camaras/{id}", id).then().statusCode(422)
+                .contentType("application/problem+json")
+                .body("erros.campo", contains("versaoEsperada"));
+        antiga.put("versaoEsperada", 1);
+        admin(bruno).body(antiga).put("/api/camaras/{id}", id).then().statusCode(409)
+                .body("type", equalTo("/problemas/versao-desatualizada"));
+
+        // Nada da edição antiga foi gravado: nem a faixa, nem o nome, nem evento.
+        autenticado(Perfil.AUDITOR).get("/api/camaras/{id}", id).then()
+                .body("nome", equalTo("Câmara"), "temperaturaMinima", equalTo(3.0f), "temperaturaMaxima", equalTo(7.0f));
+        assertEquals(2, versoesGravadas());
+        assertEquals(1, eventosDaPolitica());
+        autenticado(Perfil.AUDITOR).queryParam("recurso", "CAMARA").queryParam("recursoId", id)
+                .get("/api/auditoria").then().body("totalElements", equalTo(0));
+
+        // Mantendo a faixa vigente, o PUT da câmara não precisa de versão.
+        var semFaixaNova = new HashMap<>(antiga);
+        semFaixaNova.remove("versaoEsperada");
+        semFaixaNova.put("temperaturaMinima", 3.0);
+        semFaixaNova.put("temperaturaMaxima", 7.0);
+        admin(bruno).body(semFaixaNova).put("/api/camaras/{id}", id).then().statusCode(200)
+                .body("nome", equalTo("Câmara de Bruno"));
+        assertEquals(2, versoesGravadas());
+    }
+
+    @Test
     void autorQueNaoEhUsuarioNaoGravaVersaoNemEvento() {
         // Token válido de alguém fora de `usuarios`: a chave estrangeira do autor desfaz a transação inteira.
         var desconhecido = UUID.randomUUID();

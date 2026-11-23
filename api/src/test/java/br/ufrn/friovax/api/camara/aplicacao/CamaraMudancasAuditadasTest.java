@@ -37,7 +37,7 @@ class CamaraMudancasAuditadasTest {
 
     private static AtualizarCamaraDTO dados(String nome, String minima) {
         return new AtualizarCamaraDTO(nome, "UBS Centro", 1000, new BigDecimal(minima), new BigDecimal("8.0"),
-                EstadoCamara.OPERACIONAL);
+                EstadoCamara.OPERACIONAL, 1);
     }
 
     @Test

@@ -173,8 +173,8 @@ public class CamaraResource {
             + "térmica versionada, com a mesma regra de `PUT /api/camaras/{id}/politica-termica`: uma faixa "
             + "diferente cria nova versão com o administrador do token como autor, preservando o limiar e as versões "
             + "anteriores, e o estado térmico volta a `SEM_LEITURAS` (exceto em `EM_ALERTA`); a mesma faixa não cria "
-            + "versão. Envie `versaoEsperada` para não sobrescrever uma alteração de política feita por outro "
-            + "administrador.")
+            + "versão. Mudar a faixa exige `versaoEsperada` (422 sem ela, 409 se outro administrador alterou a "
+            + "política antes), para uma edição antiga não sobrescrever uma faixa mais nova.")
     @APIResponse(responseCode = "200", description = "Câmara atualizada.")
     @APIResponse(responseCode = "400", ref = DocumentacaoApi.REQUISICAO_INVALIDA)
     @APIResponse(responseCode = "404", ref = DocumentacaoApi.NAO_ENCONTRADO)

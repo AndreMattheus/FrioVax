@@ -151,6 +151,38 @@ class CamaraPoliticaTermicaTest {
     }
 
     @Test
+    void mudarAFaixaSemVersaoEsperadaEhRecusado() {
+        var camara = comLimiar(5);
+
+        var erro = assertThrows(ValidacaoDeNegocio.class, () -> camara.exigirVersaoParaFaixa(null,
+                new BigDecimal("1.0"), new BigDecimal("8.0")));
+        assertEquals("versaoEsperada", erro.campo());
+        assertThrows(VersaoDesatualizada.class, () -> camara.exigirVersaoParaFaixa(1,
+                new BigDecimal("1.0"), new BigDecimal("8.0")));
+        assertDoesNotThrow(() -> camara.exigirVersaoParaFaixa(2, new BigDecimal("1.0"), new BigDecimal("8.0")));
+    }
+
+    @Test
+    void manterAFaixaDispensaAVersaoMasVersaoInformadaEhConferida() {
+        var camara = comLimiar(5);
+        var minima = camara.getPolitica().getTemperaturaMinima();
+        var maxima = camara.getPolitica().getTemperaturaMaxima();
+
+        assertDoesNotThrow(() -> camara.exigirVersaoParaFaixa(null, minima, maxima.setScale(2)));
+        assertThrows(VersaoDesatualizada.class, () -> camara.exigirVersaoParaFaixa(1, minima, maxima));
+    }
+
+    @Test
+    void camaraInativaSemVersaoSegueParaARecusaDaEdicao() {
+        var camara = nova();
+        camara.inativar(false, DEPOIS);
+
+        assertDoesNotThrow(() -> camara.exigirVersaoParaFaixa(null, new BigDecimal("1.0"), new BigDecimal("9.0")));
+        assertThrows(EstadoIncompativel.class, () -> camara.exigirVersaoParaFaixa(1, new BigDecimal("1.0"),
+                new BigDecimal("9.0")));
+    }
+
+    @Test
     void camaraInativaEhRecusadaAntesDaVersao() {
         var camara = nova();
         camara.inativar(false, DEPOIS);

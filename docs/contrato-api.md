@@ -126,7 +126,7 @@ Um lote `DESCARTADO` não aceita mais uso (`POST /api/lotes/{id}/baixas` → `40
 A faixa térmica da câmara pertence a uma política versionada, com faixa e limiar N de leituras inseguras consecutivas ([ADR 0003](decisoes/0003-servico-go-telemetria.md), seção 2). A política é a única fonte oficial da faixa.
 
 - A câmara nova, ou já existente antes da migração V4, começa na versão 1, com a faixa informada e limiar `3` (valor de demonstração), e com `estadoTermico` = `SEM_LEITURAS`. Nenhuma leitura é inventada.
-- No `PUT /api/camaras/{id}`, uma faixa diferente da vigente cria nova versão, preservando o limiar. A mesma faixa, inclusive com outra escala (`8` e `8.00`), não cria versão. A regra é a mesma da rota de política (§12), inclusive o autor e a `versaoEsperada` opcional.
+- No `PUT /api/camaras/{id}`, uma faixa diferente da vigente cria nova versão, preservando o limiar. A mesma faixa, inclusive com outra escala (`8` e `8.00`), não cria versão. A regra é a mesma da rota de política (§12), inclusive o autor. Mudar a faixa exige `versaoEsperada` (§12.1).
 - Versões anteriores nunca são alteradas nem apagadas. Uma nova versão reinicia a sequência: sem ocorrência aberta, `estadoTermico` volta a `SEM_LEITURAS`; em `EM_ALERTA`, continua em alerta.
 - O limiar vai de `1` a `100` e só muda pela rota de política (§12), que também consulta o histórico de versões.
 - Uma edição confirmada da câmara gera um aviso interno de mudança, entregue somente depois do commit, para a auditoria (US10) e para invalidar o resumo (US07).
@@ -719,7 +719,7 @@ Content-Type: application/json
 - Uma mudança real cria a versão seguinte e mantém as anteriores. O autor é o `sub` do JWT validado; `autorId`, `versao` ou outro campo de autoria no body são ignorados.
 - Câmara inativa retorna `409` (`/problemas/estado-incompativel`); operador e auditor recebem `403`.
 
-O `PUT /api/camaras/{id}` aceita o mesmo campo, opcional: com `versaoEsperada`, segue a mesma regra; sem ele, não confere a versão (comportamento anterior à S2-14). Ele só altera a faixa e preserva o limiar.
+O `PUT /api/camaras/{id}` segue a mesma regra para a faixa: mudar a faixa exige `versaoEsperada` (sem ela, `422` com o campo `versaoEsperada`; desatualizada, `409`), e nada é gravado em nenhum dos dois casos, nem os outros campos do mesmo PUT. Se a faixa enviada é a vigente, o campo pode ser omitido; informado, é conferido mesmo assim. Ele só altera a faixa e preserva o limiar.
 
 ### 12.2 Efeitos de uma nova versão
 

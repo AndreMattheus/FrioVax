@@ -168,6 +168,16 @@ class PoliticaTermicaHttpMemoriaTest extends HttpEmMemoriaSupport {
         autenticado(Perfil.AUDITOR).get(POLITICA, id).then()
                 .body("versao", equalTo(3), "limiar", equalTo(5), "autorId", equalTo(adminId.toString()));
         admin().body(camara("2.5", "7.0", 0)).put("/api/camaras/{id}", id).then().statusCode(422);
+
+        // Sem versaoEsperada, mudar a faixa é recusado; manter a faixa vigente passa.
+        var semVersao = new HashMap<>(camara("1.0", "9.0", 3));
+        semVersao.remove("versaoEsperada");
+        admin().body(semVersao).put("/api/camaras/{id}", id).then().statusCode(422)
+                .body("type", equalTo("/problemas/validacao"), "erros.campo", contains("versaoEsperada"));
+        semVersao.put("temperaturaMinima", 2.5);
+        semVersao.put("temperaturaMaxima", 7.0);
+        admin().body(semVersao).put("/api/camaras/{id}", id).then().statusCode(200);
+        autenticado(Perfil.AUDITOR).get(POLITICA, id).then().body("versao", equalTo(3));
     }
 
     private RequestSpecification admin() {

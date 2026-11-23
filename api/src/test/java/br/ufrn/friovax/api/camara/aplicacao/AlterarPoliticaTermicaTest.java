@@ -175,10 +175,35 @@ class AlterarPoliticaTermicaTest {
         assertThrows(VersaoDesatualizada.class, () -> alterar.alterar(id, dados(1, "1.0", "8.0", 3)));
         assertEquals(new BigDecimal("3.0"), consultar.vigente(id).getTemperaturaMinima());
 
-        // Sem versão esperada, o PUT da câmara continua aceito, como antes da S2-14.
+        // Sem versão esperada, o PUT da câmara só passa se mantiver a faixa vigente.
         atualizarCamara.atualizar(id, new AtualizarCamaraDTO("Câmara", "UBS Centro", 1000, new BigDecimal("3.0"),
                 new BigDecimal("8.0"), EstadoCamara.OPERACIONAL));
         assertEquals(1, publicadas.size(), "nada mudou: nenhum evento novo");
+    }
+
+    @Test
+    void putDaCamaraQueMudaAFaixaSemVersaoEsperadaEhRecusadoSemGravarNada() {
+        long id = criar();
+        alterar.alterar(id, dados(1, "3.0", "7.0", 3));
+        publicadas.clear();
+
+        // Edição antiga, feita antes da versão 2, sem versão: não pode voltar a faixa nem renomear.
+        var erro = assertThrows(ValidacaoDeNegocio.class, () -> atualizarCamara.atualizar(id,
+                new AtualizarCamaraDTO("Nome antigo", "UBS Centro", 1000, new BigDecimal("2.0"),
+                        new BigDecimal("8.0"), EstadoCamara.OPERACIONAL)));
+        assertEquals("versaoEsperada", erro.campo());
+
+        var camara = camaras.buscarPorId(id).orElseThrow();
+        assertEquals("Câmara", camara.getNome());
+        assertEquals(2, camara.getPolitica().getVersao());
+        assertEquals(new BigDecimal("3.0"), camara.getPolitica().getTemperaturaMinima());
+        assertTrue(publicadas.isEmpty());
+
+        // Mesma faixa em outra escala sem versão é aceita; outros campos mudam normalmente.
+        atualizarCamara.atualizar(id, new AtualizarCamaraDTO("Câmara renomeada", "UBS Centro", 1000,
+                new BigDecimal("3"), new BigDecimal("7.00"), EstadoCamara.OPERACIONAL));
+        assertEquals(List.of("camara"), publicadas.stream().map(MudancaConfirmada::recurso).toList());
+        assertEquals(2, consultar.vigente(id).getVersao());
     }
 
     @Test

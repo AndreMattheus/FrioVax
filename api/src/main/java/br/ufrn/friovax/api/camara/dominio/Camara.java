@@ -176,6 +176,27 @@ public class Camara {
         }
     }
 
+    /**
+     * Regra do PUT da câmara (S2-14): mudar a faixa exige a versão da política que o cliente leu, para uma edição
+     * antiga não sobrescrever uma faixa mais nova. Informada, a versão é conferida mesmo sem mudança de faixa; omitida,
+     * o PUT só passa se mantiver a faixa vigente. Câmara inativa segue para a recusa normal da edição (409).
+     */
+    public void exigirVersaoParaFaixa(Integer versaoEsperada, BigDecimal temperaturaMinima,
+                                      BigDecimal temperaturaMaxima) {
+        if (versaoEsperada != null) {
+            exigirVersaoDaPolitica(versaoEsperada);
+            return;
+        }
+        if (!ativo) {
+            return;
+        }
+        var faixa = PoliticaTermica.faixaNormalizada(temperaturaMinima, temperaturaMaxima);
+        if (!politica.temMesmosValores(faixa[0], faixa[1], politica.getLimiar())) {
+            throw new ValidacaoDeNegocio("versaoEsperada", "deve ser informada para alterar a faixa térmica; "
+                + "consulte a versão vigente em GET /api/camaras/{id}/politica-termica");
+        }
+    }
+
     /** Remoção lógica (D12). Repetir numa câmara inativa não faz nada; com lotes ativos, é rejeitada (D7). */
     public void inativar(boolean possuiLotesAtivos, OffsetDateTime agora) {
         if (!ativo) {

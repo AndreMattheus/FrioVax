@@ -44,9 +44,10 @@ public record AtualizarCamaraRequest(
     @NotNull(message = "deve ser informado")
     EstadoCamara estado,
 
-    @Schema(description = "Opcional. Versão da política térmica que o cliente leu (`versao` de "
-        + "`GET /api/camaras/{id}/politica-termica`). Informada, o PUT só vale sobre ela: se outra alteração de "
-        + "política chegou antes, a resposta é 409 e nada é gravado. Omitida, o PUT não confere a versão.",
+    @Schema(description = "Versão da política térmica que o cliente leu (`versao` de "
+        + "`GET /api/camaras/{id}/politica-termica`). Obrigatória para mudar a faixa: sem ela, 422; se outra "
+        + "alteração de política chegou antes, 409. Nos dois casos nada é gravado. Pode ser omitida quando a faixa "
+        + "enviada é a vigente; informada, é conferida mesmo assim.",
         examples = "1")
     @Positive(message = "deve ser maior que zero")
     Integer versaoEsperada

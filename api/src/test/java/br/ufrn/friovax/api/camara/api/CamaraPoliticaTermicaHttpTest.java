@@ -119,7 +119,8 @@ class CamaraPoliticaTermicaHttpTest {
                   "capacidade": 1000,
                   "temperaturaMinima": %s,
                   "temperaturaMaxima": %s,
-                  "estado": "OPERACIONAL"
+                  "estado": "OPERACIONAL",
+                  "versaoEsperada": 1
                 }
                 """.formatted(minima, maxima);
     }
