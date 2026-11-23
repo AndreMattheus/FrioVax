@@ -39,7 +39,13 @@ public record MudancaConfirmada(String recurso, long recursoId, String descricao
     /** Mudança de um recurso auditado: o publicador grava o evento de auditoria na mesma transação. */
     public static MudancaConfirmada auditada(RecursoAuditado recurso, long recursoId, OperacaoAuditada operacao,
                                              String descricao, OffsetDateTime instante) {
-        return new MudancaConfirmada(recurso.nomeNoAviso(), recursoId, descricao, null, instante,
+        return auditada(recurso, recursoId, operacao, descricao, null, instante);
+    }
+
+    /** Igual à anterior, levando também quem fez a mudança (nulo quando não há usuário identificado). */
+    public static MudancaConfirmada auditada(RecursoAuditado recurso, long recursoId, OperacaoAuditada operacao,
+                                             String descricao, UUID autorId, OffsetDateTime instante) {
+        return new MudancaConfirmada(recurso.nomeNoAviso(), recursoId, descricao, autorId, instante,
                 Objects.requireNonNull(operacao, "operacao"));
     }
 

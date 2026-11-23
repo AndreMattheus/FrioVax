@@ -429,6 +429,17 @@ não registram payload nem descrições arbitrárias de erros. O metadado
 Para executar fora de containers: `mise exec -- go -C services/telemetry run ./cmd/server`.
 Use `grpcurl -plaintext localhost:9090 list` para descobrir os serviços.
 
+## Política térmica da câmara
+
+Faixa segura e limiar de cada câmara ficam numa política versionada. Consulte
+`GET /api/camaras/{id}/politica-termica` (qualquer perfil) e anote `versao`. Para
+alterar, como administrador, envie `PUT /api/camaras/{id}/politica-termica` com
+`versaoEsperada` igual a essa versão, `temperaturaMinima`, `temperaturaMaxima` e
+`limiar`. Se outra pessoa alterou antes, a resposta é 409: consulte de novo e
+reenvie. O histórico fica em `GET /api/camaras/{id}/politica-termica/versoes`, e
+cada nova versão aparece na trilha (`GET /api/auditoria?recurso=POLITICA_TERMICA`).
+Detalhes no [contrato da política](docs/contrato-api.md#12-política-térmica-sprint-2--78).
+
 ## Histórico de leituras e ocorrências
 
 As consultas recuperam dados confirmados no PostgreSQL e funcionam sem o serviço

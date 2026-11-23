@@ -4,6 +4,7 @@ import br.ufrn.friovax.api.compartilhado.dominio.CapacidadeExcedida;
 import br.ufrn.friovax.api.compartilhado.dominio.EstadoIncompativel;
 import br.ufrn.friovax.api.compartilhado.dominio.Textos;
 import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
+import br.ufrn.friovax.api.compartilhado.dominio.VersaoDesatualizada;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -16,7 +17,7 @@ import java.util.regex.Pattern;
  * e informada às operações que dependem dela.
  *
  * A faixa térmica pertence à PoliticaTermica vigente, que é a única fonte oficial dos valores (ADR 0003,
- * seção 2). Tanto a edição da câmara quanto a futura rota de política passam por alterarPolitica.
+ * seção 2). A edição da câmara e a rota de política (S2-14) usam a mesma regra de versão (politicaComFaixa).
  */
 public class Camara {
 
@@ -159,6 +160,41 @@ public class Camara {
         aplicarPolitica(novaPolitica);
         this.atualizadoEm = agora;
         return true;
+    }
+
+    /**
+     * Concorrência otimista da política (S2-14): a alteração só vale sobre a versão que o cliente leu. Dois
+     * administradores que partem da mesma versão não se sobrescrevem: o segundo recebe {@link VersaoDesatualizada}.
+     * Uma câmara inativa é recusada antes, como em qualquer alteração.
+     */
+    public void exigirVersaoDaPolitica(int versaoEsperada) {
+        exigirAtiva("alterada");
+        if (politica.getVersao() != versaoEsperada) {
+            throw new VersaoDesatualizada("A política térmica da câmara " + codigo + " está na versão "
+                + politica.getVersao() + ", e a alteração foi feita sobre a versão " + versaoEsperada
+                + ". Consulte a política vigente e reenvie.");
+        }
+    }
+
+    /**
+     * Regra do PUT da câmara (S2-14): mudar a faixa exige a versão da política que o cliente leu, para uma edição
+     * antiga não sobrescrever uma faixa mais nova. Informada, a versão é conferida mesmo sem mudança de faixa; omitida,
+     * o PUT só passa se mantiver a faixa vigente. Câmara inativa segue para a recusa normal da edição (409).
+     */
+    public void exigirVersaoParaFaixa(Integer versaoEsperada, BigDecimal temperaturaMinima,
+                                      BigDecimal temperaturaMaxima) {
+        if (versaoEsperada != null) {
+            exigirVersaoDaPolitica(versaoEsperada);
+            return;
+        }
+        if (!ativo) {
+            return;
+        }
+        var faixa = PoliticaTermica.faixaNormalizada(temperaturaMinima, temperaturaMaxima);
+        if (!politica.temMesmosValores(faixa[0], faixa[1], politica.getLimiar())) {
+            throw new ValidacaoDeNegocio("versaoEsperada", "deve ser informada para alterar a faixa térmica; "
+                + "consulte a versão vigente em GET /api/camaras/{id}/politica-termica");
+        }
     }
 
     /** Remoção lógica (D12). Repetir numa câmara inativa não faz nada; com lotes ativos, é rejeitada (D7). */

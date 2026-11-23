@@ -5,21 +5,27 @@ import br.ufrn.friovax.api.camara.dominio.CamaraFiltro;
 import br.ufrn.friovax.api.camara.dominio.EstadoCamara;
 import br.ufrn.friovax.api.camara.dominio.EstadoTermico;
 import br.ufrn.friovax.api.camara.dominio.PoliticaTermica;
+import br.ufrn.friovax.api.autenticacao.dominio.Perfil;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
+import br.ufrn.friovax.api.compartilhado.dominio.VersaoDesatualizada;
+import br.ufrn.friovax.api.suporte.UsuariosDeTeste;
 import io.quarkus.narayana.jta.QuarkusTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Persistência da política térmica versionada (S2-05). Cada operação confirma a própria transação. */
 @QuarkusTest
@@ -33,6 +39,7 @@ class PoliticaTermicaPostgresTest {
     EntityManager entityManager;
 
     private Long camaraId;
+    private final List<UUID> usuarios = new ArrayList<>();
 
     @AfterEach
     void apagarCamara() {
@@ -42,6 +49,8 @@ class PoliticaTermicaPostgresTest {
                     .createNativeQuery("delete from camaras where id = :id")
                     .setParameter("id", camaraId).executeUpdate());
         }
+        // Depois da câmara: as versões dela referenciam o usuário como autor.
+        usuarios.forEach(id -> UsuariosDeTeste.apagar(entityManager, id));
     }
 
     @Test
@@ -112,6 +121,56 @@ class PoliticaTermicaPostgresTest {
         assertEquals(new BigDecimal("6.5"), pagina.itens().get(0).getTemperaturaMaxima());
     }
 
+    @Test
+    void historicoPaginadoVaiDaVersaoMaisRecenteParaAMaisAntiga() {
+        camaraId = criar("2.0", "8.0");
+        alterar("3.0", "7.0", 3);
+        alterar("3.0", "7.0", 4);
+
+        var primeira = QuarkusTransaction.requiringNew().call(() -> repositorio.listarPoliticas(camaraId,
+                new Paginacao(0, 2)));
+        assertEquals(3, primeira.totalElementos());
+        assertEquals(List.of(3, 2), primeira.itens().stream().map(PoliticaTermica::getVersao).toList());
+        var segunda = QuarkusTransaction.requiringNew().call(() -> repositorio.listarPoliticas(camaraId,
+                new Paginacao(1, 2)));
+        assertEquals(List.of(1), segunda.itens().stream().map(PoliticaTermica::getVersao).toList());
+        var alem = QuarkusTransaction.requiringNew().call(() -> repositorio.listarPoliticas(camaraId,
+                new Paginacao(Integer.MAX_VALUE, 100)));
+        assertTrue(alem.itens().isEmpty());
+        assertEquals(3, alem.totalElementos());
+    }
+
+    @Test
+    void camaraCarregadaSemLockNaoSobrescreveAVersaoDeOutraAlteracao() {
+        camaraId = criar("2.0", "8.0");
+        var obsoleta = buscar();
+        alterar("3.0", "7.0", 3);
+
+        // A cópia antiga também calcula a "versão 2", com outros valores: gravar apagaria a alteração anterior.
+        obsoleta.alterarPolitica(new BigDecimal("1.0"), new BigDecimal("9.0"), 3, null, CRIACAO.plusHours(2));
+        assertThrows(VersaoDesatualizada.class,
+                () -> QuarkusTransaction.requiringNew().run(() -> repositorio.salvar(obsoleta)));
+
+        var historico = historico();
+        assertEquals(2, historico.size());
+        assertEquals(new BigDecimal("3.0"), historico.get(1).getTemperaturaMinima());
+    }
+
+    @Test
+    void autorCadastradoEhGravadoEAutorInexistenteDesfazAVersao() {
+        camaraId = criar("2.0", "8.0");
+        var admin = UsuariosDeTeste.cadastrar(entityManager, Perfil.ADMINISTRADOR);
+        usuarios.add(admin);
+
+        alterar("3.0", "7.0", 3, admin);
+        assertEquals(admin, historico().get(1).getAutorId().orElseThrow());
+        assertTrue(historico().get(0).getAutorId().isEmpty(), "a versão 1 continua sem autor");
+
+        // A chave estrangeira impede autoria de quem não é usuário: a transação inteira é desfeita.
+        assertThrows(PersistenceException.class, () -> alterar("4.0", "7.0", 3, UUID.randomUUID()));
+        assertEquals(2, historico().size());
+    }
+
     private long criar(String minima, String maxima) {
         var sufixo = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         return QuarkusTransaction.requiringNew().call(() -> repositorio.salvar(Camara.nova("P-" + sufixo,
@@ -120,9 +179,13 @@ class PoliticaTermicaPostgresTest {
     }
 
     private void alterar(String minima, String maxima, int limiar) {
+        alterar(minima, maxima, limiar, null);
+    }
+
+    private void alterar(String minima, String maxima, int limiar, UUID autor) {
         QuarkusTransaction.requiringNew().run(() -> {
             var camara = repositorio.buscarPorIdParaAlteracao(camaraId).orElseThrow();
-            camara.alterarPolitica(new BigDecimal(minima), new BigDecimal(maxima), limiar, null,
+            camara.alterarPolitica(new BigDecimal(minima), new BigDecimal(maxima), limiar, autor,
                     CRIACAO.plusHours(1));
             repositorio.salvar(camara);
         });

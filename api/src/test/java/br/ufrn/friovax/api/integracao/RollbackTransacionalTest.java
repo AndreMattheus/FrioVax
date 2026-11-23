@@ -106,7 +106,7 @@ class RollbackTransacionalTest {
         // A capacidade é aceita pelo caso de uso; a segunda gravação viola o CHECK de capacidade só no banco.
         assertThrows(RuntimeException.class, () -> QuarkusTransaction.requiringNew().run(() -> {
             atualizarCamara.atualizar(camaraId, new AtualizarCamaraDTO("Renomeada", "Outra UBS", 2000,
-                    new BigDecimal("1.0"), new BigDecimal("7.0"), EstadoCamara.OPERACIONAL));
+                    new BigDecimal("1.0"), new BigDecimal("7.0"), EstadoCamara.OPERACIONAL, 1));
             var salva = camaras.buscarPorId(camaraId).orElseThrow();
             camaras.salvar(Camara.reconstituir(camaraId, salva.getCodigo(), salva.getNome(), salva.getUnidade(), 0,
                     salva.getTemperaturaMinima(), salva.getTemperaturaMaxima(), salva.getEstado(), true,

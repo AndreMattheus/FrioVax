@@ -126,10 +126,10 @@ Um lote `DESCARTADO` não aceita mais uso (`POST /api/lotes/{id}/baixas` → `40
 A faixa térmica da câmara pertence a uma política versionada, com faixa e limiar N de leituras inseguras consecutivas ([ADR 0003](decisoes/0003-servico-go-telemetria.md), seção 2). A política é a única fonte oficial da faixa.
 
 - A câmara nova, ou já existente antes da migração V4, começa na versão 1, com a faixa informada e limiar `3` (valor de demonstração), e com `estadoTermico` = `SEM_LEITURAS`. Nenhuma leitura é inventada.
-- No `PUT /api/camaras/{id}`, uma faixa diferente da vigente cria nova versão, preservando o limiar. A mesma faixa, inclusive com outra escala (`8` e `8.00`), não cria versão.
+- No `PUT /api/camaras/{id}`, uma faixa diferente da vigente cria nova versão, preservando o limiar. A mesma faixa, inclusive com outra escala (`8` e `8.00`), não cria versão. A regra é a mesma da rota de política (§12), inclusive o autor. Mudar a faixa exige `versaoEsperada` (§12.1).
 - Versões anteriores nunca são alteradas nem apagadas. Uma nova versão reinicia a sequência: sem ocorrência aberta, `estadoTermico` volta a `SEM_LEITURAS`; em `EM_ALERTA`, continua em alerta.
-- O limiar vai de `1` a `100`. A alteração do limiar e a consulta do histórico de versões pela API ficam para a rota de política (S2-14).
-- Uma edição confirmada da câmara gera um aviso interno de mudança, entregue somente depois do commit, para a auditoria (US10).
+- O limiar vai de `1` a `100` e só muda pela rota de política (§12), que também consulta o histórico de versões.
+- Uma edição confirmada da câmara gera um aviso interno de mudança, entregue somente depois do commit, para a auditoria (US10) e para invalidar o resumo (US07).
 
 ## 4. Rotas
 
@@ -204,6 +204,7 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 | `409` | Código duplicado                                                                                                                                                                                                                                                       | `/problemas/codigo-duplicado` |
 | `409` | Capacidade excedida ou redução abaixo da ocupação                                                                                                                                                                                                                      | `/problemas/capacidade-excedida` |
 | `409` | Operação incompatível com o estado atual (registro inativo, câmara em manutenção, câmara com lotes ativos)                                                                                                                                                             | `/problemas/estado-incompativel` |
+| `409` | `versaoEsperada` diferente da versão vigente da política térmica; consulte e reenvie (§12) | `/problemas/versao-desatualizada` |
 | `422` | Body ou campo obrigatório ausente; campo em branco; formato ou regra de entrada violada após desserialização (inclusive validade não futura, temperatura fora do intervalo, precisão térmica excessiva e `temperaturaMinima >= temperaturaMaxima`) | `/problemas/validacao` |
 | `409` | Leitura com chave `(camaraId, idExterno)` já aceita com outro conteúdo (§10) | `/problemas/leitura-conflitante` |
 | `409` | Câmara alterada durante as duas análises de uma leitura; pode reenviar (§10) | `/problemas/alteracao-concorrente` |
@@ -437,8 +438,8 @@ Content-Type: application/problem+json
 
 - Entidade e CRUD de Unidade (D2).
 - Reativação de registros inativos.
-- Estados térmicos da câmara e política térmica (US05, US08).
-- Auditoria de políticas térmicas e ocorrências: os tipos já existem na trilha (§9), mas os registros chegam com as rotas de política (S2-14) e de ocorrência.
+- Estados térmicos da câmara (US05).
+- Auditoria de ocorrências: o tipo `OCORRENCIA` já existe na trilha (§9), mas os registros chegam com a abertura e a resolução de ocorrências.
 
 ## 7. Autenticação e sessões (Sprint 2 — #80)
 
@@ -472,6 +473,7 @@ Toda alteração confirmada de câmara ou lote gera um evento na tabela `eventos
 | `CAMARA` | `CADASTRO`, `ATUALIZACAO`, `INATIVACAO` | `POST`, `PUT` com alguma mudança, `DELETE` de câmara ativa |
 | `LOTE` | `CADASTRO`, `ATUALIZACAO`, `INATIVACAO` | `POST`, `PUT` com alguma mudança, `DELETE` de lote ativo |
 | `LOTE` | `BAIXA`, `DESCARTE` | `POST /baixas`; `POST /descarte` de lote ainda não descartado |
+| `POLITICA_TERMICA` | `ALTERACAO_DE_POLITICA` | Nova versão, pela rota de política ou pelo `PUT` da câmara (§12); `recursoId` é o `id` da câmara |
 
 Cada evento guarda:
 
@@ -688,3 +690,42 @@ A migração V7 acrescenta índices globais de abertura/ID e estado/abertura/ID,
 sem modificar migrações já aplicadas. A página e a contagem usam o isolamento
 transacional padrão: novas gravações concorrentes podem mudar páginas entre
 requisições; não se promete um snapshot único entre páginas.
+
+## 12. Política térmica (Sprint 2 — #78)
+
+A política térmica de cada câmara tem faixa segura e limiar N, em versões imutáveis (§3.5). As rotas abaixo consultam a versão vigente, alteram faixa e limiar e listam o histórico.
+
+| Rota | Permissão | Sucesso |
+|---|---|---|
+| `GET /api/camaras/{id}/politica-termica` | `consultar-operacao` (ADMINISTRADOR, OPERADOR, AUDITOR) | `200` com a versão vigente |
+| `PUT /api/camaras/{id}/politica-termica` | `alterar-politica` (ADMINISTRADOR) | `200` com a versão vigente depois da chamada |
+| `GET /api/camaras/{id}/politica-termica/versoes` | `consultar-operacao` | `200` com página, da versão mais recente para a mais antiga |
+
+Representação de uma versão: `camaraId`, `versao`, `temperaturaMinima`, `temperaturaMaxima`, `limiar`, `autorId` (UUID do administrador; nulo quando não há autor conhecido, como na versão 1 do cadastro e nas versões criadas pela migração V4) e `criadaEm`. As consultas funcionam também para câmara inativa; câmara inexistente retorna `404`.
+
+### 12.1 Alteração com versão esperada
+
+```http
+PUT /api/camaras/3/politica-termica
+Authorization: Bearer <accessToken de ADMINISTRADOR>
+Content-Type: application/json
+
+{ "versaoEsperada": 1, "temperaturaMinima": 2.0, "temperaturaMaxima": 8.0, "limiar": 4 }
+```
+
+- `versaoEsperada` é a `versao` que o cliente consultou. Se não for a vigente, a resposta é `409` (`/problemas/versao-desatualizada`) e nada é gravado: dois administradores que partem da mesma versão não se sobrescrevem. A câmara fica bloqueada durante a alteração, então o segundo envio sempre vê a versão nova.
+- Todos os campos são obrigatórios. Faixa e precisão seguem a câmara (§2.4); o limiar vai de `1` a `100`. Valores inválidos retornam `422` sem criar versão.
+- Valores iguais aos vigentes (inclusive `8` e `8.00`) respondem `200` com a mesma versão, sem nova versão nem evento.
+- Uma mudança real cria a versão seguinte e mantém as anteriores. O autor é o `sub` do JWT validado; `autorId`, `versao` ou outro campo de autoria no body são ignorados.
+- Câmara inativa retorna `409` (`/problemas/estado-incompativel`); operador e auditor recebem `403`.
+
+O `PUT /api/camaras/{id}` segue a mesma regra para a faixa: mudar a faixa exige `versaoEsperada` (sem ela, `422` com o campo `versaoEsperada`; desatualizada, `409`), e nada é gravado em nenhum dos dois casos, nem os outros campos do mesmo PUT. Se a faixa enviada é a vigente, o campo pode ser omitido; informado, é conferido mesmo assim. Ele só altera a faixa e preserva o limiar.
+
+### 12.2 Efeitos de uma nova versão
+
+- **Leituras:** a próxima leitura é analisada na versão nova, com contexto só dessa versão, então a sequência recomeça (a primeira insegura tem `sequencia = 1`). Leituras e ocorrências antigas continuam com a versão em que foram analisadas (§11).
+- **Estado térmico:** volta a `SEM_LEITURAS`; com ocorrência aberta, a câmara continua `EM_ALERTA` e a ocorrência continua aberta.
+- **Trilha (§9):** um evento `POLITICA_TERMICA` / `ALTERACAO_DE_POLITICA`, gravado na mesma transação, por exemplo `Política térmica da câmara CAM-01 passou da versão 1 para a 2: faixa 2.0 a 8.0 °C → 3.0 a 7.0 °C; limiar 3 → 4`. Um `PUT` da câmara que muda nome e faixa gera dois eventos: `CAMARA` / `ATUALIZACAO` para os outros campos e `POLITICA_TERMICA` para a faixa.
+- **Resumo (US07):** o aviso de mudança, entregue depois do commit, invalida o cache do resumo. Não há cache distribuído.
+
+Se a gravação da versão ou do evento falha, a transação inteira é desfeita: não sobra versão sem evento nem evento sem versão. Excluir versões em uso e reclassificar o histórico estão fora do escopo.

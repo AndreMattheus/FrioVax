@@ -41,11 +41,13 @@ class AtualizarCamaraMudancaTest {
         assertEquals(EstadoTermico.SEM_LEITURAS, resultado.camara().getEstadoTermico());
         assertEquals(2, camaras.historicoDePoliticas(id).size());
         assertEquals(new BigDecimal("2.0"), camaras.historicoDePoliticas(id).get(0).getTemperaturaMinima());
+        // Só a faixa mudou: o aviso é da política (S2-14), não uma atualização da câmara.
         assertEquals(1, publicadas.size());
         var mudanca = publicadas.get(0);
-        assertEquals("camara", mudanca.recurso());
+        assertEquals("politica_termica", mudanca.recurso());
         assertEquals(id, mudanca.recursoId());
-        assertTrue(mudanca.descricao().contains("versão 1 para a 2"), mudanca.descricao());
+        assertEquals("Política térmica da câmara CAM-01 passou da versão 1 para a 2: faixa 2.0 a 8.0 °C → 3.0 a 7.0 °C",
+                mudanca.descricao());
         assertEquals(AGORA.toInstant(), mudanca.instante().toInstant());
     }
 
@@ -57,7 +59,8 @@ class AtualizarCamaraMudancaTest {
 
         assertEquals(1, camaras.historicoDePoliticas(id).size());
         assertEquals(1, publicadas.size());
-        assertTrue(publicadas.get(0).descricao().contains("mantida na versão 1"), publicadas.get(0).descricao());
+        assertEquals("camara", publicadas.get(0).recurso());
+        assertEquals("Câmara CAM-01 atualizada: capacidade 1000 → 900", publicadas.get(0).descricao());
     }
 
     @Test
@@ -87,6 +90,6 @@ class AtualizarCamaraMudancaTest {
 
     private static AtualizarCamaraDTO dados(String minima, String maxima, int capacidade) {
         return new AtualizarCamaraDTO("Câmara", "UBS Centro", capacidade, new BigDecimal(minima),
-                new BigDecimal(maxima), EstadoCamara.OPERACIONAL);
+                new BigDecimal(maxima), EstadoCamara.OPERACIONAL, 1);
     }
 }

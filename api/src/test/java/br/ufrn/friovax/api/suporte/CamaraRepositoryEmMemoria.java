@@ -73,6 +73,11 @@ public class CamaraRepositoryEmMemoria implements CamaraRepository {
     }
 
     @Override
+    public synchronized Pagina<PoliticaTermica> listarPoliticas(long camaraId, Paginacao paginacao) {
+        return Paginador.paginar(historicoDePoliticas(camaraId).reversed(), paginacao);
+    }
+
+    @Override
     public synchronized Optional<Camara> buscarPorId(long id) {
         return Optional.ofNullable(camaras.get(id)).map(CamaraRepositoryEmMemoria::copia);
     }

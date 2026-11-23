@@ -37,7 +37,7 @@ class AtualizarCamaraTest {
         var camara = novaCamara("CAM-01");
 
         var resultado = casoDeUso.atualizar(camara.getId(), new AtualizarCamaraDTO("Câmara reformada", "UBS Norte",
-                2000, new BigDecimal("3.0"), new BigDecimal("7.0"), EstadoCamara.MANUTENCAO));
+                2000, new BigDecimal("3.0"), new BigDecimal("7.0"), EstadoCamara.MANUTENCAO, 1));
 
         var gravada = camaras.buscarPorId(camara.getId()).orElseThrow();
         assertEquals(camara.getId(), gravada.getId());

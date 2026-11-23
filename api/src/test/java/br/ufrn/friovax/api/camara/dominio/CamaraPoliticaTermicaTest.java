@@ -1,13 +1,16 @@
 package br.ufrn.friovax.api.camara.dominio;
 
 import br.ufrn.friovax.api.compartilhado.dominio.CapacidadeExcedida;
+import br.ufrn.friovax.api.compartilhado.dominio.EstadoIncompativel;
 import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
+import br.ufrn.friovax.api.compartilhado.dominio.VersaoDesatualizada;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -128,6 +131,66 @@ class CamaraPoliticaTermicaTest {
                 () -> camara.alterarPolitica(new BigDecimal("3.0"), new BigDecimal("7.0"), 101, null, DEPOIS));
 
         assertEquals(1, camara.getPolitica().getVersao());
+    }
+
+    @Test
+    void versaoEsperadaIgualAVigentePassa() {
+        var camara = comLimiar(5);
+
+        assertDoesNotThrow(() -> camara.exigirVersaoDaPolitica(2));
+    }
+
+    @Test
+    void versaoEsperadaDesatualizadaOuAdiantadaEhRecusada() {
+        var camara = comLimiar(5);
+
+        var erro = assertThrows(VersaoDesatualizada.class, () -> camara.exigirVersaoDaPolitica(1));
+        assertTrue(erro.getMessage().contains("versão 2"), erro.getMessage());
+        assertThrows(VersaoDesatualizada.class, () -> camara.exigirVersaoDaPolitica(3));
+        assertEquals(2, camara.getPolitica().getVersao());
+    }
+
+    @Test
+    void mudarAFaixaSemVersaoEsperadaEhRecusado() {
+        var camara = comLimiar(5);
+
+        var erro = assertThrows(ValidacaoDeNegocio.class, () -> camara.exigirVersaoParaFaixa(null,
+                new BigDecimal("1.0"), new BigDecimal("8.0")));
+        assertEquals("versaoEsperada", erro.campo());
+        assertThrows(VersaoDesatualizada.class, () -> camara.exigirVersaoParaFaixa(1,
+                new BigDecimal("1.0"), new BigDecimal("8.0")));
+        assertDoesNotThrow(() -> camara.exigirVersaoParaFaixa(2, new BigDecimal("1.0"), new BigDecimal("8.0")));
+    }
+
+    @Test
+    void manterAFaixaDispensaAVersaoMasVersaoInformadaEhConferida() {
+        var camara = comLimiar(5);
+        var minima = camara.getPolitica().getTemperaturaMinima();
+        var maxima = camara.getPolitica().getTemperaturaMaxima();
+
+        assertDoesNotThrow(() -> camara.exigirVersaoParaFaixa(null, minima, maxima.setScale(2)));
+        assertThrows(VersaoDesatualizada.class, () -> camara.exigirVersaoParaFaixa(1, minima, maxima));
+    }
+
+    @Test
+    void camaraInativaSemVersaoSegueParaARecusaDaEdicao() {
+        var camara = nova();
+        camara.inativar(false, DEPOIS);
+
+        assertDoesNotThrow(() -> camara.exigirVersaoParaFaixa(null, new BigDecimal("1.0"), new BigDecimal("9.0")));
+        assertThrows(EstadoIncompativel.class, () -> camara.exigirVersaoParaFaixa(1, new BigDecimal("1.0"),
+                new BigDecimal("9.0")));
+    }
+
+    @Test
+    void camaraInativaEhRecusadaAntesDaVersao() {
+        var camara = nova();
+        camara.inativar(false, DEPOIS);
+
+        assertThrows(EstadoIncompativel.class, () -> camara.exigirVersaoDaPolitica(1));
+        assertThrows(EstadoIncompativel.class, () -> camara.exigirVersaoDaPolitica(7));
+        assertThrows(EstadoIncompativel.class,
+                () -> camara.alterarPolitica(new BigDecimal("3.0"), new BigDecimal("7.0"), 3, null, DEPOIS));
     }
 
     private static Camara nova() {

@@ -23,8 +23,20 @@ public final class AutenticacaoHttpSupport {
     }
 
     public static String token(Set<String> perfis) {
+        return token(UUID.randomUUID(), "usuario-teste", perfis);
+    }
+
+    /**
+     * Requisição de um usuário com {@code sub} conhecido. Para gravar autoria (como o autor de uma versão de
+     * política, que referencia {@code usuarios}), o usuário precisa existir: ver {@link UsuariosDeTeste}.
+     */
+    public static RequestSpecification como(UUID id, String login, Perfil perfil) {
+        return RestAssured.given().auth().oauth2(token(id, login, Set.of(perfil.name())));
+    }
+
+    public static String token(UUID id, String login, Set<String> perfis) {
         var agora = Instant.now();
-        return Jwt.issuer("friovax-api").subject(UUID.randomUUID().toString()).upn("usuario-teste")
+        return Jwt.issuer("friovax-api").subject(id.toString()).upn(login)
                 .groups(perfis).issuedAt(agora).expiresAt(agora.plusSeconds(900)).sign();
     }
 }

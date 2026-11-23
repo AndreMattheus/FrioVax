@@ -39,7 +39,7 @@ class ConsultarResumoTest {
         var anterior = resumo.consultar();
         resumo.invalidar(evento("usuario"));
         assertSame(anterior, resumo.consultar());
-        for (var recurso : new String[]{"camara", "lote", "leitura", "ocorrencia"}) {
+        for (var recurso : new String[]{"camara", "politica_termica", "lote", "leitura", "ocorrencia"}) {
             resumo.invalidar(evento(recurso));
             var novo = resumo.consultar();
             assertNotSame(anterior, novo);
