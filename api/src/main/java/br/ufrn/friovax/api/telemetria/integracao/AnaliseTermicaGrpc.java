@@ -3,6 +3,7 @@ package br.ufrn.friovax.api.telemetria.integracao;
 import br.ufrn.friovax.api.telemetria.dominio.AnaliseIndisponivel;
 import br.ufrn.friovax.api.telemetria.dominio.AnaliseIndisponivel.Motivo;
 import br.ufrn.friovax.api.telemetria.dominio.AnaliseTermica;
+import br.ufrn.friovax.api.telemetria.dominio.ChamadaDeAnaliseRecusada;
 import br.ufrn.friovax.api.telemetria.dominio.FalhaDeIntegracao;
 import br.ufrn.friovax.api.telemetria.dominio.ResultadoDaAnalise;
 import br.ufrn.friovax.api.telemetria.dominio.SolicitacaoDeAnalise;
@@ -88,7 +89,8 @@ public class AnaliseTermicaGrpc implements AnaliseTermica {
             case UNAVAILABLE -> new AnaliseIndisponivel(Motivo.SERVICO_INACESSIVEL);
             case DEADLINE_EXCEEDED -> new AnaliseIndisponivel(Motivo.PRAZO_ESGOTADO);
             case CANCELLED -> new AnaliseIndisponivel(Motivo.CANCELADA);
-            default -> new FalhaDeIntegracao("O serviço de análise térmica recusou a chamada (status " + codigo + ").");
+            default -> new ChamadaDeAnaliseRecusada(
+                    "O serviço de análise térmica recusou a chamada (status " + codigo + ").");
         };
         LOG.warnf("Análise térmica %s falhou com status gRPC %s: %s", correlacaoId, codigo, traduzida.getMessage());
         return traduzida;
