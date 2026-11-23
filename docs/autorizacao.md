@@ -4,12 +4,12 @@ Todas as rotas de câmaras, lotes e leituras exigem `Authorization: Bearer <acce
 
 | Permissão | Administrador | Operador | Auditor | Aplicação |
 |---|:---:|:---:|:---:|---|
-| `consultar-operacao` | Sim | Sim | Sim | GET de câmaras, lotes e leituras |
+| `consultar-operacao` | Sim | Sim | Sim | GET de câmaras (inclusive política e versões), lotes, leituras e ocorrências |
 | `gerenciar-cadastro` | Sim | Não | Não | POST, PUT e DELETE de câmaras e lotes |
 | `registrar-baixa` | Sim | Sim | Não | POST de baixas |
 | `descartar-lote` | Sim | Não | Não | POST de descarte |
 | `registrar-leitura` | Sim | Sim | Não | `POST /api/leituras` |
-| `alterar-politica` | Sim | Não | Não | Futura alteração de política |
+| `alterar-politica` | Sim | Não | Não | `PUT /api/camaras/{id}/politica-termica` |
 | `resolver-incidente` | Sim | Não | Não | Futura resolução de incidente |
 | `consultar-trilha` | Sim | Não | Sim | `GET /api/auditoria` (trilha de auditoria) |
 

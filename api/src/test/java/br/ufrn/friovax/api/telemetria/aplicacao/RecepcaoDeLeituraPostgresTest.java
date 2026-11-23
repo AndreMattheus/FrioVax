@@ -1,14 +1,19 @@
 package br.ufrn.friovax.api.telemetria.aplicacao;
 
 import br.ufrn.friovax.api.autenticacao.dominio.Perfil;
+import br.ufrn.friovax.api.camara.aplicacao.AlterarPoliticaTermica;
+import br.ufrn.friovax.api.camara.aplicacao.AlterarPoliticaTermicaDTO;
 import br.ufrn.friovax.api.camara.aplicacao.AtualizarCamara;
 import br.ufrn.friovax.api.camara.aplicacao.AtualizarCamaraDTO;
 import br.ufrn.friovax.api.camara.dominio.Camara;
 import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
 import br.ufrn.friovax.api.camara.dominio.EstadoCamara;
+import br.ufrn.friovax.api.camara.dominio.EstadoTermico;
 import br.ufrn.friovax.api.compartilhado.dominio.ConflitoDeNegocio;
 import br.ufrn.friovax.api.lote.aplicacao.CadastrarLote;
 import br.ufrn.friovax.api.telemetria.dominio.AnaliseIndisponivel;
+import br.ufrn.friovax.api.telemetria.dominio.Ocorrencia;
+import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaRepository;
 import br.ufrn.friovax.api.telemetria.dominio.ResultadoTermico;
 import br.ufrn.friovax.api.telemetria.integracao.ServidorTelemetriaDeTeste;
 import br.ufrn.friovax.api.telemetria.integracao.ServidorTelemetriaResource;
@@ -65,6 +70,8 @@ class RecepcaoDeLeituraPostgresTest {
     @Inject ReceberLeitura receber;
     @Inject CadastrarLote cadastrarLote;
     @Inject AtualizarCamara atualizarCamara;
+    @Inject AlterarPoliticaTermica alterarPolitica;
+    @Inject OcorrenciaRepository ocorrencias;
     @Inject CamaraRepository camaras;
     @Inject EntityManager entityManager;
 
@@ -86,6 +93,8 @@ class RecepcaoDeLeituraPostgresTest {
         go.reiniciarRegistros();
         // Leituras e versões de política saem em cascata com a câmara; lotes não têm cascata.
         QuarkusTransaction.requiringNew().run(() -> camarasDoTeste.forEach(id -> {
+            entityManager.createNativeQuery("delete from ocorrencias where camara_id = :id")
+                    .setParameter("id", id).executeUpdate();
             entityManager.createNativeQuery("delete from lotes where camara_id = :id")
                     .setParameter("id", id).executeUpdate();
             entityManager.createNativeQuery("delete from camaras where id = :id")
@@ -177,6 +186,37 @@ class RecepcaoDeLeituraPostgresTest {
         assertEquals(ResultadoTermico.segura(), recebida.leitura().getResultado());
         assertEquals(3, go.chamadas.get(), "S-1 e as duas análises de S-2");
         assertEquals(0, go.ultimaRequisicao().getWindows(0).getContextCount());
+    }
+
+    @Test
+    void novaVersaoPelaRotaDePoliticaReiniciaASequenciaEMantemAOcorrenciaAberta() {
+        long l1 = receber("S-1", 0, "9.0").leitura().getId();
+        long l2 = receber("S-2", 1, "9.0").leitura().getId();
+        var terceira = receber("S-3", 2, "9.0").leitura();
+        assertEquals(3, terceira.getResultado().sequencia());
+        // Abrir a ocorrência ao atingir N é da S2-11; até lá, este teste a grava como a recepção gravaria.
+        QuarkusTransaction.requiringNew().run(() -> {
+            if (ocorrencias.abertaDaCamara(camaraId).isEmpty()) {
+                ocorrencias.salvar(Ocorrencia.abrir(camaraId, 1, terceira.getId(), List.of(l1, l2, terceira.getId()),
+                        List.of(), false, inicio.plusMinutes(2)));
+            }
+            entityManager.createNativeQuery("update camaras set estado_termico = 'EM_ALERTA' where id = :id")
+                    .setParameter("id", camaraId).executeUpdate();
+        });
+
+        var alterada = alterarPolitica.alterar(camaraId, new AlterarPoliticaTermicaDTO(1, new BigDecimal("2.0"),
+                new BigDecimal("8.0"), 4));
+        assertEquals(2, alterada.politica().getVersao());
+        var camara = QuarkusTransaction.requiringNew().call(() -> camaras.buscarPorId(camaraId).orElseThrow());
+        assertEquals(EstadoTermico.EM_ALERTA, camara.getEstadoTermico(), "com ocorrência aberta, continua em alerta");
+
+        var quarta = receber("S-4", 3, "9.0").leitura();
+
+        assertEquals(2, quarta.getPoliticaVersao(), "a próxima leitura usa a versão nova");
+        assertEquals(1, quarta.getResultado().sequencia(), "a sequência não reaproveita a da versão 1");
+        assertEquals(0, go.ultimaRequisicao().getWindows(0).getContextCount(), "contexto só da versão nova");
+        assertTrue(QuarkusTransaction.requiringNew().call(() -> ocorrencias.abertaDaCamara(camaraId)).isPresent(),
+                "a ocorrência aberta continua aberta");
     }
 
     @Test

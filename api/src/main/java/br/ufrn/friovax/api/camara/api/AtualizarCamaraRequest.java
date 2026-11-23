@@ -42,5 +42,12 @@ public record AtualizarCamaraRequest(
     @Schema(description = "Novo estado operacional. Passar para `MANUTENCAO` ou `DESATIVADA` exige que a câmara "
         + "não tenha lotes ativos (409).")
     @NotNull(message = "deve ser informado")
-    EstadoCamara estado
+    EstadoCamara estado,
+
+    @Schema(description = "Opcional. Versão da política térmica que o cliente leu (`versao` de "
+        + "`GET /api/camaras/{id}/politica-termica`). Informada, o PUT só vale sobre ela: se outra alteração de "
+        + "política chegou antes, a resposta é 409 e nada é gravado. Omitida, o PUT não confere a versão.",
+        examples = "1")
+    @Positive(message = "deve ser maior que zero")
+    Integer versaoEsperada
 ) {}

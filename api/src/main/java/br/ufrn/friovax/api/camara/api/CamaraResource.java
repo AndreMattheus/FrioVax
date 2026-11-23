@@ -170,14 +170,18 @@ public class CamaraResource {
             + "Substitui todos os campos editáveis; todos são obrigatórios e o `codigo` não muda. As "
             + "transições manuais entre `OPERACIONAL`, `MANUTENCAO` e `DESATIVADA` são livres, mas mudar para "
             + "`MANUTENCAO` ou `DESATIVADA` exige que a câmara não tenha lotes ativos. A faixa pertence à política "
-            + "térmica versionada: uma faixa diferente cria nova versão, preservando o limiar e as versões anteriores, "
-            + "e o estado térmico volta a `SEM_LEITURAS` (exceto em `EM_ALERTA`); a mesma faixa não cria versão.")
+            + "térmica versionada, com a mesma regra de `PUT /api/camaras/{id}/politica-termica`: uma faixa "
+            + "diferente cria nova versão com o administrador do token como autor, preservando o limiar e as versões "
+            + "anteriores, e o estado térmico volta a `SEM_LEITURAS` (exceto em `EM_ALERTA`); a mesma faixa não cria "
+            + "versão. Envie `versaoEsperada` para não sobrescrever uma alteração de política feita por outro "
+            + "administrador.")
     @APIResponse(responseCode = "200", description = "Câmara atualizada.")
     @APIResponse(responseCode = "400", ref = DocumentacaoApi.REQUISICAO_INVALIDA)
     @APIResponse(responseCode = "404", ref = DocumentacaoApi.NAO_ENCONTRADO)
     @APIResponse(responseCode = "409", description = "Capacidade abaixo da ocupação atual "
         + "(`/problemas/capacidade-excedida`); câmara inativa ou mudança para `MANUTENCAO`/`DESATIVADA` com lotes "
-        + "ativos (`/problemas/estado-incompativel`).",
+        + "ativos (`/problemas/estado-incompativel`); `versaoEsperada` diferente da vigente "
+        + "(`/problemas/versao-desatualizada`).",
         content = @Content(mediaType = DocumentacaoApi.PROBLEM_JSON,
             schema = @Schema(implementation = ProblemDetails.class)))
     @APIResponse(responseCode = "422", ref = DocumentacaoApi.DADOS_INVALIDOS)
@@ -185,7 +189,7 @@ public class CamaraResource {
                                     @PathParam("id") long id,
                                     @NotNull(message = "deve ser informado") @Valid AtualizarCamaraRequest body) {
         var dados = new AtualizarCamaraDTO(body.nome(), body.unidade(), body.capacidade(),
-            body.temperaturaMinima(), body.temperaturaMaxima(), body.estado());
+            body.temperaturaMinima(), body.temperaturaMaxima(), body.estado(), body.versaoEsperada());
         return CamaraResponse.de(atualizarCamara.atualizar(id, dados));
     }
 

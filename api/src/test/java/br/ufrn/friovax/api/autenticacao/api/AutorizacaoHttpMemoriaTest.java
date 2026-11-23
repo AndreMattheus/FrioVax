@@ -55,6 +55,9 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
                 new Rota("POST", "/api/camaras", "cadastroCamara", 201),
                 new Rota("PUT", "/api/camaras/{camara}", "cadastroCamara", 200),
                 new Rota("DELETE", "/api/camaras/{vazia}", "cadastroCamara", 204),
+                new Rota("GET", "/api/camaras/{camara}/politica-termica", "consulta", 200),
+                new Rota("GET", "/api/camaras/{camara}/politica-termica/versoes", "consulta", 200),
+                new Rota("PUT", "/api/camaras/{camara}/politica-termica", "politica", 200),
                 new Rota("GET", "/api/lotes", "consulta", 200),
                 new Rota("GET", "/api/lotes/{lote}", "consulta", 200),
                 new Rota("POST", "/api/lotes", "cadastroLote", 201),
@@ -85,6 +88,8 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
                 case "cadastroCamara" -> camara("CAM-NOVA");
                 case "cadastroLote" -> lote("LOT-NOVO");
                 case "baixa" -> new HashMap<>(Map.of("quantidade", 1, "motivo", "ADMINISTRADA"));
+                case "politica" -> new HashMap<>(Map.of("versaoEsperada", 1, "temperaturaMinima", 3,
+                        "temperaturaMaxima", 7, "limiar", 4, "autorId", "forjado"));
                 default -> new HashMap<>();
             };
             body.put("perfil", "ADMINISTRADOR");
@@ -140,7 +145,8 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
                 "camarasInativas", admin().get("/api/camaras?ativo=false").asString(),
                 "lotes", admin().get("/api/lotes?ativo=true").asString(),
                 "lotesInativos", admin().get("/api/lotes?ativo=false").asString(),
-                "trilha", admin().get("/api/auditoria?size=100").asString());
+                "trilha", admin().get("/api/auditoria?size=100").asString(),
+                "politica", admin().get("/api/camaras/" + camaraId + "/politica-termica/versoes").asString());
     }
 
     private RequestSpecification admin() {
