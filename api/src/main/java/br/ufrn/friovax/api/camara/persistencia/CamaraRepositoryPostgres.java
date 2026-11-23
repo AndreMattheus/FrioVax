@@ -8,6 +8,7 @@ import br.ufrn.friovax.api.camara.dominio.ReferenciaPolitica;
 import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
 import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
+import br.ufrn.friovax.api.compartilhado.dominio.VersaoDesatualizada;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -91,16 +92,65 @@ public class CamaraRepositoryPostgres implements CamaraRepository, PanacheReposi
     }
 
     private void gravarPoliticaSeNova(long camaraId, PoliticaTermica politica) {
-        long gravadas = getEntityManager()
-            .createQuery("select count(p) from PoliticaTermicaEntity p"
-                + " where p.camaraId = :camara and p.versao = :versao", Long.class)
+        var gravada = getEntityManager()
+            .createQuery("from PoliticaTermicaEntity p where p.camaraId = :camara and p.versao = :versao",
+                PoliticaTermicaEntity.class)
             .setParameter("camara", camaraId)
             .setParameter("versao", politica.getVersao())
-            .getSingleResult();
-        if (gravadas == 0) {
+            .getResultStream()
+            .findFirst();
+        if (gravada.isPresent()) {
+            var existente = gravada.get();
+            if (existente.temperaturaMinima.compareTo(politica.getTemperaturaMinima()) != 0
+                || existente.temperaturaMaxima.compareTo(politica.getTemperaturaMaxima()) != 0
+                || existente.limiar != politica.getLimiar()) {
+                throw versaoJaGravada(camaraId, politica);
+            }
+            return;
+        }
+        try {
             getEntityManager().persist(CamaraMapper.politicaParaEntidade(camaraId, politica));
             getEntityManager().flush();
+        } catch (PersistenceException e) {
+            if (violou(e, "uk_politicas_camara_versao")) {
+                throw versaoJaGravada(camaraId, politica);
+            }
+            throw e;
         }
+    }
+
+    private static VersaoDesatualizada versaoJaGravada(long camaraId, PoliticaTermica politica) {
+        return new VersaoDesatualizada("A versão " + politica.getVersao() + " da política térmica da câmara "
+            + camaraId + " já foi gravada por outra alteração. Consulte a política vigente e reenvie.");
+    }
+
+    private static boolean violou(PersistenceException e, String restricao) {
+        for (Throwable causa = e; causa != null; causa = causa.getCause()) {
+            if (causa instanceof ConstraintViolationException cve && restricao.equals(cve.getConstraintName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Pagina<PoliticaTermica> listarPoliticas(long camaraId, Paginacao paginacao) {
+        long total = getEntityManager()
+            .createQuery("select count(p) from PoliticaTermicaEntity p where p.camaraId = :camara", Long.class)
+            .setParameter("camara", camaraId)
+            .getSingleResult();
+        List<PoliticaTermica> itens = paginacao.deslocamento() >= total
+            ? List.of()
+            : getEntityManager()
+                .createQuery("from PoliticaTermicaEntity where camaraId = :camara order by versao desc",
+                    PoliticaTermicaEntity.class)
+                .setParameter("camara", camaraId)
+                .setFirstResult((int) paginacao.deslocamento())
+                .setMaxResults(paginacao.tamanho())
+                .getResultStream()
+                .map(CamaraMapper::politicaParaDominio)
+                .toList();
+        return Pagina.de(itens, paginacao, total);
     }
 
     private Camara comPoliticaVigente(CamaraEntity camara) {

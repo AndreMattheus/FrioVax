@@ -4,6 +4,7 @@ import br.ufrn.friovax.api.compartilhado.dominio.CapacidadeExcedida;
 import br.ufrn.friovax.api.compartilhado.dominio.CodigoDuplicado;
 import br.ufrn.friovax.api.compartilhado.dominio.ConflitoDeNegocio;
 import br.ufrn.friovax.api.compartilhado.dominio.EstadoIncompativel;
+import br.ufrn.friovax.api.compartilhado.dominio.VersaoDesatualizada;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
@@ -27,6 +28,9 @@ public class ConflitoDeNegocioExceptionMapper implements ExceptionMapper<Conflit
         } else if (exception instanceof CapacidadeExcedida) {
             tipoUri = "/problemas/capacidade-excedida";
             titulo = "Capacidade da câmara excedida";
+        } else if (exception instanceof VersaoDesatualizada) {
+            tipoUri = "/problemas/versao-desatualizada";
+            titulo = "Versão desatualizada";
         } else if (exception instanceof EstadoIncompativel) {
             tipoUri = "/problemas/estado-incompativel";
             titulo = "Operação incompatível com o estado atual";

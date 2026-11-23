@@ -71,8 +71,22 @@ class CamaraMudancasAuditadasTest {
         atualizar.atualizar(id, dados("Câmara principal", "3.0"));
 
         assertEquals(2, publicadas.size());
-        assertEquals(OperacaoAuditada.ATUALIZACAO, publicadas.get(1).operacao());
+        assertEquals(OperacaoAuditada.ATUALIZACAO, publicadas.get(0).operacao());
+        assertEquals("Câmara CAM-01 atualizada: nome", publicadas.get(0).descricao());
+        assertEquals("politica_termica", publicadas.get(1).recurso());
+        assertEquals(OperacaoAuditada.ALTERACAO_DE_POLITICA, publicadas.get(1).operacao());
         assertTrue(publicadas.get(1).descricao().contains("versão 1 para a 2"), publicadas.get(1).descricao());
+    }
+
+    @Test
+    void putQueMudaNomeEFaixaPublicaUmEventoDeCadaUm() {
+        long id = cadastrar();
+        publicadas.clear();
+
+        atualizar.atualizar(id, dados("Câmara principal", "3.0"));
+
+        assertEquals(List.of(OperacaoAuditada.ATUALIZACAO, OperacaoAuditada.ALTERACAO_DE_POLITICA),
+                publicadas.stream().map(MudancaConfirmada::operacao).toList());
     }
 
     @Test

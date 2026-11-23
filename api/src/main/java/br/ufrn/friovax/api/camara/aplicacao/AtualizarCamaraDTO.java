@@ -10,5 +10,11 @@ public record AtualizarCamaraDTO(
         int capacidade,
         BigDecimal temperaturaMinima,
         BigDecimal temperaturaMaxima,
-        EstadoCamara estado
-) {}
+        EstadoCamara estado,
+        Integer versaoEsperada
+) {
+    public AtualizarCamaraDTO(String nome, String unidade, int capacidade, BigDecimal temperaturaMinima,
+                              BigDecimal temperaturaMaxima, EstadoCamara estado) {
+        this(nome, unidade, capacidade, temperaturaMinima, temperaturaMaxima, estado, null);
+    }
+}

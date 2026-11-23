@@ -42,6 +42,9 @@ public interface CamaraRepository {
      */
     List<PoliticaTermica> historicoDePoliticas(long camaraId);
 
+    /** Página do histórico de versões da política, da mais recente para a mais antiga (versão decrescente). */
+    Pagina<PoliticaTermica> listarPoliticas(long camaraId, Paginacao paginacao);
+
     /** Lista as câmaras que atendem ao filtro, ordenadas por id crescente. */
     Pagina<Camara> listar(CamaraFiltro filtro, Paginacao paginacao);
 }

@@ -51,8 +51,11 @@ public class ConsultarResumo {
     }
 
     // O publicador dispara somente após commit. O mesmo monitor impede que uma consulta
-    // concorrente reponha um resultado anterior à invalidação.
+    // concorrente reponha um resultado anterior à invalidação. Uma nova versão de política
+    // volta o estado térmico da câmara a SEM_LEITURAS, por isso também invalida (S2-14).
     public synchronized void invalidar(@Observes MudancaConfirmada mudanca) {
-        if (Set.of("camara", "lote", "leitura", "ocorrencia").contains(mudanca.recurso())) cache = null;
+        if (Set.of("camara", "politica_termica", "lote", "leitura", "ocorrencia").contains(mudanca.recurso())) {
+            cache = null;
+        }
     }
 }
