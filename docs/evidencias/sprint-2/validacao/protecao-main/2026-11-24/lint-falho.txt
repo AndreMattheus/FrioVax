@@ -1,0 +1,8 @@
+Java / Quarkus	UNKNOWN STEP	2026-11-24T04:34:37.2342959Z [INFO] BUILD FAILURE
+Java / Quarkus	UNKNOWN STEP	2026-11-24T04:34:37.2514356Z [ERROR] Failed to execute goal com.diffplug.spotless:spotless-maven-plugin:3.12.0:check (default-cli) on project friovax-api: The following files had format violations:
+Java / Quarkus	UNKNOWN STEP	2026-11-24T04:34:37.2515596Z [ERROR]     src/main/java/br/ufrn/friovax/api/StatusResource.java
+Java / Quarkus	UNKNOWN STEP	2026-11-24T04:34:37.2778330Z ##[error]Process completed with exit code 1.
+Smoke / Compose	UNKNOWN STEP	2026-11-24T04:35:27.2531847Z #44 3.145 [INFO] BUILD FAILURE
+Smoke / Compose	UNKNOWN STEP	2026-11-24T04:35:27.3951437Z #44 3.150 [ERROR] Failed to execute goal com.diffplug.spotless:spotless-maven-plugin:3.12.0:check (verificar-formatacao) on project friovax-api: The following files had format violations:
+Smoke / Compose	UNKNOWN STEP	2026-11-24T04:35:27.3951937Z #44 3.150 [ERROR]     src/main/java/br/ufrn/friovax/api/StatusResource.java
+Smoke / Compose	UNKNOWN STEP	2026-11-24T04:35:27.5441795Z ##[error]Process completed with exit code 1.

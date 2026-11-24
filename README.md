@@ -35,7 +35,8 @@ Este repositório contém o produto comum de:
 - [Checklist da Sprint 1](docs/checklist-sprint-1.md)
 - [Retrospectiva da Sprint 1 — reunião de 15/10](docs/retrospectiva-01.md)
 - [Métricas de fluxo da Sprint 1](docs/metricas-sprint-1.md)
-- [Proteção da main e prova de merge bloqueado — Sprint 2](docs/evidencias/sprint-2/protecao-main.md)
+- [Proteção da main e provas de bloqueio](docs/evidencias/sprint-2/protecao-main.md)
+- [CI, formatação Java e smoke do Compose](docs/ci.md)
 - [Contrato da API — Câmaras e Lotes](docs/contrato-api.md)
 - [Contrato Protobuf — Telemetria e geração Java/Go](protos/README.md)
 - [Roteiro de validação da Sprint 1](docs/validacao-sprint-1.md)
@@ -98,7 +99,7 @@ mise run build
 mise run test
 ```
 
-`mise trust` confia nas tarefas definidas neste repositório; revise `mise.toml` antes de executá-lo. `mise run test` usa um PostgreSQL temporário iniciado pelo Quarkus Dev Services e precisa de Docker, mas não do Compose. Para verificar também o contrato, os gerados Go, a formatação, a análise estática e o build Go, execute `mise run ci`.
+`mise trust` confia nas tarefas definidas neste repositório; revise `mise.toml` antes de executá-lo. `mise run test` usa um PostgreSQL temporário iniciado pelo Quarkus Dev Services e precisa de Docker, mas não do Compose. Para verificar também o contrato, os gerados Go, a formatação, a análise estática, o build Go, o detector de condições de corrida, os scripts Python e o smoke do Compose, execute `mise run ci`. Veja os [pré-requisitos e comandos do CI](docs/ci.md).
 
 O Maven gera as classes Java diretamente de `protos/`, em `api/target/generated-sources/grpc/`, antes de compilá-las. Não é necessário executar Buf para compilar Java. Os comandos e a separação entre código gerado e domínio estão no [guia dos contratos](protos/README.md).
 
@@ -162,8 +163,10 @@ Com a API no ar, a documentação das rotas fica disponível em:
 | `mise run proto-lint` | Valida o contrato com Buf |
 | `mise run proto-generate` | Regenera os arquivos Go a partir do contrato |
 | `mise run proto-check` | Valida o contrato e confere os gerados Go contra o Git |
-| `mise run lint` | Verifica Buf, Maven, `gofmt` e `go vet` |
-| `mise run ci` | Verifica contrato, gerados, suíte Java e verificações Go |
+| `mise run lint` | Verifica Buf, Spotless, `gofmt` e `go vet` |
+| `mise run test-race` | Executa Go com detector de condições de corrida; no Windows usa Docker |
+| `mise run smoke` | Constrói o Compose isolado, verifica saúde/readiness e remove seus recursos temporários |
+| `mise run ci` | Reproduz as verificações Java, Go, contrato, scripts Python e smoke do CI |
 | `mise run up` | Sobe os serviços com Docker Compose e acompanha os logs |
 
 ### Autenticação e sessões

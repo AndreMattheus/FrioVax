@@ -52,17 +52,17 @@ description = "Executa testes HTTP de câmaras, lotes e documentação com repos
 run = 'mvn --batch-mode -f api/pom.xml "-Dtest=*HttpMemoriaTest" test'
 
 [tasks.lint]
-description = "Verifica a formatação e a compilação"
+description = "Verifica contrato, formatação Java/Go e análise estática Go"
 run = [
   "mise run proto-lint",
-  "mvn --batch-mode -f api/pom.xml -DskipTests verify",
+  "mvn --batch-mode -f api/pom.xml spotless:check",
   "test -z \"$(gofmt -l services/telemetry)\"",
   "go -C services/telemetry vet ./...",
 ]
 run_windows = [
   "mise run proto-lint",
-  "mvn --batch-mode -f api/pom.xml -DskipTests verify",
-  'powershell -NoProfile -Command "$files = @(gofmt -l services/telemetry); if ($files.Count -gt 0) { $files; exit 1 }"',
+  "mvn --batch-mode -f api/pom.xml spotless:check",
+  'powershell -NoProfile -Command "$files = @(gofmt -l services/telemetry); if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; if ($files.Count -gt 0) { $files; exit 1 }"',
   "go -C services/telemetry vet ./...",
 ]
 
@@ -70,21 +70,54 @@ run_windows = [
 description = "Sobe os serviços locais"
 run = "docker compose up --build"
 
+[tasks.test-race]
+description = "Executa testes Go com detector de condições de corrida (Windows usa Docker com GCC)"
+run = "go -C services/telemetry test -race ./..."
+run_windows = 'docker run --rm --mount "type=bind,source={{config_root}}/services/telemetry,target=/src,readonly" --workdir /src golang:1.27 go test -race ./...'
+
+[tasks.smoke]
+description = "Constrói o Compose, verifica saúde/readiness e remove apenas o projeto descartável"
+run = "python docs/scripts/smoke-compose.py"
+
+[tasks.ci-java]
+description = "Verifica lint/build e toda a suíte Java com um PostgreSQL descartável entre perfis"
+run = "python docs/scripts/verificar-java.py"
+
+[tasks.ci-processo]
+description = "Reproduz as verificações Python de publicação, autenticação e evidências do CI"
+env = { FRIOVAX_TEST_COMPOSE = "1" }
+run = [
+  "python -m unittest discover -s docs/scripts -p test_deploy.py -v",
+  "python -m unittest discover -s docs/scripts -p test_preparar_auth_local.py -v",
+  "python -m unittest discover -s docs/scripts -p test_medicao_sprint_2.py -v",
+  "python -m unittest discover -s docs/scripts -p test_fluxo_de_valor.py -v",
+  "python docs/scripts/validar-medicao-sprint-2.py",
+  "python docs/scripts/medir-fluxo-de-valor.py itens",
+  "python docs/scripts/medir-fluxo-de-valor.py revisao docs/evidencias/sprint-2/exportacoes/20261103T192538818629Z",
+  "python docs/scripts/medir-fluxo-de-valor.py backlog",
+]
+
 [tasks.ci]
 description = "Reproduz localmente o pipeline de CI"
 run = [
   "mise run proto-check",
-  "mvn --batch-mode -f api/pom.xml verify",
+  "mise run ci-java",
   "test -z \"$(gofmt -l services/telemetry)\"",
   "go -C services/telemetry vet ./...",
   "go -C services/telemetry test ./...",
+  "mise run test-race",
   "go -C services/telemetry build -o bin/telemetry ./cmd/server",
+  "mise run ci-processo",
+  "mise run smoke",
 ]
 run_windows = [
   "mise run proto-check",
-  "mvn --batch-mode -f api/pom.xml verify",
-  'powershell -NoProfile -Command "$files = @(gofmt -l services/telemetry); if ($files.Count -gt 0) { $files; exit 1 }"',
+  "mise run ci-java",
+  'powershell -NoProfile -Command "$files = @(gofmt -l services/telemetry); if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; if ($files.Count -gt 0) { $files; exit 1 }"',
   "go -C services/telemetry vet ./...",
   "go -C services/telemetry test ./...",
+  "mise run test-race",
   "go -C services/telemetry build -o bin/telemetry.exe ./cmd/server",
+  "mise run ci-processo",
+  "mise run smoke",
 ]

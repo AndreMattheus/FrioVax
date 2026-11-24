@@ -97,12 +97,14 @@ jobs:
           java-version: "25"
           cache: maven
           cache-dependency-path: api/pom.xml
+      - name: Configurar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
       - name: Verificar Docker para o PostgreSQL temporário
         run: docker info
-      - name: Build e suíte completa (unitários, rotas, arquitetura e integração)
-        run: mvn --batch-mode -f api/pom.xml verify
-      - name: Verificar artefato executável do Quarkus
-        run: test -f api/target/quarkus-app/quarkus-run.jar
+      - name: Formatação, build e suíte completa com banco preservado entre perfis
+        run: python docs/scripts/verificar-java.py
       - name: Publicar relatórios de testes Java
         if: always()
         uses: actions/upload-artifact@v4
@@ -112,6 +114,20 @@ jobs:
             api/target/surefire-reports/
             api/target/failsafe-reports/
           if-no-files-found: warn
+
+  smoke:
+    name: Smoke / Compose
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Configurar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Construir, aguardar saúde e verificar readiness em projeto descartável
+        run: python docs/scripts/smoke-compose.py
 
   go:
     name: Go / Telemetria
