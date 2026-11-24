@@ -69,7 +69,10 @@ public class LeituraResource {
             + "mudar durante a análise (nova leitura, política ou resolução), a análise é refeita uma única vez. "
             + "O reenvio da mesma chave com conteúdo equivalente (temperatura em escala 1, instante em UTC e origem "
             + "após o `trim`) devolve o registro original com 200, sem nova análise: é seguro reenviar depois de "
-            + "perder a resposta.")
+            + "perder a resposta. "
+            + "A leitura insegura que atinge o limiar N sem ocorrência aberta abre a ocorrência na mesma transação "
+            + "(`ocorrenciaAbertaId`), com as evidências e a fotografia dos lotes, e põe a câmara em `EM_ALERTA`; "
+            + "leituras seguintes, inclusive seguras, não fecham o alerta.")
     @APIResponse(responseCode = "201", description = "Primeira aceitação da chave.",
         headers = @Header(name = "Location", description = "Endereço da leitura aceita.",
             schema = @Schema(type = SchemaType.STRING, format = "uri")),
@@ -103,7 +106,7 @@ public class LeituraResource {
     public Response receber(@NotNull(message = "deve ser informado") @Valid LeituraRequest body) {
         var recebida = receberLeitura.receber(body.camaraId(), body.idExterno(), body.temperatura(),
             medidaEm(body.medidaEm()), body.origem());
-        var resposta = LeituraResponse.de(recebida.leitura());
+        var resposta = LeituraResponse.de(recebida.leitura(), recebida.ocorrenciaAbertaId());
         if (!recebida.criada()) {
             return Response.ok(resposta).build();
         }
@@ -120,7 +123,8 @@ public class LeituraResource {
     @APIResponse(responseCode = "404", ref = DocumentacaoApi.NAO_ENCONTRADO)
     public LeituraResponse consultar(@Parameter(description = "Identificador técnico da leitura.", example = "42")
                                      @PathParam("id") long id) {
-        return LeituraResponse.de(consultarLeitura.consultar(id));
+        var consultada = consultarLeitura.consultar(id);
+        return LeituraResponse.de(consultada.leitura(), consultada.ocorrenciaAbertaId());
     }
 
     /** Exige offset explícito: um instante local seria ambíguo (ADR 0003, seção 5). */

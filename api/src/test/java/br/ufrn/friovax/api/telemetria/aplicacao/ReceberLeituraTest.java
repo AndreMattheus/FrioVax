@@ -10,6 +10,7 @@ import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
 import br.ufrn.friovax.api.suporte.AnaliseTermicaFalsa;
 import br.ufrn.friovax.api.suporte.CamaraRepositoryEmMemoria;
 import br.ufrn.friovax.api.suporte.LeituraRepositoryEmMemoria;
+import br.ufrn.friovax.api.suporte.LoteRepositoryEmMemoria;
 import br.ufrn.friovax.api.suporte.OcorrenciaRepositoryEmMemoria;
 import br.ufrn.friovax.api.telemetria.dominio.AnaliseIndisponivel;
 import br.ufrn.friovax.api.telemetria.dominio.FalhaDeIntegracao;
@@ -52,10 +53,11 @@ class ReceberLeituraTest {
     private final CamaraRepositoryEmMemoria camaras = new CamaraRepositoryEmMemoria();
     private final LeituraRepositoryEmMemoria leituras = new LeituraRepositoryEmMemoria();
     private final OcorrenciaRepositoryEmMemoria ocorrencias = new OcorrenciaRepositoryEmMemoria();
+    private final LoteRepositoryEmMemoria lotes = new LoteRepositoryEmMemoria();
     private final AnaliseTermicaFalsa analise = new AnaliseTermicaFalsa();
     private final List<MudancaConfirmada> mudancas = new ArrayList<>();
     private final ReceberLeitura receber = new ReceberLeitura(
-            new EtapasDaRecepcao(camaras, leituras, ocorrencias, RELOGIO, mudancas::add), analise, RELOGIO);
+            new EtapasDaRecepcao(camaras, leituras, ocorrencias, lotes, RELOGIO, mudancas::add), analise, RELOGIO);
 
     private long camaraId;
 
@@ -299,10 +301,10 @@ class ReceberLeituraTest {
     void contextoNaoAtravessaAResolucaoDoEpisodio() {
         receber("S-1", 0, "9.0");
         receber("S-2", 1, "9.0");
-        var abertura = receber("S-3", 2, "9.0").leitura();
+        receber("S-3", 2, "9.0");
         var segura = receber("S-4", 3, "5.0").leitura();
-        var ocorrencia = ocorrencias.salvar(Ocorrencia.abrir(camaraId, 1, abertura.getId(),
-                List.of(1L, 2L, abertura.getId()), List.of(), false, AGORA));
+        // A terceira insegura abriu a ocorrência (S2-11); resolver é da S2-12, aqui feito direto no repositório.
+        var ocorrencia = ocorrencias.abertaDaCamara(camaraId).orElseThrow();
         ocorrencia.resolver("Equipamento verificado", segura.getId(), null, AGORA);
         ocorrencias.salvar(ocorrencia);
 
@@ -316,8 +318,7 @@ class ReceberLeituraTest {
         receber("S-1", 0, "9.0");
         receber("S-2", 1, "9.0");
         var abertura = receber("S-3", 2, "9.0").leitura();
-        var ocorrencia = ocorrencias.salvar(Ocorrencia.abrir(camaraId, 1, abertura.getId(),
-                List.of(1L, 2L, abertura.getId()), List.of(), false, AGORA));
+        var ocorrencia = ocorrencias.abertaDaCamara(camaraId).orElseThrow();
         umaVez(solicitacao -> {
             ocorrencia.resolver("Equipamento verificado", abertura.getId(), null, AGORA);
             ocorrencias.salvar(ocorrencia);

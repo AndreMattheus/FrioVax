@@ -239,6 +239,24 @@ public class Camara {
         }
     }
 
+    /**
+     * Aplica o resultado confirmado de uma leitura ao estado térmico (ADR 0003, seção 4). Com ocorrência aberta, a
+     * câmara fica {@code EM_ALERTA} mesmo depois de uma leitura segura: só a resolução explícita sai do alerta.
+     * Sem ocorrência, {@code NORMAL} para leitura segura e {@code ATENCAO} para insegura abaixo do limiar. O estado
+     * operacional, {@code ativo} e as doses não mudam.
+     *
+     * @return se o estado térmico mudou
+     */
+    public boolean registrarResultadoTermico(boolean insegura, boolean comOcorrenciaAberta) {
+        var anterior = estadoTermico;
+        if (comOcorrenciaAberta) {
+            estadoTermico = EstadoTermico.EM_ALERTA;
+        } else {
+            estadoTermico = insegura ? EstadoTermico.ATENCAO : EstadoTermico.NORMAL;
+        }
+        return estadoTermico != anterior;
+    }
+
     /** Chamado pelo repositório ao gravar uma câmara nova. */
     public void atribuirId(long id) {
         if (this.id != null) {

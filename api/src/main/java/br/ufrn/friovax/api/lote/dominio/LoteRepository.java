@@ -4,6 +4,7 @@ import br.ufrn.friovax.api.compartilhado.dominio.Pagina;
 import br.ufrn.friovax.api.compartilhado.dominio.Paginacao;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -43,4 +44,6 @@ public interface LoteRepository {
     Map<Long, Long> ocupacaoPorCamara(Collection<Long> camaraIds);
 
     boolean existeLoteAtivoNaCamara(long camaraId);
+
+    List<Lote> ativosDaCamara(long camaraId);
 }

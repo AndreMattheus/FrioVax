@@ -6,7 +6,7 @@ import br.ufrn.friovax.api.telemetria.dominio.Leitura;
 sealed interface Preparacao {
 
     /** Reenvio com conteúdo equivalente: devolve o registro original sem chamar o Go. */
-    record Repetida(Leitura leitura) implements Preparacao {
+    record Repetida(Leitura leitura, Long ocorrenciaAbertaId) implements Preparacao {
     }
 
     /** Candidata elegível e em ordem; a análise usa este snapshot. */
