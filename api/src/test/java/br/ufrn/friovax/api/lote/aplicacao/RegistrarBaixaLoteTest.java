@@ -6,6 +6,7 @@ import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
 import br.ufrn.friovax.api.lote.dominio.EstadoLote;
 import br.ufrn.friovax.api.lote.dominio.Lote;
 import br.ufrn.friovax.api.lote.dominio.MotivoBaixa;
+import br.ufrn.friovax.api.suporte.CamaraRepositoryEmMemoria;
 import br.ufrn.friovax.api.suporte.LoteRepositoryEmMemoria;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ class RegistrarBaixaLoteTest {
     private static final OffsetDateTime CRIACAO = OffsetDateTime.parse("2026-10-01T10:00:00-03:00");
     private static final OffsetDateTime AGORA = CRIACAO.plusDays(1);
     private final LoteRepositoryEmMemoria lotes = new LoteRepositoryEmMemoria();
-    private final RegistrarBaixaLote casoDeUso = new RegistrarBaixaLote(lotes,
+    private final RegistrarBaixaLote casoDeUso = new RegistrarBaixaLote(lotes, new CamaraRepositoryEmMemoria(),
             Clock.fixed(AGORA.toInstant(), ZoneId.of("America/Fortaleza")));
 
     @Test

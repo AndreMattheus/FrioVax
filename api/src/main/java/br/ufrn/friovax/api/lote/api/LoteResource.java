@@ -94,7 +94,7 @@ public class LoteResource {
         content = @Content(mediaType = DocumentacaoApi.PROBLEM_JSON,
             schema = @Schema(implementation = ProblemDetails.class)))
     @APIResponse(responseCode = "409", description = "Código já usado por outro lote, inclusive inativo "
-        + "(`/problemas/codigo-duplicado`); câmara inativa ou fora de `OPERACIONAL` "
+        + "(`/problemas/codigo-duplicado`); câmara inativa, fora de `OPERACIONAL` ou `EM_ALERTA` "
         + "(`/problemas/estado-incompativel`); ou capacidade da câmara excedida (`/problemas/capacidade-excedida`).",
         content = @Content(mediaType = DocumentacaoApi.PROBLEM_JSON,
             schema = @Schema(implementation = ProblemDetails.class)))
@@ -199,7 +199,8 @@ public class LoteResource {
         content = @Content(mediaType = DocumentacaoApi.PROBLEM_JSON,
             schema = @Schema(implementation = ProblemDetails.class)))
     @APIResponse(responseCode = "409", description = "Lote inativo, lote `ESGOTADO` ou `DESCARTADO` recebendo "
-        + "novas doses, ou câmara de destino inativa ou fora de `OPERACIONAL` (`/problemas/estado-incompativel`); "
+        + "novas doses, câmara de destino inativa ou fora de `OPERACIONAL`, ou câmara `EM_ALERTA` recebendo o lote "
+        + "ou mais doses (`/problemas/estado-incompativel`); "
         + "capacidade da câmara de destino excedida (`/problemas/capacidade-excedida`).",
         content = @Content(mediaType = DocumentacaoApi.PROBLEM_JSON,
             schema = @Schema(implementation = ProblemDetails.class)))
@@ -225,8 +226,8 @@ public class LoteResource {
     @APIResponse(responseCode = "400", ref = DocumentacaoApi.REQUISICAO_INVALIDA,
         description = "JSON malformado ou `motivo` fora de `ADMINISTRADA` e `PERDA`.")
     @APIResponse(responseCode = "404", ref = DocumentacaoApi.NAO_ENCONTRADO)
-    @APIResponse(responseCode = "409", description = "Lote inativo ou `DESCARTADO` "
-        + "(`/problemas/estado-incompativel`).",
+    @APIResponse(responseCode = "409", description = "Lote inativo ou `DESCARTADO`, ou baixa `ADMINISTRADA` com a "
+        + "câmara `EM_ALERTA` (`/problemas/estado-incompativel`); baixa por `PERDA` continua permitida.",
         content = @Content(mediaType = DocumentacaoApi.PROBLEM_JSON,
             schema = @Schema(implementation = ProblemDetails.class)))
     @APIResponse(responseCode = "422", ref = DocumentacaoApi.DADOS_INVALIDOS,

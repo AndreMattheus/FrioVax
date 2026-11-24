@@ -257,6 +257,20 @@ public class Camara {
         return estadoTermico != anterior;
     }
 
+    /**
+     * Proteção dos lotes durante uma ocorrência aberta (S2-11, ADR 0003, seção 4): em {@code EM_ALERTA}, a câmara
+     * recusa novo lote, aumento de doses, movimentação para ela e baixa {@code ADMINISTRADA}. Retirada, baixa por
+     * perda e descarte continuam permitidos; permitir a retirada não libera o uso dos lotes da fotografia.
+     *
+     * @param operacao o que foi recusado, para a mensagem (por exemplo "novos lotes")
+     * @throws CamaraEmAlerta se a câmara estiver {@code EM_ALERTA}
+     */
+    public void exigirSemAlerta(String operacao) {
+        if (estadoTermico == EstadoTermico.EM_ALERTA) {
+            throw new CamaraEmAlerta(codigo, operacao);
+        }
+    }
+
     /** Chamado pelo repositório ao gravar uma câmara nova. */
     public void atribuirId(long id) {
         if (this.id != null) {

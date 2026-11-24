@@ -7,11 +7,13 @@ import br.ufrn.friovax.api.camara.aplicacao.AtualizarCamara;
 import br.ufrn.friovax.api.camara.aplicacao.AtualizarCamaraDTO;
 import br.ufrn.friovax.api.camara.dominio.Camara;
 import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
+import br.ufrn.friovax.api.camara.dominio.CamaraEmAlerta;
 import br.ufrn.friovax.api.camara.dominio.EstadoCamara;
 import br.ufrn.friovax.api.camara.dominio.EstadoTermico;
 import br.ufrn.friovax.api.compartilhado.dominio.ConflitoDeNegocio;
 import br.ufrn.friovax.api.lote.aplicacao.CadastrarLote;
 import br.ufrn.friovax.api.telemetria.dominio.AnaliseIndisponivel;
+import br.ufrn.friovax.api.telemetria.dominio.LoteAfetado;
 import br.ufrn.friovax.api.telemetria.dominio.Ocorrencia;
 import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaRepository;
 import br.ufrn.friovax.api.telemetria.dominio.ResultadoTermico;
@@ -50,6 +52,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static br.ufrn.friovax.api.suporte.AutenticacaoHttpSupport.autenticado;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -220,6 +224,92 @@ class RecepcaoDeLeituraPostgresTest {
     }
 
     @Test
+    void leituraNAbreUmaOcorrenciaComFotografiaAlertaEAuditoriaNoBanco() {
+        long lote = loteDe(100);
+        receber("S-1", 0, "9.0");
+        var segunda = receber("S-2", 1, "9.0");
+        assertNull(segunda.ocorrenciaAbertaId(), "N-1 não abre");
+        assertEquals("ATENCAO", estadoTermico());
+
+        var terceira = receber("S-3", 2, "9.0");
+
+        assertNotNull(terceira.ocorrenciaAbertaId());
+        var ocorrencia = QuarkusTransaction.requiringNew().call(() -> ocorrencias.abertaDaCamara(camaraId))
+                .orElseThrow();
+        assertEquals(terceira.ocorrenciaAbertaId(), ocorrencia.getId());
+        assertEquals(3, ocorrencia.getEvidencias().size());
+        assertEquals(terceira.leitura().getId(), ocorrencia.getEvidencias().getLast());
+        assertEquals(List.of(lote), ocorrencia.getLotesAfetados().stream().map(LoteAfetado::loteId).toList());
+        assertEquals(100, ocorrencia.getLotesAfetados().getFirst().quantidade());
+        assertEquals("EM_ALERTA", estadoTermico());
+        assertEquals(1, eventosDeAbertura());
+
+        // Reenvio, insegura adicional e segura depois: nada duplica nem fecha o alerta.
+        var reenvio = receber("S-3", 2, "9.0");
+        assertFalse(reenvio.criada());
+        assertEquals(ocorrencia.getId(), reenvio.ocorrenciaAbertaId());
+        assertNull(receber("S-4", 3, "9.0").ocorrenciaAbertaId());
+        receber("S-5", 4, "5.0");
+        assertEquals(1, ocorrenciasDaCamara());
+        assertEquals(1, eventosDeAbertura());
+        assertEquals("EM_ALERTA", estadoTermico());
+
+        // A fotografia não muda com a proteção dos lotes.
+        assertThrows(CamaraEmAlerta.class, () -> cadastrarLote.cadastrar(codigoDeLote(), "Febre amarela",
+                "Bio-Manguinhos", LocalDate.now(FUSO).plusYears(1), 10, camaraId));
+        assertEquals(List.of(new LoteAfetado(lote, ocorrencia.getLotesAfetados().getFirst().codigo(),
+                        "Febre amarela", 100)),
+                QuarkusTransaction.requiringNew().call(() -> ocorrencias.buscarPorId(ocorrencia.getId()))
+                        .orElseThrow().getLotesAfetados());
+    }
+
+    @Test
+    void falhaAoGravarAFotografiaDesfazLeituraOcorrenciaEstadoEAuditoria() {
+        long lote = loteDe(50);
+        receber("S-1", 0, "9.0");
+        receber("S-2", 1, "9.0");
+        // Falha só para o lote deste teste, na última gravação da abertura (o vínculo do lote).
+        executar("create or replace function falhar_fotografia_teste() returns trigger as $$ begin "
+                + "if new.lote_id = " + lote + " then raise exception 'falha forçada no vínculo do lote'; end if; "
+                + "return new; end $$ language plpgsql");
+        executar("create trigger falhar_fotografia_teste before insert on ocorrencia_lotes "
+                + "for each row execute function falhar_fotografia_teste()");
+        try {
+            assertThrows(RuntimeException.class, () -> receber("S-3", 2, "9.0"));
+
+            assertEquals(2, leiturasGravadas(), "a leitura N também foi desfeita");
+            assertEquals(0, ocorrenciasDaCamara());
+            assertEquals("ATENCAO", estadoTermico());
+            assertEquals(0, eventosDeAbertura());
+        } finally {
+            executar("drop trigger if exists falhar_fotografia_teste on ocorrencia_lotes");
+            executar("drop function if exists falhar_fotografia_teste()");
+        }
+
+        // Sem a falha, o mesmo envio abre normalmente: nada ficou pela metade.
+        var terceira = receber("S-3", 2, "9.0");
+        assertTrue(terceira.criada());
+        assertNotNull(terceira.ocorrenciaAbertaId());
+        assertEquals(1, eventosDeAbertura());
+    }
+
+    @Test
+    void duasLeiturasNoLimiarAoMesmoTempoAbremUmaOcorrencia() throws Exception {
+        receber("S-1", 0, "9.0");
+        receber("S-2", 1, "9.0");
+
+        var resultados = simultaneamente(List.of(() -> receber("S-3", 2, "9.0"), () -> receber("S-4", 3, "9.0")));
+
+        assertTrue(resultados.stream().filter(r -> !(r instanceof LeituraRecebida))
+                .allMatch(ConflitoDeNegocio.class::isInstance), () -> "falhas inesperadas: " + resultados);
+        var abriram = resultados.stream().filter(LeituraRecebida.class::isInstance).map(LeituraRecebida.class::cast)
+                .filter(r -> r.ocorrenciaAbertaId() != null).count();
+        assertEquals(1, abriram, "resultados: " + resultados);
+        assertEquals(1, ocorrenciasDaCamara());
+        assertEquals("EM_ALERTA", estadoTermico());
+    }
+
+    @Test
     void goForaDoArAntesDaRpcNaoGravaNada() {
         go.comportarSe(ServidorTelemetriaDeTeste.falhando(Status.UNAVAILABLE));
 
@@ -327,6 +417,36 @@ class RecepcaoDeLeituraPostgresTest {
         } catch (java.util.concurrent.TimeoutException e) {
             return fail("a operação não terminou a tempo", e);
         }
+    }
+
+    private long loteDe(int doses) {
+        return cadastrarLote.cadastrar(codigoDeLote(), "Febre amarela", "Bio-Manguinhos",
+                LocalDate.now(FUSO).plusYears(1), doses, camaraId).getId();
+    }
+
+    private String estadoTermico() {
+        return QuarkusTransaction.requiringNew().call(() -> (String) entityManager
+                .createNativeQuery("select estado_termico from camaras where id = :id")
+                .setParameter("id", camaraId).getSingleResult());
+    }
+
+    private long ocorrenciasDaCamara() {
+        return QuarkusTransaction.requiringNew().call(() -> ((Number) entityManager
+                .createNativeQuery("select count(*) from ocorrencias where camara_id = :id")
+                .setParameter("id", camaraId).getSingleResult()).longValue());
+    }
+
+    /** Eventos de abertura na trilha para ocorrências desta câmara (a descrição traz o código da câmara). */
+    private long eventosDeAbertura() {
+        return QuarkusTransaction.requiringNew().call(() -> ((Number) entityManager
+                .createNativeQuery("select count(*) from eventos_auditoria e where e.recurso = 'OCORRENCIA' "
+                        + "and e.operacao = 'ABERTURA_DE_OCORRENCIA' "
+                        + "and e.descricao like '%câmara ' || (select codigo from camaras where id = :id) || ' %'")
+                .setParameter("id", camaraId).getSingleResult()).longValue());
+    }
+
+    private void executar(String sql) {
+        QuarkusTransaction.requiringNew().run(() -> entityManager.createNativeQuery(sql).executeUpdate());
     }
 
     private long novaCamara() {

@@ -50,6 +50,7 @@ public class CadastrarLote {
         // então soma a ocupação, sem ultrapassar a capacidade.
         var camara = camaras.buscarPorIdParaAlteracao(camaraId)
                 .orElseThrow(() -> new RecursoNaoEncontrado("Câmara", camaraId));
+        camara.exigirSemAlerta("novos lotes");
         if (lotes.existePorCodigo(lote.getCodigo())) {
             throw new CodigoDuplicado("lote", lote.getCodigo());
         }

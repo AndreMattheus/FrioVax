@@ -49,6 +49,11 @@ public class AtualizarLote {
 
         var camara = camaras.buscarPorIdParaAlteracao(camaraId)
                 .orElseThrow(() -> new RecursoNaoEncontrado("Câmara", camaraId));
+        if (camaraId != antes.camaraId()) {
+            camara.exigirSemAlerta("lotes movidos para ela");
+        } else if (quantidade > antes.quantidade()) {
+            camara.exigirSemAlerta("aumento de doses");
+        }
         camara.verificarAlocacao(lotes.ocupacaoDaCamaraExcluindoLote(camaraId, id), quantidade);
         var salvo = lotes.salvar(lote);
         var depois = Campos.de(salvo);
