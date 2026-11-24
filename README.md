@@ -35,7 +35,7 @@ Este repositório contém o produto comum de:
 - [Checklist da Sprint 1](docs/checklist-sprint-1.md)
 - [Retrospectiva da Sprint 1 — reunião de 15/10](docs/retrospectiva-01.md)
 - [Métricas de fluxo da Sprint 1](docs/metricas-sprint-1.md)
-- [Proteção da main e prova de merge bloqueado — Sprint 2](docs/evidencias/sprint-2/protecao-main.md)
+- [Proteção da main e provas de bloqueio](docs/evidencias/sprint-2/protecao-main.md)
 - [CI, formatação Java e smoke do Compose](docs/ci.md)
 - [Contrato da API — Câmaras e Lotes](docs/contrato-api.md)
 - [Contrato Protobuf — Telemetria e geração Java/Go](protos/README.md)
