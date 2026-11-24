@@ -1,0 +1,19 @@
+[
+  {
+    "sha": "6c73329a2e01b20f96d8d41fa1fe349e5490ed2f",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/commit/6c73329a2e01b20f96d8d41fa1fe349e5490ed2f",
+    "parents": [
+      "89ed2539ec6e4c089c9053a515446224e0891e36"
+    ],
+    "author": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "committer": {
+      "login": "arthurFeijo",
+      "type": "User"
+    },
+    "authored_at": "2026-11-18T15:51:50Z",
+    "committed_at": "2026-11-18T15:51:50Z"
+  }
+]

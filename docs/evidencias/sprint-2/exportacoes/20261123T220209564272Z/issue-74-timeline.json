@@ -1,0 +1,92 @@
+[
+  {
+    "__typename": "AddedToProjectV2Event",
+    "id": "ATPVTE_lADOUOpn_88AAAABZiTtvs8AAAAH8PudVw",
+    "createdAt": "2026-10-24T02:56:46Z",
+    "actor": {
+      "login": "github-project-automation"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABZiTtvs8AAAAH8PuibA",
+    "createdAt": "2026-10-24T02:56:48Z",
+    "actor": {
+      "login": "github-project-automation"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "",
+    "status": "Backlog",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABZiTtvs8AAAAIMQP3vQ",
+    "createdAt": "2026-11-04T22:32:04Z",
+    "actor": {
+      "login": "leonardonadson"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Backlog",
+    "status": "Sprint Backlog",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABZiTtvs8AAAAIjGv6Lw",
+    "createdAt": "2026-11-20T00:17:30Z",
+    "actor": {
+      "login": "leonardonadson"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Sprint Backlog",
+    "status": "Em Progresso",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABZiTtvs8AAAAIkxAa3w",
+    "createdAt": "2026-11-21T00:45:29Z",
+    "actor": {
+      "login": "leonardonadson"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Em Progresso",
+    "status": "Em Revisão",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ClosedEvent",
+    "id": "CE_lADOUOpn_88AAAABZiTtvs8AAAAIlUpMJg",
+    "createdAt": "2026-11-21T14:25:01Z",
+    "actor": {
+      "login": "arthurFeijo"
+    }
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABZiTtvs8AAAAIlUpYTw",
+    "createdAt": "2026-11-21T14:25:03Z",
+    "actor": {
+      "login": "github-project-automation"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Em Revisão",
+    "status": "Pronto",
+    "wasAutomated": false
+  }
+]

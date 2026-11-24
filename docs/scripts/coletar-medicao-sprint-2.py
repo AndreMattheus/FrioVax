@@ -8,7 +8,6 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
-import tempfile
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -82,7 +81,7 @@ def usuario(obj):
 
 
 def pull(obj):
-    dado = selecionar(obj, "id", "number", "html_url", "state", "draft", "created_at",
+    dado = selecionar(obj, "id", "number", "title", "html_url", "state", "draft", "created_at",
                       "updated_at", "closed_at", "merged_at", "merge_commit_sha")
     dado["user"] = usuario(obj.get("user"))
     for campo in ("head", "base"):
@@ -91,7 +90,7 @@ def pull(obj):
 
 
 def issue(obj):
-    dado = selecionar(obj, "id", "number", "html_url", "state", "created_at", "updated_at", "closed_at")
+    dado = selecionar(obj, "id", "number", "title", "html_url", "state", "created_at", "updated_at", "closed_at")
     dado["user"] = usuario(obj.get("user"))
     dado["assignees"] = [usuario(u) for u in obj.get("assignees", [])]
     dado["labels"] = [selecionar(label, "id", "name") for label in obj.get("labels", [])]
@@ -100,6 +99,7 @@ def issue(obj):
 
 def commit(obj):
     return {"sha": obj["sha"], "html_url": obj["html_url"],
+            "parents": [p["sha"] for p in obj.get("parents", [])],
             "author": usuario(obj.get("author")),
             "committer": usuario(obj.get("committer")),
             "authored_at": obj["commit"]["author"]["date"],
@@ -131,8 +131,11 @@ def execucao(obj):
 
 
 def job(obj):
-    return selecionar(obj, "id", "run_id", "run_attempt", "head_sha", "status", "conclusion",
+    dado = selecionar(obj, "id", "name", "run_id", "run_attempt", "head_sha", "status", "conclusion",
                        "created_at", "started_at", "completed_at", "html_url")
+    dado["steps"] = [selecionar(s, "name", "number", "status", "conclusion", "started_at", "completed_at")
+                     for s in obj.get("steps", [])]
+    return dado
 
 
 def deployment(obj):
@@ -204,7 +207,10 @@ def coletar():
     inicio = agora()
     pai = EVIDENCIAS / "exportacoes"
     pai.mkdir(parents=True, exist_ok=True)
-    destino = Path(tempfile.mkdtemp(prefix=".incompleto-", dir=pai))
+    # mkdir herda ACL do workspace; mkdtemp no Python 3.13+ restringe a pasta
+    # ao usuário do processo, impedindo leitura após coleta elevada no Windows.
+    destino = pai / (".incompleto-" + datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
+    destino.mkdir()
     coletor = Coletor(destino)
     # Falha em qualquer fonte mantém a pasta .incompleto-, sem manifesto de sucesso.
     try:
@@ -233,6 +239,13 @@ def coletar():
         for deploy in deploys:
             tarefas.append((f"deployments/{deploy['id']}/statuses",
                             f"deployment-{deploy['id']}-statuses.json", status, None))
+        # Grafo completo por SHA publicado: permite conferir inclusão de squash e
+        # mudanças sem PR, sem depender de um clone ou de ordem de datas.
+        for sha in sorted({d["sha"] for d in deploys}):
+            tarefas.append((f"commits?sha={sha}", f"ancestry-{sha}.json", commit, None))
+        for sha in sorted({p[c]["sha"] for p in relevantes for c in ("head",)} |
+                          {p["merge_commit_sha"] for p in relevantes if p["merged_at"]}):
+            tarefas.append((f"commits/{sha}/statuses", f"commit-{sha}-statuses.json", status, None))
         with ThreadPoolExecutor(max_workers=4) as executor:
             list(executor.map(lambda tarefa: coletor.rest(*tarefa), tarefas))
         for item in issues:
@@ -240,6 +253,21 @@ def coletar():
             coletor.consultar(["graphql", "-f", f"query={TIMELINE}", "-F", f"number={n}"],
                               f"issue-{n}-timeline.json", lambda obj: obj,
                               caminho=["data", "repository", "issue", "timelineItems"])
+        for pr in relevantes:
+            n = pr["number"]
+            query = '''query($number:Int!, $endCursor:String) {
+              repository(owner:"AndreMattheus", name:"FrioVax") {
+                pullRequest(number:$number) {
+                  closingIssuesReferences(first:100, after:$endCursor) {
+                    nodes {number url repository{nameWithOwner}}
+                    pageInfo{hasNextPage endCursor}
+                  }
+                }
+              }
+            }'''
+            coletor.consultar(["graphql", "-f", f"query={query}", "-F", f"number={n}"],
+                              f"pr-{n}-closing-issues.json", lambda obj: obj,
+                              caminho=["data", "repository", "pullRequest", "closingIssuesReferences"])
         fim = agora()
         manifesto = {"schema": 1, "repositorio": REPO, "inicio": inicio, "fim": fim,
                      "janela_inicio": INICIO, "janela_fim_exclusivo": FIM,
@@ -283,11 +311,51 @@ def verificar_paginacao(corte):
     print(f"Paginação conferida: {len(paginas)} páginas, {len(ids)} PRs, mesmos IDs do corte")
 
 
+def preservar_fontes(destino):
+    destino = Path(destino).resolve()
+    if not destino.is_relative_to(EVIDENCIAS.resolve()):
+        raise ValueError("Fontes devem ficar nas evidências da sprint")
+    destino.mkdir(parents=True, exist_ok=False)
+    hashes = {}
+    for nome in ("incidentes.csv", "monitoramento.csv", "implantacoes.csv"):
+        b = (EVIDENCIAS / nome).read_bytes()
+        (destino / nome).write_bytes(b)
+        hashes[nome] = hashlib.sha256(b).hexdigest()
+    gravar_json(destino / "manifesto.json", {"coletado_em": agora(), "sha256": hashes,
+                "comando": ["python", "docs/scripts/coletar-medicao-sprint-2.py", "--preservar-fontes",
+                            destino.relative_to(ROOT).as_posix()]})
+    print("Fontes locais preservadas com SHA-256")
+
+
+def coletar_ambiente(destino):
+    destino = Path(destino).resolve()
+    if not destino.is_relative_to(EVIDENCIAS.resolve()):
+        raise ValueError("Metadados devem ficar nas evidências da sprint")
+    destino.mkdir(parents=True, exist_ok=False)
+    coletor = Coletor(destino)
+    inicio = agora()
+    ambientes = coletor.rest("environments", "ambientes.json",
+                            lambda obj: selecionar(obj, "id", "name", "created_at", "updated_at",
+                                                   "can_admins_bypass", "deployment_branch_policy",
+                                                   "protection_rules"), chave="environments")
+    if not any(a["name"] == "producao" for a in ambientes):
+        raise ValueError("Ambiente producao não encontrado")
+    gravar_json(destino / "manifesto.json", {"inicio": inicio, "fim": agora(), "resultado": "completo",
+                "consultas": coletor.consultas, "observacao": "fotografia atual; não reconstrói proteção histórica"})
+    print("Metadados dos ambientes preservados")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--verificar-paginacao", metavar="CORTE")
+    parser.add_argument("--preservar-fontes", metavar="DESTINO")
+    parser.add_argument("--coletar-ambiente", metavar="DESTINO")
     args = parser.parse_args()
-    if args.verificar_paginacao:
+    if args.coletar_ambiente:
+        coletar_ambiente(args.coletar_ambiente)
+    elif args.preservar_fontes:
+        preservar_fontes(args.preservar_fontes)
+    elif args.verificar_paginacao:
         verificar_paginacao(args.verificar_paginacao)
     else:
         coletar()

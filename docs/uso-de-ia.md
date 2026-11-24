@@ -16,6 +16,24 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 
 ## Sprint 2
 
+Registro de 24/11/2026 — OpenAI Codex: apoio aos ajustes da revisão de Leonardo
+no PR #125: explicitação do `success` do deployment após Render/smoke como marco
+da publicação, sem depender do término posterior do job; teste de regressão
+do corte de 13/11 às 17:53:52 UTC e registro da reprodução relatada por Leonardo.
+Arthur esclareceu a troca da tarefa com Matheus: a validação independente
+cabe a Leonardo, que já relatou a reprodução dos dois cortes; foi retirada
+a pendência incorreta de Bianca dos registros da #90. A descrição do PR permanece
+sob edição de Arthur; Leonardo deve conferir os ajustes e decidir sobre a aprovação.
+
+Registro de 23/11/2026 — OpenAI Codex: apoio à #90 na extração paginada de
+metadados do GitHub, preservação de snapshots, cálculo offline de publicações,
+tempo de mudança, retrabalho em revisão e fluxo da Sprint 2, testes e redação
+de `docs/metricas-02.md`. Arthur deve compreender e conferir as definições,
+exclusões, redeploy e limites da observação; Leonardo deve revisar o PR.
+Na apuração de 23/11, a reprodução independente e os cortes de 26/11 e da entrega
+ainda estavam pendentes; não foram simulados como realizados. O registro de
+24/11 acima atualiza a reprodução e a atribuição de sua responsabilidade.
+
 Registro de 18/11/2026 — OpenAI Codex: apoio à #84 na revisão do Compose,
 healthcheck da API, preparação de autenticação em volume, runtime sem root,
 documentação e ensaios com cópia limpa e volumes descartáveis. Evidências em

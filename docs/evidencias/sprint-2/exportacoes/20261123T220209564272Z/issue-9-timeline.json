@@ -1,0 +1,92 @@
+[
+  {
+    "__typename": "AddedToProjectV2Event",
+    "id": "ATPVTE_lADOUOpn_88AAAABPxaBc88AAAAHHvEuwQ",
+    "createdAt": "2026-09-04T21:49:50Z",
+    "actor": {
+      "login": "AndreMattheus"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABPxaBc88AAAAHHvGp5g",
+    "createdAt": "2026-09-04T21:49:50Z",
+    "actor": {
+      "login": "AndreMattheus"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "",
+    "status": "Backlog",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABPxaBc88AAAAIKX1i9A",
+    "createdAt": "2026-11-03T19:13:02Z",
+    "actor": {
+      "login": "leonardonadson"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Backlog",
+    "status": "Sprint Backlog",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABPxaBc88AAAAIRI0bUA",
+    "createdAt": "2026-11-08T19:40:04Z",
+    "actor": {
+      "login": "leonardonadson"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Sprint Backlog",
+    "status": "Em Progresso",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABPxaBc88AAAAIRI0bKg",
+    "createdAt": "2026-11-08T19:40:05Z",
+    "actor": {
+      "login": "leonardonadson"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Em Progresso",
+    "status": "Em Revisão",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ProjectV2ItemStatusChangedEvent",
+    "id": "PVTISC_lADOUOpn_88AAAABPxaBc88AAAAIRI0kFg",
+    "createdAt": "2026-11-08T19:40:09Z",
+    "actor": {
+      "login": "leonardonadson"
+    },
+    "project": {
+      "id": "PVT_kwHOCrfrY84Bifhr"
+    },
+    "previousStatus": "Em Revisão",
+    "status": "Pronto",
+    "wasAutomated": false
+  },
+  {
+    "__typename": "ClosedEvent",
+    "id": "CE_lADOUOpn_88AAAABPxaBc88AAAAIRI0l3w",
+    "createdAt": "2026-11-08T19:40:09Z",
+    "actor": {
+      "login": "leonardonadson"
+    }
+  }
+]

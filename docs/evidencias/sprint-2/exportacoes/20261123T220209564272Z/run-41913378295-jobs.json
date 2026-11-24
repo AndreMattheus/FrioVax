@@ -1,0 +1,366 @@
+[
+  {
+    "id": 126866506118,
+    "name": "Go / Telemetria",
+    "run_id": 41913378295,
+    "run_attempt": 1,
+    "head_sha": "16fa4d07db434a2b396f38139c23f137a3fa8008",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-04T21:09:18Z",
+    "started_at": "2026-11-04T21:09:21Z",
+    "completed_at": "2026-11-04T21:09:40Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41913378295/job/126866506118",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:22Z",
+        "completed_at": "2026-11-04T21:09:23Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:23Z",
+        "completed_at": "2026-11-04T21:09:24Z"
+      },
+      {
+        "name": "Configurar Go",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:24Z",
+        "completed_at": "2026-11-04T21:09:35Z"
+      },
+      {
+        "name": "Verificar formatação",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:35Z",
+        "completed_at": "2026-11-04T21:09:35Z"
+      },
+      {
+        "name": "Análise estática",
+        "number": 5,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:35Z",
+        "completed_at": "2026-11-04T21:09:35Z"
+      },
+      {
+        "name": "Testes",
+        "number": 6,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:35Z",
+        "completed_at": "2026-11-04T21:09:35Z"
+      },
+      {
+        "name": "Build",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:35Z",
+        "completed_at": "2026-11-04T21:09:36Z"
+      },
+      {
+        "name": "Post Configurar Go",
+        "number": 13,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:36Z",
+        "completed_at": "2026-11-04T21:09:36Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 14,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:36Z",
+        "completed_at": "2026-11-04T21:09:36Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 15,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:36Z",
+        "completed_at": "2026-11-04T21:09:36Z"
+      }
+    ]
+  },
+  {
+    "id": 126866506271,
+    "name": "Java / Quarkus",
+    "run_id": 41913378295,
+    "run_attempt": 1,
+    "head_sha": "16fa4d07db434a2b396f38139c23f137a3fa8008",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-04T21:09:18Z",
+    "started_at": "2026-11-04T21:09:21Z",
+    "completed_at": "2026-11-04T21:10:36Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41913378295/job/126866506271",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:22Z",
+        "completed_at": "2026-11-04T21:09:23Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:23Z",
+        "completed_at": "2026-11-04T21:09:24Z"
+      },
+      {
+        "name": "Configurar Java",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:25Z",
+        "completed_at": "2026-11-04T21:09:28Z"
+      },
+      {
+        "name": "Verificar Docker para o PostgreSQL temporário",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:28Z",
+        "completed_at": "2026-11-04T21:09:28Z"
+      },
+      {
+        "name": "Build e suíte completa (unitários, rotas, arquitetura e integração)",
+        "number": 5,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:28Z",
+        "completed_at": "2026-11-04T21:10:31Z"
+      },
+      {
+        "name": "Verificar artefato executável do Quarkus",
+        "number": 6,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:10:31Z",
+        "completed_at": "2026-11-04T21:10:31Z"
+      },
+      {
+        "name": "Publicar relatórios de testes Java",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:10:31Z",
+        "completed_at": "2026-11-04T21:10:33Z"
+      },
+      {
+        "name": "Post Configurar Java",
+        "number": 13,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:10:33Z",
+        "completed_at": "2026-11-04T21:10:33Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 14,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:10:33Z",
+        "completed_at": "2026-11-04T21:10:33Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 15,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:10:33Z",
+        "completed_at": "2026-11-04T21:10:33Z"
+      }
+    ]
+  },
+  {
+    "id": 126866506465,
+    "name": "Evidências / Sprint 2 (ubuntu-latest)",
+    "run_id": 41913378295,
+    "run_attempt": 1,
+    "head_sha": "16fa4d07db434a2b396f38139c23f137a3fa8008",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-04T21:09:18Z",
+    "started_at": "2026-11-04T21:09:21Z",
+    "completed_at": "2026-11-04T21:09:26Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41913378295/job/126866506465",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:21Z",
+        "completed_at": "2026-11-04T21:09:22Z"
+      },
+      {
+        "name": "Reproduzir conversão de quebras de linha no Windows",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "skipped",
+        "started_at": "2026-11-04T21:09:22Z",
+        "completed_at": "2026-11-04T21:09:22Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:22Z",
+        "completed_at": "2026-11-04T21:09:23Z"
+      },
+      {
+        "name": "Configurar Python",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:23Z",
+        "completed_at": "2026-11-04T21:09:23Z"
+      },
+      {
+        "name": "Testar contrato de coleta e validação",
+        "number": 5,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:23Z",
+        "completed_at": "2026-11-04T21:09:23Z"
+      },
+      {
+        "name": "Validar registros e integridade dos cortes preservados",
+        "number": 6,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:23Z",
+        "completed_at": "2026-11-04T21:09:23Z"
+      },
+      {
+        "name": "Post Configurar Python",
+        "number": 11,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:23Z",
+        "completed_at": "2026-11-04T21:09:24Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 12,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:24Z",
+        "completed_at": "2026-11-04T21:09:24Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 13,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:24Z",
+        "completed_at": "2026-11-04T21:09:24Z"
+      }
+    ]
+  },
+  {
+    "id": 126866506852,
+    "name": "Evidências / Sprint 2 (windows-latest)",
+    "run_id": 41913378295,
+    "run_attempt": 1,
+    "head_sha": "16fa4d07db434a2b396f38139c23f137a3fa8008",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-04T21:09:18Z",
+    "started_at": "2026-11-04T21:09:21Z",
+    "completed_at": "2026-11-04T21:09:39Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/41913378295/job/126866506852",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:22Z",
+        "completed_at": "2026-11-04T21:09:24Z"
+      },
+      {
+        "name": "Reproduzir conversão de quebras de linha no Windows",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:24Z",
+        "completed_at": "2026-11-04T21:09:25Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:25Z",
+        "completed_at": "2026-11-04T21:09:31Z"
+      },
+      {
+        "name": "Configurar Python",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:31Z",
+        "completed_at": "2026-11-04T21:09:31Z"
+      },
+      {
+        "name": "Testar contrato de coleta e validação",
+        "number": 5,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:31Z",
+        "completed_at": "2026-11-04T21:09:34Z"
+      },
+      {
+        "name": "Validar registros e integridade dos cortes preservados",
+        "number": 6,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:34Z",
+        "completed_at": "2026-11-04T21:09:35Z"
+      },
+      {
+        "name": "Post Configurar Python",
+        "number": 11,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:35Z",
+        "completed_at": "2026-11-04T21:09:35Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 12,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:35Z",
+        "completed_at": "2026-11-04T21:09:37Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 13,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-04T21:09:37Z",
+        "completed_at": "2026-11-04T21:09:37Z"
+      }
+    ]
+  }
+]

@@ -76,6 +76,8 @@ jobs:
         run: python -m unittest discover -s docs/scripts -p 'test_medicao_sprint_2.py' -v
       - name: Testar contas do fluxo de valor
         run: python -m unittest discover -s docs/scripts -p 'test_fluxo_de_valor.py' -v
+      - name: Conferir apuração de publicações, cortes e ausência de incidentes
+        run: python -m unittest discover -s docs/scripts -p 'test_metricas_02.py' -v
       - name: Validar registros e integridade dos cortes preservados
         run: python docs/scripts/validar-medicao-sprint-2.py
       - name: Reproduzir fluxo publicado e linhas de base sem consultar a API
