@@ -2,10 +2,8 @@ package br.ufrn.friovax.api.telemetria.api;
 
 import br.ufrn.friovax.api.compartilhado.api.DocumentacaoApi;
 import br.ufrn.friovax.api.compartilhado.api.ProblemDetails;
-import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
 import br.ufrn.friovax.api.telemetria.aplicacao.ConsultarLeitura;
 import br.ufrn.friovax.api.telemetria.aplicacao.ReceberLeitura;
-import br.ufrn.friovax.api.telemetria.dominio.NovaLeitura;
 import io.quarkus.security.PermissionsAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -29,10 +27,6 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 import static br.ufrn.friovax.api.autenticacao.dominio.MatrizAcesso.CONSULTAR_OPERACAO;
 import static br.ufrn.friovax.api.autenticacao.dominio.MatrizAcesso.REGISTRAR_LEITURA;
@@ -105,7 +99,7 @@ public class LeituraResource {
             schema = @Schema(implementation = ProblemDetails.class)))
     public Response receber(@NotNull(message = "deve ser informado") @Valid LeituraRequest body) {
         var recebida = receberLeitura.receber(body.camaraId(), body.idExterno(), body.temperatura(),
-            medidaEm(body.medidaEm()), body.origem());
+            body.instanteDaMedicao(), body.origem());
         var resposta = LeituraResponse.de(recebida.leitura(), recebida.ocorrenciaAbertaId());
         if (!recebida.criada()) {
             return Response.ok(resposta).build();
@@ -125,15 +119,5 @@ public class LeituraResource {
                                      @PathParam("id") long id) {
         var consultada = consultarLeitura.consultar(id);
         return LeituraResponse.de(consultada.leitura(), consultada.ocorrenciaAbertaId());
-    }
-
-    /** Exige offset explícito: um instante local seria ambíguo (ADR 0003, seção 5). */
-    private static OffsetDateTime medidaEm(String texto) {
-        try {
-            return OffsetDateTime.parse(texto.strip(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        } catch (DateTimeParseException semOffset) {
-            throw new ValidacaoDeNegocio(NovaLeitura.CAMPO_MEDIDA,
-                "deve ser um instante ISO 8601 com offset, como 2026-11-20T10:15:00-03:00");
-        }
     }
 }
