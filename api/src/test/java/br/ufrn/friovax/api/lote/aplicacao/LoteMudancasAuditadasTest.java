@@ -33,7 +33,7 @@ class LoteMudancasAuditadasTest {
 
     private final CadastrarLote cadastrar = new CadastrarLote(lotes, camaras, RELOGIO, publicadas::add);
     private final AtualizarLote atualizar = new AtualizarLote(lotes, camaras, RELOGIO, publicadas::add);
-    private final RegistrarBaixaLote baixa = new RegistrarBaixaLote(lotes, RELOGIO, publicadas::add);
+    private final RegistrarBaixaLote baixa = new RegistrarBaixaLote(lotes, camaras, RELOGIO, publicadas::add);
     private final DescartarLote descartar = new DescartarLote(lotes, RELOGIO, publicadas::add);
     private final InativarLote inativar = new InativarLote(lotes, RELOGIO, publicadas::add);
 

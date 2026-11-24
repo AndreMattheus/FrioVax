@@ -1,5 +1,6 @@
 package br.ufrn.friovax.api.lote.aplicacao;
 
+import br.ufrn.friovax.api.camara.dominio.CamaraRepository;
 import br.ufrn.friovax.api.compartilhado.dominio.RecursoNaoEncontrado;
 import br.ufrn.friovax.api.lote.dominio.Lote;
 import br.ufrn.friovax.api.lote.dominio.LoteRepository;
@@ -22,26 +23,33 @@ import java.time.OffsetDateTime;
 @ApplicationScoped
 public class RegistrarBaixaLote {
     private final LoteRepository lotes;
+    private final CamaraRepository camaras;
     private final Clock relogio;
     private final PublicadorDeMudancas publicador;
 
     @Inject
-    public RegistrarBaixaLote(LoteRepository lotes, Clock relogio, PublicadorDeMudancas publicador) {
+    public RegistrarBaixaLote(LoteRepository lotes, CamaraRepository camaras, Clock relogio,
+                              PublicadorDeMudancas publicador) {
         this.lotes = lotes;
+        this.camaras = camaras;
         this.relogio = relogio;
         this.publicador = publicador;
     }
 
-    public RegistrarBaixaLote(LoteRepository lotes, Clock relogio) {
-        this(lotes, relogio, PublicadorDeMudancas.nenhum());
+    public RegistrarBaixaLote(LoteRepository lotes, CamaraRepository camaras, Clock relogio) {
+        this(lotes, camaras, relogio, PublicadorDeMudancas.nenhum());
     }
 
     @Transactional
     public Lote registrar(long id, int quantidade, MotivoBaixa motivo) {
-        // Bloqueia só o lote: duas baixas simultâneas passam a ser aplicadas uma depois da outra, e a segunda já
-        // enxerga a quantidade que sobrou. A baixa nunca aumenta a ocupação, então a câmara não precisa ser bloqueada.
+        // Bloqueia o lote: duas baixas simultâneas passam a ser aplicadas uma depois da outra, e a segunda já
+        // enxerga a quantidade que sobrou. A baixa nunca aumenta a ocupação, então só a ADMINISTRADA consulta a câmara.
         var lote = lotes.buscarPorIdParaAlteracao(id)
                 .orElseThrow(() -> new RecursoNaoEncontrado("Lote", id));
+        if (motivo == MotivoBaixa.ADMINISTRADA) {
+            camaras.buscarPorIdParaAlteracao(lote.getCamaraId())
+                    .ifPresent(camara -> camara.exigirSemAlerta("baixa ADMINISTRADA"));
+        }
         lote.darBaixa(quantidade, motivo, OffsetDateTime.now(relogio));
         var salvo = lotes.salvar(lote);
         publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.LOTE, salvo.getId(), OperacaoAuditada.BAIXA,

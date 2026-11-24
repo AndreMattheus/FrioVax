@@ -26,6 +26,8 @@ import java.time.OffsetDateTime;
 import static br.ufrn.friovax.api.suporte.AutenticacaoHttpSupport.autenticado;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -73,13 +75,20 @@ class LeituraHttpMemoriaTest extends HttpEmMemoriaSupport {
     }
 
     @Test
-    void terceiraInseguraConsecutivaAtingeOLimiar() {
-        enviar(corpo("S-1", "9.0", "2026-10-11T01:00:00Z", "s")).statusCode(201);
+    void terceiraInseguraConsecutivaAtingeOLimiarEAbreAOcorrencia() {
+        enviar(corpo("S-1", "9.0", "2026-10-11T01:00:00Z", "s")).statusCode(201)
+                .body("ocorrenciaAbertaId", nullValue());
         enviar(corpo("S-2", "1.0", "2026-10-11T01:01:00Z", "s")).statusCode(201);
 
-        enviar(corpo("S-3", "10.0", "2026-10-11T01:02:00Z", "s"))
+        int ocorrencia = enviar(corpo("S-3", "10.0", "2026-10-11T01:02:00Z", "s"))
                 .statusCode(201)
-                .body("sequencia", equalTo(3), "limiarAtingido", equalTo(true));
+                .body("sequencia", equalTo(3), "limiarAtingido", equalTo(true), "ocorrenciaAbertaId", notNullValue())
+                .extract().path("ocorrenciaAbertaId");
+        // Reenvio devolve a mesma ocorrência; a câmara fica EM_ALERTA (S2-11).
+        enviar(corpo("S-3", "10.0", "2026-10-11T01:02:00Z", "s")).statusCode(200)
+                .body("ocorrenciaAbertaId", equalTo(ocorrencia));
+        autenticado(Perfil.AUDITOR).get("/api/camaras/{id}", camaraId).then()
+                .body("estadoTermico", equalTo("EM_ALERTA"));
 
         var janela = go.ultimaRequisicao().getWindows(0);
         assertEquals(2, janela.getContextCount());

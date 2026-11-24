@@ -5,8 +5,8 @@ import br.ufrn.friovax.api.telemetria.dominio.FalhaDeIntegracao;
 import br.ufrn.friovax.api.telemetria.dominio.JanelaDeAnalise;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraConcorrente;
 import br.ufrn.friovax.api.telemetria.dominio.NovaLeitura;
+import br.ufrn.friovax.api.telemetria.dominio.ResultadoDaCandidata;
 import br.ufrn.friovax.api.telemetria.dominio.ResultadoDaJanela;
-import br.ufrn.friovax.api.telemetria.dominio.ResultadoTermico;
 import br.ufrn.friovax.api.telemetria.dominio.SolicitacaoDeAnalise;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -67,17 +67,17 @@ public class ReceberLeitura {
         var correlacao = "leitura-" + UUID.randomUUID();
         for (int analises = 1; analises <= ANALISES_MAXIMAS; analises++) {
             var preparacao = etapas.preparar(nova);
-            if (preparacao instanceof Preparacao.Repetida(var original)) {
-                return new LeituraRecebida(original, false);
+            if (preparacao instanceof Preparacao.Repetida(var original, var ocorrencia)) {
+                return new LeituraRecebida(original, false, ocorrencia);
             }
             var snapshot = ((Preparacao.Pronta) preparacao).snapshot();
             var resultado = analisar(nova, snapshot, correlacao + "-" + analises);
             switch (etapas.confirmar(nova, snapshot, resultado)) {
-                case Confirmacao.Aceita(var aceita) -> {
-                    return new LeituraRecebida(aceita, true);
+                case Confirmacao.Aceita(var aceita, var ocorrencia) -> {
+                    return new LeituraRecebida(aceita, true, ocorrencia);
                 }
-                case Confirmacao.Repetida(var original) -> {
-                    return new LeituraRecebida(original, false);
+                case Confirmacao.Repetida(var original, var ocorrencia) -> {
+                    return new LeituraRecebida(original, false, ocorrencia);
                 }
                 case Confirmacao.SnapshotAlterado() -> {
                     // Refaz (a), (b) e (c) com os dados atuais.
@@ -87,12 +87,13 @@ public class ReceberLeitura {
         throw new LeituraConcorrente(camaraId);
     }
 
-    private ResultadoTermico analisar(NovaLeitura nova, SnapshotDaCamara snapshot, String correlacao) {
+    /** Resultado da candidata com as evidências: a confirmação precisa delas para abrir a ocorrência (S2-11). */
+    private ResultadoDaCandidata analisar(NovaLeitura nova, SnapshotDaCamara snapshot, String correlacao) {
         var janela = new JanelaDeAnalise(snapshot.camaraId(), snapshot.politica(), snapshot.contexto(),
                 List.of(nova.paraAnalise()));
         var resposta = analise.analisar(SolicitacaoDeAnalise.de(correlacao, janela));
         return switch (resposta.janelas().getFirst()) {
-            case ResultadoDaJanela.Analisada analisada -> analisada.candidatas().getFirst().resultado();
+            case ResultadoDaJanela.Analisada analisada -> analisada.candidatas().getFirst();
             case ResultadoDaJanela.Rejeitada rejeitada -> throw new FalhaDeIntegracao(
                     "O serviço de análise térmica recusou a janela da câmara " + rejeitada.camaraId()
                             + " (" + rejeitada.motivo() + ").");

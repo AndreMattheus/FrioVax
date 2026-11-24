@@ -239,6 +239,38 @@ public class Camara {
         }
     }
 
+    /**
+     * Aplica o resultado confirmado de uma leitura ao estado térmico (ADR 0003, seção 4). Com ocorrência aberta, a
+     * câmara fica {@code EM_ALERTA} mesmo depois de uma leitura segura: só a resolução explícita sai do alerta.
+     * Sem ocorrência, {@code NORMAL} para leitura segura e {@code ATENCAO} para insegura abaixo do limiar. O estado
+     * operacional, {@code ativo} e as doses não mudam.
+     *
+     * @return se o estado térmico mudou
+     */
+    public boolean registrarResultadoTermico(boolean insegura, boolean comOcorrenciaAberta) {
+        var anterior = estadoTermico;
+        if (comOcorrenciaAberta) {
+            estadoTermico = EstadoTermico.EM_ALERTA;
+        } else {
+            estadoTermico = insegura ? EstadoTermico.ATENCAO : EstadoTermico.NORMAL;
+        }
+        return estadoTermico != anterior;
+    }
+
+    /**
+     * Proteção dos lotes durante uma ocorrência aberta (S2-11, ADR 0003, seção 4): em {@code EM_ALERTA}, a câmara
+     * recusa novo lote, aumento de doses, movimentação para ela e baixa {@code ADMINISTRADA}. Retirada, baixa por
+     * perda e descarte continuam permitidos; permitir a retirada não libera o uso dos lotes da fotografia.
+     *
+     * @param operacao o que foi recusado, para a mensagem (por exemplo "novos lotes")
+     * @throws CamaraEmAlerta se a câmara estiver {@code EM_ALERTA}
+     */
+    public void exigirSemAlerta(String operacao) {
+        if (estadoTermico == EstadoTermico.EM_ALERTA) {
+            throw new CamaraEmAlerta(codigo, operacao);
+        }
+    }
+
     /** Chamado pelo repositório ao gravar uma câmara nova. */
     public void atribuirId(long id) {
         if (this.id != null) {

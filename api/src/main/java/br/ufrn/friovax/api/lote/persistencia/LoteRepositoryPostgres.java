@@ -148,6 +148,13 @@ public class LoteRepositoryPostgres implements LoteRepository, PanacheRepository
         return find("camaraId = ?1 and ativo = true", camaraId).firstResultOptional().isPresent();
     }
 
+    @Override
+    public List<Lote> ativosDaCamara(long camaraId) {
+        return list("camaraId = ?1 and ativo = true", Sort.by("id"), camaraId).stream()
+            .map(LoteMapper::paraDominio)
+            .toList();
+    }
+
     /** Escapa os curingas do LIKE para que a busca seja um "contém" literal, como no contrato. */
     private static String literalParaLike(String termo) {
         return termo.replace("!", "!!").replace("%", "!%").replace("_", "!_");

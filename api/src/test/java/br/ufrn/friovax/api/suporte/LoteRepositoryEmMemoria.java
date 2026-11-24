@@ -9,6 +9,7 @@ import br.ufrn.friovax.api.lote.dominio.LoteRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -88,6 +89,14 @@ public class LoteRepositoryEmMemoria implements LoteRepository {
     @Override
     public synchronized boolean existeLoteAtivoNaCamara(long camaraId) {
         return lotes.values().stream().anyMatch(lote -> lote.isAtivo() && lote.getCamaraId() == camaraId);
+    }
+
+    @Override
+    public synchronized List<Lote> ativosDaCamara(long camaraId) {
+        return lotes.values().stream()
+                .filter(lote -> lote.isAtivo() && lote.getCamaraId() == camaraId)
+                .map(LoteRepositoryEmMemoria::copia)
+                .toList();
     }
 
     private long somarAtivos(Predicate<Lote> condicao) {

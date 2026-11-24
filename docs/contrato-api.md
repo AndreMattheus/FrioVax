@@ -42,7 +42,7 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 | `temperaturaMinima` | number (decimal, 1 casa) | Obrigatório | Em °C; de `-999.9` a `999.9`; `temperaturaMinima < temperaturaMaxima`. Pertence à política térmica vigente (ver [§3.5](#35-política-térmica)). |
 | `temperaturaMaxima` | number (decimal, 1 casa) | Obrigatório | Em °C; de `-999.9` a `999.9`. Pertence à política térmica vigente. |
 | `estado` | string (enum) | Obrigatório | `OPERACIONAL`,`MANUTENCAO` ou `DESATIVADA`.                                          |
-| `estadoTermico` | string (enum) | — | Somente leitura; atribuído só pelo sistema. `SEM_LEITURAS` (inicial), `NORMAL`, `ATENCAO` ou `EM_ALERTA` (ADR 0003). Independente de `estado`. |
+| `estadoTermico` | string (enum) | — | Somente leitura; atribuído só pelo sistema. `SEM_LEITURAS` (inicial), `NORMAL`, `ATENCAO` ou `EM_ALERTA`, a cada leitura confirmada (§10.1). Independente de `estado`. |
 | `ocupacao` | integer (int32) | — | Somente leitura; soma dos lotes ativos.                                              |
 | `ativo` | boolean | — | Somente leitura; alterado apenas por `DELETE`.                                       |
 | `criadoEm` | string (date-time) | — | Somente leitura.                                                                     |
@@ -102,6 +102,7 @@ Datas usam ISO 8601: `validade` é data sem hora (`2027-03-31`); instantes de au
 - Condição de capacidade: `ocupacao_atual_da_câmara_destino - quantidade_anterior_se_mesma_câmara + quantidade_nova <= capacidade`. Vale tanto para aumento da quantidade quanto para troca de câmara. Violação → `409`.
 - O PUT não reduz a quantidade (`422`); um lote `ESGOTADO` pode manter quantidade zero ao editar outros campos, mas não receber novas doses (`409`).
 - Na troca de câmara, a quantidade sai da origem e entra no destino; só o destino precisa ser revalidado.
+- Câmara de destino com `estadoTermico = EM_ALERTA` (ocorrência térmica aberta, §10.1): criar lote, aumentar doses no PUT e mover lote para ela retornam `409` (`/problemas/estado-incompativel`), sem gravar nada. Editar dados cadastrais sem aumentar doses e mover o lote para outra câmara continuam permitidos.
 - A verificação e a gravação ocorrem na mesma transação, com bloqueio da linha da câmara de destino (`SELECT ... FOR UPDATE`), para que alocações concorrentes não ultrapassem a capacidade e não haja persistência parcial.
 
 ### 3.3 Inativação
@@ -174,6 +175,7 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 - Reduz `quantidade` do lote pelo valor informado.
 - Se o resultado for `0`, o servidor muda `estado` do lote para `ESGOTADO` na mesma transação.
 - Lote `DESCARTADO` ou inativo (`ativo = false`) → `409`.
+- Câmara do lote em `EM_ALERTA` e `motivo = ADMINISTRADA` → `409`, sem reduzir doses: não se aplicam doses de uma câmara com ocorrência aberta. Baixa por `PERDA` continua permitida.
 - Sucesso: `200` com o lote atualizado.
 
 **Descarte total** — `POST /api/lotes/{id}/descarte`, sem body.
@@ -181,6 +183,7 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 - Muda `estado` do lote para `DESCARTADO`, independente de quanto ainda resta em `quantidade`.
 - Idempotente: chamar de novo num lote já `DESCARTADO` retorna `200` sem alterar nada.
 - Lote inativo (`ativo = false`) → `409`.
+- Permitido também com a câmara em `EM_ALERTA`. Não há descarte automático ao abrir uma ocorrência.
 - Sucesso: `200` com o lote atualizado.
 
 ### 4.3 Página
@@ -203,7 +206,7 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 | `404` | Recurso da rota inexistente; `camaraId` do body inexistente                                                                                                                                                                                                           | `/problemas/recurso-nao-encontrado` |
 | `409` | Código duplicado                                                                                                                                                                                                                                                       | `/problemas/codigo-duplicado` |
 | `409` | Capacidade excedida ou redução abaixo da ocupação                                                                                                                                                                                                                      | `/problemas/capacidade-excedida` |
-| `409` | Operação incompatível com o estado atual (registro inativo, câmara em manutenção, câmara com lotes ativos)                                                                                                                                                             | `/problemas/estado-incompativel` |
+| `409` | Operação incompatível com o estado atual (registro inativo, câmara em manutenção, câmara com lotes ativos, câmara `EM_ALERTA` para entrada, aumento ou baixa `ADMINISTRADA`)                                                                                                                                                             | `/problemas/estado-incompativel` |
 | `409` | `versaoEsperada` diferente da versão vigente da política térmica; consulte e reenvie (§12) | `/problemas/versao-desatualizada` |
 | `422` | Body ou campo obrigatório ausente; campo em branco; formato ou regra de entrada violada após desserialização (inclusive validade não futura, temperatura fora do intervalo, precisão térmica excessiva e `temperaturaMinima >= temperaturaMaxima`) | `/problemas/validacao` |
 | `409` | Leitura com chave `(camaraId, idExterno)` já aceita com outro conteúdo (§10) | `/problemas/leitura-conflitante` |
@@ -438,8 +441,7 @@ Content-Type: application/problem+json
 
 - Entidade e CRUD de Unidade (D2).
 - Reativação de registros inativos.
-- Estados térmicos da câmara (US05).
-- Auditoria de ocorrências: o tipo `OCORRENCIA` já existe na trilha (§9), mas os registros chegam com a abertura e a resolução de ocorrências.
+- Resolução de ocorrências (S2-12): até lá, uma câmara `EM_ALERTA` continua em alerta.
 
 ## 7. Autenticação e sessões (Sprint 2 — #80)
 
@@ -473,6 +475,7 @@ Toda alteração confirmada de câmara ou lote gera um evento na tabela `eventos
 | `CAMARA` | `CADASTRO`, `ATUALIZACAO`, `INATIVACAO` | `POST`, `PUT` com alguma mudança, `DELETE` de câmara ativa |
 | `LOTE` | `CADASTRO`, `ATUALIZACAO`, `INATIVACAO` | `POST`, `PUT` com alguma mudança, `DELETE` de lote ativo |
 | `LOTE` | `BAIXA`, `DESCARTE` | `POST /baixas`; `POST /descarte` de lote ainda não descartado |
+| `OCORRENCIA` | `ABERTURA_DE_OCORRENCIA` | Leitura que atinge o limiar sem ocorrência aberta (§10.1); o ator é quem enviou a leitura |
 | `POLITICA_TERMICA` | `ALTERACAO_DE_POLITICA` | Nova versão, pela rota de política ou pelo `PUT` da câmara (§12); `recursoId` é o `id` da câmara |
 
 Cada evento guarda:
@@ -571,7 +574,7 @@ Com a nova tentativa, uma requisição pode esperar até duas vezes o prazo no G
 - Mesma chave com outra temperatura, instante ou origem: `409` (`/problemas/leitura-conflitante`). `medidaEm` igual ou anterior à última leitura aceita, câmara inativa ou fora de `OPERACIONAL`: `409` (`/problemas/estado-incompativel`). Nenhum caso grava algo.
 - Go ausente ou lento: `503` no prazo de cada chamada; resposta fora do contrato ou janela recusada: `502`. Nenhuma leitura é confirmada, não há fila nem `202`.
 
-A abertura de ocorrência ao atingir o limiar e a atualização do estado térmico são da S2-11 (#75); a recepção em lote, da S2-36 (#99).
+A abertura de ocorrência e o estado térmico estão em §10.1; a recepção em lote é da S2-36 (#99).
 
 ```http
 POST /api/leituras
@@ -603,7 +606,8 @@ Content-Type: application/json
   "classificacao": "INSEGURA",
   "sequencia": 1,
   "limiarAtingido": false,
-  "aceitaEm": "2026-11-20T13:15:02.120Z"
+  "aceitaEm": "2026-11-20T13:15:02.120Z",
+  "ocorrenciaAbertaId": null
 }
 ```
 
@@ -618,6 +622,24 @@ Reenvio da mesma chave com `"temperatura": 9.5`:
   "instance": "/api/leituras"
 }
 ```
+
+### 10.1 Abertura de ocorrência e estado térmico (Sprint 2 — #75)
+
+Ao confirmar uma leitura (passo 3), na mesma transação e com a câmara ainda bloqueada:
+
+| Resultado da leitura | Ocorrência | `estadoTermico` |
+|---|---|---|
+| Segura | — | `NORMAL`, ou continua `EM_ALERTA` se houver ocorrência aberta |
+| Insegura abaixo de N | — | `ATENCAO`, ou continua `EM_ALERTA` |
+| Insegura que atinge N, sem ocorrência aberta | abre uma | `EM_ALERTA` |
+| Insegura com sinal de N e ocorrência já aberta | não abre outra | continua `EM_ALERTA` |
+
+- **Abertura:** a ocorrência guarda a leitura de abertura, a versão da política, as evidências (as N leituras inseguras da sequência, em ordem, devolvidas pelo Go) e a fotografia dos lotes `DISPONIVEL` com doses da câmara naquele instante (id, código, imunobiológico e quantidade). Movimentar, dar baixa, descartar ou inativar um lote depois não altera a fotografia. A trilha (§9) recebe `OCORRENCIA` / `ABERTURA_DE_OCORRENCIA` com a correlação da requisição.
+- **Resposta:** `ocorrenciaAbertaId` traz a ocorrência aberta por esta leitura, ou `null`. O reenvio da mesma chave e o `GET /api/leituras/{id}` devolvem o mesmo valor; nenhum dos dois abre outra.
+- **Atomicidade:** leitura, ocorrência, evidências, fotografia, estado térmico e auditoria são gravados juntos. Se qualquer gravação falha, nada fica, e o aviso de mudança (que invalida o resumo) não sai; os avisos só saem depois do commit.
+- **No máximo uma aberta por câmara:** o lock da câmara serializa as leituras, a regra de domínio recusa abrir com outra aberta e a constraint `uk_ocorrencias_aberta_por_camara` é a última barreira. Duas leituras simultâneas no limiar abrem no máximo uma.
+- **Alerta:** uma leitura segura depois **não** fecha o alerta nem a ocorrência; só a resolução explícita (S2-12). O estado operacional (`OPERACIONAL`, `MANUTENCAO`, `DESATIVADA`), `ativo` e as doses não mudam.
+- **Proteção dos lotes** em `EM_ALERTA` (§3.2 e §4.2): novo lote, aumento de doses, movimentação para a câmara e baixa `ADMINISTRADA` → `409`. Retirada (mover para outra câmara), baixa por `PERDA`, descarte e inativação continuam permitidos; permitir a retirada não libera o uso dos lotes da fotografia.
 
 ## 11. Histórico de leituras e ocorrências
 

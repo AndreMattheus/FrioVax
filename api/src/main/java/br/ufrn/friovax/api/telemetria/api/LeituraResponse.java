@@ -31,12 +31,17 @@ public record LeituraResponse(
         @Schema(description = "`true` quando esta leitura insegura atingiu ou manteve o limiar N.")
         boolean limiarAtingido,
         @Schema(description = "Instante oficial da aceitação em UTC.", examples = "2026-11-20T13:15:02.120Z")
-        OffsetDateTime aceitaEm
+        OffsetDateTime aceitaEm,
+        @Schema(description = "Ocorrência aberta por esta leitura ao atingir o limiar sem outra aberta na câmara; "
+            + "nulo quando não abriu. O reenvio da mesma chave devolve o mesmo valor.", examples = "7",
+            nullable = true)
+        Long ocorrenciaAbertaId
 ) {
-    public static LeituraResponse de(Leitura leitura) {
+    public static LeituraResponse de(Leitura leitura, Long ocorrenciaAbertaId) {
         var resultado = leitura.getResultado();
         return new LeituraResponse(leitura.getId(), leitura.getCamaraId(), leitura.getIdExterno(),
                 leitura.getTemperatura(), leitura.getInstante(), leitura.getOrigem(), leitura.getPoliticaVersao(),
-                resultado.classificacao(), resultado.sequencia(), resultado.limiarAtingido(), leitura.getAceitaEm());
+                resultado.classificacao(), resultado.sequencia(), resultado.limiarAtingido(), leitura.getAceitaEm(),
+                ocorrenciaAbertaId);
     }
 }
