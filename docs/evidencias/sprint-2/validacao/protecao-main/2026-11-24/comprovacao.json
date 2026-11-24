@@ -1,0 +1,367 @@
+{
+  "protecao": {
+    "coletado_em_utc": "2026-11-24T12:00:07.2844793-03:00",
+    "argumentos_gh": [
+      "api",
+      "repos/AndreMattheus/FrioVax/branches/main/protection",
+      "--jq",
+      "{required_status_checks,required_pull_request_reviews,enforce_admins,allow_force_pushes,allow_deletions}"
+    ],
+    "arquivo": "protecao-main.json"
+  },
+  "pr_bloqueado": {
+    "coletado_em_utc": "2026-11-24T12:00:08.6067893-03:00",
+    "argumentos_gh": [
+      "pr",
+      "view",
+      "126",
+      "--repo",
+      "AndreMattheus/FrioVax",
+      "--json",
+      "number,url,state,closedAt,mergedAt,headRefName,headRefOid,baseRefName,mergeStateStatus,reviewDecision,statusCheckRollup",
+      "--jq",
+      "{number,url,state,closedAt,mergedAt,headRefName,headRefOid,baseRefName,mergeStateStatus,reviewDecision,checks:[.statusCheckRollup[]|select(.name == \"Go / Telemetria\" or .name == \"Java / Quarkus\" or .name == \"Protobuf / Buf\" or .name == \"Smoke / Compose\")|{name,conclusion,detailsUrl}]}"
+    ],
+    "resultado": {
+      "baseRefName": "main",
+      "checks": [
+        {
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45327304271/job/138219872300",
+          "name": "Protobuf / Buf"
+        },
+        {
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45327154648/job/138219385417",
+          "name": "Protobuf / Buf"
+        },
+        {
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45327304271/job/138219872319",
+          "name": "Java / Quarkus"
+        },
+        {
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45327154648/job/138219385193",
+          "name": "Java / Quarkus"
+        },
+        {
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45327304271/job/138219872343",
+          "name": "Smoke / Compose"
+        },
+        {
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45327154648/job/138219385427",
+          "name": "Smoke / Compose"
+        },
+        {
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45327304271/job/138219872266",
+          "name": "Go / Telemetria"
+        },
+        {
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/AndreMattheus/FrioVax/actions/runs/45327154648/job/138219385475",
+          "name": "Go / Telemetria"
+        }
+      ],
+      "closedAt": null,
+      "headRefName": "feat/85-teste-ampliar-ci",
+      "headRefOid": "67b20f6cf56c41a96d3ce7a14a779f46de797445",
+      "mergeStateStatus": "BLOCKED",
+      "mergedAt": null,
+      "number": 126,
+      "reviewDecision": "APPROVED",
+      "state": "OPEN",
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/126"
+    }
+  },
+  "aprovacoes": {
+    "coletado_em_utc": "2026-11-24T12:00:09.4811799-03:00",
+    "argumentos_gh": [
+      "api",
+      "repos/AndreMattheus/FrioVax/pulls/126/reviews",
+      "--jq",
+      "map(select(.state == \"APPROVED\")|{login:.user.login,state,submitted_at,html_url,commit_id})"
+    ],
+    "resultado": {
+      "commit_id": "67b20f6cf56c41a96d3ce7a14a779f46de797445",
+      "html_url": "https://github.com/AndreMattheus/FrioVax/pull/126#pullrequestreview-6039462623",
+      "login": "biancammedeiros",
+      "state": "APPROVED",
+      "submitted_at": "2026-11-24T12:48:40Z"
+    }
+  },
+  "ci_valido": {
+    "coletado_em_utc": "2026-11-24T12:00:11.9945521-03:00",
+    "argumentos_gh": [
+      "run",
+      "view",
+      "45325841963",
+      "--repo",
+      "AndreMattheus/FrioVax",
+      "--json",
+      "databaseId,url,event,headSha,headBranch,status,conclusion,createdAt,jobs",
+      "--jq",
+      "{databaseId,url,event,headSha,headBranch,status,conclusion,createdAt,completedAt:(.jobs|map(.completedAt)|max),duration_seconds:((.jobs|map(.completedAt)|max|fromdateiso8601)-(.createdAt|fromdateiso8601)),jobs:[.jobs[]|{name,status,conclusion,completedAt}]}"
+    ],
+    "resultado": {
+      "completedAt": "2026-11-24T04:24:36Z",
+      "conclusion": "success",
+      "createdAt": "2026-11-24T04:21:38Z",
+      "databaseId": 45325841963,
+      "duration_seconds": 178,
+      "event": "push",
+      "headBranch": "feat/85-ampliar-ci-e-checks-obrigatorios-estaveis",
+      "headSha": "cd057d7ee5f502685af4c77b76cf6bc6f7a0f87f",
+      "jobs": [
+        {
+          "completedAt": "2026-11-24T04:21:53Z",
+          "conclusion": "success",
+          "name": "Evidências / Sprint 2 (windows-latest)",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-24T04:24:36Z",
+          "conclusion": "success",
+          "name": "Java / Quarkus",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-24T04:21:46Z",
+          "conclusion": "success",
+          "name": "Contrato da publicação",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-24T04:22:06Z",
+          "conclusion": "success",
+          "name": "Ambiente de autenticação (windows-latest)",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-24T04:22:26Z",
+          "conclusion": "success",
+          "name": "Go / Telemetria",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-24T04:23:39Z",
+          "conclusion": "success",
+          "name": "Smoke / Compose",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-24T04:21:47Z",
+          "conclusion": "success",
+          "name": "Ambiente de autenticação (ubuntu-latest)",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-24T04:21:48Z",
+          "conclusion": "success",
+          "name": "Evidências / Sprint 2 (ubuntu-latest)",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-24T04:22:12Z",
+          "conclusion": "success",
+          "name": "Protobuf / Buf",
+          "status": "completed"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45325841963"
+    }
+  },
+  "ci_prova": {
+    "coletado_em_utc": "2026-11-24T12:00:14.4388201-03:00",
+    "argumentos_gh": [
+      "run",
+      "view",
+      "45327304271",
+      "--repo",
+      "AndreMattheus/FrioVax",
+      "--json",
+      "databaseId,url,event,headSha,headBranch,status,conclusion,createdAt,jobs",
+      "--jq",
+      "{databaseId,url,event,headSha,headBranch,status,conclusion,createdAt,jobs:[.jobs[]|{name,status,conclusion,databaseId}]}"
+    ],
+    "resultado": {
+      "conclusion": "failure",
+      "createdAt": "2026-11-24T04:34:14Z",
+      "databaseId": 45327304271,
+      "event": "pull_request",
+      "headBranch": "feat/85-teste-ampliar-ci",
+      "headSha": "67b20f6cf56c41a96d3ce7a14a779f46de797445",
+      "jobs": [
+        {
+          "conclusion": "success",
+          "databaseId": 138219871904,
+          "name": "Evidências / Sprint 2 (ubuntu-latest)",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 138219872247,
+          "name": "Ambiente de autenticação (windows-latest)",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 138219872266,
+          "name": "Go / Telemetria",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 138219872296,
+          "name": "Evidências / Sprint 2 (windows-latest)",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 138219872300,
+          "name": "Protobuf / Buf",
+          "status": "completed"
+        },
+        {
+          "conclusion": "failure",
+          "databaseId": 138219872319,
+          "name": "Java / Quarkus",
+          "status": "completed"
+        },
+        {
+          "conclusion": "failure",
+          "databaseId": 138219872343,
+          "name": "Smoke / Compose",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 138219872376,
+          "name": "Contrato da publicação",
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "databaseId": 138219872383,
+          "name": "Ambiente de autenticação (ubuntu-latest)",
+          "status": "completed"
+        }
+      ],
+      "status": "completed",
+      "url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45327304271"
+    }
+  },
+  "relatorios_java": {
+    "coletado_em_utc": "2026-11-24T12:00:15.0380173-03:00",
+    "argumentos_gh": [
+      "api",
+      "repos/AndreMattheus/FrioVax/actions/runs/45325841963/artifacts",
+      "--jq",
+      "{artifacts:[.artifacts[]|{name,expired,size_in_bytes}]}"
+    ],
+    "resultado": {
+      "artifacts": [
+        {
+          "expired": false,
+          "name": "java-test-reports",
+          "size_in_bytes": 1212960
+        }
+      ]
+    }
+  },
+  "administrador": {
+    "coletado_em_utc": "2026-11-24T12:00:15.6101197-03:00",
+    "argumentos_gh": [
+      "api",
+      "repos/AndreMattheus/FrioVax/collaborators/AndreMattheus/permission",
+      "--jq",
+      "{permission,role_name,login:.user.login}"
+    ],
+    "resultado": {
+      "login": "AndreMattheus",
+      "permission": "admin",
+      "role_name": "admin"
+    }
+  },
+  "log": {
+    "arquivo": "lint-falho.txt",
+    "coletado_em_utc": "2026-11-24T12:00:24.6238258-03:00",
+    "consultas": [
+      {
+        "argumentos_gh": [
+          "run",
+          "view",
+          "45327304271",
+          "--repo",
+          "AndreMattheus/FrioVax",
+          "--job",
+          "138219872319",
+          "--log-failed"
+        ],
+        "filtro": "BUILD FAILURE|format violations|StatusResource.java|Process completed with exit code 1"
+      },
+      {
+        "argumentos_gh": [
+          "run",
+          "view",
+          "45327304271",
+          "--repo",
+          "AndreMattheus/FrioVax",
+          "--job",
+          "138219872343",
+          "--log-failed"
+        ],
+        "filtro": "BUILD FAILURE|format violations|StatusResource.java|Process completed with exit code 1"
+      }
+    ]
+  },
+  "pr_fechado": {
+    "coletado_em_utc": "2026-11-24T12:00:52.25765-03:00",
+    "argumentos_gh": [
+      "pr",
+      "view",
+      "126",
+      "--repo",
+      "AndreMattheus/FrioVax",
+      "--json",
+      "number,url,state,closedAt,mergedAt,headRefOid"
+    ],
+    "resultado": {
+      "closedAt": "2026-11-24T15:00:14Z",
+      "headRefOid": "67b20f6cf56c41a96d3ce7a14a779f46de797445",
+      "mergedAt": null,
+      "number": 126,
+      "state": "CLOSED",
+      "url": "https://github.com/AndreMattheus/FrioVax/pull/126"
+    }
+  },
+  "commit_prova": {
+    "coletado_em_utc": "2026-11-24T15:01:37.7175323+00:00",
+    "argumentos_gh": [
+      "api",
+      "repos/AndreMattheus/FrioVax/commits/67b20f6cf56c41a96d3ce7a14a779f46de797445",
+      "--jq",
+      "{sha,html_url,parents:[.parents[].sha],files:[.files[]|{filename,status,additions,deletions,patch}]}"
+    ],
+    "resultado": {
+      "files": [
+        {
+          "additions": 1,
+          "deletions": 1,
+          "filename": "api/src/main/java/br/ufrn/friovax/api/StatusResource.java",
+          "patch": "@@ -1,4 +1,4 @@\n-package br.ufrn.friovax.api;\n+package br.ufrn.friovax.api; \n \n import br.ufrn.friovax.api.compartilhado.api.DocumentacaoApi;\n import jakarta.annotation.security.PermitAll;",
+          "status": "modified"
+        }
+      ],
+      "html_url": "https://github.com/AndreMattheus/FrioVax/commit/67b20f6cf56c41a96d3ce7a14a779f46de797445",
+      "parents": [
+        "cd057d7ee5f502685af4c77b76cf6bc6f7a0f87f"
+      ],
+      "sha": "67b20f6cf56c41a96d3ce7a14a779f46de797445"
+    }
+  }
+}
