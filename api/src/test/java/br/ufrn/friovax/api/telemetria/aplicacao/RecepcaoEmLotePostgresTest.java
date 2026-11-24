@@ -30,6 +30,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -37,7 +38,9 @@ import java.util.UUID;
 import static br.ufrn.friovax.api.suporte.AutenticacaoHttpSupport.autenticado;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
@@ -87,8 +90,7 @@ class RecepcaoEmLotePostgresTest {
     void falhaAposAberturaReverteCamaraInteiraEPreservaOutraCamaraEReenvios() {
         long valida = novaCamara();
         long comFalha = novaCamara();
-        var lote = QuarkusTransaction.requiringNew().call(() -> lotes.salvar(Lote.novo(codigo(), "Vacina de teste",
-                "Laboratório", inicio.toLocalDate().plusDays(30), 25, comFalha, inicio.toLocalDate(), inicio)));
+        var lote = novoLote(comFalha);
         var a = leitura(comFalha, "a", 0, 9);
         var primeiroId = enviar(List.of(a)).statusCode(200).extract().jsonPath().getLong("[0].id");
         var entradas = List.of(leitura(valida, "outra", 0, 4), a, leitura(comFalha, "b", 1, 9),
@@ -138,6 +140,43 @@ class RecepcaoEmLotePostgresTest {
         assertEquals(aberta.getId(), repetidas.getLong("[3].ocorrenciaId"));
         assertEquals(3, go.chamadas.get());
         assertEquals(1, aberturasAuditadas());
+    }
+
+    @Test
+    void alertaAbertoPeloLoteBloqueiaEntradaAumentoEAdministracaoDeDoses() {
+        long emAlerta = novaCamara();
+        long normal = novaCamara();
+        var alocado = novoLote(emAlerta);
+        var paraRetirada = novoLote(emAlerta);
+        var fora = novoLote(normal);
+
+        enviar(List.of(leitura(emAlerta, "a", 0, 9), leitura(emAlerta, "b", 1, 9),
+                leitura(emAlerta, "c", 2, 9), leitura(emAlerta, "d", 3, 4)))
+                .statusCode(200).body("codigo", contains(201, 201, 201, 201),
+                        "[2].ocorrenciaId", notNullValue(), "[3].classificacao", equalTo("SEGURA"));
+        conferirEstadoTermico(emAlerta, "EM_ALERTA");
+        var aberta = ocorrencias.abertaDaCamara(emAlerta).orElseThrow();
+        assertEquals(2, aberta.getLotesAfetados().size());
+
+        var novo = new HashMap<>(edicaoLote(emAlerta, 10));
+        var codigoNovo = codigo();
+        novo.put("codigo", codigoNovo);
+        conferirBloqueio(autenticado(Perfil.ADMINISTRADOR).contentType(ContentType.JSON)
+                .header("X-Correlation-Id", correlacao).body(novo).post("/api/lotes").then());
+        conferirBloqueio(editarLote(alocado.getId(), emAlerta, 30));
+        conferirBloqueio(editarLote(fora.getId(), emAlerta, 25));
+        conferirBloqueio(baixar(alocado.getId(), "ADMINISTRADA"));
+
+        assertFalse(lotes.existePorCodigo(codigoNovo));
+        assertEquals(25, lotes.buscarPorId(alocado.getId()).orElseThrow().getQuantidade());
+        assertEquals(normal, lotes.buscarPorId(fora.getId()).orElseThrow().getCamaraId());
+
+        baixar(alocado.getId(), "PERDA").statusCode(200).body("quantidade", equalTo(20));
+        autenticado(Perfil.ADMINISTRADOR).header("X-Correlation-Id", correlacao)
+                .post("/api/lotes/{id}/descarte", alocado.getId()).then().statusCode(200)
+                .body("estado", equalTo("DESCARTADO"));
+        editarLote(paraRetirada.getId(), normal, 25).statusCode(200).body("camaraId", equalTo((int) normal));
+        assertEquals(aberta.getLotesAfetados(), ocorrencias.abertaDaCamara(emAlerta).orElseThrow().getLotesAfetados());
     }
 
     @Test
@@ -193,6 +232,31 @@ class RecepcaoEmLotePostgresTest {
                 "UBS", 100, new BigDecimal("2.0"), new BigDecimal("8.0"), EstadoCamara.OPERACIONAL, inicio)).getId());
         camarasCriadas.add(id);
         return id;
+    }
+
+    private Lote novoLote(long camaraId) {
+        return QuarkusTransaction.requiringNew().call(() -> lotes.salvar(Lote.novo(codigo(), "Vacina de teste",
+                "Laboratório", inicio.toLocalDate().plusDays(30), 25, camaraId, inicio.toLocalDate(), inicio)));
+    }
+
+    private Map<String, Object> edicaoLote(long camaraId, int quantidade) {
+        return Map.of("imunobiologico", "Vacina de teste", "fabricante", "Laboratório",
+                "validade", inicio.toLocalDate().plusDays(30).toString(), "camaraId", camaraId, "quantidade", quantidade);
+    }
+
+    private ValidatableResponse editarLote(long loteId, long camaraId, int quantidade) {
+        return autenticado(Perfil.ADMINISTRADOR).contentType(ContentType.JSON).header("X-Correlation-Id", correlacao)
+                .body(edicaoLote(camaraId, quantidade)).put("/api/lotes/{id}", loteId).then();
+    }
+
+    private ValidatableResponse baixar(long loteId, String motivo) {
+        return autenticado(Perfil.OPERADOR).contentType(ContentType.JSON).header("X-Correlation-Id", correlacao)
+                .body(Map.of("quantidade", 5, "motivo", motivo)).post("/api/lotes/{id}/baixas", loteId).then();
+    }
+
+    private static void conferirBloqueio(ValidatableResponse resposta) {
+        resposta.statusCode(409).contentType("application/problem+json")
+                .body("type", equalTo("/problemas/estado-incompativel"));
     }
 
     private static String codigo() {
