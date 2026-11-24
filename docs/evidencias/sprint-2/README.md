@@ -20,8 +20,10 @@ dos commits. `metricas-02/` conserva os cálculos dos cortes de 20 e 23/11,
 CSVs locais congelados com hashes e metadados complementares de ambientes.
 `resultado.json` inclui a auditoria dos 40 registros, 16 publicações reais
 (incluindo um redeploy), PRs/commits incorporados e exclusões. O corte de
-20/11 foi reconstruído em 23/11, não medido no prazo. Reprodução por Bianca
-e atualizações de 26/11 e da entrega continuam pendentes.
+20/11 foi reconstruído em 23/11, não medido no prazo. Leonardo confirmou a
+reprodução dos dois cortes na revisão do PR #125, vinculada no relatório.
+Após a troca da tarefa de Matheus para Arthur, a validação cabe a Leonardo;
+não há pendência de Bianca. Atualizações de 26/11 e da entrega continuam pendentes.
 
 - `eventos.csv`: marcos com fonte e timestamp; registro não substitui o dado original exportado.
 - `amostra.csv`: seleção #69/#70/#80; o estado da seleção não significa conclusão ou publicação.

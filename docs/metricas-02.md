@@ -268,19 +268,21 @@ Em **24/11/2026**, Leonardo confirmou que reexecutou os dois cortes e que os
 resultados coincidiram com o relatório, na
 [revisão do PR #125](https://github.com/AndreMattheus/FrioVax/pull/125#pullrequestreview-6041835379).
 É um relato de reprodução independente; a revisão solicitou estes ajustes e
-não constitui aprovação. Não foi localizado registro de validação por Bianca
-nos comentários do PR ou da issue #90 consultados em 24/11.
+não constitui aprovação. Arthur esclareceu em 24/11 que assumiu a tarefa
+após uma troca com Matheus. A referência original a Bianca correspondia à
+dupla de Matheus; com Arthur como responsável, Leonardo realiza a revisão e
+a validação independente. A reprodução dos dois cortes foi confirmada por
+Leonardo no link acima; não há uma validação adicional pendente de Bianca.
 
-**Pendente: Bianca reexecutar a extração/cálculo e registrar a reprodução**,
-sem declarar execução por outra pessoa com base nestes testes. No mesmo
-snapshot, conferir 6/8/2 publicações nas semanas de 09/11, 16/11 e 23/11;
+Para as próximas reproduções, no mesmo snapshot, conferir 6/8/2 publicações
+nas semanas de 09/11, 16/11 e 23/11;
 24 linhas de mudança, especialmente #100–#109 na primeira publicação,
 #110 no deployment 7790932145 e #124 no 8008807028. Comparar os JSONs por
 semana/PR; registrar data, comandos, resultado e eventual divergência no PR.
 Uma nova extração pode conter novos eventos e deve gerar outro diretório;
 o snapshot preservado continua sendo a referência do mesmo corte.
 
-Bianca também deve conferir os registros operacionais de incidentes com os
+Leonardo também deve conferir os registros operacionais de incidentes com os
 deployments causais; não há incidente registrado para validar aqui. Havendo
 novas fontes, preencher detecção, recuperação, IDs causais e de recuperação,
 monitoramento efetivo e justificativa para vínculo desconhecido. Congelar
