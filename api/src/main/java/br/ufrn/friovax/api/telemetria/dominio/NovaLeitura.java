@@ -36,13 +36,16 @@ public record NovaLeitura(long camaraId, String idExterno, OffsetDateTime medida
      */
     public static NovaLeitura de(long camaraId, String idExterno, OffsetDateTime medidaEm, BigDecimal temperatura,
                                  String origem, OffsetDateTime agora) {
-        Objects.requireNonNull(agora, "agora");
         var nova = new NovaLeitura(camaraId, idExterno, medidaEm, temperatura, origem);
-        if (nova.medidaEm.isAfter(agora.plus(TOLERANCIA_FUTURA))) {
+        nova.validarToleranciaFutura(agora);
+        return nova;
+    }
+
+    public void validarToleranciaFutura(OffsetDateTime agora) {
+        if (medidaEm.isAfter(Objects.requireNonNull(agora, "agora").plus(TOLERANCIA_FUTURA))) {
             throw new ValidacaoDeNegocio(CAMPO_MEDIDA, "não pode estar mais de "
                     + TOLERANCIA_FUTURA.toMinutes() + " minutos no futuro");
         }
-        return nova;
     }
 
     /** Se a leitura já aceita com a mesma chave tem conteúdo equivalente a esta entrada. */

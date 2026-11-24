@@ -1,11 +1,16 @@
 package br.ufrn.friovax.api.telemetria.api;
 
+import br.ufrn.friovax.api.compartilhado.dominio.ValidacaoDeNegocio;
+import br.ufrn.friovax.api.telemetria.dominio.NovaLeitura;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 // Tamanhos, escala da temperatura, offset e tolerância futura são verificados no domínio (ADR 0003, seção 5).
 @Schema(description = "Leitura de temperatura de uma câmara. A chave de idempotência é `(camaraId, idExterno)`.")
@@ -38,4 +43,14 @@ public record LeituraRequest(
         + "após o `trim`, sem caractere nulo.", examples = "sensor-7")
     @NotBlank(message = "deve ser informada")
     String origem
-) {}
+) {
+    /** Exige offset explícito: um instante local seria ambíguo (ADR 0003, seção 5). */
+    OffsetDateTime instanteDaMedicao() {
+        try {
+            return OffsetDateTime.parse(medidaEm.strip(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        } catch (DateTimeParseException semOffset) {
+            throw new ValidacaoDeNegocio(NovaLeitura.CAMPO_MEDIDA,
+                "deve ser um instante ISO 8601 com offset, como 2026-11-20T10:15:00-03:00");
+        }
+    }
+}

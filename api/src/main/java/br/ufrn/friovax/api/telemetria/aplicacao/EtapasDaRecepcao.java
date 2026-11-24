@@ -12,7 +12,6 @@ import br.ufrn.friovax.api.lote.dominio.LoteRepository;
 import br.ufrn.friovax.api.telemetria.dominio.ClassificacaoTermica;
 import br.ufrn.friovax.api.telemetria.dominio.Leitura;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraConflitante;
-import br.ufrn.friovax.api.telemetria.dominio.LeituraDaAnalise;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraForaDeOrdem;
 import br.ufrn.friovax.api.telemetria.dominio.LeituraRepository;
 import br.ufrn.friovax.api.telemetria.dominio.LoteAfetado;
@@ -21,6 +20,7 @@ import br.ufrn.friovax.api.telemetria.dominio.Ocorrencia;
 import br.ufrn.friovax.api.telemetria.dominio.OcorrenciaRepository;
 import br.ufrn.friovax.api.telemetria.dominio.PoliticaDaAnalise;
 import br.ufrn.friovax.api.telemetria.dominio.ResultadoDaCandidata;
+import br.ufrn.friovax.api.telemetria.dominio.ResultadoTermico;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -81,7 +81,7 @@ public class EtapasDaRecepcao {
             return new Preparacao.Repetida(repetida.get(), ocorrenciaAbertaPor(repetida.get()));
         }
         camara.exigirAptaParaLeituras();
-        var ultima = leituras.ultimaDaCamara(camara.getId());
+        var ultima = ultimaDaCamara(camara.getId());
         if (ultima.isPresent() && !nova.medidaEm().isAfter(ultima.get().getInstante())) {
             throw new LeituraForaDeOrdem(camara.getId());
         }
@@ -112,33 +112,34 @@ public class EtapasDaRecepcao {
         }
         camara.exigirAptaParaLeituras();
         // O contexto não precisa ser relido: leituras só são inseridas, e qualquer leitura nova muda a última.
-        var atual = snapshot(camara, leituras.ultimaDaCamara(camara.getId()), false);
+        var atual = snapshot(camara, ultimaDaCamara(camara.getId()), false);
         if (!atual.mesmoPontoQue(analisado)) {
             return new Confirmacao.SnapshotAlterado();
         }
         var agora = OffsetDateTime.now(relogio);
         var resultado = candidata.resultado();
-        var aceita = leituras.salvar(nova.aceitar(analisado.politica().versao(), resultado, agora));
+        var aceita = gravar(nova, analisado, resultado, agora);
 
         // A constraint de uma aberta por câmara é a última barreira; com o lock da câmara, esta leitura já a vê.
         var jaAberta = ocorrencias.abertaDaCamara(camara.getId());
         Ocorrencia aberta = null;
         if (resultado.limiarAtingido() && jaAberta.isEmpty()) {
-            aberta = ocorrencias.salvar(Ocorrencia.abrir(camara.getId(), analisado.politica().versao(),
-                    aceita.getId(), evidencias(camara.getId(), candidata, aceita), fotografiaDosLotes(camara.getId()),
-                    false, agora));
+            aberta = abrirOcorrencia(camara, aceita, evidencias(camara.getId(), candidata, aceita), agora);
         }
         if (camara.registrarResultadoTermico(resultado.classificacao() == ClassificacaoTermica.INSEGURA,
                 jaAberta.isPresent() || aberta != null)) {
             camaras.salvar(camara);
         }
 
-        publicador.publicar(new MudancaConfirmada("leitura", aceita.getId(), "Recepção de leitura", null, agora));
-        if (aberta != null) {
-            publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.OCORRENCIA, aberta.getId(),
-                    OperacaoAuditada.ABERTURA_DE_OCORRENCIA, descricaoDaAbertura(camara, aceita, aberta), agora));
-        }
         return new Confirmacao.Aceita(aceita, aberta == null ? null : aberta.getId());
+    }
+
+    Ocorrencia abrirOcorrencia(Camara camara, Leitura leitura, List<Long> evidencias, OffsetDateTime agora) {
+        var aberta = ocorrencias.salvar(Ocorrencia.abrir(camara.getId(), leitura.getPoliticaVersao(),
+                leitura.getId(), evidencias, fotografiaDosLotes(camara.getId()), false, agora));
+        publicador.publicar(MudancaConfirmada.auditada(RecursoAuditado.OCORRENCIA, aberta.getId(),
+                OperacaoAuditada.ABERTURA_DE_OCORRENCIA, descricaoDaAbertura(camara, leitura, aberta), agora));
+        return aberta;
     }
 
     /**
@@ -177,17 +178,23 @@ public class EtapasDaRecepcao {
                 + " na fotografia";
     }
 
-    private Long ocorrenciaAbertaPor(Leitura leitura) {
+    Long ocorrenciaAbertaPor(Leitura leitura) {
         return ocorrencias.abertaPelaLeitura(leitura.getId()).map(Ocorrencia::getId).orElse(null);
     }
 
-    private Camara bloquear(long camaraId) {
+    Leitura gravar(NovaLeitura nova, SnapshotDaCamara analisado, ResultadoTermico resultado, OffsetDateTime agora) {
+        var aceita = leituras.salvar(nova.aceitar(analisado.politica().versao(), resultado, agora));
+        publicador.publicar(new MudancaConfirmada("leitura", aceita.getId(), "Recepção de leitura", null, agora));
+        return aceita;
+    }
+
+    Camara bloquear(long camaraId) {
         return camaras.buscarPorIdParaAlteracao(camaraId)
                 .orElseThrow(() -> new RecursoNaoEncontrado("Câmara", camaraId));
     }
 
     /** A leitura já aceita com a mesma chave, se o conteúdo for equivalente; conteúdo diferente é conflito. */
-    private Optional<Leitura> jaAceita(NovaLeitura nova) {
+    Optional<Leitura> jaAceita(NovaLeitura nova) {
         var gravada = leituras.buscarPorChave(nova.camaraId(), nova.idExterno());
         if (gravada.isPresent() && !nova.equivaleA(gravada.get())) {
             throw new LeituraConflitante(nova.camaraId(), nova.idExterno());
@@ -195,16 +202,18 @@ public class EtapasDaRecepcao {
         return gravada;
     }
 
-    private SnapshotDaCamara snapshot(Camara camara, Optional<Leitura> ultima, boolean comContexto) {
+    Optional<Leitura> ultimaDaCamara(long camaraId) {
+        return leituras.ultimaDaCamara(camaraId);
+    }
+
+    SnapshotDaCamara snapshot(Camara camara, Optional<Leitura> ultima, boolean comContexto) {
         var politica = PoliticaDaAnalise.de(camara.getPolitica());
         var inicioDoEpisodio = ocorrencias.ultimaResolvidaDaCamara(camara.getId())
                 .flatMap(Ocorrencia::getLeituraResolucaoId)
                 .orElse(null);
-        var contexto = !comContexto ? List.<LeituraDaAnalise>of()
+        var contexto = !comContexto ? List.<Leitura>of()
                 : leituras.contextoDaJanela(camara.getId(), politica.versao(), politica.limiar() - 1,
-                                inicioDoEpisodio).stream()
-                        .map(LeituraDaAnalise::de)
-                        .toList();
+                        inicioDoEpisodio);
         return new SnapshotDaCamara(camara.getId(), politica, ultima.map(Leitura::getId).orElse(null),
                 inicioDoEpisodio, contexto);
     }
