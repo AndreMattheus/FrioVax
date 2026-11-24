@@ -55,6 +55,22 @@ class MetricasTest(unittest.TestCase):
         ss.append({"id": 3, "state": "failure", "created_at": "2026-11-14T18:00:00Z"})
         self.assertEqual("failure", m.operacional(ss, m.dt("2026-11-15T00:00:00Z"))["state"])
 
+    def test_success_apos_smoke_conta_antes_do_termino_do_job(self):
+        job = next(j for j in m.ler(SNAPSHOT / "run-43476705265-jobs.json") if j["id"] == 132062290267)
+        self.assertEqual("2026-11-13T17:53:53Z", job["completed_at"])
+        smoke = next(s for s in job["steps"] if s["name"] == "Saúde e smoke autenticado")
+        self.assertEqual("2026-11-13T17:53:50Z", smoke["completed_at"])
+        # Fim exclusivo: no instante do success (17:53:51) ele ainda fica fora.
+        # No segundo seguinte já conta, embora o job termine só às 17:53:53.
+        for corte, esperadas in [("2026-11-13T17:53:50Z", 0), ("2026-11-13T17:53:51Z", 0),
+                                 ("2026-11-13T17:53:52Z", 1), ("2026-11-13T17:53:54Z", 1)]:
+            with self.subTest(corte=corte):
+                r = m.apurar(SNAPSHOT, corte, FONTES)
+                self.assertEqual(esperadas, len(r["publicacoes"]))
+                if esperadas:
+                    self.assertEqual(7772377365, r["publicacoes"][0]["deployment"])
+                    self.assertEqual("2026-11-13T17:53:51Z", r["publicacoes"][0]["publicado"])
+
     def test_zero_incidente_exige_monitoramento_e_causa_nao_duplica(self):
         corte = m.dt("2026-11-14T00:00:00Z")
         pub = [{"deployment": 1, "publicado": "2026-11-13T17:00:00Z"}]

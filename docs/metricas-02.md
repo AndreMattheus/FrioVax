@@ -84,7 +84,16 @@ A associação deployment→job exige mesmo SHA, criação dentro do intervalo d
 job (tolerância de 30 s antes do início), e passo `Registrar deployment`.
 Ambiguidade aborta o cálculo. Dentro de cada job, os dois registros representam
 um único evento: usa-se o registro explícito, criado depois do automático.
-Render, smoke e conclusão do job devem estar aprovados no corte. A associação
+Render e smoke devem ter terminado com sucesso antes do corte. O marco da
+publicação é o `success` do deployment emitido depois do smoke, sem exigir que
+o job já tenha terminado: passos finais podem continuar após a publicação.
+O horário de término do job no snapshot serve apenas à associação dos
+registros à execução, não define o instante da implantação; sua conclusão
+posterior não é requisito da contagem. No caso do primeiro deployment,
+o smoke terminou em `2026-11-13T17:53:50Z`, o `success` foi emitido às
+`17:53:51Z` e o job terminou às `17:53:53Z`. Portanto o corte exclusivo
+`17:53:51Z` ainda exclui a publicação, mas `17:53:52Z` já a inclui uma vez.
+Esse limite está coberto por teste sobre o snapshot preservado. A associação
 temporal é um limite da instrumentação atual: os statuses exportados não
 preservam `log_url`; um futuro coletor pode preservar apenas esse vínculo
 público validado, sem URLs privadas.
@@ -248,12 +257,19 @@ semana, PR e cartão. Os testes incluem pareamento/deduplicação real, redeploy
 primeiro deploy por PR, corte histórico, exclusão da prova de falha, percentis,
 `inactive`, `0/N` com cobertura, taxa indefinida sem observação e causa contada
 uma vez mesmo com dois incidentes sintéticos, apenas em diretório temporário.
-Resultado local: **11 testes do contrato de coleta e 7 da apuração passaram**;
+Resultado local: **11 testes do contrato de coleta e 8 da apuração passaram**;
 o validador confirmou os hashes dos três snapshots. A
 [conferência de paginação](evidencias/sprint-2/validacao/paginacao-20261123T220209564272Z.json)
 reconsultou **54 páginas de um PR**, com os mesmos 54 IDs do snapshot.
 
 ## Validação humana e atualização
+
+Em **24/11/2026**, Leonardo confirmou que reexecutou os dois cortes e que os
+resultados coincidiram com o relatório, na
+[revisão do PR #125](https://github.com/AndreMattheus/FrioVax/pull/125#pullrequestreview-6041835379).
+É um relato de reprodução independente; a revisão solicitou estes ajustes e
+não constitui aprovação. Não foi localizado registro de validação por Bianca
+nos comentários do PR ou da issue #90 consultados em 24/11.
 
 **Pendente: Bianca reexecutar a extração/cálculo e registrar a reprodução**,
 sem declarar execução por outra pessoa com base nestes testes. No mesmo
@@ -273,8 +289,11 @@ novos CSVs, recalcular e manter este resultado como histórico.
 Em 26/11, repetir a coleta e registrar corte anterior ao início da extração,
 preservar fontes locais e executar o cálculo com outra saída. Na #97,
 repetir até o hash entregue e atualizar este relatório, mantendo os cortes
-anteriores. Revisão de Leonardo, CI remoto verde, PR com `Closes #90`,
-integração e datas reais de Start/Finished no Project continuam condições da
+anteriores. Este PR preliminar deve usar `Refs #90`, mantendo a issue aberta
+para os próximos cortes; a alteração da descrição ficará com Arthur.
+O fechamento por `Closes #90` fica para a entrega que concluir a tarefa.
+Revisão de Leonardo, CI remoto verde, integração e datas reais de
+Start/Finished no Project continuam condições da
 [Definição de Pronto](processo.md#definição-de-pronto). Esta documentação
 não declara aprovação, integração, datas do Project ou cortes futuros.
 

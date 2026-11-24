@@ -145,12 +145,14 @@ def apurar(pasta, corte, fontes):
         smoke = [t for t in j["steps"] if t["name"] == "Saúde e smoke autenticado" and
                  t["conclusion"] == "success" and t["completed_at"] and dt(t["completed_at"]) < b]
         render = [t for t in j["steps"] if t["name"] == "Publicar SHA e esperar Render" and
-                  t["conclusion"] == "success"]
+                  t["conclusion"] == "success" and t["completed_at"] and dt(t["completed_at"]) < b]
         sucessos = [r for r in rs if r["estado"] == "success" and r["instante"] and
                     a <= dt(r["instante"]) < b]
         for r in rs:
             r["motivo"] = "falha, execução aberta ou sem smoke/Render aprovado no corte"
-        if not (sucessos and smoke and render and j["conclusion"] == "success"):
+        # O marco é o success do deployment após Render/smoke, não o término
+        # posterior do job (que ainda pode estar executando seus passos finais).
+        if not (sucessos and smoke and render):
             continue
         # begin cria o registro explícito após o automático do environment.
         r = max(sucessos, key=lambda r: (r["criado"], r["id"]))
