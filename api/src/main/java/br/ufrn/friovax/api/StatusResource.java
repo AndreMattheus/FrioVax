@@ -1,4 +1,4 @@
-package br.ufrn.friovax.api;
+package br.ufrn.friovax.api; 
 
 import br.ufrn.friovax.api.compartilhado.api.DocumentacaoApi;
 import jakarta.annotation.security.PermitAll;
