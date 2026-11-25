@@ -5,8 +5,11 @@ independente: Leonardo. Protocolo: [plano de medição](medicao-sprint-2.md).
 Este corte atualiza os dados após o encerramento do desenvolvimento informado
 por Arthur. Referência técnica: `main` em
 [`f762795b8e3c83135f02b73ccfbe2715af369eab`](https://github.com/AndreMattheus/FrioVax/commit/f762795b8e3c83135f02b73ccfbe2715af369eab).
-O corte de **26/11 para vídeos** e a conferência do **hash de entrega na #97**
-continuam pendentes; esta execução não os antecipa.
+Arthur confirmou a adoção deste corte como **apuração de encerramento do
+desenvolvimento e base dos vídeos**, antecipando de 26/11 para **25/11 às
+18h57 de Fortaleza** o corte previsto. Não se declara coleta em 26/11 nem
+se exige nova apuração apenas pela mudança de data. A #97 conferirá o hash
+efetivamente entregue e eventuais alterações posteriores.
 
 ## Janela, corte e fontes
 
@@ -238,7 +241,7 @@ cobertura efetiva, corte após smoke antes do término do job, dias com zeros
 e limites parciais. Incidentes sintéticos só existem nas pastas temporárias
 dos testes.
 
-## Limitações e próximos cortes
+## Limitações e conferência de entrega
 
 A coleta não é transacional. O corte precede a extração, mas título, vínculos,
 draft, `closed_at` e estados de review são fotografias atuais; reaberturas
@@ -261,12 +264,19 @@ monitoramento; conferir o deployment causal sem inventar associação.
 Congelar novos CSVs e recalcular. Sem fontes, manter taxa/recuperação não
 observáveis.
 
-**26/11:** repetir a coleta nessa data, com corte real anterior ao início,
-CSV/ambiente e saída em diretórios novos; atualizar e obter reprodução
-independente. **S2-34/#97:** repetir no hash efetivamente entregue e registrar
-relação com publicação pública, checks e auditoria da entrega. PRs de
-documentação também podem gerar deploy: este corte não inclui o futuro merge
-deste próprio relatório.
+**Corte dos vídeos:** antecipado de 26/11 para 25/11 às 18h57 de Fortaleza,
+conforme confirmação de Arthur após o encerramento do desenvolvimento.
+Os resultados e snapshots atuais são a referência dos vídeos; a reprodução
+por Leonardo continua necessária, sem outra coleta obrigatória só pela data.
+
+**S2-34/#97:** conferir o hash entregue, publicação pública, checks e eventos
+posteriores ao corte. Se não houver alteração nas entradas que afete as
+métricas, registrar essa conferência e manter os resultados atuais. Se houver
+novos deployments, PRs integrados, conclusões de cartões, incidentes ou
+correções de fontes que afetem a população ou os cálculos, preservar novas
+entradas e atualizar a apuração. PRs de documentação também podem gerar
+deploy e entrar nas contagens: este corte não inclui o futuro merge deste
+próprio relatório. A confirmação do hash de entrega não foi antecipada.
 
 O PR de atualização usa **`Refs #90`**. `Closes #90` cabe à entrega que concluir
 as etapas. Revisão, CI verde, integração e datas reais no Project continuam

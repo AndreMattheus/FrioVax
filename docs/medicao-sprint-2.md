@@ -5,10 +5,21 @@ Este é o protocolo de coleta da [#66](https://github.com/AndreMattheus/FrioVax/
 ## Período e convenções
 
 - Janela da sprint: **[21/10/2026 00h, 01/12/2026 00h)**, em `America/Fortaleza` (UTC−03:00). Início inclusivo, fim exclusivo. A janela planejada não comprova início de trabalho em 21/10.
-- Cortes: primeira apuração em 20/11; corte para os vídeos em 26/11, indicando a hora exata; atualização final no hash da entrega (#97). Cada extração tem seu próprio início/fim e não representa uma fotografia transacional do GitHub.
+- Cortes no planejamento original: primeira apuração em 20/11; corte para os vídeos em 26/11, indicando a hora exata; atualização final no hash da entrega (#97). Cada extração tem seu próprio início/fim e não representa uma fotografia transacional do GitHub.
 - Semanas civis de segunda a domingo em Fortaleza; indicar as semanas parciais e o período em que o ambiente público esteve disponível.
 - Guardar instantes ISO 8601 com fuso, por exemplo `2026-11-03T16:19:22-03:00`. As fontes do GitHub usam UTC (`Z`), preservado na exportação. Horas corridas de 3.600 segundos; dia de 24 horas. Calcular antes de arredondar.
 - Ausência de informação é campo vazio ou `null`, nunca zero, data planejada, duração presumida ou presença inferida. Usar `precisao=observado`, `relatado` ou `estimado`; explicar estimativas e apresentá-las separadamente.
+
+Em 25/11, após informar o encerramento do desenvolvimento, Arthur confirmou
+a antecipação do corte dos vídeos para **25/11/2026 às 18h57 de Fortaleza**
+(`2026-11-25T21:57:00Z`), já preservado no [relatório da #90](metricas-02.md).
+Esse é o corte de encerramento do desenvolvimento e a base dos vídeos;
+não é necessário repetir a apuração em 26/11 apenas pela data. A #97 deve
+conferir o hash entregue e as alterações posteriores: sem impacto nas
+métricas, registrar a conferência e manter os resultados; havendo novas
+entradas que afetem os cálculos, preservá-las e atualizar a apuração.
+Essa alteração não muda a janela da sprint nem presume revisão, aprovação
+ou conferência final já realizadas.
 
 ## Onde registrar
 

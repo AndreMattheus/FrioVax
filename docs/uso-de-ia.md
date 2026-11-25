@@ -22,8 +22,12 @@ preservação das fontes e do relatório anterior, apuração no corte real de
 25/11 às 18h57 de Fortaleza, comparação de fluxo e contagens diárias com zeros.
 Testes conferem coorte anterior e novas publicações. Arthur deve conferir
 dados e interpretação; Leonardo deve revisar e reproduzir o novo corte.
-Os cortes de 26/11 e do hash de entrega não foram declarados realizados,
-assim como não foi presumida cobertura de monitoramento de incidentes.
+Arthur confirmou depois a adoção desse corte como encerramento do
+desenvolvimento e base dos vídeos, antecipando o previsto para 26/11;
+o apoio incluiu registrar essa decisão no relatório, plano e evidências.
+A #97 conferirá hash e eventos posteriores, com atualização se afetarem
+as métricas. Não foram declaradas coleta em 26/11, conferência final já
+realizada ou cobertura de monitoramento de incidentes.
 
 Registro de 24/11/2026 — OpenAI Codex: apoio aos ajustes da revisão de Leonardo
 no PR #125: explicitação do `success` do deployment após Render/smoke como marco
