@@ -98,6 +98,15 @@ public class OcorrenciaRepositoryPostgres implements OcorrenciaRepository, Panac
     }
 
     @Override
+    public Optional<Long> camaraDaOcorrencia(long id) {
+        return getEntityManager()
+                .createQuery("select o.camaraId from OcorrenciaEntity o where o.id = :id", Long.class)
+                .setParameter("id", id)
+                .getResultStream()
+                .findFirst();
+    }
+
+    @Override
     public Optional<Ocorrencia> abertaDaCamara(long camaraId) {
         return find("camaraId = ?1 and resolvidaEm is null", camaraId).firstResultOptional().map(this::completa);
     }

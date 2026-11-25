@@ -10,7 +10,7 @@ Todas as rotas de câmaras, lotes e leituras exigem `Authorization: Bearer <acce
 | `descartar-lote` | Sim | Não | Não | POST de descarte |
 | `registrar-leitura` | Sim | Sim | Não | `POST /api/leituras`, `POST /api/leituras/lote` |
 | `alterar-politica` | Sim | Não | Não | `PUT /api/camaras/{id}/politica-termica` |
-| `resolver-incidente` | Sim | Não | Não | Futura resolução de incidente |
+| `resolver-incidente` | Sim | Não | Não | `POST /api/ocorrencias/{id}/resolucao` |
 | `consultar-trilha` | Sim | Não | Sim | `GET /api/auditoria` (trilha de auditoria) |
 
 As guardas futuras já têm testes HTTP em resources exclusivos de teste; as respectivas funcionalidades devem aplicar essas guardas e testar suas rotas reais quando forem implementadas. Os contadores de execução e chamada externa nesses resources são simulados; nenhuma chamada Go real é feita por eles.

@@ -53,6 +53,11 @@ public class OcorrenciaRepositoryEmMemoria implements OcorrenciaRepository {
     }
 
     @Override
+    public synchronized Optional<Long> camaraDaOcorrencia(long id) {
+        return Optional.ofNullable(ocorrencias.get(id)).map(Ocorrencia::getCamaraId);
+    }
+
+    @Override
     public synchronized Optional<Ocorrencia> abertaDaCamara(long camaraId) {
         return daCamara(camaraId).stream().filter(Ocorrencia::isAberta).findFirst()
                 .map(OcorrenciaRepositoryEmMemoria::copia);

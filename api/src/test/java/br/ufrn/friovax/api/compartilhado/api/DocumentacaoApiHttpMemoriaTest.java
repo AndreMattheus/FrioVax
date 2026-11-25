@@ -46,7 +46,7 @@ class DocumentacaoApiHttpMemoriaTest {
                 assertEquals(item.getKey().equals("get"), descricao.contains("AUDITOR"), rota);
             }
         }
-        assertEquals(18, verificadas);
+        assertEquals(19, verificadas);
         assertFalse(paths.get("/api/status").get("get").containsKey("security"));
         for (var rota : List.of("login", "renovar", "logout")) {
             assertFalse(paths.get("/api/auth/" + rota).get("post").containsKey("security"));

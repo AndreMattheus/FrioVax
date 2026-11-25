@@ -211,6 +211,8 @@ Filtros combinados usam **E** lógico. `camaraId` inexistente num filtro não é
 | `422` | Body ou campo obrigatório ausente; campo em branco; formato ou regra de entrada violada após desserialização (inclusive validade não futura, temperatura fora do intervalo, precisão térmica excessiva e `temperaturaMinima >= temperaturaMaxima`) | `/problemas/validacao` |
 | `409` | Leitura com chave `(camaraId, idExterno)` já aceita com outro conteúdo (§10) | `/problemas/leitura-conflitante` |
 | `409` | Câmara alterada durante as duas análises de uma leitura; pode reenviar (§10) | `/problemas/alteracao-concorrente` |
+| `409` | Resolução de ocorrência sem a condição da última leitura (segura, posterior à abertura e da política vigente); pode tentar depois de uma leitura segura (§10.3) | `/problemas/resolucao-nao-permitida` |
+| `409` | Ocorrência já resolvida com outra justificativa; o tratamento original é mantido (§10.3) | `/problemas/resolucao-conflitante` |
 | `502` | Serviço de análise térmica respondeu fora do contrato ou recusou a janela; nada é gravado (§10) | `/problemas/falha-de-integracao` |
 | `503` | Serviço de análise térmica ausente ou sem resposta no prazo; nada é gravado (§10) | `/problemas/analise-indisponivel` |
 | `500` | Falha interna inesperada, com mensagem genérica e detalhes técnicos apenas no log do servidor                                                                                                                                                                          | `/problemas/erro-interno` |
@@ -441,7 +443,7 @@ Content-Type: application/problem+json
 
 - Entidade e CRUD de Unidade (D2).
 - Reativação de registros inativos.
-- Resolução de ocorrências (S2-12): até lá, uma câmara `EM_ALERTA` continua em alerta.
+- Liberação automática de lotes depois da resolução, exclusão de evidências e edição de uma resolução confirmada.
 
 ## 7. Autenticação e sessões (Sprint 2 — #80)
 
@@ -476,6 +478,7 @@ Toda alteração confirmada de câmara ou lote gera um evento na tabela `eventos
 | `LOTE` | `CADASTRO`, `ATUALIZACAO`, `INATIVACAO` | `POST`, `PUT` com alguma mudança, `DELETE` de lote ativo |
 | `LOTE` | `BAIXA`, `DESCARTE` | `POST /baixas`; `POST /descarte` de lote ainda não descartado |
 | `OCORRENCIA` | `ABERTURA_DE_OCORRENCIA` | Leitura que atinge o limiar sem ocorrência aberta (§10.1); o ator é quem enviou a leitura |
+| `OCORRENCIA` | `RESOLUCAO_DE_OCORRENCIA` | Resolução aceita (§10.3); o ator é o administrador que resolveu. O reenvio idêntico não gera outro evento |
 | `POLITICA_TERMICA` | `ALTERACAO_DE_POLITICA` | Nova versão, pela rota de política ou pelo `PUT` da câmara (§12); `recursoId` é o `id` da câmara |
 
 Cada evento guarda:
@@ -574,7 +577,7 @@ Com a nova tentativa, uma requisição pode esperar até duas vezes o prazo no G
 - Mesma chave com outra temperatura, instante ou origem: `409` (`/problemas/leitura-conflitante`). `medidaEm` igual ou anterior à última leitura aceita, câmara inativa ou fora de `OPERACIONAL`: `409` (`/problemas/estado-incompativel`). Nenhum caso grava algo.
 - Go ausente ou lento: `503` no prazo de cada chamada; resposta fora do contrato ou janela recusada: `502`. Nenhuma leitura é confirmada, não há fila nem `202`.
 
-A abertura de ocorrência e o estado térmico estão em §10.1. A recepção em lote está em §10.2.
+A abertura de ocorrência e o estado térmico estão em §10.1. A recepção em lote está em §10.2, e a resolução de ocorrência, em §10.3.
 
 ```http
 POST /api/leituras
@@ -638,7 +641,7 @@ Ao confirmar uma leitura (passo 3), na mesma transação e com a câmara ainda b
 - **Resposta:** `ocorrenciaAbertaId` traz a ocorrência aberta por esta leitura, ou `null`. O reenvio da mesma chave e o `GET /api/leituras/{id}` devolvem o mesmo valor; nenhum dos dois abre outra.
 - **Atomicidade:** leitura, ocorrência, evidências, fotografia, estado térmico e auditoria são gravados juntos. Se qualquer gravação falha, nada fica, e o aviso de mudança (que invalida o resumo) não sai; os avisos só saem depois do commit.
 - **No máximo uma aberta por câmara:** o lock da câmara serializa as leituras, a regra de domínio recusa abrir com outra aberta e a constraint `uk_ocorrencias_aberta_por_camara` é a última barreira. Duas leituras simultâneas no limiar abrem no máximo uma.
-- **Alerta:** uma leitura segura depois **não** fecha o alerta nem a ocorrência; só a resolução explícita (S2-12). O estado operacional (`OPERACIONAL`, `MANUTENCAO`, `DESATIVADA`), `ativo` e as doses não mudam.
+- **Alerta:** uma leitura segura depois **não** fecha o alerta nem a ocorrência; só a resolução explícita (§10.3). O estado operacional (`OPERACIONAL`, `MANUTENCAO`, `DESATIVADA`), `ativo` e as doses não mudam.
 - **Proteção dos lotes** em `EM_ALERTA` (§3.2 e §4.2): novo lote, aumento de doses, movimentação para a câmara e baixa `ADMINISTRADA` → `409`. Retirada (mover para outra câmara), baixa por `PERDA`, descarte e inativação continuam permitidos; permitir a retirada não libera o uso dos lotes da fotografia.
 
 ### 10.2 Recepção em lote (S2-36, #99)
@@ -688,6 +691,32 @@ Content-Type: application/json
   }
 ]
 ```
+
+### 10.3 Resolução de ocorrência (Sprint 2 — #76)
+
+`POST /api/ocorrencias/{id}/resolucao`, **somente administrador** (permissão `resolver-incidente`; operador e auditor recebem `403`, sem token `401`). Body:
+
+```json
+{ "justificativa": "Porta reparada; temperatura estabilizada e lotes avaliados pela vigilância" }
+```
+
+A justificativa é obrigatória, de 1 a 500 caracteres após o `trim` (`422` no campo `justificativa`). Autor (`resolvidaPor`, o `sub` do token), instante (`resolvidaEm`, relógio da API) e leitura de resolução são definidos pelo servidor; campos como `resolvidaPor`, `resolvidaEm` ou `autorId` no body são ignorados. A resposta `200` é o detalhe da ocorrência (§11.2).
+
+**Condição.** Com a câmara bloqueada (o mesmo lock da recepção de leituras), a **última leitura aceita** da câmara precisa ser:
+
+| Exigência | Se não for atendida |
+|---|---|
+| Posterior à leitura de abertura | `409 /problemas/resolucao-nao-permitida`: envie uma leitura segura antes |
+| Segura (dentro da faixa) | `409`: uma segura antiga seguida de insegura não basta, porque a última é a insegura |
+| Da versão vigente da política | `409`: depois de mudar a política, espere uma leitura segura na versão nova |
+
+**Efeitos, numa transação.** A ocorrência recebe `resolvidaEm`, `resolvidaPor`, `justificativa` e `leituraResolucaoId` (a última leitura aceita); a câmara volta a `estadoTermico = NORMAL`; a trilha recebe `OCORRENCIA` / `RESOLUCAO_DE_OCORRENCIA` (§9). Se qualquer gravação falha, nada fica. O aviso que invalida o resumo só sai depois do commit. Lotes não são liberados nem alterados: a fotografia e as evidências ficam como na abertura.
+
+**Reenvio e conflito.** Reenviar a mesma justificativa (comparada após o `trim`) para uma ocorrência já resolvida responde `200` com o tratamento original (autor e instante da primeira resolução), sem novo evento, mesmo que outro administrador reenvie. Outra justificativa retorna `409 /problemas/resolucao-conflitante` e mantém o original. Duas resoluções simultâneas são serializadas pelo lock: só uma grava.
+
+**Concorrência com leituras.** Uma leitura confirmada antes da resolução entra na condição: se for insegura, a resolução é recusada. Uma leitura que estava sendo analisada no Go durante a resolução tem o snapshot alterado (o episódio mudou) e é analisada de novo, já sem o contexto do episódio encerrado (§10, passo 3). No lote (§10.2), essa candidata volta como `SNAPSHOT_ALTERADO` (`409`) e pode ser reenviada.
+
+**Próximo episódio.** A sequência recomeça depois de `leituraResolucaoId`: a próxima insegura tem `sequencia = 1` e a câmara vai para `ATENCAO`. Ao atingir N de novo, abre-se outra ocorrência com outro `id`; a resolvida não é reaberta nem alterada.
 
 ## 11. Histórico de leituras e ocorrências
 

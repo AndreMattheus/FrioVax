@@ -167,5 +167,12 @@ public class DocumentacaoApi extends Application {
         Câmara alterada durante a análise retorna `/problemas/alteracao-concorrente` (409). Falhas do serviço de \
         análise retornam `/problemas/falha-de-integracao` (502) ou `/problemas/analise-indisponivel` (503), sem \
         confirmar a leitura.
+
+        **Ocorrências**
+
+        `POST /api/ocorrencias/{id}/resolucao` só é aceito quando a última leitura da câmara é segura, posterior à \
+        abertura e da política vigente; senão retorna `/problemas/resolucao-nao-permitida` (409). Reenviar a mesma \
+        justificativa devolve a resolução original; outra justificativa retorna `/problemas/resolucao-conflitante` \
+        (409).
         """;
 }

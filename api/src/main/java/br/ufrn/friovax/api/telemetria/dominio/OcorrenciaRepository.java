@@ -20,6 +20,8 @@ public interface OcorrenciaRepository {
 
     Optional<Ocorrencia> buscarPorId(long id);
 
+    Optional<Long> camaraDaOcorrencia(long id);
+
     Optional<Ocorrencia> abertaDaCamara(long camaraId);
 
     /** Ocorrência resolvida mais recente, que marca onde começa o episódio atual. */

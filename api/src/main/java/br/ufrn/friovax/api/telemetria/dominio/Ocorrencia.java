@@ -13,7 +13,8 @@ import java.util.UUID;
 /**
  * Ocorrência térmica: excursão detectada quando a sequência insegura atinge o limiar N (ADR 0003, seção 4). Guarda
  * as leituras que formaram a sequência (evidências) e a fotografia dos lotes da câmara no momento da abertura. Fica
- * aberta até uma resolução explícita, e no máximo uma pode estar aberta por câmara.
+ * aberta até uma resolução explícita, e no máximo uma pode estar aberta por câmara. Depois de resolvida, não é
+ * editada nem reaberta: uma nova excursão abre outra ocorrência.
  */
 public class Ocorrencia {
 
@@ -87,25 +88,49 @@ public class Ocorrencia {
                 resolvidaEm, resolvidaPor, justificativa, leituraResolucaoId);
     }
 
+    public void resolver(String justificativa, Leitura ultimaAceita, Leitura leituraAbertura, int versaoVigente,
+                         UUID resolvidaPor, OffsetDateTime agora) {
+        justificativaValidada(justificativa);
+        exigirAberta();
+        if (id == null) {
+            throw new IllegalStateException("Só uma ocorrência gravada pode ser resolvida pela regra da última "
+                    + "leitura");
+        }
+        Objects.requireNonNull(ultimaAceita, "ultimaAceita");
+        Objects.requireNonNull(leituraAbertura, "leituraAbertura");
+        if (leituraAbertura.getId() == null || leituraAbertura.getId() != leituraAberturaId) {
+            throw new IllegalArgumentException("A leitura informada não é a que abriu a ocorrência " + id);
+        }
+        if (ultimaAceita.getCamaraId() != camaraId) {
+            throw new IllegalArgumentException("A última leitura informada é de outra câmara");
+        }
+        if (!ultimaAceita.getInstante().isAfter(leituraAbertura.getInstante())) {
+            throw new ResolucaoNaoPermitida(id, "nenhuma leitura foi aceita depois da abertura; envie uma leitura "
+                    + "segura da câmara antes de resolver.");
+        }
+        if (ultimaAceita.getResultado().classificacao() != ClassificacaoTermica.SEGURA) {
+            throw new ResolucaoNaoPermitida(id, "a última leitura aceita (" + ultimaAceita.getIdExterno()
+                    + ", " + ultimaAceita.getTemperatura().toPlainString() + " °C) é insegura; aguarde uma leitura "
+                    + "segura.");
+        }
+        if (ultimaAceita.getPoliticaVersao() != versaoVigente) {
+            throw new ResolucaoNaoPermitida(id, "a última leitura aceita (" + ultimaAceita.getIdExterno()
+                    + ") foi analisada na política v" + ultimaAceita.getPoliticaVersao() + ", e a vigente é a v"
+                    + versaoVigente + "; aguarde uma leitura segura na política atual.");
+        }
+        resolver(justificativa, ultimaAceita.getId(), resolvidaPor, agora);
+    }
+
     /**
-     * Registra a resolução explícita. As condições sobre a última leitura (segura, posterior à abertura e da política
-     * atual) são conferidas pelo caso de uso, que tem acesso às leituras (S2-12).
+     * Registra a resolução sem conferir a condição sobre a última leitura. Uso dos adaptadores e de testes que montam
+     * o histórico; a API resolve pelo método que recebe as leituras.
      *
      * @param leituraResolucaoId última leitura aceita no momento da resolução; o próximo episódio começa depois dela
      * @param resolvidaPor       administrador que resolveu, quando identificado
      */
     public void resolver(String justificativa, long leituraResolucaoId, UUID resolvidaPor, OffsetDateTime agora) {
-        if (!isAberta()) {
-            throw new EstadoIncompativel("A ocorrência " + id + " já foi resolvida.");
-        }
-        var texto = justificativa == null ? "" : justificativa.trim();
-        if (texto.isEmpty()) {
-            throw new ValidacaoDeNegocio("justificativa", "deve ser informada");
-        }
-        if (texto.length() > TAMANHO_MAXIMO_JUSTIFICATIVA) {
-            throw new ValidacaoDeNegocio("justificativa", "deve ter no máximo " + TAMANHO_MAXIMO_JUSTIFICATIVA
-                    + " caracteres");
-        }
+        var texto = justificativaValidada(justificativa);
+        exigirAberta();
         Objects.requireNonNull(agora, "agora");
         if (agora.isBefore(abertaEm)) {
             throw new IllegalArgumentException("A resolução não pode ser anterior à abertura.");
@@ -114,6 +139,28 @@ public class Ocorrencia {
         this.leituraResolucaoId = leituraResolucaoId;
         this.resolvidaPor = resolvidaPor;
         this.resolvidaEm = agora;
+    }
+
+    public boolean resolvidaCom(String justificativa) {
+        return !isAberta() && justificativa != null && this.justificativa.equals(justificativa.trim());
+    }
+
+    public static String justificativaValidada(String justificativa) {
+        var texto = justificativa == null ? "" : justificativa.trim();
+        if (texto.isEmpty()) {
+            throw new ValidacaoDeNegocio("justificativa", "deve ser informada");
+        }
+        if (texto.length() > TAMANHO_MAXIMO_JUSTIFICATIVA) {
+            throw new ValidacaoDeNegocio("justificativa", "deve ter no máximo " + TAMANHO_MAXIMO_JUSTIFICATIVA
+                    + " caracteres");
+        }
+        return texto;
+    }
+
+    private void exigirAberta() {
+        if (!isAberta()) {
+            throw new EstadoIncompativel("A ocorrência " + id + " já foi resolvida.");
+        }
     }
 
     /** Chamado pelo repositório ao gravar a ocorrência. */
