@@ -1,0 +1,20 @@
+[
+  {
+    "id": 26404459818,
+    "name": "producao",
+    "created_at": "2026-11-05T19:47:22Z",
+    "updated_at": "2026-11-05T19:47:22Z",
+    "can_admins_bypass": true,
+    "deployment_branch_policy": {
+      "protected_branches": false,
+      "custom_branch_policies": true
+    },
+    "protection_rules": [
+      {
+        "id": 72002352,
+        "node_id": "GA_kwDOUOpn_84ESqsw",
+        "type": "branch_policy"
+      }
+    ]
+  }
+]

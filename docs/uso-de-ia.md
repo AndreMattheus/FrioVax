@@ -16,6 +16,15 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 
 ## Sprint 2
 
+Registro de 25/11/2026 — OpenAI Codex: apoio à atualização da #90 após o
+encerramento do desenvolvimento informado por Arthur: nova extração paginada,
+preservação das fontes e do relatório anterior, apuração no corte real de
+25/11 às 18h57 de Fortaleza, comparação de fluxo e contagens diárias com zeros.
+Testes conferem coorte anterior e novas publicações. Arthur deve conferir
+dados e interpretação; Leonardo deve revisar e reproduzir o novo corte.
+Os cortes de 26/11 e do hash de entrega não foram declarados realizados,
+assim como não foi presumida cobertura de monitoramento de incidentes.
+
 Registro de 24/11/2026 — OpenAI Codex: apoio aos ajustes da revisão de Leonardo
 no PR #125: explicitação do `success` do deployment após Render/smoke como marco
 da publicação, sem depender do término posterior do job; teste de regressão

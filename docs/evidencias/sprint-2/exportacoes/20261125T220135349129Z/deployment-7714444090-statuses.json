@@ -1,0 +1,62 @@
+[
+  {
+    "id": 21958623592,
+    "state": "failure",
+    "environment": "producao",
+    "created_at": "2026-11-11T15:41:10Z",
+    "updated_at": "2026-11-11T15:41:10Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7714444090/statuses/21958623592",
+    "creator": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 21958615699,
+    "state": "in_progress",
+    "environment": "producao",
+    "created_at": "2026-11-11T15:41:03Z",
+    "updated_at": "2026-11-11T15:41:03Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7714444090/statuses/21958615699",
+    "creator": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 21958613924,
+    "state": "queued",
+    "environment": "producao",
+    "created_at": "2026-11-11T15:41:02Z",
+    "updated_at": "2026-11-11T15:41:02Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7714444090/statuses/21958613924",
+    "creator": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 21958613541,
+    "state": "queued",
+    "environment": "producao",
+    "created_at": "2026-11-11T15:41:01Z",
+    "updated_at": "2026-11-11T15:41:01Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7714444090/statuses/21958613541",
+    "creator": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  },
+  {
+    "id": 21958611789,
+    "state": "waiting",
+    "environment": "producao",
+    "created_at": "2026-11-11T15:41:00Z",
+    "updated_at": "2026-11-11T15:41:00Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7714444090/statuses/21958611789",
+    "creator": {
+      "login": "leonardonadson",
+      "type": "User"
+    }
+  }
+]

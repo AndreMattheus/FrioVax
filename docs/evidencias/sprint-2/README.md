@@ -13,7 +13,7 @@ Substituir todos os campos do modelo; não copiá-lo como observação real. Ao 
 
 ## Arquivos e manutenção
 
-A apuração preliminar da #90 está em [metricas-02.md](../../metricas-02.md).
+O relatório atualizado da #90 está em [metricas-02.md](../../metricas-02.md).
 O snapshot `exportacoes/20261123T220209564272Z` inclui passos dos jobs,
 ancestralidade por SHA publicado, vínculos de fechamento de PRs e statuses
 dos commits. `metricas-02/` conserva os cálculos dos cortes de 20 e 23/11,
@@ -24,6 +24,17 @@ CSVs locais congelados com hashes e metadados complementares de ambientes.
 reprodução dos dois cortes na revisão do PR #125, vinculada no relatório.
 Após a troca da tarefa de Matheus para Arthur, a validação cabe a Leonardo;
 não há pendência de Bianca. Atualizações de 26/11 e da entrega continuam pendentes.
+
+A atualização de **25/11, corte exclusivo 18h57 de Fortaleza**, usa o snapshot
+`exportacoes/20261125T220135349129Z`: 678 consultas paginadas, 50 registros de
+deployment, 21 publicações reais, 29 PRs publicados e 20 cartões técnicos.
+`metricas-02/20261125/` conserva resultado, tabelas e contagens diárias com
+zeros; `fontes-20261125/`, `ambiente-20261125/` e `contexto-20261125/`
+preservam os CSVs e metadados complementares com comandos e hashes.
+O relatório anterior está em `metricas-02/20261123/relatorio.md`, com links
+relativos ajustados à pasta. A reprodução deste novo corte por Leonardo e
+os cortes de 26/11 e do hash de entrega permanecem pendentes. A confirmação
+anterior de Leonardo não é evidência de reprodução dos dados de 25/11.
 
 - `eventos.csv`: marcos com fonte e timestamp; registro não substitui o dado original exportado.
 - `amostra.csv`: seleção #69/#70/#80; o estado da seleção não significa conclusão ou publicação.

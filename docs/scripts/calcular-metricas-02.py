@@ -306,6 +306,23 @@ def tabelas(r):
     return "\n".join(linhas) + "\n"
 
 
+def dias_implantacao(r):
+    """Dias civis observados, incluindo zeros e limites parciais explícitos."""
+    inicio, fim = dt(r["janela_inicio"]), dt(r["corte_exclusivo"])
+    cursor = inicio.astimezone(FUSO).replace(hour=0, minute=0, second=0, microsecond=0)
+    dias = []
+    while cursor < fim:
+        seguinte = cursor + timedelta(days=1)
+        eventos = [p for p in r["publicacoes"] if cursor <= dt(p["publicado"]) < seguinte]
+        dias.append({"dia": cursor.date().isoformat(), "inicio": max(inicio, cursor).isoformat(),
+                     "fim_exclusivo": min(fim, seguinte).isoformat(),
+                     "parcial": cursor < inicio or seguinte > fim,
+                     "publicacoes": len(eventos),
+                     "deployments": ";".join(str(p["deployment"]) for p in eventos)})
+        cursor = seguinte
+    return dias
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("snapshot", type=Path)
@@ -317,6 +334,10 @@ def main():
     args.saida.mkdir(parents=True, exist_ok=True)
     (args.saida / "resultado.json").write_bytes((json.dumps(r, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
     (args.saida / "tabelas.md").write_bytes(tabelas(r).encode("utf-8"))
+    with (args.saida / "dias.csv").open("w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["dia", "inicio", "fim_exclusivo", "parcial", "publicacoes", "deployments"], lineterminator="\n")
+        w.writeheader()
+        w.writerows(dias_implantacao(r))
     print(f"Publicações={len(r['publicacoes'])}; mudanças={len(r['mudancas'])}; cartões={len(r['fluxo'])}; lacunas={len(r['fluxo_lacunas'])}")
 
 

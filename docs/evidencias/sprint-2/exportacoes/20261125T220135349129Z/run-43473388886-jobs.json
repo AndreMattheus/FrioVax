@@ -1,0 +1,121 @@
+[
+  {
+    "id": 132050866510,
+    "name": "publicar",
+    "run_id": 43473388886,
+    "run_attempt": 1,
+    "head_sha": "c51e2981773fed0a40fb85264c1bc5201b63269b",
+    "status": "completed",
+    "conclusion": "failure",
+    "created_at": "2026-11-13T17:30:05Z",
+    "started_at": "2026-11-13T17:30:09Z",
+    "completed_at": "2026-11-13T17:31:37Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/43473388886/job/132050866510",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-13T17:30:10Z",
+        "completed_at": "2026-11-13T17:30:11Z"
+      },
+      {
+        "name": "Run actions/checkout@v5",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-13T17:30:11Z",
+        "completed_at": "2026-11-13T17:30:12Z"
+      },
+      {
+        "name": "Run actions/setup-python@v6",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-13T17:30:12Z",
+        "completed_at": "2026-11-13T17:30:12Z"
+      },
+      {
+        "name": "Registrar deployment",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-13T17:30:12Z",
+        "completed_at": "2026-11-13T17:30:13Z"
+      },
+      {
+        "name": "Conferir CI, configuração e recuperação",
+        "number": 5,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-13T17:30:13Z",
+        "completed_at": "2026-11-13T17:30:14Z"
+      },
+      {
+        "name": "Migrar banco (sem saída sensível)",
+        "number": 6,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-13T17:30:14Z",
+        "completed_at": "2026-11-13T17:31:16Z"
+      },
+      {
+        "name": "Aplicar e conferir permissoes do usuario da API",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-13T17:31:16Z",
+        "completed_at": "2026-11-13T17:31:23Z"
+      },
+      {
+        "name": "Publicar SHA e esperar Render",
+        "number": 8,
+        "status": "completed",
+        "conclusion": "failure",
+        "started_at": "2026-11-13T17:31:23Z",
+        "completed_at": "2026-11-13T17:31:34Z"
+      },
+      {
+        "name": "Saúde e smoke autenticado",
+        "number": 9,
+        "status": "completed",
+        "conclusion": "skipped",
+        "started_at": "2026-11-13T17:31:34Z",
+        "completed_at": "2026-11-13T17:31:34Z"
+      },
+      {
+        "name": "Registrar resultado final",
+        "number": 10,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-13T17:31:34Z",
+        "completed_at": "2026-11-13T17:31:35Z"
+      },
+      {
+        "name": "Post Run actions/setup-python@v6",
+        "number": 19,
+        "status": "completed",
+        "conclusion": "skipped",
+        "started_at": "2026-11-13T17:31:35Z",
+        "completed_at": "2026-11-13T17:31:35Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v5",
+        "number": 20,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-13T17:31:35Z",
+        "completed_at": "2026-11-13T17:31:35Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 21,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-13T17:31:35Z",
+        "completed_at": "2026-11-13T17:31:35Z"
+      }
+    ]
+  }
+]

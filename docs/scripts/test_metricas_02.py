@@ -100,6 +100,16 @@ class MetricasTest(unittest.TestCase):
         self.assertEqual(9, m.distribuicao(list(range(1, 11)))["p85"])
         self.assertEqual(10, m.distribuicao(list(range(1, 11)))["p95"])
 
+    def test_dias_civis_incluem_zeros_e_limite_exclusivo(self):
+        r = {"janela_inicio": "2026-11-13T03:00:00Z", "corte_exclusivo": "2026-11-16T03:00:00Z",
+             "publicacoes": self.r["publicacoes"][:3]}
+        dias = m.dias_implantacao(r)
+        self.assertEqual(["2026-11-13", "2026-11-14", "2026-11-15"], [d["dia"] for d in dias])
+        self.assertEqual([2, 1, 0], [d["publicacoes"] for d in dias])
+        self.assertFalse(any(d["parcial"] for d in dias))
+        r["corte_exclusivo"] = "2026-11-15T12:00:00Z"
+        self.assertTrue(m.dias_implantacao(r)[-1]["parcial"])
+
     def test_artefatos_publicados_reproduzem_todos_os_prs_e_semanas(self):
         pasta = m.ROOT / "docs/evidencias/sprint-2/metricas-02"
         for dia, corte in [("20261123", "2026-11-23T21:50:00Z"), ("20261120", "2026-11-21T03:00:00Z")]:
@@ -109,6 +119,33 @@ class MetricasTest(unittest.TestCase):
         ambiente = pasta / "ambiente-20261123"
         m.integridade(ambiente)
         self.assertTrue(any(a["name"] == "producao" for a in m.ler(ambiente / "ambientes.json")))
+
+    def test_atualizacao_25_preserva_coorte_anterior_e_novas_publicacoes(self):
+        pasta = m.ROOT / "docs/evidencias/sprint-2/metricas-02"
+        r = m.apurar(m.ROOT / "docs/evidencias/sprint-2/exportacoes/20261125T220135349129Z",
+                     "2026-11-25T21:57:00Z", pasta / "fontes-20261125")
+        self.assertEqual(r, m.ler(pasta / "20261125/resultado.json"))
+        self.assertEqual(m.tabelas(r), (pasta / "20261125/tabelas.md").read_text(encoding="utf-8"))
+        self.assertEqual([0, 0, 0, 6, 8, 7], [s["implantacoes"] for s in r["semanas"]])
+        self.assertEqual([0, 0, 3, 5, 6, 6], [s["throughput_tecnico"] for s in r["semanas"]])
+        self.assertEqual(50, len(r["deployments_auditados"]))
+        self.assertEqual(21, len(r["publicacoes"]))
+        self.assertEqual(20, len(r["fluxo"]))
+        self.assertEqual([], r["fluxo_lacunas"])
+        self.assertEqual([], r["prs_sem_publicacao"])
+        self.assertEqual(self.r["mudancas"], [x for x in r["mudancas"] if x["pr"] < 125])
+        self.assertNotIn(126, [x["pr"] for x in r["mudancas"]])
+        self.assertEqual({125, 127, 128, 129, 130}, {x["pr"] for x in r["mudancas"] if x["pr"] >= 125})
+        self.assertEqual("f762795b8e3c83135f02b73ccfbe2715af369eab", r["publicacoes"][-1]["sha"])
+        self.assertEqual(8061253480, r["publicacoes"][-1]["deployment"])
+        self.assertTrue(all(not d["commits_novos_sem_pr_conhecido"] for d in r["publicacoes"][1:]))
+        self.assertIsNone(r["taxa_falha"]["valor"])
+        self.assertEqual(0, r["taxa_falha"]["N_avaliadas"])
+        self.assertEqual(36, len(m.dias_implantacao(r)))
+        self.assertEqual(25, sum(d["publicacoes"] == 0 for d in m.dias_implantacao(r)))
+        m.integridade(pasta / "ambiente-20261125")
+        for q in m.ler(pasta / "contexto-20261125/manifesto.json")["consultas"]:
+            self.assertEqual(q["sha256"], hashlib.sha256((pasta / "contexto-20261125" / q["arquivo"]).read_bytes()).hexdigest())
 
 
 if __name__ == "__main__":
