@@ -8,7 +8,7 @@ Todas as rotas de câmaras, lotes e leituras exigem `Authorization: Bearer <acce
 | `gerenciar-cadastro` | Sim | Não | Não | POST, PUT e DELETE de câmaras e lotes |
 | `registrar-baixa` | Sim | Sim | Não | POST de baixas |
 | `descartar-lote` | Sim | Não | Não | POST de descarte |
-| `registrar-leitura` | Sim | Sim | Não | `POST /api/leituras` |
+| `registrar-leitura` | Sim | Sim | Não | `POST /api/leituras`, `POST /api/leituras/lote` |
 | `alterar-politica` | Sim | Não | Não | `PUT /api/camaras/{id}/politica-termica` |
 | `resolver-incidente` | Sim | Não | Não | `POST /api/ocorrencias/{id}/resolucao` |
 | `consultar-trilha` | Sim | Não | Sim | `GET /api/auditoria` (trilha de auditoria) |

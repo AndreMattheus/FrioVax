@@ -480,7 +480,7 @@ vigente; caso contrário, a resposta é 409 e nada muda. O autor e o instante v�
 token e do relógio da API. Depois disso, a câmara volta a `NORMAL`, a trilha
 registra a resolução e uma nova excursão abre outra ocorrência. Reenviar a mesma
 justificativa devolve a resolução original. Detalhes no
-[contrato da resolução](docs/contrato-api.md#102-resolução-de-ocorrência-sprint-2--76).
+[contrato da resolução](docs/contrato-api.md#103-resolução-de-ocorrência-sprint-2--76).
 
 ## Licença
 
