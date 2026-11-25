@@ -470,6 +470,18 @@ A política original e essa fotografia são preservadas após alterações de fa
 movimentação ou inativação dos cadastros. Os instantes são retornados em UTC (`Z`).
 Veja campos, filtros e erros no [contrato do histórico](docs/contrato-api.md#11-histórico-de-leituras-e-ocorrências).
 
+## Resolução de ocorrência
+
+Uma ocorrência aberta deixa a câmara `EM_ALERTA` até um administrador resolvê-la
+com `POST /api/ocorrencias/{id}/resolucao` e o body
+`{ "justificativa": "..." }`. A resolução só é aceita quando a última leitura
+aceita da câmara é segura, veio depois da abertura e foi analisada na política
+vigente; caso contrário, a resposta é 409 e nada muda. O autor e o instante vêm do
+token e do relógio da API. Depois disso, a câmara volta a `NORMAL`, a trilha
+registra a resolução e uma nova excursão abre outra ocorrência. Reenviar a mesma
+justificativa devolve a resolução original. Detalhes no
+[contrato da resolução](docs/contrato-api.md#102-resolução-de-ocorrência-sprint-2--76).
+
 ## Licença
 
 [MIT](LICENSE).

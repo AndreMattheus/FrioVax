@@ -2,6 +2,7 @@ package br.ufrn.friovax.api.autenticacao.api;
 
 import br.ufrn.friovax.api.autenticacao.dominio.Perfil;
 import br.ufrn.friovax.api.suporte.AutenticacaoHttpSupport;
+import br.ufrn.friovax.api.suporte.CenarioDeOcorrencia;
 import br.ufrn.friovax.api.suporte.GuardsTesteResource;
 import br.ufrn.friovax.api.suporte.HttpEmMemoriaProfile;
 import br.ufrn.friovax.api.suporte.HttpEmMemoriaSupport;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,6 +37,7 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
     private long camaraId;
     private long camaraVaziaId;
     private long loteId;
+    private long ocorrenciaId;
 
     @BeforeEach
     void preparar() {
@@ -44,6 +47,11 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
                 .then().statusCode(201).extract().jsonPath().getLong("id");
         loteId = admin().body(lote("LOT-BASE")).post("/api/lotes")
                 .then().statusCode(201).extract().jsonPath().getLong("id");
+        // Ocorrência aberta na câmara vazia, já com leitura segura: a resolução do administrador é aceita.
+        var cenario = new CenarioDeOcorrencia(camaras, leituras, ocorrencias, camaraVaziaId,
+                OffsetDateTime.now(HttpEmMemoriaProfile.RELOGIO).minusMinutes(30));
+        ocorrenciaId = cenario.abrirOcorrencia();
+        cenario.segura();
         GuardsTesteResource.EXECUCOES.set(0);
         GuardsTesteResource.CHAMADAS_GO.set(0);
     }
@@ -65,6 +73,7 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
                 new Rota("DELETE", "/api/lotes/{lote}", "cadastroLote", 204),
                 new Rota("POST", "/api/lotes/{lote}/baixas", "baixa", 200),
                 new Rota("POST", "/api/lotes/{lote}/descarte", "descarte", 200),
+                new Rota("POST", "/api/ocorrencias/{ocorrencia}/resolucao", "resolucao", 200),
                 new Rota("GET", "/api/auditoria", "trilha", 200))
                 .flatMap(rota -> IDENTIDADES.stream().map(identidade -> Arguments.of(rota, identidade)));
     }
@@ -74,7 +83,8 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
     void aplicaMatrizEmTodasAsRotasSemGravarQuandoNegado(Rota rota, String identidade) {
         var antes = estado();
         String path = rota.path().replace("{camara}", Long.toString(camaraId))
-                .replace("{vazia}", Long.toString(camaraVaziaId)).replace("{lote}", Long.toString(loteId));
+                .replace("{vazia}", Long.toString(camaraVaziaId)).replace("{lote}", Long.toString(loteId))
+                .replace("{ocorrencia}", Long.toString(ocorrenciaId));
         boolean permitido = identidade.equals("ADMINISTRADOR")
                 || (rota.operacao().equals("consulta") && Set.of("OPERADOR", "AUDITOR").contains(identidade))
                 || (rota.operacao().equals("baixa") && identidade.equals("OPERADOR"))
@@ -90,6 +100,8 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
                 case "baixa" -> new HashMap<>(Map.of("quantidade", 1, "motivo", "ADMINISTRADA"));
                 case "politica" -> new HashMap<>(Map.of("versaoEsperada", 1, "temperaturaMinima", 3,
                         "temperaturaMaxima", 7, "limiar", 4, "autorId", "forjado"));
+                case "resolucao" -> new HashMap<>(Map.of("justificativa", "Porta reparada",
+                        "resolvidaPor", "forjado", "resolvidaEm", "2020-01-01T00:00:00Z"));
                 default -> new HashMap<>();
             };
             body.put("perfil", "ADMINISTRADOR");
@@ -146,6 +158,7 @@ class AutorizacaoHttpMemoriaTest extends HttpEmMemoriaSupport {
                 "lotes", admin().get("/api/lotes?ativo=true").asString(),
                 "lotesInativos", admin().get("/api/lotes?ativo=false").asString(),
                 "trilha", admin().get("/api/auditoria?size=100").asString(),
+                "ocorrencias", admin().get("/api/ocorrencias?size=100").asString(),
                 "politica", admin().get("/api/camaras/" + camaraId + "/politica-termica/versoes").asString());
     }
 
