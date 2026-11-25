@@ -303,7 +303,7 @@ class ReceberLeituraTest {
         receber("S-2", 1, "9.0");
         receber("S-3", 2, "9.0");
         var segura = receber("S-4", 3, "5.0").leitura();
-        // A terceira insegura abriu a ocorrência (S2-11); resolver é da S2-12, aqui feito direto no repositório.
+        // A terceira insegura abriu a ocorrência; aqui a resolução vai direto ao repositório para isolar a recepção.
         var ocorrencia = ocorrencias.abertaDaCamara(camaraId).orElseThrow();
         ocorrencia.resolver("Equipamento verificado", segura.getId(), null, AGORA);
         ocorrencias.salvar(ocorrencia);
