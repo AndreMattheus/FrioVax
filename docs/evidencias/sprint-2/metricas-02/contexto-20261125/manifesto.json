@@ -1,0 +1,38 @@
+{
+  "consultas": [
+    {
+      "comando": [
+        "gh",
+        "api",
+        "repos/AndreMattheus/FrioVax/commits/main"
+      ],
+      "inicio": "2026-11-25T21:58:53.138852Z",
+      "fim": "2026-11-25T21:58:53.963560Z",
+      "arquivo": "main.json",
+      "sha256": "c484e866b71482f5ac48403626038a984bc4a96b9bd7949e848d896489801ce2"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "repos/AndreMattheus/FrioVax/issues/90"
+      ],
+      "inicio": "2026-11-25T21:58:53.963591Z",
+      "fim": "2026-11-25T21:58:54.549714Z",
+      "arquivo": "issue-90.json",
+      "sha256": "6c49c66faa8927359f410e1c1bcb248fbcc0ff783ddc45d6aebbefa64cfbe73c"
+    },
+    {
+      "comando": [
+        "gh",
+        "api",
+        "repos/AndreMattheus/FrioVax/issues/97"
+      ],
+      "inicio": "2026-11-25T21:58:54.549730Z",
+      "fim": "2026-11-25T21:58:55.179664Z",
+      "arquivo": "issue-97.json",
+      "sha256": "95dceadfe1a2ffe50a9de5ea3faa936671e39b64143fddcb8cbc9ad456aae913"
+    }
+  ],
+  "observacao": "Estado remoto consultado em 25/11; main nao equivale a hash de entrega auditado pela #97."
+}

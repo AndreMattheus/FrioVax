@@ -1,0 +1,23 @@
+{
+  "inicio": "2026-11-25T21:58:27.041766Z",
+  "fim": "2026-11-25T21:58:27.558584Z",
+  "resultado": "completo",
+  "consultas": [
+    {
+      "comando": [
+        "gh",
+        "api",
+        "--paginate",
+        "--slurp",
+        "repos/AndreMattheus/FrioVax/environments?per_page=100"
+      ],
+      "inicio": "2026-11-25T21:58:27.041792Z",
+      "fim": "2026-11-25T21:58:27.557713Z",
+      "paginas": 1,
+      "registros": 1,
+      "arquivo": "ambientes.json",
+      "sha256": "2b1f4bfd5f90e26a708254aaad12dcaaa20540c7a1b4d180cf5e8c37a0a7c76d"
+    }
+  ],
+  "observacao": "fotografia atual; não reconstrói proteção histórica"
+}

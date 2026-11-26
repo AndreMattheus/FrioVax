@@ -1,0 +1,74 @@
+[
+  {
+    "id": 22809447913,
+    "state": "inactive",
+    "environment": "producao",
+    "created_at": "2026-11-21T17:23:11Z",
+    "updated_at": "2026-11-21T17:23:11Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7964666605/statuses/22809447913",
+    "creator": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 22801883293,
+    "state": "success",
+    "environment": "producao",
+    "created_at": "2026-11-21T14:31:04Z",
+    "updated_at": "2026-11-21T14:31:04Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7964666605/statuses/22801883293",
+    "creator": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 22801734649,
+    "state": "in_progress",
+    "environment": "producao",
+    "created_at": "2026-11-21T14:27:36Z",
+    "updated_at": "2026-11-21T14:27:36Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7964666605/statuses/22801734649",
+    "creator": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 22801733317,
+    "state": "queued",
+    "environment": "producao",
+    "created_at": "2026-11-21T14:27:34Z",
+    "updated_at": "2026-11-21T14:27:34Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7964666605/statuses/22801733317",
+    "creator": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 22801733062,
+    "state": "queued",
+    "environment": "producao",
+    "created_at": "2026-11-21T14:27:34Z",
+    "updated_at": "2026-11-21T14:27:34Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7964666605/statuses/22801733062",
+    "creator": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  },
+  {
+    "id": 22801732018,
+    "state": "waiting",
+    "environment": "producao",
+    "created_at": "2026-11-21T14:27:32Z",
+    "updated_at": "2026-11-21T14:27:32Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/7964666605/statuses/22801732018",
+    "creator": {
+      "login": "arthurFeijo",
+      "type": "User"
+    }
+  }
+]

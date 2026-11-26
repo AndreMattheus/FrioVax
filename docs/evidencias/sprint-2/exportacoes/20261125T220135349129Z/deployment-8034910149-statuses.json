@@ -1,0 +1,38 @@
+[
+  {
+    "id": 23050958589,
+    "state": "inactive",
+    "environment": "producao",
+    "created_at": "2026-11-24T17:06:40Z",
+    "updated_at": "2026-11-24T17:06:40Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/8034910149/statuses/23050958589",
+    "creator": {
+      "login": "github-actions[bot]",
+      "type": "Bot"
+    }
+  },
+  {
+    "id": 23050941625,
+    "state": "success",
+    "environment": "producao",
+    "created_at": "2026-11-24T17:06:29Z",
+    "updated_at": "2026-11-24T17:06:29Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/8034910149/statuses/23050941625",
+    "creator": {
+      "login": "github-actions[bot]",
+      "type": "Bot"
+    }
+  },
+  {
+    "id": 23050610819,
+    "state": "in_progress",
+    "environment": "producao",
+    "created_at": "2026-11-24T17:02:48Z",
+    "updated_at": "2026-11-24T17:02:48Z",
+    "url": "https://api.github.com/repos/AndreMattheus/FrioVax/deployments/8034910149/statuses/23050610819",
+    "creator": {
+      "login": "github-actions[bot]",
+      "type": "Bot"
+    }
+  }
+]

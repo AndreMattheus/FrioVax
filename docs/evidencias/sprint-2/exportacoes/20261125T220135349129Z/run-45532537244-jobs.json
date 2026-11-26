@@ -1,0 +1,785 @@
+[
+  {
+    "id": 138931122689,
+    "name": "Go / Telemetria",
+    "run_id": 45532537244,
+    "run_attempt": 1,
+    "head_sha": "f81b50105797c4e10f18b24eba15d8cf74d70822",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-25T02:23:00Z",
+    "started_at": "2026-11-25T02:23:03Z",
+    "completed_at": "2026-11-25T02:23:53Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45532537244/job/138931122689",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:03Z",
+        "completed_at": "2026-11-25T02:23:05Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:05Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Configurar Go",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:09Z"
+      },
+      {
+        "name": "Verificar formatação",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:09Z",
+        "completed_at": "2026-11-25T02:23:09Z"
+      },
+      {
+        "name": "Análise estática",
+        "number": 5,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:09Z",
+        "completed_at": "2026-11-25T02:23:15Z"
+      },
+      {
+        "name": "Testes",
+        "number": 6,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:15Z",
+        "completed_at": "2026-11-25T02:23:21Z"
+      },
+      {
+        "name": "Testes com detector de condições de corrida",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:21Z",
+        "completed_at": "2026-11-25T02:23:50Z"
+      },
+      {
+        "name": "Build",
+        "number": 8,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:50Z",
+        "completed_at": "2026-11-25T02:23:50Z"
+      },
+      {
+        "name": "Post Configurar Go",
+        "number": 15,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:50Z",
+        "completed_at": "2026-11-25T02:23:51Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 16,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:51Z",
+        "completed_at": "2026-11-25T02:23:51Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 17,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:51Z",
+        "completed_at": "2026-11-25T02:23:51Z"
+      }
+    ]
+  },
+  {
+    "id": 138931122998,
+    "name": "Evidências / Sprint 2 (windows-latest)",
+    "run_id": 45532537244,
+    "run_attempt": 1,
+    "head_sha": "f81b50105797c4e10f18b24eba15d8cf74d70822",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-25T02:23:00Z",
+    "started_at": "2026-11-25T02:23:02Z",
+    "completed_at": "2026-11-25T02:23:22Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45532537244/job/138931122998",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:03Z",
+        "completed_at": "2026-11-25T02:23:04Z"
+      },
+      {
+        "name": "Reproduzir conversão de quebras de linha no Windows",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:04Z",
+        "completed_at": "2026-11-25T02:23:05Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:05Z",
+        "completed_at": "2026-11-25T02:23:10Z"
+      },
+      {
+        "name": "Configurar Python",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:10Z",
+        "completed_at": "2026-11-25T02:23:11Z"
+      },
+      {
+        "name": "Testar contrato de coleta e validação",
+        "number": 5,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:11Z",
+        "completed_at": "2026-11-25T02:23:13Z"
+      },
+      {
+        "name": "Testar contas do fluxo de valor",
+        "number": 6,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:13Z",
+        "completed_at": "2026-11-25T02:23:14Z"
+      },
+      {
+        "name": "Conferir apuração de publicações, cortes e ausência de incidentes",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:14Z",
+        "completed_at": "2026-11-25T02:23:16Z"
+      },
+      {
+        "name": "Validar registros e integridade dos cortes preservados",
+        "number": 8,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:16Z",
+        "completed_at": "2026-11-25T02:23:16Z"
+      },
+      {
+        "name": "Reproduzir fluxo publicado e linhas de base sem consultar a API",
+        "number": 9,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:16Z",
+        "completed_at": "2026-11-25T02:23:18Z"
+      },
+      {
+        "name": "Post Configurar Python",
+        "number": 17,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:18Z",
+        "completed_at": "2026-11-25T02:23:18Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 18,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:18Z",
+        "completed_at": "2026-11-25T02:23:20Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 19,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:20Z",
+        "completed_at": "2026-11-25T02:23:20Z"
+      }
+    ]
+  },
+  {
+    "id": 138931123030,
+    "name": "Protobuf / Buf",
+    "run_id": 45532537244,
+    "run_attempt": 1,
+    "head_sha": "f81b50105797c4e10f18b24eba15d8cf74d70822",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-25T02:23:00Z",
+    "started_at": "2026-11-25T02:23:03Z",
+    "completed_at": "2026-11-25T02:23:30Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45532537244/job/138931123030",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:03Z",
+        "completed_at": "2026-11-25T02:23:05Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:05Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Configurar mise, Go e Buf",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:10Z"
+      },
+      {
+        "name": "Validar contrato e conferir gerados Go",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:10Z",
+        "completed_at": "2026-11-25T02:23:28Z"
+      },
+      {
+        "name": "Post Configurar mise, Go e Buf",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:28Z",
+        "completed_at": "2026-11-25T02:23:28Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 8,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:28Z",
+        "completed_at": "2026-11-25T02:23:28Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 9,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:28Z",
+        "completed_at": "2026-11-25T02:23:28Z"
+      }
+    ]
+  },
+  {
+    "id": 138931123059,
+    "name": "Evidências / Sprint 2 (ubuntu-latest)",
+    "run_id": 45532537244,
+    "run_attempt": 1,
+    "head_sha": "f81b50105797c4e10f18b24eba15d8cf74d70822",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-25T02:23:00Z",
+    "started_at": "2026-11-25T02:23:02Z",
+    "completed_at": "2026-11-25T02:23:09Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45532537244/job/138931123059",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:03Z",
+        "completed_at": "2026-11-25T02:23:04Z"
+      },
+      {
+        "name": "Reproduzir conversão de quebras de linha no Windows",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "skipped",
+        "started_at": "2026-11-25T02:23:04Z",
+        "completed_at": "2026-11-25T02:23:04Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:04Z",
+        "completed_at": "2026-11-25T02:23:05Z"
+      },
+      {
+        "name": "Configurar Python",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:05Z",
+        "completed_at": "2026-11-25T02:23:05Z"
+      },
+      {
+        "name": "Testar contrato de coleta e validação",
+        "number": 5,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:05Z",
+        "completed_at": "2026-11-25T02:23:05Z"
+      },
+      {
+        "name": "Testar contas do fluxo de valor",
+        "number": 6,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:05Z",
+        "completed_at": "2026-11-25T02:23:05Z"
+      },
+      {
+        "name": "Conferir apuração de publicações, cortes e ausência de incidentes",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:05Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Validar registros e integridade dos cortes preservados",
+        "number": 8,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Reproduzir fluxo publicado e linhas de base sem consultar a API",
+        "number": 9,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Post Configurar Python",
+        "number": 17,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 18,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 19,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      }
+    ]
+  },
+  {
+    "id": 138931123115,
+    "name": "Smoke / Compose",
+    "run_id": 45532537244,
+    "run_attempt": 1,
+    "head_sha": "f81b50105797c4e10f18b24eba15d8cf74d70822",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-25T02:23:00Z",
+    "started_at": "2026-11-25T02:23:03Z",
+    "completed_at": "2026-11-25T02:24:47Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45532537244/job/138931123115",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:04Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:11Z"
+      },
+      {
+        "name": "Configurar Python",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:11Z",
+        "completed_at": "2026-11-25T02:23:12Z"
+      },
+      {
+        "name": "Construir, aguardar saúde e verificar readiness em projeto descartável",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:12Z",
+        "completed_at": "2026-11-25T02:24:43Z"
+      },
+      {
+        "name": "Post Configurar Python",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:24:43Z",
+        "completed_at": "2026-11-25T02:24:43Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 8,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:24:43Z",
+        "completed_at": "2026-11-25T02:24:43Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 9,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:24:43Z",
+        "completed_at": "2026-11-25T02:24:43Z"
+      }
+    ]
+  },
+  {
+    "id": 138931123118,
+    "name": "Ambiente de autenticação (ubuntu-latest)",
+    "run_id": 45532537244,
+    "run_attempt": 1,
+    "head_sha": "f81b50105797c4e10f18b24eba15d8cf74d70822",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-25T02:23:00Z",
+    "started_at": "2026-11-25T02:23:02Z",
+    "completed_at": "2026-11-25T02:23:08Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45532537244/job/138931123118",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:03Z",
+        "completed_at": "2026-11-25T02:23:03Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:03Z",
+        "completed_at": "2026-11-25T02:23:04Z"
+      },
+      {
+        "name": "Configurar Python",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:04Z",
+        "completed_at": "2026-11-25T02:23:05Z"
+      },
+      {
+        "name": "Testar geração e atualização do ambiente no Bash",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:05Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Post Configurar Python",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 8,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 9,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      }
+    ]
+  },
+  {
+    "id": 138931123138,
+    "name": "Java / Quarkus",
+    "run_id": 45532537244,
+    "run_attempt": 1,
+    "head_sha": "f81b50105797c4e10f18b24eba15d8cf74d70822",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-25T02:23:00Z",
+    "started_at": "2026-11-25T02:23:03Z",
+    "completed_at": "2026-11-25T02:26:02Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45532537244/job/138931123138",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:04Z",
+        "completed_at": "2026-11-25T02:23:05Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:05Z",
+        "completed_at": "2026-11-25T02:23:06Z"
+      },
+      {
+        "name": "Configurar Java",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:06Z",
+        "completed_at": "2026-11-25T02:23:10Z"
+      },
+      {
+        "name": "Configurar Python",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:10Z",
+        "completed_at": "2026-11-25T02:23:10Z"
+      },
+      {
+        "name": "Verificar Docker para o PostgreSQL temporário",
+        "number": 5,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:10Z",
+        "completed_at": "2026-11-25T02:23:13Z"
+      },
+      {
+        "name": "Formatação, build e suíte completa com banco preservado entre perfis",
+        "number": 6,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:13Z",
+        "completed_at": "2026-11-25T02:25:57Z"
+      },
+      {
+        "name": "Publicar relatórios de testes Java",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:25:57Z",
+        "completed_at": "2026-11-25T02:25:59Z"
+      },
+      {
+        "name": "Post Configurar Python",
+        "number": 12,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:25:59Z",
+        "completed_at": "2026-11-25T02:25:59Z"
+      },
+      {
+        "name": "Post Configurar Java",
+        "number": 13,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:25:59Z",
+        "completed_at": "2026-11-25T02:25:59Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 14,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:25:59Z",
+        "completed_at": "2026-11-25T02:26:00Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 15,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:26:00Z",
+        "completed_at": "2026-11-25T02:26:00Z"
+      }
+    ]
+  },
+  {
+    "id": 138931123152,
+    "name": "Contrato da publicação",
+    "run_id": 45532537244,
+    "run_attempt": 1,
+    "head_sha": "f81b50105797c4e10f18b24eba15d8cf74d70822",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-25T02:23:00Z",
+    "started_at": "2026-11-25T02:23:03Z",
+    "completed_at": "2026-11-25T02:23:14Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45532537244/job/138931123152",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:04Z",
+        "completed_at": "2026-11-25T02:23:05Z"
+      },
+      {
+        "name": "Run actions/checkout@v5",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:05Z",
+        "completed_at": "2026-11-25T02:23:09Z"
+      },
+      {
+        "name": "Run actions/setup-python@v6",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:09Z",
+        "completed_at": "2026-11-25T02:23:10Z"
+      },
+      {
+        "name": "Run python -m unittest discover -s docs/scripts -p 'test_deploy.py' -v",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:10Z",
+        "completed_at": "2026-11-25T02:23:11Z"
+      },
+      {
+        "name": "Post Run actions/setup-python@v6",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:11Z",
+        "completed_at": "2026-11-25T02:23:11Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v5",
+        "number": 8,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:11Z",
+        "completed_at": "2026-11-25T02:23:11Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 9,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:11Z",
+        "completed_at": "2026-11-25T02:23:11Z"
+      }
+    ]
+  },
+  {
+    "id": 138931123180,
+    "name": "Ambiente de autenticação (windows-latest)",
+    "run_id": 45532537244,
+    "run_attempt": 1,
+    "head_sha": "f81b50105797c4e10f18b24eba15d8cf74d70822",
+    "status": "completed",
+    "conclusion": "success",
+    "created_at": "2026-11-25T02:23:00Z",
+    "started_at": "2026-11-25T02:23:02Z",
+    "completed_at": "2026-11-25T02:23:23Z",
+    "html_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45532537244/job/138931123180",
+    "steps": [
+      {
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:03Z",
+        "completed_at": "2026-11-25T02:23:04Z"
+      },
+      {
+        "name": "Checkout",
+        "number": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:04Z",
+        "completed_at": "2026-11-25T02:23:09Z"
+      },
+      {
+        "name": "Configurar Python",
+        "number": 3,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:09Z",
+        "completed_at": "2026-11-25T02:23:09Z"
+      },
+      {
+        "name": "Testar geração e atualização do ambiente no Bash",
+        "number": 4,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:09Z",
+        "completed_at": "2026-11-25T02:23:19Z"
+      },
+      {
+        "name": "Post Configurar Python",
+        "number": 7,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:19Z",
+        "completed_at": "2026-11-25T02:23:20Z"
+      },
+      {
+        "name": "Post Checkout",
+        "number": 8,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:20Z",
+        "completed_at": "2026-11-25T02:23:21Z"
+      },
+      {
+        "name": "Complete job",
+        "number": 9,
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-11-25T02:23:21Z",
+        "completed_at": "2026-11-25T02:23:21Z"
+      }
+    ]
+  }
+]
