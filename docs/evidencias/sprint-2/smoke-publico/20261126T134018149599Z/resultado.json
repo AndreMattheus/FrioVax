@@ -1,0 +1,245 @@
+{
+  "schema": 1,
+  "inicio": "2026-11-26T13:40:18.149932Z",
+  "base_url": "https://friovax.onrender.com",
+  "modo": "publico",
+  "chamadas": [
+    {
+      "etapa": "partida",
+      "metodo": "GET",
+      "caminho": "/api/status",
+      "inicio": "2026-11-26T13:40:22.814112Z",
+      "fim": "2026-11-26T13:40:23.407295Z",
+      "segundos": 0.5931646999961231,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "saude",
+      "metodo": "GET",
+      "caminho": "/q/health/live",
+      "inicio": "2026-11-26T13:40:23.407468Z",
+      "fim": "2026-11-26T13:40:23.700209Z",
+      "segundos": 0.2927273000095738,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "saude",
+      "metodo": "GET",
+      "caminho": "/q/health/ready",
+      "inicio": "2026-11-26T13:40:23.700343Z",
+      "fim": "2026-11-26T13:40:24.102454Z",
+      "segundos": 0.4021015000034822,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "openapi",
+      "metodo": "GET",
+      "caminho": "/q/openapi?format=json",
+      "inicio": "2026-11-26T13:40:24.102600Z",
+      "fim": "2026-11-26T13:40:24.463352Z",
+      "segundos": 0.36073949999990873,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "swagger",
+      "metodo": "GET",
+      "caminho": "/q/swagger-ui/",
+      "inicio": "2026-11-26T13:40:24.466595Z",
+      "fim": "2026-11-26T13:40:25.224547Z",
+      "segundos": 0.7579334000038216,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "text/html",
+      "aprovado": true
+    },
+    {
+      "etapa": "inventario_anonimo",
+      "metodo": "GET",
+      "caminho": "/api/camaras",
+      "inicio": "2026-11-26T13:40:25.224662Z",
+      "fim": "2026-11-26T13:40:25.517473Z",
+      "segundos": 0.2927990000025602,
+      "http": 401,
+      "http_esperado": 401,
+      "content_type": "",
+      "aprovado": true
+    },
+    {
+      "etapa": "historico_anonimo",
+      "metodo": "GET",
+      "caminho": "/api/ocorrencias",
+      "inicio": "2026-11-26T13:40:25.517581Z",
+      "fim": "2026-11-26T13:40:25.819315Z",
+      "segundos": 0.3017211000114912,
+      "http": 401,
+      "http_esperado": 401,
+      "content_type": "",
+      "aprovado": true
+    }
+  ],
+  "comandos_github": [
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?branch=main&status=success&per_page=100"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/actions/runs/45830378267"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/actions/runs/45830378267/jobs?per_page=100"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/deployments?environment=producao&sha=262c97d4282324774239ad5170a5276cc85aa9ea&per_page=100"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/deployments/8086685428/statuses?per_page=100"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/deployments/8086682733/statuses?per_page=100"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/commits/main"
+    ]
+  ],
+  "resultado": "parcial_publico_aprovado",
+  "publicacao_antes": {
+    "sha": "262c97d4282324774239ad5170a5276cc85aa9ea",
+    "run": 45830378267,
+    "run_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45830378267",
+    "job": 139945274762,
+    "job_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45830378267/job/139945274762",
+    "deployment": 8086685428,
+    "success_em": "2026-11-26T13:37:08Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:34:06Z",
+        "completed_at": "2026-11-26T13:34:07Z"
+      },
+      {
+        "name": "Run actions/checkout@v5",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:34:07Z",
+        "completed_at": "2026-11-26T13:34:08Z"
+      },
+      {
+        "name": "Run actions/setup-python@v6",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:34:08Z",
+        "completed_at": "2026-11-26T13:34:08Z"
+      },
+      {
+        "name": "Registrar deployment",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:34:08Z",
+        "completed_at": "2026-11-26T13:34:09Z"
+      },
+      {
+        "name": "Conferir CI e configuração",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:34:09Z",
+        "completed_at": "2026-11-26T13:34:10Z"
+      },
+      {
+        "name": "Migrar banco (sem saída sensível)",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:34:10Z",
+        "completed_at": "2026-11-26T13:35:05Z"
+      },
+      {
+        "name": "Aplicar e conferir permissoes do usuario da API",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:35:05Z",
+        "completed_at": "2026-11-26T13:35:15Z"
+      },
+      {
+        "name": "Publicar SHA e esperar Render",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:35:15Z",
+        "completed_at": "2026-11-26T13:36:57Z"
+      },
+      {
+        "name": "Saúde e smoke autenticado",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:36:57Z",
+        "completed_at": "2026-11-26T13:37:08Z"
+      },
+      {
+        "name": "Registrar resultado final",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:37:08Z",
+        "completed_at": "2026-11-26T13:37:08Z"
+      },
+      {
+        "name": "Post Run actions/setup-python@v6",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:37:08Z",
+        "completed_at": "2026-11-26T13:37:08Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v5",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:37:08Z",
+        "completed_at": "2026-11-26T13:37:09Z"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success",
+        "started_at": "2026-11-26T13:37:09Z",
+        "completed_at": "2026-11-26T13:37:09Z"
+      }
+    ]
+  },
+  "openapi": {
+    "sha256": "1163ed69f128e081057dbb1c5bea937fee1fae7b7d4ea628294f3504e63f3d7d",
+    "rotas_conferidas": [
+      "/api/auth/identidade",
+      "/api/auth/login",
+      "/api/camaras",
+      "/api/camaras/{id}/leituras",
+      "/api/leituras",
+      "/api/ocorrencias"
+    ]
+  },
+  "fim": "2026-11-26T13:40:25.819363Z"
+}

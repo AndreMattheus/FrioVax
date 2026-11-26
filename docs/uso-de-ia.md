@@ -16,6 +16,25 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 
 ## Sprint 2
 
+Registro de 26/11/2026 — OpenAI Codex: apoio à #89 na leitura da publicação
+atual, execução pública sem autenticação (saúde, OpenAPI, Swagger e bloqueio
+anônimo), preparação do script interativo de CRUD, degradação sem Go e
+persistência após redeploy, testes e evidências sanitizadas. Arthur optou por
+digitar credenciais no próprio terminal; o agente não as recebeu nem declarou
+as etapas autenticadas realizadas. Arthur deve executar/conferir o ensaio
+completo; Leonardo deve revisar código e evidências reais antes do aceite.
+Na primeira execução autenticada de Arthur, o 503 levou 2,746 s e o script
+interrompeu pelo limite local de 2 s. Apoio à correção: preservar a execução
+incompleta, exigir orçamento público explícito, consultar estado mesmo ao
+excedê-lo e conferir a origem/identidade da fixture anterior antes de inativar.
+O prazo local da #83 não foi alterado; nova execução e persistência remota
+ficaram pendentes até evidência real. Arthur então executou o roteiro completo:
+`smoke-publico/20261126T133357359660Z`, aprovado, com 503 em 1,097 s, estado
+e históricos iguais antes/depois da falha e do redeploy, rotação/revogação
+da sessão e inativação das duas fixtures. O agente conferiu JSON/hash e
+repetiu a verificação pública de documentação após o redeploy, sem credenciais.
+Leonardo deve revisar os resultados; a aprovação não foi presumida.
+
 Registro de 25/11/2026 — OpenAI Codex: apoio à atualização da #90 após o
 encerramento do desenvolvimento informado por Arthur: nova extração paginada,
 preservação das fontes e do relatório anterior, apuração no corte real de

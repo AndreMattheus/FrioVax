@@ -1,0 +1,370 @@
+{
+  "schema": 1,
+  "inicio": "2026-11-26T13:22:35.628141Z",
+  "base_url": "https://friovax.onrender.com",
+  "modo": "autenticado",
+  "chamadas": [
+    {
+      "etapa": "partida",
+      "metodo": "GET",
+      "caminho": "/api/status",
+      "inicio": "2026-11-26T13:22:40.535624Z",
+      "fim": "2026-11-26T13:22:40.828634Z",
+      "segundos": 0.29299149999860674,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "saude",
+      "metodo": "GET",
+      "caminho": "/q/health/live",
+      "inicio": "2026-11-26T13:22:40.828842Z",
+      "fim": "2026-11-26T13:22:41.376316Z",
+      "segundos": 0.5474577999993926,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "saude",
+      "metodo": "GET",
+      "caminho": "/q/health/ready",
+      "inicio": "2026-11-26T13:22:41.376515Z",
+      "fim": "2026-11-26T13:22:41.780456Z",
+      "segundos": 0.40392789999896195,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "openapi",
+      "metodo": "GET",
+      "caminho": "/q/openapi?format=json",
+      "inicio": "2026-11-26T13:22:41.780638Z",
+      "fim": "2026-11-26T13:22:42.132757Z",
+      "segundos": 0.35210789999109693,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "swagger",
+      "metodo": "GET",
+      "caminho": "/q/swagger-ui/",
+      "inicio": "2026-11-26T13:22:42.135594Z",
+      "fim": "2026-11-26T13:22:42.665788Z",
+      "segundos": 0.5301803999900585,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "text/html",
+      "aprovado": true
+    },
+    {
+      "etapa": "inventario_anonimo",
+      "metodo": "GET",
+      "caminho": "/api/camaras",
+      "inicio": "2026-11-26T13:22:42.665957Z",
+      "fim": "2026-11-26T13:22:42.944445Z",
+      "segundos": 0.27847730000212323,
+      "http": 401,
+      "http_esperado": 401,
+      "content_type": "",
+      "aprovado": true
+    },
+    {
+      "etapa": "historico_anonimo",
+      "metodo": "GET",
+      "caminho": "/api/ocorrencias",
+      "inicio": "2026-11-26T13:22:42.944587Z",
+      "fim": "2026-11-26T13:22:43.232362Z",
+      "segundos": 0.2877611000003526,
+      "http": 401,
+      "http_esperado": 401,
+      "content_type": "",
+      "aprovado": true
+    },
+    {
+      "etapa": "login",
+      "metodo": "POST",
+      "caminho": "/api/auth/login",
+      "inicio": "2026-11-26T13:26:25.973644Z",
+      "fim": "2026-11-26T13:26:30.669601Z",
+      "segundos": 4.695935299998382,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "identidade",
+      "metodo": "GET",
+      "caminho": "/api/auth/identidade",
+      "inicio": "2026-11-26T13:26:30.669830Z",
+      "fim": "2026-11-26T13:26:31.167551Z",
+      "segundos": 0.4977087000006577,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "inventario",
+      "metodo": "GET",
+      "caminho": "/api/camaras?page=0&size=1",
+      "inicio": "2026-11-26T13:26:31.167737Z",
+      "fim": "2026-11-26T13:26:36.065237Z",
+      "segundos": 4.897489800001495,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "criar_camara",
+      "metodo": "POST",
+      "caminho": "/api/camaras",
+      "inicio": "2026-11-26T13:26:36.065441Z",
+      "fim": "2026-11-26T13:26:37.762142Z",
+      "segundos": 1.6966913999931421,
+      "http": 201,
+      "http_esperado": 201,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "atualizar_camara",
+      "metodo": "PUT",
+      "caminho": "/api/camaras/2",
+      "inicio": "2026-11-26T13:26:37.762329Z",
+      "fim": "2026-11-26T13:26:40.462715Z",
+      "segundos": 2.700373199986643,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "antes_falha_camara",
+      "metodo": "GET",
+      "caminho": "/api/camaras/2",
+      "inicio": "2026-11-26T13:26:40.462899Z",
+      "fim": "2026-11-26T13:26:41.861401Z",
+      "segundos": 1.398489300001529,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "antes_falha_leituras",
+      "metodo": "GET",
+      "caminho": "/api/camaras/2/leituras?page=0&size=100",
+      "inicio": "2026-11-26T13:26:41.861591Z",
+      "fim": "2026-11-26T13:26:42.763788Z",
+      "segundos": 0.9021843999944394,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "antes_falha_ocorrencias",
+      "metodo": "GET",
+      "caminho": "/api/ocorrencias?camaraId=2&page=0&size=100",
+      "inicio": "2026-11-26T13:26:42.763999Z",
+      "fim": "2026-11-26T13:26:43.723199Z",
+      "segundos": 0.9591883999964921,
+      "http": 200,
+      "http_esperado": 200,
+      "content_type": "application/json",
+      "aprovado": true
+    },
+    {
+      "etapa": "leitura_sem_go",
+      "metodo": "POST",
+      "caminho": "/api/leituras",
+      "inicio": "2026-11-26T13:26:43.723401Z",
+      "fim": "2026-11-26T13:26:46.469424Z",
+      "segundos": 2.7460125999932643,
+      "http": 503,
+      "http_esperado": 503,
+      "content_type": "application/problem+json",
+      "aprovado": true
+    },
+    {
+      "etapa": "encerrar_sessao",
+      "metodo": "POST",
+      "caminho": "/api/auth/logout",
+      "inicio": "2026-11-26T13:26:46.469610Z",
+      "fim": "2026-11-26T13:26:47.225560Z",
+      "segundos": 0.7559394999989308,
+      "http": 204,
+      "http_esperado": 204,
+      "content_type": "",
+      "aprovado": true
+    }
+  ],
+  "comandos_github": [
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?branch=main&status=success&per_page=100"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/actions/runs/45823840534"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/actions/runs/45823840534/jobs?per_page=100"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/deployments?environment=producao&sha=262c97d4282324774239ad5170a5276cc85aa9ea&per_page=100"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/deployments/8085739634/statuses?per_page=100"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/deployments/8085737259/statuses?per_page=100"
+    ],
+    [
+      "gh",
+      "api",
+      "--paginate",
+      "--slurp",
+      "repos/AndreMattheus/FrioVax/commits/main"
+    ]
+  ],
+  "resultado": "incompleto",
+  "publicacao_antes": {
+    "sha": "262c97d4282324774239ad5170a5276cc85aa9ea",
+    "run": 45823840534,
+    "run_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45823840534",
+    "job": 139922740845,
+    "job_url": "https://github.com/AndreMattheus/FrioVax/actions/runs/45823840534/job/139922740845",
+    "deployment": 8085739634,
+    "success_em": "2026-11-26T12:57:01Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:53:19Z",
+        "completed_at": "2026-11-26T12:53:20Z"
+      },
+      {
+        "name": "Run actions/checkout@v5",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:53:20Z",
+        "completed_at": "2026-11-26T12:53:21Z"
+      },
+      {
+        "name": "Run actions/setup-python@v6",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:53:21Z",
+        "completed_at": "2026-11-26T12:53:21Z"
+      },
+      {
+        "name": "Registrar deployment",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:53:21Z",
+        "completed_at": "2026-11-26T12:53:22Z"
+      },
+      {
+        "name": "Conferir CI e configuração",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:53:22Z",
+        "completed_at": "2026-11-26T12:53:23Z"
+      },
+      {
+        "name": "Migrar banco (sem saída sensível)",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:53:23Z",
+        "completed_at": "2026-11-26T12:54:09Z"
+      },
+      {
+        "name": "Aplicar e conferir permissoes do usuario da API",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:54:09Z",
+        "completed_at": "2026-11-26T12:54:16Z"
+      },
+      {
+        "name": "Publicar SHA e esperar Render",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:54:16Z",
+        "completed_at": "2026-11-26T12:56:50Z"
+      },
+      {
+        "name": "Saúde e smoke autenticado",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:56:50Z",
+        "completed_at": "2026-11-26T12:57:00Z"
+      },
+      {
+        "name": "Registrar resultado final",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:57:00Z",
+        "completed_at": "2026-11-26T12:57:01Z"
+      },
+      {
+        "name": "Post Run actions/setup-python@v6",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:57:01Z",
+        "completed_at": "2026-11-26T12:57:01Z"
+      },
+      {
+        "name": "Post Run actions/checkout@v5",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:57:01Z",
+        "completed_at": "2026-11-26T12:57:01Z"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success",
+        "started_at": "2026-11-26T12:57:01Z",
+        "completed_at": "2026-11-26T12:57:01Z"
+      }
+    ]
+  },
+  "openapi": {
+    "sha256": "1163ed69f128e081057dbb1c5bea937fee1fae7b7d4ea628294f3504e63f3d7d",
+    "rotas_conferidas": [
+      "/api/auth/identidade",
+      "/api/auth/login",
+      "/api/camaras",
+      "/api/camaras/{id}/leituras",
+      "/api/leituras",
+      "/api/ocorrencias"
+    ]
+  },
+  "fixture_pendente": {
+    "id": 2,
+    "acao": "conferir e inativar somente a fixture criada nesta execução"
+  },
+  "falha": "Resposta 503 excedeu o limite de tempo configurado.",
+  "fim": "2026-11-26T13:26:47.225706Z"
+}
