@@ -115,6 +115,7 @@ jobs:
           path: |
             api/target/surefire-reports/
             api/target/failsafe-reports/
+            api/target/fluxo-real/
           if-no-files-found: warn
 
   smoke:
