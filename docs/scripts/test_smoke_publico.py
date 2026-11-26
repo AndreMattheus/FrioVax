@@ -25,11 +25,13 @@ class Resposta(io.BytesIO):
 
 
 class ClienteFalso:
-    def __init__(self, fantasma=False, tempo=.1):
+    def __init__(self, fantasma=False, tempo=.1, capacidade=120):
+        self.base = "https://friovax.onrender.com"
         self.etapas = []
         self.codigo = None
         self.fantasma = fantasma
         self.tempo = tempo
+        self.capacidade = capacidade
 
     def chamar(self, etapa, caminho, esperado, metodo="GET", corpo=None, token=None, **kwargs):
         self.etapas.append(etapa)
@@ -42,7 +44,7 @@ class ClienteFalso:
             self.codigo = corpo["codigo"]
             o = {"id": 99, "codigo": self.codigo}
         elif etapa.endswith("_camara"):
-            o = {"id": 99, "codigo": self.codigo, "capacidade": 120, "ativo": True}
+            o = {"id": 99, "codigo": self.codigo, "capacidade": self.capacidade, "ativo": True}
         elif etapa.endswith(("_leituras", "_ocorrencias")):
             n = 1 if self.fantasma and etapa == "depois_falha_leituras" else 0
             o = {"items": [{}] if n else [], "totalElements": n}
@@ -59,6 +61,61 @@ class SmokePublicoTest(unittest.TestCase):
             with self.subTest(url=url), self.assertRaises(m.Falha):
                 m.origem(url)
         self.assertEqual("https://friovax.onrender.com", m.origem("https://friovax.onrender.com/"))
+        self.assertEqual("https://friovax.onrender.com", m.origem("https://FRIOVAX.onrender.com:443/"))
+
+    def test_put_200_sem_capacidade_persistida_reprova_antes_da_leitura(self):
+        for capacidade in (100, None):
+            with self.subTest(capacidade=capacidade):
+                c = ClienteFalso(capacidade=capacidade)
+                r = {"publicacao_antes": {"sha": "a" * 40, "deployment": 1}}
+                gh = Mock()
+                with self.assertRaisesRegex(m.Falha, "Capacidade 120"):
+                    m.autenticado(c, gh, r, "teste", "SENHA-SEGREDA", True, 2)
+                self.assertIn("atualizar_camara", c.etapas)
+                self.assertNotIn("leitura_sem_go", c.etapas)
+                gh.redeploy.assert_not_called()
+                self.assertEqual(capacidade, r["fixture"]["antes"]["camara"]["capacidade"])
+
+    def test_url_divergente_bloqueia_antes_de_enviar_credenciais(self):
+        r = {"publicacao_antes": {"sha": "a" * 40, "deployment": 1}}
+        c = ClienteFalso()
+        c.base = "https://outro.example"
+        gh = m.GitHub(r)
+        gh.api = Mock(return_value={"value": "https://friovax.onrender.com"})
+        gh.executar = Mock()
+        with self.assertRaises(m.Falha):
+            m.autenticado(c, gh, r, "teste", "SENHA-SEGREDA", True, 2)
+        self.assertEqual([], c.etapas)
+        gh.executar.assert_not_called()
+
+    def test_destino_exige_url_configurada_e_url_do_deployment(self):
+        gh = m.GitHub({})
+        gh.api = Mock(return_value={"value": "https://friovax.onrender.com/"})
+        publicacao = {"ambiente": "producao", "base_url": "https://friovax.onrender.com"}
+        gh.validar_destino("https://FRIOVAX.onrender.com:443", publicacao)
+        for ambiente, url in [("homologacao", publicacao["base_url"]),
+                              ("producao", "https://outro.example"), ("producao", None)]:
+            with self.subTest(ambiente=ambiente, url=url), self.assertRaises(m.Falha):
+                gh.validar_destino(publicacao["base_url"], {"ambiente": ambiente, "base_url": url})
+        gh.api.return_value = {"value": ""}
+        with self.assertRaises(m.Falha):
+            gh.validar_destino(publicacao["base_url"])
+
+    def test_redeploy_revalida_destino_antes_do_dispatch_e_apos_publicacao(self):
+        gh = m.GitHub({})
+        gh.api = Mock(return_value={"value": "https://outro.example"})
+        gh.executar = Mock()
+        with self.assertRaises(m.Falha):
+            gh.redeploy("a" * 40, "https://friovax.onrender.com")
+        gh.executar.assert_not_called()
+        cfg = {"value": "https://friovax.onrender.com"}
+        gh.api.side_effect = [cfg, {"sha": "a" * 40}, [{"id": 1}],
+                             [{"id": 2, "head_sha": "a" * 40, "head_branch": "main",
+                               "status": "completed", "conclusion": "success"}], cfg]
+        gh.publicacao = Mock(return_value={"ambiente": "producao", "base_url": "https://outro.example"})
+        with self.assertRaises(m.Falha):
+            gh.redeploy("a" * 40, "https://friovax.onrender.com")
+        gh.executar.assert_called_once_with(["workflow", "run", "deploy.yml", "--repo", m.REPO, "--ref", "main"])
 
     def test_redirecionamento_com_bearer_nao_e_seguido(self):
         self.assertIsNone(m.SemRedirect().redirect_request(None, None, 302, "", {}, "https://outro.example"))
@@ -162,6 +219,8 @@ class SmokePublicoTest(unittest.TestCase):
         gh = Mock()
         gh.redeploy.return_value = {"sha": "a" * 40, "deployment": 2}
         m.autenticado(c, gh, r, "teste", "SENHA-SEGREDA", True, 2)
+        gh.validar_destino.assert_called_once_with(c.base, r["publicacao_antes"])
+        gh.redeploy.assert_called_once_with("a" * 40, c.base)
         self.assertEqual(r["fixture"]["antes"], r["fixture"]["depois_falha"])
         self.assertEqual(r["fixture"]["antes"], r["fixture"]["depois_redeploy"])
         self.assertTrue(r["fixture"]["inativada"])
@@ -203,6 +262,7 @@ class SmokePublicoTest(unittest.TestCase):
         self.assertEqual(8086685428, r["publicacao_depois"]["deployment"])
         f = r["fixture"]
         self.assertEqual(3, f["id"])
+        self.assertEqual(120, f["antes"]["camara"]["capacidade"])
         self.assertEqual(f["antes"], f["depois_falha"])
         self.assertEqual(f["antes"], f["depois_redeploy"])
         self.assertEqual(0, f["depois_falha"]["leituras"])

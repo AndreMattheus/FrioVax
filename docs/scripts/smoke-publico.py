@@ -41,7 +41,14 @@ def origem(url):
     exigir(p.scheme == "https" and bool(p.hostname) and not p.username and not p.password
            and p.path in ("", "/") and not p.query and not p.fragment,
            "Use apenas a origem HTTPS pública, sem credenciais, caminho ou query.")
-    return url.rstrip("/")
+    try:
+        porta = p.port
+    except ValueError:
+        raise Falha("Porta HTTPS inválida.") from None
+    host = p.hostname.lower()
+    if ":" in host:
+        host = f"[{host}]"
+    return f"https://{host}" + (f":{porta}" if porta is not None and porta != 443 else "")
 
 
 class SemRedirect(urllib.request.HTTPRedirectHandler):
@@ -132,6 +139,7 @@ class GitHub:
         d, s = max(aprovados, key=lambda par: par[0]["created_at"])
         return {"sha": sha, "run": run["id"], "run_url": run["html_url"], "job": j["id"],
                 "job_url": j["html_url"], "deployment": d["id"], "success_em": s["created_at"],
+                "ambiente": d["environment"], "base_url": origem(s.get("environment_url") or ""),
                 "steps": [{k: v.get(k) for k in ("name", "conclusion", "started_at", "completed_at")} for v in j["steps"]]}
 
     def atual(self):
@@ -139,7 +147,18 @@ class GitHub:
         exigir(bool(runs), "Nenhuma publicação aprovada localizada.")
         return self.publicacao(runs[0]["id"])
 
-    def redeploy(self, sha):
+    def validar_destino(self, base, publicacao=None):
+        variavel = self.api("environments/producao/variables/API_BASE_URL")
+        destino = origem(variavel.get("value") or "")
+        exigir(origem(base) == destino, "URL testada difere de API_BASE_URL do ambiente producao; redeploy interrompido.")
+        if publicacao is not None:
+            exigir(publicacao.get("ambiente") == "producao" and
+                   origem(publicacao.get("base_url") or "") == destino,
+                   "URL do deployment não corresponde ao ambiente producao testado.")
+        self.relatorio["ambiente_redeploy"] = {"nome": "producao", "base_url": destino}
+
+    def redeploy(self, sha, base):
+        self.validar_destino(base)
         main = self.api("commits/main")
         exigir(main["sha"] == sha, "main mudou desde o início: repetir o smoke na nova versão antes do redeploy.")
         antigos = {r["id"] for r in self.api("actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100", "workflow_runs")}
@@ -151,7 +170,9 @@ class GitHub:
             exigir(len(novos) <= 1, "Mais de um dispatch concorrente: conferir o run antes de associar evidência.")
             if novos and novos[0]["status"] == "completed":
                 exigir(novos[0]["conclusion"] == "success", "Redeploy falhou; conferir o run sem publicar logs sensíveis.")
-                return self.publicacao(novos[0]["id"])
+                publicacao = self.publicacao(novos[0]["id"])
+                self.validar_destino(base, publicacao)
+                return publicacao
             print("Aguardando redeploy da mesma versão...", flush=True)
             time.sleep(15)
         raise Falha("Redeploy não terminou em 40 minutos.")
@@ -240,6 +261,8 @@ def autenticado(c, gh, r, login, senha, redeploy, limite_503, limpar_de=None):
     fixture = None
     encerrada = False
     try:
+        if redeploy:
+            gh.validar_destino(c.base, r["publicacao_antes"])
         o, _, _ = c.chamar("login", "/api/auth/login", 200, "POST", {"login": login, "senha": senha})
         s = sessao(o)
         ident, _, _ = c.chamar("identidade", "/api/auth/identidade", 200, token=s["accessToken"])
@@ -258,6 +281,7 @@ def autenticado(c, gh, r, login, senha, redeploy, limite_503, limpar_de=None):
         c.chamar("atualizar_camara", f"/api/camaras/{fixture}", 200, "PUT", atualizacao, s["accessToken"])
         antes = estado(c, s["accessToken"], fixture, "antes_falha")
         r["fixture"] = {"id": fixture, "codigo": codigo, "antes": antes, "limite_503_s": limite_503}
+        exigir(antes["camara"]["capacidade"] == atualizacao["capacidade"], "Capacidade 120 não foi persistida na consulta após a atualização.")
         leitura = {"idExterno": codigo + "-L1", "camaraId": fixture, "temperatura": 9,
                    "medidaEm": agora(), "origem": "smoke-publico-89"}
         o, _, tempo = c.chamar("leitura_sem_go", "/api/leituras", 503, "POST", leitura, s["accessToken"])
@@ -269,7 +293,7 @@ def autenticado(c, gh, r, login, senha, redeploy, limite_503, limpar_de=None):
         r["sem_go"] = "503 analise-indisponivel; sem leitura/ocorrencia aceita e sem alteração de estado"
         exigir(tempo <= limite_503, "Resposta 503 excedeu o limite de tempo configurado; estado posterior foi conferido.")
         if redeploy:
-            r["publicacao_depois"] = gh.redeploy(r["publicacao_antes"]["sha"])
+            r["publicacao_depois"] = gh.redeploy(r["publicacao_antes"]["sha"], c.base)
             exigir(r["publicacao_depois"]["deployment"] != r["publicacao_antes"]["deployment"], "Redeploy não gerou novo evento.")
             # Refresh persistido no banco sobrevive ao processo; JWT de 15 min pode expirar durante a espera.
             antigo = s["refreshToken"]

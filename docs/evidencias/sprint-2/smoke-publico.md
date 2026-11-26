@@ -78,7 +78,10 @@ python docs/scripts/smoke-publico.py --redeploy --limite-503 10
 ```
 
 O comando pede senha oculta, cria apenas uma fixture própria e dispara um
-redeploy real de **main**, não da branch de teste. Credenciais/tokens ficam
+redeploy real de **main**, não da branch de teste. A capacidade 120 deve ser
+confirmada pela consulta após o PUT. A URL deve coincidir com `API_BASE_URL`
+do ambiente `producao` e com a URL do deployment; a conferência ocorre antes
+do login, antes do disparo e após a publicação. Credenciais/tokens ficam
 em memória; cada execução gera pasta nova com JSON e hash. O ensaio aprovado
 também usou `--limpar-fixture-de docs/evidencias/sprint-2/smoke-publico/20261126T132235626835Z`
 para conferir e inativar a fixture anterior, mediante hash, origem, identidade
@@ -104,7 +107,7 @@ python -m unittest discover -s docs/scripts -p test_smoke_publico.py -v
 python -m unittest discover -s docs/scripts -p test_deploy.py -v
 ```
 
-**14 testes do smoke e 19 da publicação passaram**, sem acessar produção
+**18 testes do smoke e 19 da publicação passaram**, sem acessar produção
 ou usar credenciais nos testes. Cobrem preservação das evidências, falha sem
 efeitos, tempo excedido, sessão, limpeza restrita e ausência de segredos.
 Revisão de Leonardo, CI verde, integração do PR com `Closes #89` e datas reais
