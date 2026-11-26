@@ -178,22 +178,24 @@ class SmokePublicoTest(unittest.TestCase):
         self.assertNotIn("depois_redeploy", r["fixture"])
         self.assertTrue(r["persistencia"].startswith("não executada"))
 
-    def test_evidencia_publica_real_tem_hash_sem_alegar_autenticacao(self):
-        pasta = m.ROOT / "docs/evidencias/sprint-2/smoke-publico/20261126T130409809684Z"
-        bruto = (pasta / "resultado.json").read_bytes()
-        self.assertEqual(hashlib.sha256(bruto).hexdigest(), (pasta / "resultado.sha256").read_text().strip())
-        r = json.loads(bruto)
-        self.assertEqual("parcial_publico_aprovado", r["resultado"])
-        self.assertEqual("262c97d4282324774239ad5170a5276cc85aa9ea", r["publicacao_antes"]["sha"])
-        self.assertTrue(all(c["aprovado"] for c in r["chamadas"]))
-        self.assertNotIn("fixture", r)
-        self.assertNotIn("persistencia", r)
+    def test_compactacao_preserva_sequencia_e_nao_modifica_medicoes(self):
+        comandos = [["gh", "api", "runs"], ["gh", "api", "jobs"], ["gh", "api", "runs"]]
+        r = {"schema": 1, "comandos_github": comandos, "fixture": {"tempo_503_s": 1.097}}
+        m.compactar_comandos(r)
+        self.assertEqual(comandos, [r["comandos_github"][i] for i in r["sequencia_comandos_github"]])
+        self.assertEqual(2, len(r["comandos_github"]))
+        self.assertEqual(1.097, r["fixture"]["tempo_503_s"])
+        b = json.dumps(r)
+        m.compactar_comandos(r)
+        self.assertEqual(b, json.dumps(r))
 
     def test_evidencia_real_aprovada_confere_degradacao_persistencia_e_sessao(self):
         pasta = m.ROOT / "docs/evidencias/sprint-2/smoke-publico/20261126T133357359660Z"
         bruto = (pasta / "resultado.json").read_bytes()
         self.assertEqual(hashlib.sha256(bruto).hexdigest(), (pasta / "resultado.sha256").read_text().strip())
         r = json.loads(bruto)
+        self.assertEqual(13, len(r["comandos_github"]))
+        self.assertEqual(29, len(r["sequencia_comandos_github"]))
         self.assertEqual("aprovado", r["resultado"])
         self.assertTrue(all(c["aprovado"] for c in r["chamadas"]))
         self.assertEqual(r["publicacao_antes"]["sha"], r["publicacao_depois"]["sha"])
@@ -229,6 +231,9 @@ class SmokePublicoTest(unittest.TestCase):
         bruto = (p / "resultado.json").read_bytes()
         self.assertEqual(hashlib.sha256(bruto).hexdigest(), (p / "resultado.sha256").read_text().strip())
         depois = json.loads(bruto)
+        self.assertEqual("parcial_publico_aprovado", depois["resultado"])
+        self.assertNotIn("fixture", depois)
+        self.assertNotIn("persistencia", depois)
         self.assertEqual(antes["publicacao_depois"]["deployment"], depois["publicacao_antes"]["deployment"])
         self.assertEqual(antes["publicacao_depois"]["sha"], depois["publicacao_antes"]["sha"])
         self.assertEqual(antes["openapi"]["sha256"], depois["openapi"]["sha256"])

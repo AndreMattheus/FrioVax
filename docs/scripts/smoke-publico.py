@@ -157,6 +157,22 @@ class GitHub:
         raise Falha("Redeploy não terminou em 40 minutos.")
 
 
+def compactar_comandos(r):
+    """Deduplica consultas repetidas, conservando a sequência integral por índices."""
+    if "sequencia_comandos_github" in r:
+        return
+    comandos = r.get("comandos_github", [])
+    distintos, indices, sequencia = [], {}, []
+    for comando in comandos:
+        chave = tuple(comando)
+        if chave not in indices:
+            indices[chave] = len(distintos)
+            distintos.append(comando)
+        sequencia.append(indices[chave])
+    if len(distintos) < len(comandos):
+        r.update(schema=2, comandos_github=distintos, sequencia_comandos_github=sequencia)
+
+
 def publico(c, r):
     limite = time.monotonic() + 300
     while True:
@@ -337,6 +353,7 @@ def main():
         print(r["falha"], file=sys.stderr)
     finally:
         r["fim"] = agora()
+        compactar_comandos(r)
         conteudo = (json.dumps(r, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
         (destino / "resultado.json").write_bytes(conteudo)
         (destino / "resultado.sha256").write_bytes((hashlib.sha256(conteudo).hexdigest() + "\n").encode("ascii"))

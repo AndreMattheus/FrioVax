@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "inicio": "2026-11-26T13:33:57.360003Z",
   "base_url": "https://friovax.onrender.com",
   "modo": "autenticado",
@@ -480,13 +480,6 @@
       "api",
       "--paginate",
       "--slurp",
-      "repos/AndreMattheus/FrioVax/commits/main"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
       "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
     ],
     [
@@ -504,104 +497,6 @@
       "api",
       "--paginate",
       "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/actions/workflows/deploy.yml/runs?event=workflow_dispatch&per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
       "repos/AndreMattheus/FrioVax/actions/runs/45830378267"
     ],
     [
@@ -610,13 +505,6 @@
       "--paginate",
       "--slurp",
       "repos/AndreMattheus/FrioVax/actions/runs/45830378267/jobs?per_page=100"
-    ],
-    [
-      "gh",
-      "api",
-      "--paginate",
-      "--slurp",
-      "repos/AndreMattheus/FrioVax/deployments?environment=producao&sha=262c97d4282324774239ad5170a5276cc85aa9ea&per_page=100"
     ],
     [
       "gh",
@@ -903,5 +791,40 @@
   },
   "persistencia": "dados e refresh preservados; rotação de refresh e JWT válidos após redeploy",
   "sessao": "logout revoga refresh; access JWT continua válido até expirar, conforme desenho",
-  "fim": "2026-11-26T13:38:16.639801Z"
+  "fim": "2026-11-26T13:38:16.639801Z",
+  "sequencia_comandos_github": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    6,
+    7,
+    8,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    9,
+    10,
+    3,
+    11,
+    12
+  ],
+  "fonte_original": {
+    "commit": "741cbc14ddc128a8d41c9695f1c70c3d8dda9747",
+    "sha256": "ce0360e7917f9632488debbb48d6144f8716ccfac7bc502749ee63bfb3139649"
+  }
 }
