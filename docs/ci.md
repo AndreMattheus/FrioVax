@@ -26,6 +26,34 @@ o contêiner e seus volumes temporários e confere o JAR executável do Quarkus.
 Os relatórios Surefire/Failsafe ficam no
 artifact `java-test-reports` do workflow, inclusive quando um teste falha.
 
+## Fluxo real Java–Go–banco
+
+`FluxoJavaGoPostgresTest` (S2-20, #83) faz parte do mesmo `mvn verify` e não
+tem configuração própria para o CI. Ele usa o PostgreSQL da suíte (Dev Services
+localmente, o banco exclusivo do script no CI) e constrói com Testcontainers a
+imagem de `services/telemetry` pelo mesmo Dockerfile do Compose. O cliente gRPC
+da API fala com esse binário Go pelo transporte real, com o prazo de produção
+(800 ms); os tokens vêm de `/api/auth/login` com as contas de teste
+provisionadas pela própria API.
+
+| Cenário | O que confere |
+|---|---|
+| Três leituras inseguras, N=3 | Ocorrência com evidências, lotes e política; reenvio da terceira devolve 200 sem nova RPC, ocorrência ou abertura auditada; autor e correlação da abertura |
+| Lote com duas câmaras | Uma RPC com duas janelas; 9, 9, 9, 4 abre na terceira, zera na quarta e mantém o alerta; a outra câmara não abre; reenvio não duplica leitura, ocorrência nem auditoria |
+| Go parado (`docker stop`) | 503 `/problemas/analise-indisponivel` em até 2 s para leitura e lote; nada gravado; inventário e histórico 200; ao voltar, a mesma chave abre a ocorrência |
+| Go sem responder (`docker pause`) | Mesmo resultado pelo esgotamento do prazo da RPC |
+| Segura seguida de resolução | 409 antes da segura; depois, `RESOLVIDA` com o administrador autenticado e a leitura de resolução; a sequência seguinte abre outra ocorrência |
+
+Os tempos medidos das falhas controladas ficam em
+`api/target/fluxo-real/relatorio.json`, publicado no artifact
+`java-test-reports` junto com os relatórios Surefire. A primeira execução numa
+máquina baixa `golang:1.27-alpine` e `alpine:3.22`; as seguintes reaproveitam o
+cache de camadas do Docker. Para rodar só esta suíte:
+
+```sh
+mise exec -- mvn --batch-mode -f api/pom.xml test -Dtest=FluxoJavaGoPostgresTest
+```
+
 ## Formatação Java
 
 O Spotless 3.12.0 verifica `src/main/java` e `src/test/java`, sem incluir classes
