@@ -1,5 +1,14 @@
 # ADR 0003 — Serviço Go de telemetria e regras térmicas
 
+## Atualização operacional — 27/11/2026
+
+A análise e a integração estão implementadas, incluindo leituras individuais/em lote,
+abertura e resolução de ocorrências. O [ensaio com Go e banco reais](../evidencias/sprint-2/validacao/fluxo-real-83.md)
+registrou detecção, idempotência, indisponibilidade e prazo. O
+[Compose atual](../containers.md) inicia Java sem depender da saúde de Go;
+consultas continuam disponíveis sem análise. O contexto datado abaixo preserva
+as pendências existentes do período de 17/11.
+
 - **Status:** Vigente
 - **Data:** 04/11/2026
 - **Issue:** [#67](https://github.com/AndreMattheus/FrioVax/issues/67)

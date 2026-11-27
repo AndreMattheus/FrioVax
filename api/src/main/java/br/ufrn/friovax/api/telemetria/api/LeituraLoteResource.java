@@ -40,6 +40,7 @@ import static br.ufrn.friovax.api.autenticacao.dominio.MatrizAcesso.REGISTRAR_LE
 @Produces(MediaType.APPLICATION_JSON)
 @Tag(name = DocumentacaoApi.TAG_LEITURAS)
 @SecurityRequirement(name = "bearerAuth")
+@APIResponse(responseCode = "500", ref = DocumentacaoApi.ERRO_INTERNO)
 public class LeituraLoteResource {
 
     private final ReceberLeiturasEmLote receberLote;

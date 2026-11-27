@@ -4,7 +4,7 @@ Todas as rotas de câmaras, lotes e leituras exigem `Authorization: Bearer <acce
 
 | Permissão | Administrador | Operador | Auditor | Aplicação |
 |---|:---:|:---:|:---:|---|
-| `consultar-operacao` | Sim | Sim | Sim | GET de câmaras (inclusive política e versões), lotes, leituras e ocorrências |
+| `consultar-operacao` | Sim | Sim | Sim | GET de câmaras (inclusive política e versões), lotes, leituras, ocorrências e resumo |
 | `gerenciar-cadastro` | Sim | Não | Não | POST, PUT e DELETE de câmaras e lotes |
 | `registrar-baixa` | Sim | Sim | Não | POST de baixas |
 | `descartar-lote` | Sim | Não | Não | POST de descarte |
@@ -13,7 +13,7 @@ Todas as rotas de câmaras, lotes e leituras exigem `Authorization: Bearer <acce
 | `resolver-incidente` | Sim | Não | Não | `POST /api/ocorrencias/{id}/resolucao` |
 | `consultar-trilha` | Sim | Não | Sim | `GET /api/auditoria` (trilha de auditoria) |
 
-As guardas futuras já têm testes HTTP em resources exclusivos de teste; as respectivas funcionalidades devem aplicar essas guardas e testar suas rotas reais quando forem implementadas. Os contadores de execução e chamada externa nesses resources são simulados; nenhuma chamada Go real é feita por eles.
+As funcionalidades entregues aplicam as guardas em suas rotas reais. Os resources exclusivos de teste continuam verificando as permissões isoladamente; seus contadores são simulados. O fluxo com Go real é comprovado separadamente na [validação integrada](evidencias/sprint-2/validacao/fluxo-real-83.md).
 
 Ausência de Bearer ou token inválido/expirado retorna **401**. JWT válido sem perfil permitido (inclusive sem grupos ou com grupo desconhecido) retorna **403**. A rejeição acontece antes do caso de uso, da persistência e de chamadas externas. Campos extras como `perfil`, `ator` e `usuarioId` são ignorados pelos DTOs atuais e nunca participam da autorização. A trilha de auditoria deriva o ator só do JWT validado: `sub` (UUID), `upn` (login) e o perfil em `groups` ([contrato, §9](contrato-api.md#9-trilha-de-auditoria-sprint-2--82)).
 

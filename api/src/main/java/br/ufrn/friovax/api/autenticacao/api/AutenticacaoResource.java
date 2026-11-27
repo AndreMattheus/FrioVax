@@ -1,5 +1,6 @@
 package br.ufrn.friovax.api.autenticacao.api;
 
+import br.ufrn.friovax.api.compartilhado.api.DocumentacaoApi;
 import br.ufrn.friovax.api.autenticacao.aplicacao.AutenticacaoService;
 import br.ufrn.friovax.api.autenticacao.dominio.AutenticacaoInvalida;
 import br.ufrn.friovax.api.autenticacao.dominio.Identidade;
@@ -30,6 +31,7 @@ import java.util.UUID;
 @APIResponse(responseCode = "401", description = "Credenciais, sessão ou token inválidos/expirados. "
         + "Login/renovação/logout retornam Problem Details com mensagem genérica; a rejeição de Bearer "
         + "é realizada pelo mecanismo de segurança do Quarkus.")
+@APIResponse(responseCode = "500", ref = DocumentacaoApi.ERRO_INTERNO)
 public class AutenticacaoResource {
     @Inject AutenticacaoService service;
     @Inject JsonWebToken jwt;

@@ -106,7 +106,7 @@ public class DocumentacaoApi extends Application {
     public static final String ERRO_INTERNO = "ErroInterno";
 
     static final String DESCRICAO = """
-        API de gestão de câmaras de conservação e lotes de imunobiológicos. As regras completas estão em \
+        API de inventário, monitoramento térmico, políticas, ocorrências, resumo e auditoria de imunobiológicos. As regras completas estão em \
         [docs/contrato-api.md](https://github.com/AndreMattheus/FrioVax/blob/main/docs/contrato-api.md).
 
         **Convenções**
@@ -114,7 +114,7 @@ public class DocumentacaoApi extends Application {
         - Rotas, campos, filtros e mensagens em português, sem acentos nos identificadores.
         - `id` é o identificador técnico usado nas rotas; `codigo` é o identificador de negócio, imutável e único \
         entre todos os registros, inclusive inativos.
-        - Textos recebem `trim`; texto vazio após o `trim` é tratado como ausente. `codigo` é convertido para \
+        - Textos de cadastro recebem `trim`; `idExterno` de leitura preserva espaços e maiúsculas. `codigo` é convertido para \
         maiúsculas antes de validar e comparar (`cam-01` e `CAM-01` são o mesmo código).
         - Campos desconhecidos e campos somente leitura enviados no body são ignorados.
         - Datas seguem ISO 8601: `validade` é data sem hora (`2027-03-31`); `criadoEm` e `atualizadoEm` são \
@@ -132,7 +132,7 @@ public class DocumentacaoApi extends Application {
 
         **Auditoria e correlação**
 
-        Toda alteração confirmada de câmara ou lote entra na trilha, na mesma transação, com ator, instante e \
+        Mutações efetivas de câmara, lote, política e ocorrência entram na trilha na mesma transação, com ator, instante e \
         correlação. Envie `X-Correlation-Id` (1 a 128 caracteres `A-Z a-z 0-9 . _ : -`) para rastrear a \
         requisição; sem ele, ou fora do formato, o servidor gera um UUID. A resposta sempre devolve o cabeçalho.
 
@@ -150,8 +150,10 @@ public class DocumentacaoApi extends Application {
 
         **Listagens**
 
-        Filtros combinados usam E lógico. Por padrão só aparecem registros ativos (`ativo=true`). A paginação \
-        começa em `page=0`, com `size` de 1 a 100 (padrão 20) e ordenação fixa por `id` crescente.
+        Filtros combinados usam E lógico. No inventário, por padrão aparecem ativos (`ativo=true`). A paginação \
+        começa em `page=0`, com `size` de 1 a 100 (padrão 20). Inventário ordena por `id` crescente; histórico de leituras, \
+        ocorrências, políticas e auditoria segue a ordenação descrita em cada operação. Períodos `[de, ate)` incluem \
+        `de` e excluem `ate`; os instantes exigem offset explícito.
 
         **Erros**
 

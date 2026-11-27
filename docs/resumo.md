@@ -58,7 +58,7 @@ ocorrências também publica o evento por uma porta de domínio, na abertura e n
 resolução, mesmo antes da entrega dos endpoints de telemetria. O publicador
 entrega o evento somente em `afterCompletion(COMMITTED)`: rollback descarta o
 aviso. O resumo observa recursos `camara`, `lote`, `leitura` e `ocorrencia`.
-Futuras mutações de leituras/estado oficial devem publicar o mesmo evento ao
+As mutações entregues de leitura/estado oficial publicam o mesmo evento ao
 final da sua transação. Alterações SQL externas à aplicação só serão percebidas
 na expiração do TTL.
 

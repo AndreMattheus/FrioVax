@@ -1,5 +1,6 @@
 package br.ufrn.friovax.api.telemetria.api;
 
+import br.ufrn.friovax.api.compartilhado.api.DocumentacaoApi;
 import br.ufrn.friovax.api.compartilhado.api.PaginaResponse;
 import br.ufrn.friovax.api.compartilhado.api.ProblemDetails;
 import br.ufrn.friovax.api.telemetria.aplicacao.ConsultarHistorico;
@@ -23,10 +24,9 @@ import static br.ufrn.friovax.api.autenticacao.dominio.MatrizAcesso.CONSULTAR_OP
 @SecurityRequirement(name = "bearerAuth")
 @APIResponse(responseCode = "400", description = "Parâmetros de consulta inválidos.",
         content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetails.class)))
-@APIResponse(responseCode = "401", description = "Bearer ausente, inválido ou expirado.",
-        content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetails.class)))
-@APIResponse(responseCode = "403", description = "Perfil sem permissão.",
-        content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemDetails.class)))
+@APIResponse(responseCode = "401", description = "Bearer ausente, inválido ou expirado.")
+@APIResponse(responseCode = "403", description = "Perfil sem permissão.")
+@APIResponse(responseCode = "500", ref = DocumentacaoApi.ERRO_INTERNO)
 public class LeituraConsultaResource {
     @Inject ConsultarHistorico historico;
     @Context UriInfo uriInfo;

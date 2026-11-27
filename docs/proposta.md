@@ -1,12 +1,28 @@
 # Proposta do projeto — FrioVax
 
+## Estado entregue na Sprint 2 — atualização de 27/11/2026
+
+A proposta e seus compromissos originais são preservados abaixo. O incremento implementa
+US01–US10: inventário, leitura individual/em lote, detecção e resolução de ocorrências,
+histórico, política versionada, resumo com cache e controle de acesso com auditoria.
+Não há corte de funcionalidades aplicado por esta atualização. O perfil AUDITOR,
+além de ADMINISTRADOR e OPERADOR, está descrito na [matriz de acesso](autorizacao.md).
+As duplas atuais de revisão são Matheus ⇄ Bianca e Leonardo ⇄ Arthur, conforme
+[acordo de processo](processo.md); a tabela original da proposta registra a organização inicial.
+
+Java chama Go por gRPC e confirma os efeitos no PostgreSQL. O Compose contém os três
+serviços; a publicação Render/Neon contém apenas Java e banco. Veja o
+[guia de execução](../README.md), o [contrato](contrato-api.md), a
+[validação integrada](evidencias/sprint-2/validacao/fluxo-real-83.md) e o
+[smoke público de 26/11](evidencias/sprint-2/smoke-publico.md).
+
 ## 1. Visão do produto
 
-> Para profissionais e gestores de salas de vacinação e centrais da rede de frio  
-> Que precisam controlar lotes e reagir a condições térmicas que podem comprometer imunobiológicos  
-> O **FrioVax** é uma plataforma backend de gestão e monitoramento da cadeia de frio  
-> Que centraliza inventário, telemetria e ocorrências térmicas rastreáveis  
-> Diferente de planilhas e conferências manuais isoladas  
+> Para profissionais e gestores de salas de vacinação e centrais da rede de frio
+> Que precisam controlar lotes e reagir a condições térmicas que podem comprometer imunobiológicos
+> O **FrioVax** é uma plataforma backend de gestão e monitoramento da cadeia de frio
+> Que centraliza inventário, telemetria e ocorrências térmicas rastreáveis
+> Diferente de planilhas e conferências manuais isoladas
 > Nosso produto processa leituras concorrentemente e mantém a decisão oficial sobre câmaras e lotes em um núcleo transacional.
 
 ### Problema e evidência
