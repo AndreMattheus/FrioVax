@@ -232,7 +232,7 @@ enviadas: uma leitura segura, inclusive nos limites, interrompe a sequência no
 contexto ou nas candidatas. Qualquer divergência invalida a chamada inteira
 (`FalhaDeIntegracao`). Um `WindowError` vira `ResultadoDaJanela.Rejeitada`
 somente para aquela câmara. Endereço, porta e prazo estão descritos no
-[README](../docs/desenvolvimento.md#cliente-grpc-da-análise-térmica).
+[guia de desenvolvimento](../docs/desenvolvimento.md#cliente-grpc-da-análise-térmica).
 
 O [Dockerfile da API](../api/Dockerfile) preserva `api/` e `protos/` como pastas
 irmãs no estágio de build. Consulte os [comandos Docker](../docs/desenvolvimento.md#build-docker-da-api).

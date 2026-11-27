@@ -152,8 +152,9 @@ public class DocumentacaoApi extends Application {
 
         Filtros combinados usam E lógico. No inventário, por padrão aparecem ativos (`ativo=true`). A paginação \
         começa em `page=0`, com `size` de 1 a 100 (padrão 20). Inventário ordena por `id` crescente; histórico de leituras, \
-        ocorrências, políticas e auditoria segue a ordenação descrita em cada operação. Períodos `[de, ate)` incluem \
-        `de` e excluem `ate`; os instantes exigem offset explícito.
+        ocorrências, políticas e auditoria segue a ordenação descrita em cada operação. No histórico de leituras e \
+        ocorrências, o período `[de, ate)` inclui `de` e exclui `ate`; na auditoria, ambos os limites são inclusivos. \
+        Os instantes exigem offset explícito.
 
         **Erros**
 

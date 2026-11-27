@@ -478,7 +478,7 @@ A [diretriz de autorização](autorizacao.md) define a matriz completa, as guard
 
 ## 9. Trilha de auditoria (Sprint 2 — #82)
 
-Toda alteração confirmada de câmara ou lote gera um evento na tabela `eventos_auditoria`, gravado **na mesma transação** da alteração: se a alteração falha ou é desfeita, o evento também some; se o evento não pode ser gravado, a alteração é desfeita. Requisições recusadas (401, 403, 404, 409, 422) não geram evento. Repetições sem efeito também não: um `PUT` com os mesmos valores e um segundo descarte do mesmo lote respondem com sucesso, mas não entram na trilha.
+Toda alteração efetiva e confirmada de câmara, lote, política térmica ou ocorrência gera um evento na tabela `eventos_auditoria`, gravado **na mesma transação** da alteração: se a alteração falha ou é desfeita, o evento também some; se o evento não pode ser gravado, a alteração é desfeita. Requisições recusadas (401, 403, 404, 409, 422) não geram evento. Repetições sem efeito também não: um `PUT` com os mesmos valores e um segundo descarte do mesmo lote respondem com sucesso, mas não entram na trilha.
 
 | Recurso | Operação | Quando |
 |---|---|---|

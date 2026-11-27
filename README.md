@@ -201,7 +201,7 @@ Aloca 20 doses na câmara recém-criada, usando uma validade futura. **Esperado:
 ```powershell
 $lote = Chamar POST /api/lotes 201 @{
     codigo="LOTE-$sufixo"; imunobiologico='Demonstracao'; fabricante='Ficticio'
-    validade=(Get-Date).AddYears(1).ToString('yyyy-MM-dd'); quantidade=20; camaraId=$id
+    validade=(Get-Date).AddYears(1).ToString('yyyy-MM-dd', [cultureinfo]::InvariantCulture); quantidade=20; camaraId=$id
 }
 ```
 
@@ -213,7 +213,7 @@ Envia 9 °C três vezes, em instantes crescentes. Como o limiar inicial é 3, as
 $inicio = [DateTimeOffset]::UtcNow.AddMinutes(-1)
 foreach ($i in 1..3) {
     $entrada = @{idExterno="doc-$sufixo-$i"; camaraId=$id; temperatura=9.0
-        medidaEm=$inicio.AddSeconds($i).ToString('yyyy-MM-ddTHH:mm:ssZ'); origem='README'}
+        medidaEm=$inicio.AddSeconds($i).ToString('yyyy-MM-ddTHH:mm:ssZ', [cultureinfo]::InvariantCulture); origem='README'}
     $leitura = Chamar POST /api/leituras 201 $entrada
     $leitura | Select-Object id, classificacao, sequencia, ocorrenciaAbertaId | Format-List
 }
@@ -238,7 +238,7 @@ Registra 4 °C e consulta o estado da câmara. Uma temperatura segura interrompe
 ```powershell
 $segura = Chamar POST /api/leituras 201 @{
     idExterno="doc-$sufixo-4"; camaraId=$id; temperatura=4.0
-    medidaEm=$inicio.AddSeconds(4).ToString('yyyy-MM-ddTHH:mm:ssZ'); origem='README'
+    medidaEm=$inicio.AddSeconds(4).ToString('yyyy-MM-ddTHH:mm:ssZ', [cultureinfo]::InvariantCulture); origem='README'
 }
 Chamar GET "/api/camaras/$id" 200 | Select-Object estadoTermico | Format-List
 ```
@@ -289,7 +289,7 @@ Para somente o serviço Go e tenta enviar uma leitura nova. Em seguida, consulta
 ```powershell
 docker compose stop telemetry
 $falha = @{idExterno="doc-$sufixo-sem-go"; camaraId=$id; temperatura=9.0
-    medidaEm=[DateTimeOffset]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ'); origem='README'}
+    medidaEm=[DateTimeOffset]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ', [cultureinfo]::InvariantCulture); origem='README'}
 Chamar POST /api/leituras 503 $falha | Select-Object type, status | Format-List
 Chamar GET "/api/camaras/$id/leituras" 200 | Select-Object totalElements | Format-List
 Chamar GET /api/camaras 200 | Select-Object totalElements | Format-List
@@ -313,6 +313,9 @@ ou Python. Por isso, `base` usa a porta **interna** 8080 mesmo se `API_PORT` mud
 A função `chamar` recebe método, rota, status esperado e um corpo opcional;
 `resposta` guarda o JSON retornado. Os auxiliares `numero` e `texto` extraem somente
 os campos simples usados nesta demonstração; para integrações reais, use um parser JSON.
+Se aparecer **PARE**, confira o erro e repita a etapa antes de avançar. A função
+retorna uma falha sem encerrar o terminal; no envio das três leituras, `break`
+interrompe somente o laço caso uma chamada falhe.
 
 #### 1. Preparar o auxiliar de chamadas
 
@@ -335,7 +338,10 @@ chamar() {
   status=${saida##*$'\n'}
   resposta=${saida%$'\n'*}
   printf '%s %s -> %s (esperado %s)\n' "$metodo" "$rota" "$status" "$esperado"
-  [[ $status == "$esperado" ]]
+  if [[ $status != "$esperado" ]]; then
+    printf '%s\n' 'PARE: confira a resposta acima antes de seguir para o próximo bloco.' >&2
+    return 1
+  fi
 }
 numero() { local padrao="\"$1\"[[:space:]]*:[[:space:]]*([0-9]+)"; [[ $resposta =~ $padrao ]] && printf '%s' "${BASH_REMATCH[1]}"; }
 texto() { local padrao="\"$1\"[[:space:]]*:[[:space:]]*\"([^\"]*)\""; [[ $resposta =~ $padrao ]] && printf '%s' "${BASH_REMATCH[1]}"; }
@@ -352,7 +358,7 @@ while IFS='=' read -r chave valor; do
     AUTH_DEMO_AUDITOR) senha_auditor=$valor ;;
   esac
 done < <(docker compose exec -T api cat /run/secrets/auth/env.auth)
-chamar POST /api/auth/login 200 "{\"login\":\"administrador\",\"senha\":\"$senha_admin\"}" || exit 1
+chamar POST /api/auth/login 200 "{\"login\":\"administrador\",\"senha\":\"$senha_admin\"}"
 token=$(texto accessToken)
 ```
 
@@ -372,7 +378,7 @@ chamar POST /api/camaras 201 "{
   \"temperaturaMinima\":2.0,
   \"temperaturaMaxima\":8.0,
   \"estado\":\"OPERACIONAL\"
-}" || exit 1
+}"
 id=$(numero id)
 ```
 
@@ -388,7 +394,7 @@ chamar POST /api/lotes 201 "{
   \"validade\":\"$validade\",
   \"quantidade\":20,
   \"camaraId\":$id
-}" || exit 1
+}"
 ```
 
 #### 5. Enviar três leituras inseguras
@@ -405,7 +411,7 @@ for i in 1 2 3; do
     \"medidaEm\":\"$medida\",
     \"origem\":\"README\"
   }"
-  chamar POST /api/leituras 201 "$entrada" || exit 1
+  chamar POST /api/leituras 201 "$entrada" || break
   printf 'classificacao=%s sequencia=%s\n' "$(texto classificacao)" "$(numero sequencia)"
 done
 ocorrencia_id=$(numero ocorrenciaAbertaId)
@@ -417,11 +423,11 @@ leitura_id=$(numero id)
 Reenvia exatamente a terceira leitura: isso demonstra **idempotência**, ou seja, repetir a mesma entrada não cria outra leitura nem outra ocorrência. Em seguida, consulta a câmara e a ocorrência. **Esperado:** reenvio 200 com o mesmo ID, ocupação 20, câmara EM_ALERTA e ocorrência ABERTA com o lote afetado.
 
 ```bash
-chamar POST /api/leituras 200 "$entrada" || exit 1
-[[ $(numero id) == "$leitura_id" ]] || exit 1
-chamar GET "/api/camaras/$id" 200 || exit 1
+chamar POST /api/leituras 200 "$entrada"
+[[ $(numero id) == "$leitura_id" ]] || printf '%s\n' 'PARE: o reenvio mudou o ID; confira a resposta antes de seguir.' >&2
+chamar GET "/api/camaras/$id" 200
 printf 'ocupacao=%s estadoTermico=%s\n' "$(numero ocupacao)" "$(texto estadoTermico)"
-chamar GET "/api/ocorrencias/$ocorrencia_id" 200 || exit 1
+chamar GET "/api/ocorrencias/$ocorrencia_id" 200
 printf '%s\n' "$resposta"
 ```
 
@@ -437,8 +443,8 @@ chamar POST /api/leituras 201 "{
   \"temperatura\":4.0,
   \"medidaEm\":\"$medida\",
   \"origem\":\"README\"
-}" || exit 1
-chamar GET "/api/camaras/$id" 200 || exit 1
+}"
+chamar GET "/api/camaras/$id" 200
 printf 'Apos segura: %s\n' "$(texto estadoTermico)"
 ```
 
@@ -447,9 +453,9 @@ printf 'Apos segura: %s\n' "$(texto estadoTermico)"
 O administrador registra uma justificativa de tratamento e consulta novamente a câmara. **Esperado:** HTTP 200, ocorrência RESOLVIDA e câmara NORMAL.
 
 ```bash
-chamar POST "/api/ocorrencias/$ocorrencia_id/resolucao" 200 '{"justificativa":"Tratamento demonstrativo registrado"}' || exit 1
+chamar POST "/api/ocorrencias/$ocorrencia_id/resolucao" 200 '{"justificativa":"Tratamento demonstrativo registrado"}'
 printf 'Ocorrencia: %s\n' "$(texto estado)"
-chamar GET "/api/camaras/$id" 200 || exit 1
+chamar GET "/api/camaras/$id" 200
 printf 'Apos resolucao: %s\n' "$(texto estadoTermico)"
 ```
 
@@ -458,9 +464,9 @@ printf 'Apos resolucao: %s\n' "$(texto estadoTermico)"
 Confere as leituras persistidas e a atualidade do resumo. `geradoEm` indica quando o resumo foi calculado; `validade` indica quando seu cache expira. **Esperado:** HTTP 200 e quatro leituras no histórico, pois o reenvio não criou uma quinta.
 
 ```bash
-chamar GET "/api/camaras/$id/leituras?size=20" 200 || exit 1
+chamar GET "/api/camaras/$id/leituras?size=20" 200
 printf 'Leituras persistidas: %s\n' "$(numero totalElements)"
-chamar GET /api/resumo 200 || exit 1
+chamar GET /api/resumo 200
 printf '%s\n' "$resposta"
 ```
 
@@ -471,7 +477,7 @@ Guarda o token administrativo e retira a autenticação da próxima consulta. **
 ```bash
 admin_token=$token
 token=
-chamar GET /api/camaras 401 || exit 1
+chamar GET /api/camaras 401
 ```
 
 #### 11. Conferir a permissão do auditor
@@ -479,9 +485,9 @@ chamar GET /api/camaras 401 || exit 1
 Faz login como auditor e tenta enviar uma leitura. Esse perfil pode consultar, mas não registrar leituras. Ao final, restaura o token do administrador. **Esperado:** login 200 e envio 403, sem alteração nos dados. O corpo do 403 pode estar vazio.
 
 ```bash
-chamar POST /api/auth/login 200 "{\"login\":\"auditor\",\"senha\":\"$senha_auditor\"}" || exit 1
+chamar POST /api/auth/login 200 "{\"login\":\"auditor\",\"senha\":\"$senha_auditor\"}"
 token=$(texto accessToken)
-chamar POST /api/leituras 403 "$entrada" || exit 1
+chamar POST /api/leituras 403 "$entrada"
 token=$admin_token
 ```
 
@@ -498,12 +504,12 @@ chamar POST /api/leituras 503 "{
   \"temperatura\":9.0,
   \"medidaEm\":\"$medida\",
   \"origem\":\"README\"
-}" || exit 1
+}"
 printf '%s\n' "$resposta"
-chamar GET "/api/camaras/$id/leituras" 200 || exit 1
+chamar GET "/api/camaras/$id/leituras" 200
 printf 'Leituras apos 503: %s\n' "$(numero totalElements)"
-chamar GET /api/camaras 200 || exit 1
-chamar GET /api/resumo 200 || exit 1
+chamar GET /api/camaras 200
+chamar GET /api/resumo 200
 ```
 
 #### 13. Iniciar Go novamente
