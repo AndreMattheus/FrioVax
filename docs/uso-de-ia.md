@@ -16,6 +16,11 @@ Este registro reúne os apoios de IA declarados pela equipe no repositório e os
 
 ## Sprint 2
 
+Registro de 26/11/2026 — OpenAI Codex: apoio à #89 no script, testes e evidências,
+incluindo os ajustes de capacidade persistida e URL do redeploy após revisão.
+Arthur executou o ensaio autenticado; Leonardo deve revisar código e resultados.
+Relatório: [smoke público](evidencias/sprint-2/smoke-publico.md).
+
 Registro de 25/11/2026 — OpenAI Codex: apoio à atualização da #90 após o
 encerramento do desenvolvimento informado por Arthur: nova extração paginada,
 preservação das fontes e do relatório anterior, apuração no corte real de

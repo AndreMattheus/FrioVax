@@ -17,6 +17,8 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m unittest discover -s docs/scripts -p 'test_deploy.py' -v
+      - name: Testar contrato do smoke público sem chamar produção
+        run: python -m unittest discover -s docs/scripts -p 'test_smoke_publico.py' -v
 
   auth-local:
     name: Ambiente de autenticação (${{ matrix.os }})

@@ -154,6 +154,16 @@ Com a API no ar, a documentação das rotas fica disponível em:
 | Especificação OpenAPI (YAML) | <http://localhost:8080/q/openapi> |
 | Especificação OpenAPI (JSON) | <http://localhost:8080/q/openapi?format=json> |
 
+A API pública está em <https://friovax.onrender.com>. A documentação da mesma
+publicação está em [Swagger UI](https://friovax.onrender.com/q/swagger-ui/)
+e [OpenAPI JSON](https://friovax.onrender.com/q/openapi?format=json).
+[Liveness](https://friovax.onrender.com/q/health/live) e
+[readiness do banco](https://friovax.onrender.com/q/health/ready) são públicas;
+inventário, histórico e demais operações exigem autenticação. O ambiente Render
+publica somente a API Java; os endpoints dependentes de análise devem falhar
+de forma controlada enquanto Go estiver inacessível. O plano gratuito pode
+exigir partida a frio. Ver [resultados e reprodução do smoke público](docs/evidencias/sprint-2/smoke-publico.md).
+
 | Comando | Resultado |
 |---|---|
 | `mise run build` | Compila Java e Go |
