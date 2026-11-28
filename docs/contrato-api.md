@@ -1,5 +1,13 @@
 # Contrato da API — Câmaras, Lotes e Histórico
 
+Atualização de 27/11/2026: este contrato reúne o inventário da Sprint 1 e os
+incrementos da Sprint 2. Os exemplos de inventário da seção 6 mostram o payload;
+para executá-los, envie Bearer obtido no login, conforme o [fluxo completo](../README.md).
+As regras de autorização valem também para esses exemplos históricos.
+O [resumo operacional](resumo.md) complementa este contrato com totais, atualidade,
+TTL, invalidação e métricas. A especificação executável é gerada em `/q/openapi`
+a partir das rotas implementadas; veja os endereços local e público no README.
+
 Este documento registra campos, regras, rotas, filtros e respostas usados na implementação de US01, US02 e US03 (Sprint 1). A organização interna do serviço está no [ADR 0002](decisoes/0002-dominio-independente-e-aplicacao-por-interfaces.md), que substitui a proposta do [ADR 0001](decisoes/0001-arquitetura-em-camadas.md).
 
 A especificação OpenAPI gerada a partir do código fica em `/q/openapi`, e o Swagger UI em `/q/swagger-ui` (endereços no [README](../README.md#documentação-openapi-e-swagger-ui)). Este documento continua sendo a referência das decisões; a especificação descreve as rotas já implementadas.
@@ -22,7 +30,7 @@ Itens marcados com **⚠️ Pendente** dependem de validação externa e não de
 | D10 | Filtro de validade | Intervalo **inclusivo** `validadeDe`/`validadeAte`. Com apenas um limite, o intervalo fica aberto do outro lado. `validadeDe > validadeAte` retorna `400`.                                                                                                                                              |
 | D11 | Inativos | Ficam fora das listagens por padrão. `ativo=false` lista só inativos; `ativo=true` (padrão) lista só ativos. `GET /{id}` retorna o registro mesmo inativo. Códigos de registros inativos continuam reservados.                                                                                          |
 | D12 | Remoção × inativação | `DELETE` faz **remoção lógica** (`ativo=false`), preserva o registro e responde `204`. Repetir `DELETE` num registro já inativo também responde `204`. **⚠️ Pendente:** confirmar com o professor se a remoção lógica atende à rubrica.                                                                 |
-| D13 | Paginação | `page` começa em `0` (padrão `0`); `size` padrão `20`, mínimo `1`, máximo `100`. Ordenação fixa por `id ASC`. Valores fora do intervalo retornam `400`.                                                                                                                                                 |
+| D13 | Paginação | `page` começa em `0` (padrão `0`); `size` padrão `20`, mínimo `1`, máximo `100`. No inventário, ordenação fixa por `id ASC`; o histórico segue sua seção específica. Valores fora do intervalo retornam `400`.                                                                                                                                                 |
 | D14 | Idioma | Rotas, campos, filtros e mensagens em português, sem acentos nos identificadores (`camaraId`, `imunobiologico`).                                                                                                                                                                                        |
 | D15 | Erros | Formato Problem Details ([RFC 9457](https://www.rfc-editor.org/rfc/rfc9457)) com `Content-Type: application/problem+json`.                                                                                                                                                                              |
 
@@ -439,7 +447,7 @@ Content-Type: application/problem+json
 }
 ```
 
-## 7. Fora do escopo desta sprint
+## 7. Fora do escopo original da Sprint 1
 
 - Entidade e CRUD de Unidade (D2).
 - Reativação de registros inativos.
@@ -470,7 +478,7 @@ A [diretriz de autorização](autorizacao.md) define a matriz completa, as guard
 
 ## 9. Trilha de auditoria (Sprint 2 — #82)
 
-Toda alteração confirmada de câmara ou lote gera um evento na tabela `eventos_auditoria`, gravado **na mesma transação** da alteração: se a alteração falha ou é desfeita, o evento também some; se o evento não pode ser gravado, a alteração é desfeita. Requisições recusadas (401, 403, 404, 409, 422) não geram evento. Repetições sem efeito também não: um `PUT` com os mesmos valores e um segundo descarte do mesmo lote respondem com sucesso, mas não entram na trilha.
+Toda alteração efetiva e confirmada de câmara, lote, política térmica ou ocorrência gera um evento na tabela `eventos_auditoria`, gravado **na mesma transação** da alteração: se a alteração falha ou é desfeita, o evento também some; se o evento não pode ser gravado, a alteração é desfeita. Requisições recusadas (401, 403, 404, 409, 422) não geram evento. Repetições sem efeito também não: um `PUT` com os mesmos valores e um segundo descarte do mesmo lote respondem com sucesso, mas não entram na trilha.
 
 | Recurso | Operação | Quando |
 |---|---|---|

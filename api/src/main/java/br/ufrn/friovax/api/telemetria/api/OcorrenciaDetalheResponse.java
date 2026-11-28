@@ -10,8 +10,15 @@ import java.util.UUID;
 
 @Schema(description = "Histórico completo: evidências ordenadas e fotografia imutável dos lotes na abertura.")
 public record OcorrenciaDetalheResponse(long id, long camaraId, EstadoOcorrencia estado, Instant abertaEm,
-        PoliticaHistoricaResponse politica, Instant resolvidaEm, UUID resolvidaPor, String justificativa,
+        PoliticaHistoricaResponse politica,
+        @Schema(description = "Instante da resolução em UTC; nulo enquanto aberta.", nullable = true)
+        Instant resolvidaEm,
+        @Schema(description = "UUID do administrador responsável; nulo enquanto aberta.", nullable = true)
+        UUID resolvidaPor,
+        @Schema(description = "Justificativa do tratamento; nula enquanto aberta.", nullable = true)
+        String justificativa,
         long leituraAberturaId, List<LeituraHistoricaResponse> evidencias, List<LoteAfetadoResponse> lotesAfetados,
+        @Schema(description = "Leitura segura usada na resolução; nula enquanto aberta.", nullable = true)
         Long leituraResolucaoId) {
     static OcorrenciaDetalheResponse de(DetalheOcorrencia detalhe) {
         var o = OcorrenciaResponse.de(detalhe.resumo());

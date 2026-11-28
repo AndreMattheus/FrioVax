@@ -1,5 +1,19 @@
 # Backlog inicial
 
+## Evolução do planejamento — atualização de 27/11/2026
+
+A tabela e os critérios abaixo preservam o backlog inicial, inclusive as sprints
+originalmente previstas e suas caixas históricas. Na Sprint 2 final, US04–US10
+foram incluídas no compromisso. Não interpretar “Sprint 3”/“Final” abaixo como
+funcionalidade adiada: política e resumo também estão implementados.
+
+| Histórias | Incremento implementado | Fontes de implementação/validação |
+|---|---|---|
+| US01–US03 | Inventário com capacidade, filtros e paginação | [Contrato](contrato-api.md), [acesso](autorizacao.md) |
+| US04–US06 | Leitura individual/em lote, ocorrência, resolução e histórico | [Fluxo real](evidencias/sprint-2/validacao/fluxo-real-83.md) |
+| US07–US08 | Resumo com TTL/invalidação e política com histórico/versionamento | [Resumo](resumo.md), [política](contrato-api.md#12-política-térmica-sprint-2--78) |
+| US09–US10 | Sessões, três perfis e trilha de auditoria | [Acesso](autorizacao.md), [contrato](contrato-api.md#9-trilha-de-auditoria-sprint-2--82) |
+
 Os itens estão escritos como resultados para o usuário, priorizados e estimados na escala 1, 2, 3, 5, 8 e 13. P1 é essencial ao MVP, P2 é importante e P3 é desejável.
 
 | ID | Prio | Pontos | Sprint | História de usuário |

@@ -1,5 +1,6 @@
 package br.ufrn.friovax.api.resumo.api;
 
+import br.ufrn.friovax.api.compartilhado.api.DocumentacaoApi;
 import br.ufrn.friovax.api.resumo.aplicacao.ConsultarResumo;
 import br.ufrn.friovax.api.resumo.aplicacao.Resumo;
 import io.quarkus.security.PermissionsAllowed;
@@ -18,6 +19,7 @@ import static br.ufrn.friovax.api.autenticacao.dominio.MatrizAcesso.CONSULTAR_OP
 @Path("/api/resumo")
 @Produces(MediaType.APPLICATION_JSON)
 @SecurityRequirement(name = "bearerAuth")
+@APIResponse(responseCode = "500", ref = DocumentacaoApi.ERRO_INTERNO)
 public class ResumoResource {
     @Inject ConsultarResumo resumo;
 

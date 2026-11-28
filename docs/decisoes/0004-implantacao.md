@@ -1,6 +1,18 @@
 # ADR 0004 — Implantação da API
 
-- **Status:** Proposta para revisão; contas confirmadas, com pré-requisitos de publicação pendentes.
+## Atualização operacional — 27/11/2026
+
+A publicação e as migrações estão implementadas; o
+[guia de implantação](../implantacao.md) e o [smoke público de 26/11](../evidencias/sprint-2/smoke-publico.md)
+registram ambiente, SHA, redeploy e resultados. A API pública usa Render/Neon sem Go;
+a análise completa é executada no Compose. O Compose atual não condiciona o início
+da API à saúde de Go, conforme [containers](../containers.md).
+
+O status de proposta e os pré-requisitos históricos abaixo são preservados como
+registro da decisão original; não representam uma declaração atual de que a API
+nunca foi publicada.
+
+- **Status:** Vigente
 - **Data:** 04/11/2026
 - **Responsável:** @arthurFeijo (Qualidade/DevOps)
 - **Revisor:** @leonardonadson

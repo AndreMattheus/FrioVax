@@ -232,10 +232,10 @@ enviadas: uma leitura segura, inclusive nos limites, interrompe a sequência no
 contexto ou nas candidatas. Qualquer divergência invalida a chamada inteira
 (`FalhaDeIntegracao`). Um `WindowError` vira `ResultadoDaJanela.Rejeitada`
 somente para aquela câmara. Endereço, porta e prazo estão descritos no
-[README](../README.md#cliente-grpc-da-análise-térmica).
+[guia de desenvolvimento](../docs/desenvolvimento.md#cliente-grpc-da-análise-térmica).
 
 O [Dockerfile da API](../api/Dockerfile) preserva `api/` e `protos/` como pastas
-irmãs no estágio de build. Consulte os [comandos Docker](../README.md#build-docker-da-api).
+irmãs no estágio de build. Consulte os [comandos Docker](../docs/desenvolvimento.md#build-docker-da-api).
 
 ## Janela, contexto e candidatas
 
@@ -306,7 +306,7 @@ O limite de mensagem não altera o limite de negócio de 50 candidatas.
 Não há retry automático nem alteração do contrato v1. O adaptador Java atualmente
 trata `RESOURCE_EXHAUSTED` como `FalhaDeIntegracao` (`502`), conforme seu tratamento
 de chamadas recusadas; esta entrega não muda essa classificação.
-Consulte a [configuração do servidor](../README.md#servidor-go-de-telemetria).
+Consulte a [configuração do servidor](../docs/desenvolvimento.md#servidor-go-de-telemetria).
 
 ## Evolução do contrato
 
